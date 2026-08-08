@@ -1,0 +1,2048 @@
+<title>Power BI for MBA Analytics — Course Portal</title>
+<style>
+  :root{
+    --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
+    --text:#14171F; --text-muted:#565B6B; --border:#DEDACE;
+    --accent:#C97A1E; --accent-ink:#1B1300; --accent-soft:#F3E1C4;
+    --teal:#2A6560; --teal-soft:#DCEBE8;
+    --good:#2E7D4F; --good-soft:#E3F1E7; --bad:#B3402D; --bad-soft:#F6E4DF;
+    --shadow: 0 1px 2px rgba(20,23,31,.06), 0 8px 24px -12px rgba(20,23,31,.18);
+    --radius:12px;
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --font-body: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", Consolas, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12141B; --surface:#1A1D27; --surface-2:#1F2330; --surface-3:#282D3D;
+      --text:#ECEAE2; --text-muted:#A2A6B5; --border:#2C3040;
+      --accent:#E8A23D; --accent-ink:#1B1300; --accent-soft:#3A2E15;
+      --teal:#5FA69E; --teal-soft:#173330;
+      --good:#4EA872; --good-soft:#153524; --bad:#E06A54; --bad-soft:#3A1E18;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12141B; --surface:#1A1D27; --surface-2:#1F2330; --surface-3:#282D3D;
+    --text:#ECEAE2; --text-muted:#A2A6B5; --border:#2C3040;
+    --accent:#E8A23D; --accent-ink:#1B1300; --accent-soft:#3A2E15;
+    --teal:#5FA69E; --teal-soft:#173330;
+    --good:#4EA872; --good-soft:#153524; --bad:#E06A54; --bad-soft:#3A1E18;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.55);
+  }
+  :root[data-theme="light"]{
+    --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
+    --text:#14171F; --text-muted:#565B6B; --border:#DEDACE;
+    --accent:#C97A1E; --accent-ink:#1B1300; --accent-soft:#F3E1C4;
+    --teal:#2A6560; --teal-soft:#DCEBE8;
+    --good:#2E7D4F; --good-soft:#E3F1E7; --bad:#B3402D; --bad-soft:#F6E4DF;
+    --shadow: 0 1px 2px rgba(20,23,31,.06), 0 8px 24px -12px rgba(20,23,31,.18);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font-body);
+    font-size:15.5px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{ font-family:var(--font-display); font-weight:700; text-wrap:balance; margin:0 0 .4em; color:var(--text); }
+  h1{ font-size:2.1rem; letter-spacing:-.01em; }
+  h2{ font-size:1.5rem; margin-top:0; }
+  h3{ font-size:1.15rem; }
+  h4{ font-size:1rem; font-family:var(--font-body); font-weight:700; }
+  p{ margin:.6em 0; max-width:68ch; }
+  a{ color:var(--teal); }
+  .eyebrow{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+  .lede{ font-size:1.05rem; color:var(--text-muted); max-width:62ch; }
+  strong{ color:var(--text); }
+  code{ font-family:var(--font-mono); background:var(--surface-2); border:1px solid var(--border); border-radius:5px; padding:.1em .4em; font-size:.88em; }
+  ::selection{ background:var(--accent-soft); }
+  :focus-visible{ outline:2.5px solid var(--accent); outline-offset:2px; border-radius:4px; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+
+  /* ---------- layout shell ---------- */
+  .app{ display:flex; min-height:100vh; }
+  .sidebar{
+    width:272px; flex:none; background:var(--surface-2); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto;
+  }
+  .brand{ padding:22px 20px 14px; border-bottom:1px solid var(--border); }
+  .brand .mark{ display:flex; align-items:center; gap:10px; }
+  .brand .mark svg{ flex:none; }
+  .brand h1{ font-size:1.05rem; margin:0; line-height:1.25; }
+  .brand .sub{ font-size:.78rem; color:var(--text-muted); margin-top:3px; font-family:var(--font-mono); }
+
+  .navgroup{ padding:14px 12px; }
+  .navgroup .label{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
+  .navbtn{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:none; border:none;
+    color:var(--text); font-family:var(--font-body); font-size:.88rem; padding:8px 10px; border-radius:8px; cursor:pointer;
+  }
+  .navbtn .num{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-muted); width:1.4em; flex:none; }
+  .navbtn:hover{ background:var(--surface-3); }
+  .navbtn.active{ background:var(--accent); color:var(--accent-ink); font-weight:700; }
+  .navbtn.active .num{ color:var(--accent-ink); opacity:.7; }
+
+  .themebar{ margin-top:auto; padding:14px 20px 20px; border-top:1px solid var(--border); display:flex; gap:8px; }
+  .themebtn{ flex:1; font-family:var(--font-mono); font-size:.72rem; padding:7px 4px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text-muted); cursor:pointer; }
+  .themebtn.active{ border-color:var(--accent); color:var(--accent); }
+
+  .main-col{ flex:1; min-width:0; display:flex; flex-direction:column; }
+  .topbar{
+    position:sticky; top:0; z-index:5; background:var(--bg); border-bottom:1px solid var(--border);
+    padding:14px 40px; display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .topbar .crumb{ font-family:var(--font-mono); font-size:.78rem; color:var(--text-muted); }
+  .topbar .crumb b{ color:var(--text); font-weight:600; }
+  .menutoggle{ display:none; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:7px 10px; cursor:pointer; }
+
+  .content{ flex:1; padding:36px 40px 80px; max-width:980px; }
+  .page{ display:none; animation: fadein .25s ease; }
+  .page.active{ display:block; }
+  @keyframes fadein{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- reusable components ---------- */
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow); }
+  .grid{ display:grid; gap:16px; }
+  .grid-2{ grid-template-columns:1fr 1fr; }
+  .grid-3{ grid-template-columns:repeat(3,1fr); }
+  @media (max-width:760px){ .grid-2,.grid-3{ grid-template-columns:1fr; } }
+
+  .callout{ border-left:3px solid var(--teal); background:var(--teal-soft); border-radius:0 8px 8px 0; padding:12px 16px; margin:14px 0; font-size:.93rem; }
+  .callout.warn{ border-color:var(--accent); background:var(--accent-soft); }
+  .callout b{ color:var(--text); }
+
+  .steps{ counter-reset:step; list-style:none; padding:0; margin:14px 0; }
+  .steps li{ counter-increment:step; position:relative; padding:6px 0 6px 38px; margin-bottom:2px; font-size:.94rem; }
+  .steps li::before{ content:counter(step); position:absolute; left:0; top:5px; width:24px; height:24px; border-radius:50%; background:var(--surface-3); color:var(--text); font-family:var(--font-mono); font-size:.75rem; display:flex; align-items:center; justify-content:center; font-weight:700; }
+
+  .clickpath{ font-family:var(--font-mono); font-size:.85rem; background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:12px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0; }
+  .clickpath .seg{ background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:3px 9px; }
+  .clickpath .arrow{ color:var(--text-muted); }
+
+  table{ width:100%; border-collapse:collapse; font-size:.88rem; }
+  th,td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+  th{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); font-weight:600; }
+  td.num, th.num{ font-variant-numeric:tabular-nums; text-align:right; }
+  .table-wrap{ overflow-x:auto; margin:14px 0; border:1px solid var(--border); border-radius:10px; }
+  .table-wrap table{ margin:0; }
+  .table-wrap th,.table-wrap td{ border-bottom:1px solid var(--border); }
+  tr:last-child td{ border-bottom:none; }
+
+  .codeblock{ background:#181A20; color:#E9E6DB; font-family:var(--font-mono); font-size:.85rem; border-radius:10px; padding:16px 18px; overflow-x:auto; line-height:1.55; margin:14px 0; }
+  .codeblock .c-fn{ color:#E8A23D; } .codeblock .c-str{ color:#8FBF9F; } .codeblock .c-com{ color:#7C8194; }
+
+  .pill{ display:inline-flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:.72rem; padding:3px 10px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:var(--text-muted); }
+  .pill.good{ background:var(--good-soft); color:var(--good); border-color:transparent; }
+  .pill.bad{ background:var(--bad-soft); color:var(--bad); border-color:transparent; }
+
+  .section-head{ margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border); }
+  .section-head .eyebrow{ display:block; margin-bottom:8px; }
+
+  figure{ margin:20px 0; }
+  figure svg{ max-width:100%; height:auto; display:block; }
+  figcaption{ font-size:.83rem; color:var(--text-muted); margin-top:10px; text-align:center; }
+
+  .btn{ display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:var(--accent-ink); border:none; font-family:var(--font-body); font-weight:700; font-size:.85rem; padding:9px 16px; border-radius:8px; cursor:pointer; text-decoration:none; }
+  .btn:hover{ filter:brightness(1.06); }
+  .btn.ghost{ background:transparent; color:var(--text); border:1px solid var(--border); }
+  .btn.sm{ padding:6px 12px; font-size:.78rem; }
+
+  .kicker-list{ list-style:none; padding:0; margin:14px 0; display:grid; gap:10px; }
+  .kicker-list li{ display:flex; gap:12px; align-items:flex-start; font-size:.94rem; }
+  .kicker-list .ico{ flex:none; width:26px; height:26px; border-radius:7px; background:var(--teal-soft); color:var(--teal); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:.75rem; font-weight:700; }
+
+  footer.pagefoot{ margin-top:40px; padding-top:18px; border-top:1px solid var(--border); font-size:.8rem; color:var(--text-muted); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+
+  @media (max-width:860px){
+    .sidebar{ position:fixed; inset:0 auto 0 0; z-index:20; transform:translateX(-100%); transition:transform .2s ease; box-shadow:var(--shadow); }
+    .sidebar.open{ transform:translateX(0); }
+    .menutoggle{ display:inline-flex; }
+    .content{ padding:24px 18px 60px; }
+    .topbar{ padding:12px 18px; }
+  }
+  @media print{
+    .sidebar,.topbar,.no-print{ display:none !important; }
+    .content{ padding:0; max-width:none; }
+    .page{ display:none !important; }
+    .page.active{ display:block !important; }
+    body{ background:#fff; color:#000; }
+  }
+</style>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="mark">
+        <svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Course mark">
+          <rect x="1" y="1" width="28" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="7" y="16" width="3.6" height="7" rx="1" fill="currentColor"/>
+          <rect x="13.2" y="11" width="3.6" height="12" rx="1" fill="var(--accent)"/>
+          <rect x="19.4" y="7" width="3.6" height="16" rx="1" fill="currentColor"/>
+        </svg>
+        <div>
+          <h1>Power BI Portal</h1>
+          <div class="sub">MBA Analytics · Beginner Track</div>
+        </div>
+      </div>
+    </div>
+    <div class="navgroup">
+      <div class="label">Course</div>
+      <button class="navbtn" data-target="home"><span class="num">·</span> Home &amp; Roadmap</button>
+      <button class="navbtn" data-target="architecture"><span class="num">01</span> Architecture</button>
+      <button class="navbtn" data-target="interface"><span class="num">02</span> The Interface</button>
+      <button class="navbtn" data-target="connecting"><span class="num">03</span> Connecting to Data</button>
+      <button class="navbtn" data-target="powerquery"><span class="num">04</span> Power Query</button>
+      <button class="navbtn" data-target="visuals"><span class="num">05</span> Visualizations</button>
+    </div>
+    <div class="navgroup">
+      <div class="label">Practice</div>
+      <button class="navbtn" data-target="exercises"><span class="num">06</span> 5 Exercises</button>
+      <button class="navbtn" data-target="finalproject"><span class="num">07</span> Final Project</button>
+      <button class="navbtn" data-target="quiz"><span class="num">★</span> Self-Test Quiz</button>
+    </div>
+    <div class="navgroup">
+      <div class="label">Reference</div>
+      <button class="navbtn" data-target="cheatsheet"><span class="num">◆</span> Cheat Sheet</button>
+      <button class="navbtn" data-target="datasets"><span class="num">⇩</span> Datasets</button>
+    </div>
+    <div class="themebar">
+      <button class="themebtn" data-theme-choice="light">☀ Light</button>
+      <button class="themebtn" data-theme-choice="dark">☾ Dark</button>
+      <button class="themebtn" data-theme-choice="auto">Auto</button>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <div class="topbar">
+      <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Home</b></div>
+      <a class="btn ghost sm no-print" href="#" data-target="datasets" onclick="return false;" id="topDatasetsLink">⇩ Get datasets</a>
+    </div>
+
+    <main class="content" id="content">
+
+      <!-- ================= HOME ================= -->
+      <section class="page active" id="home">
+        <div class="section-head">
+          <span class="eyebrow">Start here</span>
+          <h1>From a blank screen to a real dashboard — in three sessions.</h1>
+          <p class="lede">This is the companion site for your classroom workshop. Everything your instructor demonstrated live is here to revisit: the concepts, the click-paths, the practice files, and a self-test quiz. No prior Power BI experience assumed — just the basic Excel you already know.</p>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="card">
+            <span class="pill">Session 1 · 55 min</span>
+            <h3 style="margin-top:10px">Fundamentals</h3>
+            <p style="font-size:.9rem">What Power BI actually is, how data flows through it, and a full tour of the screen you'll be living in.</p>
+          </div>
+          <div class="card">
+            <span class="pill">Session 2 · 55 min</span>
+            <h3 style="margin-top:10px">Data &amp; Cleaning</h3>
+            <p style="font-size:.9rem">Pull data in from Excel, SQL Server, and the web — then fix everything wrong with it in Power Query.</p>
+          </div>
+          <div class="card">
+            <span class="pill">Session 3 · 60 min</span>
+            <h3 style="margin-top:10px">Dashboards</h3>
+            <p style="font-size:.9rem">Every core chart type, formatting that looks professional, and your own end-to-end dashboard.</p>
+          </div>
+        </div>
+
+        <h2 style="margin-top:34px">How to use this site</h2>
+        <ul class="kicker-list">
+          <li><span class="ico">1</span><div><strong>Follow along live.</strong> Keep this open on a second window while your instructor teaches — jump to the matching section from the sidebar.</div></li>
+          <li><span class="ico">2</span><div><strong>Download the practice files.</strong> The <em>Datasets</em> section has every CSV used in class — both clean and deliberately messy versions — ready to open in Excel or load into Power BI.</div></li>
+          <li><span class="ico">3</span><div><strong>Test yourself.</strong> The <em>Self-Test Quiz</em> has all 21 questions from class, fully interactive — click an answer and get instant feedback with the reasoning.</div></li>
+          <li><span class="ico">4</span><div><strong>Come back later.</strong> Everything here — the chart-selection guide, the DAX formulas, the cheat sheet — is meant to outlast the workshop. Bookmark it.</div></li>
+        </ul>
+
+        <div class="callout"><b>Business lens:</b> Every idea in this course is tied to a company you already use — Swiggy, Zomato, Flipkart, Amazon, Blinkit, a bank, a hospital. If you can explain a Power BI concept using one of those, you've actually understood it — not just memorized a button location.</div>
+
+        <footer class="pagefoot"><span>Power BI Workshop · MBA Analytics</span><span>11 sections · ~2 hr of reference reading</span></footer>
+      </section>
+
+      <!-- ================= ARCHITECTURE ================= -->
+      <section class="page" id="architecture">
+        <div class="section-head">
+          <span class="eyebrow">01 · Architecture</span>
+          <h1>From raw data to dashboard: the six-stage journey</h1>
+          <p class="lede">Every Power BI report you will ever build — a Swiggy orders dashboard, a bank's loan-risk report, a hospital's bed-occupancy tracker — moves through the exact same six stages. Learn this once, and the whole tool stops feeling random.</p>
+        </div>
+
+        <figure>
+          <svg viewBox="0 0 1160 220" role="img" aria-label="Data flow diagram: Data Sources leads to Power Query which cleans and shapes, into Data Model which links tables, into DAX which calculates, into Visualizations which render charts, into Power BI Service which publishes and refreshes.">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+              </marker>
+            </defs>
+            <!-- boxes -->
+            <g font-family="ui-monospace, Consolas, monospace">
+              <!-- 0 Data Sources -->
+              <rect x="20" y="75" width="150" height="90" rx="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="95" y="113" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Data</text>
+              <text x="95" y="130" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Sources</text>
+              <text x="95" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">Excel · SQL · Web</text>
+
+              <!-- 1 Power Query (emphasized) -->
+              <rect x="214" y="75" width="150" height="90" rx="10" fill="var(--accent)" stroke="none"/>
+              <text x="289" y="113" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent-ink)" font-family="Georgia, serif">Power</text>
+              <text x="289" y="130" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent-ink)" font-family="Georgia, serif">Query</text>
+              <text x="289" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">clean · shape</text>
+
+              <!-- 2 Data Model -->
+              <rect x="408" y="75" width="150" height="90" rx="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="483" y="113" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Data</text>
+              <text x="483" y="130" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Model</text>
+              <text x="483" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">relationships</text>
+
+              <!-- 3 DAX -->
+              <rect x="602" y="75" width="150" height="90" rx="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="677" y="122" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor" font-family="Georgia, serif">DAX</text>
+              <text x="677" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">measures</text>
+
+              <!-- 4 Visuals -->
+              <rect x="796" y="75" width="150" height="90" rx="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="871" y="122" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Visuals</text>
+              <text x="871" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">charts · reports</text>
+
+              <!-- 5 Service -->
+              <rect x="990" y="75" width="150" height="90" rx="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <text x="1065" y="122" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Service</text>
+              <text x="1065" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">cloud · refresh</text>
+
+              <!-- arrows -->
+              <line x1="171" y1="120" x2="212" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#arrow)"/>
+              <text x="192" y="103" text-anchor="middle" font-size="9.5" fill="currentColor" opacity=".7">pull raw</text>
+
+              <line x1="365" y1="120" x2="406" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#arrow)"/>
+              <text x="386" y="103" text-anchor="middle" font-size="9.5" fill="currentColor" opacity=".7">cleaned</text>
+
+              <line x1="559" y1="120" x2="600" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#arrow)"/>
+              <text x="580" y="103" text-anchor="middle" font-size="9.5" fill="currentColor" opacity=".7">linked</text>
+
+              <line x1="753" y1="120" x2="794" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#arrow)"/>
+              <text x="774" y="103" text-anchor="middle" font-size="9.5" fill="currentColor" opacity=".7">calculated</text>
+
+              <line x1="947" y1="120" x2="988" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#arrow)"/>
+              <text x="968" y="103" text-anchor="middle" font-size="9.5" fill="currentColor" opacity=".7">published</text>
+            </g>
+          </svg>
+          <figcaption>The same six stages carry every Power BI report — only the source and the business question change.</figcaption>
+        </figure>
+
+        <div class="callout"><b>Kitchen analogy:</b> Data Sources are raw ingredients. Power Query is washing and chopping. The Data Model is the recipe linking ingredients together. DAX is the cooking method and measurements. Visuals are the plating. The Service is serving the finished dish to your guests.</div>
+
+        <h2 style="margin-top:32px">Every stage, explained</h2>
+        <div class="grid grid-2">
+          <div class="card">
+            <h4>① Data Sources</h4>
+            <p style="font-size:.9rem">Where raw data physically lives before Power BI touches it — an Excel export, a company SQL Server database, or a public webpage. Nothing is clean yet.</p>
+            <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> A Zomato analyst's data source might be an Excel export of last month's orders.</p>
+          </div>
+          <div class="card">
+            <h4>② Power Query</h4>
+            <p style="font-size:.9rem">The cleaning layer — remove duplicates, fix spelling, split columns, handle blanks. Real data is never clean; this is where you make it usable.</p>
+            <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> Standardizing "bangalore", "Bangalore", "BANGALORE " into one clean value.</p>
+          </div>
+          <div class="card">
+            <h4>③ Data Model</h4>
+            <p style="font-size:.9rem">Where cleaned tables get connected through relationships — the same job as VLOOKUP in Excel, but automatic and drawn once for the whole report.</p>
+            <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> Linking a bank's Loans table to its Customers table by Customer ID.</p>
+          </div>
+          <div class="card">
+            <h4>④ DAX</h4>
+            <p style="font-size:.9rem">The formula language — Excel formulas' cousin, built for whole tables instead of single cells. This is how you create numbers that don't already exist as a column.</p>
+            <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Profit = SUM(Sales) − SUM(Cost)</code>, recalculated instantly however you slice it.</p>
+          </div>
+          <div class="card">
+            <h4>⑤ Visuals &amp; Reports</h4>
+            <p style="font-size:.9rem">The charts, maps, and tables you actually see — built in Report View. This is the "plating" step, turning numbers into a picture a human reads in five seconds.</p>
+            <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> "Top 5 restaurants by revenue" becomes a bar chart.</p>
+          </div>
+          <div class="card">
+            <h4>⑥ Dashboards &amp; Service</h4>
+            <p style="font-size:.9rem">Desktop is where you <em>build</em>. The Power BI Service (cloud) is where you <em>publish and share</em> — a Report is multi-page and lives in Desktop; a Dashboard is a single-page pinboard that lives only in the Service.</p>
+            <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> Your CEO opens your published dashboard on their phone during a flight layover.</p>
+          </div>
+        </div>
+
+        <h2 style="margin-top:32px">Gateways &amp; refresh</h2>
+        <p>A <b>Gateway</b> is a small piece of software that lets Power BI Service securely reach data sitting inside a private company network — like a sales database that never touches the public internet — so it can refresh automatically. <b>Refresh</b> is simply re-pulling the latest data so your numbers stay current: manual (click Refresh) or scheduled (e.g. every night at 6 AM).</p>
+
+        <h2 style="margin-top:32px">Import vs. DirectQuery vs. Live Connection</h2>
+        <p>Three ways Power BI can connect to data. For this whole course — and almost everything you'll do as a beginner — you'll use <b>Import</b>.</p>
+        <div class="table-wrap">
+          <table>
+            <tr><th></th><th>Import</th><th>DirectQuery</th><th>Live Connection</th></tr>
+            <tr><td><b>What happens</b></td><td>Data is copied into Power BI's own memory</td><td>Data stays at the source; queried live on every click</td><td>Connects straight to an existing model built elsewhere</td></tr>
+            <tr><td><b>Speed</b></td><td>Very fast</td><td>Can be slower</td><td>Depends on the source model</td></tr>
+            <tr><td><b>Freshness</b></td><td>As of last Refresh</td><td>Always live</td><td>Always live</td></tr>
+            <tr><td><b>Best for</b></td><td>Beginners, small–medium data <span class="pill good">default choice</span></td><td>Huge databases, real-time needs</td><td>Reusing a shared company model</td></tr>
+          </table>
+        </div>
+
+        <footer class="pagefoot"><span>01 · Architecture</span><span>Next: The Interface →</span></footer>
+      </section>
+
+      <!-- ================= INTERFACE ================= -->
+      <section class="page" id="interface">
+        <div class="section-head">
+          <span class="eyebrow">02 · The Interface</span>
+          <h1>Six zones. Once you can name them, you can navigate them.</h1>
+          <p class="lede">Power BI Desktop looks intimidating for about twenty minutes. Every screen you'll ever see is built from the same six zones below — learn the map once.</p>
+        </div>
+
+        <figure>
+          <svg viewBox="0 0 1040 640" role="img" aria-label="Power BI Desktop screen wireframe: a ribbon strip across the top, a report canvas with sample chart bars on the left, three stacked panes (Visualizations, Fields, Filters) on the right, and a view-switcher strip along the bottom.">
+            <rect x="20" y="20" width="1000" height="600" rx="12" fill="none" stroke="currentColor" stroke-width="1.3"/>
+            <!-- ribbon -->
+            <rect x="20" y="20" width="1000" height="50" rx="12" fill="var(--surface-3)"/>
+            <rect x="20" y="46" width="1000" height="24" fill="var(--surface-3)"/>
+            <text x="42" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" font-weight="700">Home</text>
+            <text x="104" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".65">Insert</text>
+            <text x="168" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".65">Modeling</text>
+            <text x="252" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".65">View</text>
+            <text x="960" y="50" font-size="11" font-family="ui-monospace,Consolas,monospace" fill="var(--accent)" text-anchor="end">① Ribbon</text>
+
+            <!-- canvas -->
+            <rect x="20" y="70" width="680" height="520" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4"/>
+            <text x="360" y="100" text-anchor="middle" font-size="13" fill="currentColor" opacity=".7" font-family="Georgia,serif">Report Canvas</text>
+            <text x="360" y="118" text-anchor="middle" font-size="10.5" fill="var(--accent)" font-family="ui-monospace,Consolas,monospace">② your visuals live here</text>
+            <!-- mini bar chart hint -->
+            <g transform="translate(140,300)">
+              <rect x="0" y="120" width="46" height="60" fill="var(--teal)" opacity=".55"/>
+              <rect x="60" y="80" width="46" height="100" fill="var(--teal)" opacity=".75"/>
+              <rect x="120" y="40" width="46" height="140" fill="var(--accent)"/>
+              <rect x="180" y="100" width="46" height="80" fill="var(--teal)" opacity=".65"/>
+              <rect x="240" y="150" width="46" height="30" fill="var(--teal)" opacity=".45"/>
+              <line x1="-10" y1="180" x2="300" y2="180" stroke="currentColor" stroke-width="1" opacity=".4"/>
+            </g>
+            <text x="360" y="560" text-anchor="middle" font-size="10" fill="currentColor" opacity=".5" font-family="ui-monospace,Consolas,monospace">e.g. "Sales by Category"</text>
+
+            <!-- right panes -->
+            <rect x="700" y="70" width="320" height="167" rx="8" fill="none" stroke="currentColor" stroke-width="1"/>
+            <text x="716" y="93" font-size="12" fill="currentColor" font-weight="700" font-family="Georgia,serif">Visualizations</text>
+            <text x="716" y="110" font-size="10" fill="currentColor" opacity=".6">③ click a chart icon to add it</text>
+            <g transform="translate(716,122)" opacity=".55">
+              <rect width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
+              <rect x="34" width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
+              <rect x="68" width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
+              <rect x="102" width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
+            </g>
+
+            <rect x="700" y="247" width="320" height="167" rx="8" fill="none" stroke="currentColor" stroke-width="1"/>
+            <text x="716" y="270" font-size="12" fill="currentColor" font-weight="700" font-family="Georgia,serif">Fields</text>
+            <text x="716" y="287" font-size="10" fill="currentColor" opacity=".6">④ drag columns onto visuals</text>
+            <text x="716" y="306" font-size="10.5" fill="currentColor" opacity=".7" font-family="ui-monospace,Consolas,monospace">▸ Sales</text>
+            <text x="716" y="322" font-size="10.5" fill="currentColor" opacity=".7" font-family="ui-monospace,Consolas,monospace">▸ HR</text>
+
+            <rect x="700" y="424" width="320" height="166" rx="8" fill="none" stroke="currentColor" stroke-width="1"/>
+            <text x="716" y="447" font-size="12" fill="currentColor" font-weight="700" font-family="Georgia,serif">Filters</text>
+            <text x="716" y="464" font-size="10" fill="currentColor" opacity=".6">⑤ restrict what a visual shows</text>
+
+            <!-- bottom strip -->
+            <rect x="20" y="590" width="1000" height="30" fill="var(--surface-3)"/>
+            <text x="42" y="609" font-size="10.5" font-family="ui-monospace,Consolas,monospace" fill="var(--accent)" font-weight="700">● Report</text>
+            <text x="110" y="609" font-size="10.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".55">○ Data</text>
+            <text x="168" y="609" font-size="10.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".55">○ Model</text>
+            <text x="960" y="609" text-anchor="end" font-size="10" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".6">⑥ Page Navigation</text>
+          </svg>
+          <figcaption>The six zones of Power BI Desktop — every screen you'll use today is a variation of this layout.</figcaption>
+        </figure>
+
+        <div class="table-wrap">
+          <table>
+            <tr><th>Zone</th><th>Purpose</th><th>When you use it</th></tr>
+            <tr><td><b>① Ribbon</b><br><span class="pill">Home · Insert · Modeling · View</span></td><td>Home = Get Data, Refresh, Publish. Insert = logos, text, buttons. Modeling = relationships &amp; DAX measures.</td><td>Home starts every session; Modeling whenever tables need linking or a calculation is needed.</td></tr>
+            <tr><td><b>② Report Canvas</b></td><td>The blank page where visuals are placed and arranged.</td><td>Every time you design what the dashboard looks like.</td></tr>
+            <tr><td><b>③ Visualizations Pane</b></td><td>The palette of chart types — bar, pie, line, map, and 30+ others.</td><td>Anytime you want to add a new chart.</td></tr>
+            <tr><td><b>④ Fields Pane</b></td><td>Every table and column available — your ingredient list.</td><td>Constantly — you drag from here onto every chart you build.</td></tr>
+            <tr><td><b>⑤ Filters Pane</b></td><td>Restricts what data shows, on one visual, the page, or the whole report — without deleting anything.</td><td>To focus a view, e.g. "2025 only" or "exclude cancelled orders."</td></tr>
+            <tr><td><b>⑥ Page Navigation</b></td><td>Tabs at the bottom to switch between report pages, plus the Report / Data / Model view switcher.</td><td>Multi-page dashboards; switching to Data View to sanity-check a column, or Model View to check relationships.</td></tr>
+          </table>
+        </div>
+
+        <div class="callout warn"><b>Common mix-up:</b> Model View is only for relationships — it is not where you build charts. That's Report View. Students confuse these two constantly in week one.</div>
+
+        <footer class="pagefoot"><span>02 · The Interface</span><span>Next: Connecting to Data →</span></footer>
+      </section>
+
+      <!-- ================= CONNECTING DATA ================= -->
+      <section class="page" id="connecting">
+        <div class="section-head">
+          <span class="eyebrow">03 · Connecting to Data</span>
+          <h1>Getting your data into Power BI — three ways</h1>
+          <p class="lede">Excel, a company database, or a public website — the click-path is almost identical every time: <b>Get Data → pick a source → Navigator → Transform Data.</b></p>
+        </div>
+
+        <h2>Connecting to Excel</h2>
+        <div class="clickpath">
+          <span class="seg">Home</span><span class="arrow">→</span><span class="seg">Get Data</span><span class="arrow">→</span><span class="seg">Excel Workbook</span><span class="arrow">→</span><span class="seg">select file</span><span class="arrow">→</span><span class="seg">Navigator (tick sheet)</span><span class="arrow">→</span><span class="seg">Transform Data</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Option</th><th>What it does</th><th>When to use</th></tr>
+            <tr><td><b>Load</b></td><td>Brings data in exactly as-is, no cleaning.</td><td>Only when you're 100% sure the data is already clean — rare in real life.</td></tr>
+            <tr><td><b>Transform Data</b></td><td>Opens Power Query first so you can clean before it touches your report.</td><td><span class="pill good">your default click, always</span></td></tr>
+            <tr><td><b>Combine</b></td><td>Stacks multiple files/sheets with the same structure into one table.</td><td>Your company saves one Excel file per month and you want all 12 as one table.</td></tr>
+          </table>
+        </div>
+        <div class="callout warn"><b>Golden rule:</b> Always click <b>Transform Data</b>, never Load, unless you've already inspected the data and know it's clean.</div>
+
+        <h2 style="margin-top:30px">Connecting to SQL Server</h2>
+        <p>A SQL Server is a very large, very organized Excel workbook that lives on a powerful shared computer instead of your laptop — it can hold billions of rows, many people can use it at once, and it's always "live."</p>
+        <div class="grid grid-2">
+          <div class="card"><h4>Server Name</h4><p style="font-size:.88rem">The address of the machine where the database lives, e.g. <code>salesdb.company.com</code>. Like a building address.</p></div>
+          <div class="card"><h4>Database Name</h4><p style="font-size:.88rem">The specific database on that server, e.g. <code>SalesDB</code>. One server can host many databases — like flats in a building.</p></div>
+          <div class="card"><h4>Authentication</h4><p style="font-size:.88rem">Windows Authentication (your company login, automatic) or Database Authentication (a separate username/password).</p></div>
+          <div class="card"><h4>Connection String</h4><p style="font-size:.88rem">Server + database + settings bundled into one line, e.g. <code>Server=salesdb.company.com;Database=SalesDB;</code></p></div>
+        </div>
+
+        <h2 style="margin-top:30px">Import vs. DirectQuery vs. Live Connection</h2>
+        <p>Full comparison is on the <a href="#" data-target="architecture">Architecture page</a> — the short version: <b>use Import</b> for this entire course and for almost everything you'll do as a beginner.</p>
+
+        <h2 style="margin-top:30px">Connecting to Web Data</h2>
+        <div class="clickpath">
+          <span class="seg">Home</span><span class="arrow">→</span><span class="seg">Get Data</span><span class="arrow">→</span><span class="seg">Web</span><span class="arrow">→</span><span class="seg">paste URL</span><span class="arrow">→</span><span class="seg">OK</span><span class="arrow">→</span><span class="seg">Navigator</span><span class="arrow">→</span><span class="seg">Transform Data</span>
+        </div>
+        <p style="font-size:.92rem">Works on any public page with an HTML table — Wikipedia country/state data tables, government open-data portals (data.gov.in), public COVID dashboards, weather data. Power BI scans the page and lists every table it finds as <code>Table 0</code>, <code>Table 1</code>… — preview each one before loading to make sure you picked the right one.</p>
+        <div class="callout"><b>Real limitation:</b> if the website changes its table layout later, the connection can break. This is a genuine trade-off of web scraping, not a bug in Power BI.</div>
+
+        <footer class="pagefoot"><span>03 · Connecting to Data</span><span>Next: Power Query →</span></footer>
+      </section>
+
+      <!-- ================= POWER QUERY ================= -->
+      <section class="page" id="powerquery">
+        <div class="section-head">
+          <span class="eyebrow">04 · Power Query</span>
+          <h1>Real data is never clean. This is where you fix it.</h1>
+          <p class="lede">Some analysts spend 70–80% of their time right here, not in charts. Every fix below is demonstrated on our actual practice file, <code>Sales_Dirty.xlsx</code> — download it from the <a href="#" data-target="datasets">Datasets</a> page and follow along.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <tr><th>Transformation</th><th>Fixes</th><th>Where to click</th></tr>
+            <tr><td><b>Rename Columns</b></td><td>Cryptic headers like <code>col_7</code></td><td>Double-click the column header</td></tr>
+            <tr><td><b>Remove Columns</b></td><td>Unused clutter columns</td><td>Right-click header → Remove</td></tr>
+            <tr><td><b>Split Column</b></td><td>One column secretly holding two values ("Bangalore, Karnataka")</td><td>Select column → Split Column → By Delimiter</td></tr>
+            <tr><td><b>Merge Columns</b></td><td>Two columns that need to become one (First + Last Name)</td><td>Select both → right-click → Merge Columns</td></tr>
+            <tr><td><b>Change Data Type</b></td><td>Wrong type blocking math or chronological sorting</td><td>Click the type icon on the column header</td></tr>
+            <tr><td><b>Remove Duplicates</b></td><td>Repeated rows quietly inflating totals</td><td>Right-click column(s) → Remove Duplicates</td></tr>
+            <tr><td><b>Replace Values</b></td><td>Known typos, inconsistent labels</td><td>Right-click column → Replace Values</td></tr>
+            <tr><td><b>Trim</b></td><td>Leading/trailing spaces — makes "Rohit" ≠ " Rohit "</td><td>Transform → Format → Trim</td></tr>
+            <tr><td><b>Clean</b></td><td>Invisible/non-printable characters</td><td>Transform → Format → Clean</td></tr>
+            <tr><td><b>Fill Down / Up</b></td><td>Blanks left by merged-cell Excel exports</td><td>Transform → Fill → Down/Up</td></tr>
+            <tr><td><b>Null Handling</b></td><td>Blank or "NULL"-text cells breaking SUM/AVERAGE</td><td>Replace Values (with a default) or Remove Rows</td></tr>
+          </table>
+        </div>
+
+        <h2 style="margin-top:30px">See it on real (messy) data</h2>
+        <p style="font-size:.92rem">These are genuine rows from the practice dataset — not made-up examples. Each "before" is exactly what you'll see when you open <code>Sales_Dirty.xlsx</code>.</p>
+        <div id="pqExamples" class="grid grid-2"></div>
+
+        <div class="callout warn" style="margin-top:20px"><b>Never guess a fake number to hide a blank.</b> Either fill it with a defensible business default, or remove the row — and always be ready to explain which choice you made and why.</div>
+
+        <footer class="pagefoot"><span>04 · Power Query</span><span>Next: Visualizations →</span></footer>
+      </section>
+
+      <!-- ================= VISUALIZATIONS ================= -->
+      <section class="page" id="visuals">
+        <div class="section-head">
+          <span class="eyebrow">05 · Visualizations</span>
+          <h1>Eight charts. One rule: every chart answers a business question.</h1>
+          <p class="lede">If you can't say what question a chart answers, don't build it. Click any card below to see steps, formatting, best practices, and common mistakes.</p>
+        </div>
+
+        <h2>Which chart, when?</h2>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Business question</th><th>Chart</th><th>Avoid when…</th></tr>
+            <tr><td>Compare a number across categories</td><td><b>Bar Chart</b></td><td>More than ~10–12 categories</td></tr>
+            <tr><td>Show parts of a whole</td><td><b>Pie Chart</b></td><td>More than 5 categories (Rule of 5)</td></tr>
+            <tr><td>Show change over time</td><td><b>Line Chart</b></td><td>Comparing unrelated categories</td></tr>
+            <tr><td>Show one critical headline number</td><td><b>KPI Card</b></td><td>You need more than 4–6 things at once</td></tr>
+            <tr><td>Show progress toward a goal</td><td><b>Gauge Chart</b></td><td>Comparing multiple items at once</td></tr>
+            <tr><td>Show relationship between two numbers</td><td><b>Scatter Plot</b></td><td>Only one number available, &lt;10 points</td></tr>
+            <tr><td>Show geographic distribution</td><td><b>Map</b></td><td>Precise comparison matters more than location</td></tr>
+            <tr><td>Show hierarchy + proportion together</td><td><b>Tree Map</b></td><td>Only one category level exists</td></tr>
+          </table>
+        </div>
+
+        <h2 style="margin-top:28px">The eight charts, in depth</h2>
+        <div id="chartAccordion"></div>
+
+        <h2 style="margin-top:30px">Formatting that makes it look professional</h2>
+        <div class="grid grid-3">
+          <div class="card"><h4>Theme</h4><p style="font-size:.85rem">One click applies a consistent palette + font to the whole report. Pick it first, build after.</p></div>
+          <div class="card"><h4>Real titles</h4><p style="font-size:.85rem">Never ship "Sum of Sales by Category." Rename to what a CEO understands in 2 seconds.</p></div>
+          <div class="card"><h4>Data labels</h4><p style="font-size:.85rem">On for Bar/Pie/Card. Usually off for dense Line/Scatter — labels overlap into noise.</p></div>
+          <div class="card"><h4>Conditional formatting</h4><p style="font-size:.85rem">Red/green rules on tables and KPIs so problems jump out without reading every number.</p></div>
+          <div class="card"><h4>Tooltips</h4><p style="font-size:.85rem">Extra detail on hover without permanently cluttering the chart.</p></div>
+          <div class="card"><h4>Interactions</h4><p style="font-size:.85rem">Click one visual, watch the others filter — Power BI's biggest "wow" moment, on by default.</p></div>
+        </div>
+
+        <footer class="pagefoot"><span>05 · Visualizations</span><span>Next: Exercises →</span></footer>
+      </section>
+
+      <!-- ================= EXERCISES ================= -->
+      <section class="page" id="exercises">
+        <div class="section-head">
+          <span class="eyebrow">06 · Practice</span>
+          <h1>Five dashboards, increasing difficulty</h1>
+          <p class="lede">Each one uses a dataset from the <a href="#" data-target="datasets">Datasets page</a>. Work through them in order — each borrows a skill from the one before.</p>
+        </div>
+        <div id="exerciseList"></div>
+        <footer class="pagefoot"><span>06 · Exercises</span><span>Next: Final Project →</span></footer>
+      </section>
+
+      <!-- ================= FINAL PROJECT ================= -->
+      <section class="page" id="finalproject">
+        <div class="section-head">
+          <span class="eyebrow">07 · Capstone</span>
+          <h1>Your first day as a Business Analyst Intern</h1>
+          <p class="lede">"Attached is our raw sales data. Board meeting is tomorrow morning. I need a one-page dashboard, and I need YOU to walk me through 3 insights before I present." — that's the whole brief. That's also almost word-for-word what a real first assignment looks like.</p>
+        </div>
+
+        <h2>Deliverable checklist</h2>
+        <ul class="kicker-list">
+          <li><span class="ico">✓</span><div>Data imported from <code>Sales_Dirty.xlsx</code></div></li>
+          <li><span class="ico">✓</span><div>All data-quality issues cleaned in Power Query — zero errors, zero unexplained blanks, zero duplicate rows</div></li>
+          <li><span class="ico">✓</span><div>At least 4 KPI Cards: Total Sales, Total Profit, Total Orders, Average Order Value</div></li>
+          <li><span class="ico">✓</span><div>At least 4 chart types, each answering a clear business question</div></li>
+          <li><span class="ico">✓</span><div>Consistent theme, real titles, interactions tested</div></li>
+          <li><span class="ico">✓</span><div>3 spoken insights, each backed by a specific number</div></li>
+        </ul>
+
+        <h2 style="margin-top:26px">The insight template</h2>
+        <p>Every insight follows this exact sentence structure:</p>
+        <div class="callout">"[Business fact] is happening in [specific area], shown by [specific number/chart], which suggests [business implication]."</div>
+        <p style="font-size:.9rem;color:var(--text-muted)"><b>Model example:</b> "Electronics is our strongest category, generating roughly ₹9.2 lakh — nearly a third of total sales — shown by the tallest bar in our Category chart, which suggests marketing spend should keep prioritizing Electronics inventory ahead of the next quarter."</p>
+
+        <h2 style="margin-top:26px">DAX you'll need</h2>
+        <div class="codeblock">Average Order Value = <span class="c-fn">DIVIDE</span>(<span class="c-fn">SUM</span>(Sales[Sales]), <span class="c-fn">DISTINCTCOUNT</span>(Sales[Order ID]))</div>
+        <div class="callout warn"><b>Before writing any DAX:</b> rename your table to <code>Sales</code> right after loading (right-click the query name → Rename). Every formula on this site assumes that name — a table still called "Sheet1" will show a red error, not because the formula is wrong, but because the name doesn't match.</div>
+
+        <h2 style="margin-top:26px">Grading rubric</h2>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Criterion</th><th class="num">Weight</th></tr>
+            <tr><td>Data cleaned correctly</td><td class="num">25%</td></tr>
+            <tr><td>All 4 KPIs, correctly aggregated</td><td class="num">20%</td></tr>
+            <tr><td>4+ chart types, each answering a real question</td><td class="num">25%</td></tr>
+            <tr><td>Formatting: theme, titles, readable labels</td><td class="num">15%</td></tr>
+            <tr><td>3 insights, each backed by a number</td><td class="num">15%</td></tr>
+          </table>
+        </div>
+
+        <footer class="pagefoot"><span>07 · Final Project</span><span>Next: Self-Test Quiz →</span></footer>
+      </section>
+
+      <!-- ================= QUIZ ================= -->
+      <section class="page" id="quiz">
+        <div class="section-head">
+          <span class="eyebrow">★ Self-Test</span>
+          <h1>21 questions. Instant feedback.</h1>
+          <p class="lede">Same questions from class, fully interactive. Click an answer to see if you're right — and why.</p>
+        </div>
+
+        <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px">
+          <div>
+            <div class="eyebrow" style="margin-bottom:4px">Your score</div>
+            <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:700" id="scoreDisplay">0 / 21</div>
+          </div>
+          <button class="btn ghost sm" id="resetQuiz">↺ Reset quiz</button>
+        </div>
+
+        <div id="quizList"></div>
+
+        <footer class="pagefoot"><span>★ Self-Test Quiz</span><span>Next: Cheat Sheet →</span></footer>
+      </section>
+
+      <!-- ================= CHEAT SHEET ================= -->
+      <section class="page" id="cheatsheet">
+        <div class="section-head">
+          <span class="eyebrow">◆ Reference</span>
+          <h1>The one-page cheat sheet</h1>
+          <p class="lede">Everything taught in the workshop, condensed. <button class="btn ghost sm no-print" onclick="window.print()">🖨 Print this page</button></p>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <h4>Golden rule</h4>
+            <p style="font-size:.9rem">Always click <b>Transform Data</b>, never Load, unless you've already verified the data is clean.</p>
+          </div>
+          <div class="card">
+            <h4>DIVIDE, not /</h4>
+            <p style="font-size:.9rem"><code>DIVIDE()</code> safely handles divide-by-zero. <code>CALCULATE()</code> filters a sum/count by a condition.</p>
+          </div>
+        </div>
+
+        <h2 style="margin-top:26px">DAX formulas from this course</h2>
+        <div class="codeblock">Average Order Value = <span class="c-fn">DIVIDE</span>(<span class="c-fn">SUM</span>(Sales[Sales]), <span class="c-fn">DISTINCTCOUNT</span>(Sales[Order ID]))
+
+Profit Margin % = <span class="c-fn">DIVIDE</span>(<span class="c-fn">SUM</span>(Sales[Profit]), <span class="c-fn">SUM</span>(Sales[Sales]))
+
+Length of Stay = <span class="c-fn">DATEDIFF</span>(Hospital[Admission Date], Hospital[Discharge Date], DAY)
+
+Average Salary = <span class="c-fn">AVERAGE</span>(HR[Salary])
+
+Total Loans = <span class="c-fn">COUNTROWS</span>(Banking)
+Approved Loans = <span class="c-fn">CALCULATE</span>(<span class="c-fn">COUNTROWS</span>(Banking), Banking[Loan Status] = <span class="c-str">"Approved"</span>)
+Approval Rate = <span class="c-fn">DIVIDE</span>([Approved Loans], [Total Loans])</div>
+
+        <h2 style="margin-top:26px">10 most common beginner mistakes</h2>
+        <ol class="steps">
+          <li>Clicking <b>Load</b> instead of <b>Transform Data</b> out of Excel habit</li>
+          <li>Leaving default chart titles like "Sum of Sales by Category"</li>
+          <li>Using a <b>Pie Chart</b> with 8+ slices</li>
+          <li>Forgetting to <b>Trim</b> text columns, silently splitting one customer into two</li>
+          <li>Summing a column that should be <b>averaged</b> (Salary, Credit Score)</li>
+          <li>Ignoring outliers instead of investigating them</li>
+          <li>Using a <b>Bar Chart</b> for a trend over time (should be a Line Chart)</li>
+          <li>Overloading one page with every chart type "just because you learned it"</li>
+          <li>Not checking <b>Data Types</b> before building a chart</li>
+          <li>Skipping <b>Remove Duplicates</b>, quietly inflating every total</li>
+        </ol>
+
+        <h2 style="margin-top:26px">Formatting checklist</h2>
+        <ul class="kicker-list">
+          <li><span class="ico">✓</span><div>One consistent Theme across the whole page</div></li>
+          <li><span class="ico">✓</span><div>Every visual has a real title</div></li>
+          <li><span class="ico">✓</span><div>Data labels on for Bar/Pie/Card, off for dense Line/Scatter</div></li>
+          <li><span class="ico">✓</span><div>Conditional formatting where "good vs bad" should jump out</div></li>
+          <li><span class="ico">✓</span><div>Interactions checked between visuals on the same page</div></li>
+          <li><span class="ico">✓</span><div>No more than 4–6 KPI cards, ~6 visuals per page</div></li>
+        </ul>
+
+        <footer class="pagefoot no-print"><span>◆ Cheat Sheet</span><span>Next: Datasets →</span></footer>
+      </section>
+
+      <!-- ================= DATASETS ================= -->
+      <section class="page" id="datasets">
+        <div class="section-head">
+          <span class="eyebrow">⇩ Reference</span>
+          <h1>Practice datasets</h1>
+          <p class="lede">Five business scenarios, each as a clean version and a deliberately messy version (~100 rows, real column headers). Download and open directly in Excel, or load straight into Power BI via <b>Get Data → Text/CSV</b>.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <tr><th>Dataset</th><th>Columns</th><th>Clean</th><th>Dirty (for Power Query practice)</th></tr>
+            <tr>
+              <td><b>Sales</b><br><span style="font-size:.78rem;color:var(--text-muted)">e-commerce orders</span></td>
+              <td style="font-size:.82rem">Order ID, Customer, Region, Sales, Profit, Category, Sub Category, Date, Discount, Quantity</td>
+              <td><button class="btn sm" onclick="dl('sales_clean')">⇩ CSV</button></td>
+              <td><button class="btn ghost sm" onclick="dl('sales_dirty')">⇩ CSV</button></td>
+            </tr>
+            <tr>
+              <td><b>HR</b><br><span style="font-size:.78rem;color:var(--text-muted)">employee records</span></td>
+              <td style="font-size:.82rem">Employee ID, Department, Salary, Experience, Location, Gender, Performance Rating, Email</td>
+              <td><button class="btn sm" onclick="dl('hr_clean')">⇩ CSV</button></td>
+              <td><button class="btn ghost sm" onclick="dl('hr_dirty')">⇩ CSV</button></td>
+            </tr>
+            <tr>
+              <td><b>Retail</b><br><span style="font-size:.78rem;color:var(--text-muted)">multi-store chain</span></td>
+              <td style="font-size:.82rem">Store, City, State, Product, Sales, Profit, Inventory, Date</td>
+              <td><button class="btn sm" onclick="dl('retail_clean')">⇩ CSV</button></td>
+              <td><button class="btn ghost sm" onclick="dl('retail_dirty')">⇩ CSV</button></td>
+            </tr>
+            <tr>
+              <td><b>Banking</b><br><span style="font-size:.78rem;color:var(--text-muted)">loan portfolio</span></td>
+              <td style="font-size:.82rem">Customer, Loan Amount, EMI, Income, Credit Score, Loan Status</td>
+              <td><button class="btn sm" onclick="dl('banking_clean')">⇩ CSV</button></td>
+              <td><button class="btn ghost sm" onclick="dl('banking_dirty')">⇩ CSV</button></td>
+            </tr>
+            <tr>
+              <td><b>Hospital</b><br><span style="font-size:.78rem;color:var(--text-muted)">patient records</span></td>
+              <td style="font-size:.82rem">Patient, Doctor, Department, Age, Gender, Diagnosis, Bill Amount, Admission Date, Discharge Date</td>
+              <td><button class="btn sm" onclick="dl('hospital_clean')">⇩ CSV</button></td>
+              <td><button class="btn ghost sm" onclick="dl('hospital_dirty')">⇩ CSV</button></td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="callout" style="margin-top:18px"><b>Tip:</b> Right after loading any file into Power BI, rename the table (right-click in the Fields pane → Rename) to match the dataset name above — <code>Sales</code>, <code>HR</code>, <code>Retail</code>, <code>Banking</code>, <code>Hospital</code>. Every DAX formula on this site assumes those exact names.</div>
+
+        <footer class="pagefoot"><span>⇩ Datasets</span><span>Back to Home ↺</span></footer>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script>
+/* ============= embedded practice datasets (CSV text) ============= */
+const CSV = {};
+CSV.sales_clean = `Order ID,Customer,Region,Sales,Profit,Category,Sub Category,Date,Discount,Quantity
+ORD1001,Anjali Kumar,North,77930.1,3734.75,Electronics,Tablet,25-08-2025,25,11
+ORD1002,Arjun Chatterjee,South,1587.53,413.39,Stationery,Pens,28-04-2025,30,11
+ORD1003,Rohit Singh,North,4998.57,1502.31,Clothing,Footwear,11-06-2025,20,5
+ORD1004,Gaurav Sharma,North,3397.11,19.88,Grocery,Dairy,15-10-2025,10,11
+ORD1005,Neha Reddy,South,1499.55,523.24,Stationery,Art Supplies,12-03-2025,5,10
+ORD1006,Swati Joshi,East,14022.73,3741.71,Electronics,Mobile,05-08-2025,5,2
+ORD1007,Arjun Pillai,South,2554.94,751.95,Grocery,Packaged Food,06-01-2025,20,8
+ORD1008,Vivek Nair,North,1600.64,198.33,Stationery,Office Supplies,21-08-2025,10,11
+ORD1009,Sanjay Sharma,North,3793.83,1131.35,Clothing,Jackets,02-06-2025,0,3
+ORD1010,Swati Joshi,West,42525.19,14092.84,Furniture,Table,29-09-2025,20,6
+ORD1011,Sanjay Sharma,West,1027.12,309.67,Clothing,Footwear,07-06-2025,10,1
+ORD1012,Anjali Iyer,West,10113.92,2795.58,Furniture,Bed,30-09-2025,15,2
+ORD1013,Sneha Desai,West,839.28,161.68,Grocery,Packaged Food,19-04-2025,30,3
+ORD1014,Neha Reddy,North,54498.14,5415.38,Furniture,Sofa,22-09-2025,25,7
+ORD1015,Vikram Nair,West,11628.51,1995.09,Furniture,Table,29-10-2025,20,2
+ORD1016,Ravi Malhotra,West,26678.41,7839.56,Electronics,Mobile,06-02-2025,0,4
+ORD1017,Swati Joshi,North,5134.16,1664.52,Clothing,Footwear,20-10-2025,25,4
+ORD1018,Rohit Kumar,North,1016.6,124.45,Grocery,Dairy,05-08-2025,25,4
+ORD1019,Pooja Pillai,East,8010.49,2164.73,Electronics,Mobile,25-02-2025,10,1
+ORD1020,Anjali Iyer,North,41764.38,2565.09,Furniture,Bed,08-05-2025,5,8
+ORD1021,Arjun Pillai,East,168.91,48.04,Stationery,Notebooks,17-02-2025,20,1
+ORD1022,Anjali Iyer,West,2176.5,676.84,Grocery,Dairy,26-03-2025,15,8
+ORD1023,Arjun Chatterjee,West,2262.3,753.18,Grocery,Staples,12-10-2025,25,8
+ORD1024,Kavita Iyer,West,30824.51,7530.27,Furniture,Sofa,01-02-2025,20,4
+ORD1025,Neha Desai,West,67291.21,10931.49,Electronics,Tablet,30-01-2025,30,8
+ORD1026,Swati Joshi,West,50038.83,2205.79,Furniture,Chair,03-03-2025,30,10
+ORD1027,Anjali Iyer,West,1261.49,231.44,Stationery,Notebooks,25-09-2025,25,10
+ORD1028,Neha Desai,West,15286.87,859.82,Clothing,Jeans,09-03-2025,5,11
+ORD1029,Karan Joshi,East,1234.97,430.31,Clothing,Shirts,07-02-2025,20,1
+ORD1030,Neha Reddy,North,569.98,171.97,Stationery,Office Supplies,09-07-2025,0,3
+ORD1031,Arjun Chopra,West,3424.53,724.6,Grocery,Packaged Food,05-01-2025,30,12
+ORD1032,Karan Joshi,West,34308.57,8473.07,Electronics,Laptop,21-03-2025,0,5
+ORD1033,Anjali Kumar,South,1748.59,356.18,Stationery,Pens,16-05-2025,25,12
+ORD1034,Swati Joshi,East,2681.14,162.67,Clothing,Shirts,02-01-2025,30,2
+ORD1035,Ashok Verma,North,21071.08,4894.12,Furniture,Sofa,15-10-2025,20,3
+ORD1036,Sanjay Sharma,West,58897.01,10778.38,Electronics,Laptop,17-03-2025,10,9
+ORD1037,Anil Gupta,West,59975.56,20324.43,Electronics,Headphones,21-01-2025,30,6
+ORD1038,Swati Chatterjee,North,42842.09,4821.92,Furniture,Chair,14-11-2025,30,6
+ORD1039,Amit Chatterjee,West,22332.75,485.61,Furniture,Table,20-06-2025,0,3
+ORD1040,Pooja Pillai,North,21486.37,2213.45,Furniture,Sofa,20-01-2025,0,3
+ORD1041,Rohit Kumar,North,34293.44,10237.59,Furniture,Bookshelf,25-04-2025,30,6
+ORD1042,Gaurav Nair,North,33814.86,11387.34,Furniture,Bookshelf,23-05-2025,0,6
+ORD1043,Swati Chatterjee,North,2129.45,175.59,Stationery,Art Supplies,15-01-2025,20,11
+ORD1044,Vivek Nair,West,15375.21,-533.48,Clothing,Jeans,02-11-2025,10,10
+ORD1045,Anil Gupta,South,15505.42,1613.78,Clothing,Footwear,23-10-2025,0,10
+ORD1046,Shalini Pillai,South,8479.68,1402.38,Electronics,Camera,10-12-2025,30,1
+ORD1047,Shalini Pillai,South,4159.27,314.3,Grocery,Snacks,05-03-2025,20,11
+ORD1048,Karan Joshi,West,7208.64,1238.19,Clothing,Footwear,09-04-2025,10,6
+ORD1049,Pooja Pillai,North,3253.66,550.44,Grocery,Beverages,01-01-2025,15,10
+ORD1050,Karan Joshi,South,66199.85,9002.87,Furniture,Bookshelf,15-08-2025,10,10
+ORD1051,Gaurav Sharma,West,2779.91,599.19,Grocery,Beverages,14-11-2025,20,11
+ORD1052,Ashok Verma,West,28878.75,-1161.79,Furniture,Sofa,06-05-2025,5,4
+ORD1053,Rohit Kumar,West,69611.83,1933.41,Electronics,Camera,23-12-2025,20,7
+ORD1054,Arjun Chatterjee,East,1015.23,311.74,Grocery,Beverages,24-02-2025,0,3
+ORD1055,Anil Gupta,North,39605.24,12554.39,Furniture,Bed,04-03-2025,5,8
+ORD1056,Sandeep Gupta,West,2963.86,908.63,Grocery,Packaged Food,10-11-2025,30,9
+ORD1057,Swati Joshi,South,527.32,68.57,Stationery,Art Supplies,07-05-2025,15,3
+ORD1058,Anjali Kumar,North,1517.38,-28.84,Stationery,Art Supplies,27-05-2025,15,11
+ORD1059,Anjali Iyer,South,9075.12,385.73,Clothing,Ethnic Wear,22-12-2025,5,9
+ORD1060,Amit Chatterjee,North,42159.59,5749.29,Furniture,Chair,01-02-2025,20,7
+ORD1061,Gaurav Sharma,West,3819.09,1117.82,Grocery,Dairy,22-10-2025,0,10
+ORD1062,Arjun Chatterjee,East,47069.5,14434.17,Electronics,Headphones,03-08-2025,30,5
+ORD1063,Neha Reddy,North,626.47,77.89,Stationery,Files,15-01-2025,10,4
+ORD1064,Arjun Chatterjee,South,3023.45,494.79,Grocery,Beverages,21-07-2025,20,8
+ORD1065,Gaurav Nair,West,2138.07,217.32,Grocery,Beverages,19-04-2025,10,8
+ORD1066,Sandeep Gupta,South,7056.03,837.03,Clothing,Footwear,11-02-2025,30,5
+ORD1067,Rohit Kumar,West,820.9,215.48,Stationery,Notebooks,30-11-2025,0,6
+ORD1068,Rohit Singh,North,39027.66,427.47,Electronics,Laptop,06-03-2025,20,4
+ORD1069,Rohit Kumar,North,33040.54,8483.46,Electronics,Tablet,27-03-2025,10,4
+ORD1070,Vivek Nair,North,13072.11,2357.15,Furniture,Sofa,12-07-2025,10,2
+ORD1071,Sandeep Desai,North,68718.43,3239.37,Furniture,Chair,23-12-2025,25,10
+ORD1072,Karan Joshi,West,1786.98,291.45,Stationery,Notebooks,05-12-2025,10,10
+ORD1073,Sanjay Chopra,West,183.72,26.84,Stationery,Office Supplies,10-08-2025,30,1
+ORD1074,Sanjay Chopra,North,1864.94,626.97,Grocery,Beverages,19-05-2025,20,7
+ORD1075,Neha Reddy,North,2547.02,146.09,Grocery,Dairy,06-05-2025,20,7
+ORD1076,Meena Verma,South,2603.82,264.54,Grocery,Beverages,15-01-2025,25,8
+ORD1077,Kavita Iyer,West,8698.18,463.97,Clothing,Jeans,24-05-2025,30,8
+ORD1078,Anjali Kumar,West,26969.81,3036.03,Electronics,Tablet,12-10-2025,25,4
+ORD1079,Anjali Iyer,North,2871.52,194.39,Grocery,Dairy,27-07-2025,0,8
+ORD1080,Anjali Iyer,South,1292.08,155.31,Stationery,Office Supplies,09-10-2025,10,8
+ORD1081,Ashok Verma,South,1388.55,331.19,Grocery,Staples,11-06-2025,0,5
+ORD1082,Vivek Nair,North,544.92,33.02,Stationery,Pens,29-10-2025,15,4
+ORD1083,Ravi Joshi,West,4550.99,99.11,Clothing,Shirts,08-01-2025,10,4
+ORD1084,Neha Reddy,West,1292.02,423.31,Clothing,Shirts,23-11-2025,25,1
+ORD1085,Kavita Iyer,West,41387.94,3571.05,Electronics,Tablet,27-01-2025,15,5
+ORD1086,Deepak Reddy,West,600.21,108.52,Grocery,Snacks,18-12-2025,0,2
+ORD1087,Karan Chatterjee,West,25277.71,-66.21,Furniture,Bed,02-08-2025,5,5
+ORD1088,Ravi Malhotra,North,1505.1,442.6,Stationery,Art Supplies,08-08-2025,10,8
+ORD1089,Karan Joshi,West,1920.08,631.78,Stationery,Notebooks,17-04-2025,0,10
+ORD1090,Gaurav Sharma,South,28381.02,357.97,Electronics,Laptop,29-07-2025,0,4
+ORD1091,Vikram Nair,North,612.24,142.52,Stationery,Art Supplies,26-12-2025,10,5
+ORD1092,Sandeep Gupta,West,72263.06,23374.74,Furniture,Sofa,06-08-2025,30,11
+ORD1093,Vivek Nair,West,36399.47,-951.66,Furniture,Table,07-06-2025,0,5
+ORD1094,Arjun Chopra,East,91396.38,29893.06,Electronics,Camera,14-09-2025,15,12
+ORD1095,Neha Reddy,East,2459.79,599.73,Grocery,Snacks,06-11-2025,15,10
+ORD1096,Deepak Reddy,West,107182.18,19812.54,Electronics,Laptop,11-01-2025,20,11
+ORD1097,Anjali Kumar,West,67806.84,21456.06,Electronics,Laptop,03-04-2025,15,8
+ORD1098,Anil Gupta,North,2337.55,183.32,Grocery,Snacks,23-02-2025,10,8
+ORD1099,Anil Chatterjee,South,1696.94,467.38,Grocery,Dairy,09-10-2025,15,5
+ORD1100,Rohit Singh,East,38465.48,4295.44,Electronics,Headphones,21-09-2025,30,5`;
+
+CSV.sales_dirty = `Order ID,Customer,Region,Sales,Profit,Category,Sub Category,Date,Discount,Quantity
+ORD1001,Anjali Kumar,North,77930.1,3734.75,Electronics,Tablet,25-08-2025,25,11
+ORD1002,Arjun Chatterjee,South,-1587.53,413.39,Stationery,Pens,28-04-2025,30,11
+ORD1003,  Rohit Singh  ,North,4998.57,1502.31,Clothing,Footwear,11-06-2025,20,5
+ORD1004,Gaurav Sharma,North,3397.11,19.88,GROCERY,Dairy,15-10-2025,10,11
+ORD1005,Neha Reddy,Souths,1499.55,523.24,Stationery,Art Supplies,12-03-2025,5,10
+ORD1006,Swati Joshi,East,,3741.71,Electronics,Mobile,05-08-2025,5,2
+ORD1007,Arjun Pillai,South,2554.94,751.95,Grocery,Packaged Food,31-02-2025,20,8
+ORD1008,Vivek Nair,North,1600.64,198.33,Stationery,Office Supplies,2025/07/19,10,11
+ORD1009,Sanjay Sharma,North,3793.83,1131.35,Clothing,Jackets,02-06-2025,0,five
+ORD1010,Swati Joshi,West,"₹45,230.50",14092.84,Furniture,Table,29-09-2025,20,6
+ORD1011,Sanjay Sharma,West,1027.12,"12,450.75",Clothing,Footwear,07-06-2025,10,1
+ORD1011,Sanjay Sharma,West,1027.12,"12,450.75",Clothing,Footwear,07-06-2025,10,1
+ORD1002,Arjun Chatterjee,South,-1587.53,413.39,Stationery,Pens,28-04-2025,30,11
+ORD1014,Neha Reddy,North,54498.14,5415.38,Furniture###,Sofa,22-09-2025,25,7
+ORD1015,Vikram Nair,West,11628.51,1995.09,Furniture,NULL,29-10-2025,20,2
+ORD1016,Ravi Malhotra,West,9999999,7839.56,Electronics,Mobile,06-02-2025,0,4
+ORD1017,,North,5134.16,1664.52,Clothing,Footwear,20-10-2025,25,4
+ORD1018,Rohit Kumar,North,1016.6,124.45,Grocery,Dairy,05-08-2025,20%,4
+ORD1019,Pooja Pillai,East,8010.49,2164.73,Electronics,Mobile,13/13/2025,10,1
+ORD1020,Anjali Iyer,North,41764.38,2565.09,Furniture,Bed,08-05-2025,5,8
+ORD1021,Arjun Pillai,East,168.91,48.04,Stationery,Notebooks,17-02-2025,20,1
+ORD1022,Anjali Iyer,West,2176.5,676.84,Grocery,Dairy,26-03-2025,15,8
+ORD1023,Arjun Chatterjee,West,2262.3,753.18,Grocery,Staples,12-10-2025,25,8
+ORD1024,Kavita Iyer,West,30824.51,7530.27,Furniture,Sofa,01-02-2025,20,4
+ORD1025,Neha Desai,West,67291.21,10931.49,Electronics,Tablet,30-01-2025,30,8
+ORD1026,Swati Joshi,West,50038.83,2205.79,Furniture,Chair,03-03-2025,30,10
+ORD1027,Anjali Iyer,West,1261.49,231.44,Stationery,Notebooks,25-09-2025,25,10
+ORD1028,Neha Desai,West,15286.87,859.82,Clothing,Jeans,09-03-2025,5,11
+ORD1029,Karan Joshi,East,1234.97,430.31,Clothing,Shirts,07-02-2025,20,1
+ORD1030,Neha Reddy,North,569.98,171.97,Stationery,Office Supplies,09-07-2025,0,3
+ORD1031,Arjun Chopra,West,3424.53,724.6,Grocery,Packaged Food,05-01-2025,30,12
+ORD1032,Karan Joshi,West,34308.57,8473.07,Electronics,Laptop,21-03-2025,0,5
+ORD1033,Anjali Kumar,South,1748.59,356.18,Stationery,Pens,16-05-2025,25,12
+ORD1034,Swati Joshi,East,2681.14,162.67,Clothing,Shirts,02-01-2025,30,2
+ORD1035,Ashok Verma,North,21071.08,4894.12,Furniture,Sofa,15-10-2025,20,3
+ORD1036,Sanjay Sharma,West,58897.01,10778.38,Electronics,Laptop,17-03-2025,10,9
+ORD1037,Anil Gupta,West,59975.56,20324.43,Electronics,Headphones,21-01-2025,30,6
+ORD1038,Swati Chatterjee,North,42842.09,4821.92,Furniture,Chair,14-11-2025,30,6
+ORD1039,Amit Chatterjee,West,22332.75,485.61,Furniture,Table,20-06-2025,0,3
+ORD1040,Pooja Pillai,North,21486.37,2213.45,Furniture,Sofa,20-01-2025,0,3
+ORD1041,Rohit Kumar,North,34293.44,10237.59,Furniture,Bookshelf,25-04-2025,30,6
+ORD1042,Gaurav Nair,North,33814.86,11387.34,Furniture,Bookshelf,23-05-2025,0,6
+ORD1043,Swati Chatterjee,North,2129.45,175.59,Stationery,Art Supplies,15-01-2025,20,11
+ORD1044,Vivek Nair,West,15375.21,-533.48,Clothing,Jeans,02-11-2025,10,10
+ORD1045,Anil Gupta,South,15505.42,1613.78,Clothing,Footwear,23-10-2025,0,10
+ORD1046,Shalini Pillai,South,8479.68,1402.38,Electronics,Camera,10-12-2025,30,1
+ORD1047,Shalini Pillai,South,4159.27,314.3,Grocery,Snacks,05-03-2025,20,11
+ORD1048,Karan Joshi,West,7208.64,1238.19,Clothing,Footwear,09-04-2025,10,6
+ORD1049,Pooja Pillai,North,3253.66,550.44,Grocery,Beverages,01-01-2025,15,10
+ORD1050,Karan Joshi,South,66199.85,9002.87,Furniture,Bookshelf,15-08-2025,10,10
+ORD1051,Gaurav Sharma,West,2779.91,599.19,Grocery,Beverages,14-11-2025,20,11
+ORD1052,Ashok Verma,West,28878.75,-1161.79,Furniture,Sofa,06-05-2025,5,4
+ORD1053,Rohit Kumar,West,69611.83,1933.41,Electronics,Camera,23-12-2025,20,7
+ORD1054,Arjun Chatterjee,East,1015.23,311.74,Grocery,Beverages,24-02-2025,0,3
+ORD1055,Anil Gupta,North,39605.24,12554.39,Furniture,Bed,04-03-2025,5,8
+ORD1056,Sandeep Gupta,West,2963.86,908.63,Grocery,Packaged Food,10-11-2025,30,9
+ORD1057,Swati Joshi,South,527.32,68.57,Stationery,Art Supplies,07-05-2025,15,3
+ORD1058,Anjali Kumar,North,1517.38,-28.84,Stationery,Art Supplies,27-05-2025,15,11
+ORD1059,Anjali Iyer,South,9075.12,385.73,Clothing,Ethnic Wear,22-12-2025,5,9
+ORD1060,Amit Chatterjee,North,42159.59,5749.29,Furniture,Chair,01-02-2025,20,7
+ORD1061,Gaurav Sharma,West,3819.09,1117.82,Grocery,Dairy,22-10-2025,0,10
+ORD1062,Arjun Chatterjee,East,47069.5,14434.17,Electronics,Headphones,03-08-2025,30,5
+ORD1063,Neha Reddy,North,626.47,77.89,Stationery,Files,15-01-2025,10,4
+ORD1064,Arjun Chatterjee,South,3023.45,494.79,Grocery,Beverages,21-07-2025,20,8
+ORD1065,Gaurav Nair,West,2138.07,217.32,Grocery,Beverages,19-04-2025,10,8
+ORD1066,Sandeep Gupta,South,7056.03,837.03,Clothing,Footwear,11-02-2025,30,5
+ORD1067,Rohit Kumar,West,820.9,215.48,Stationery,Notebooks,30-11-2025,0,6
+ORD1068,Rohit Singh,North,39027.66,427.47,Electronics,Laptop,06-03-2025,20,4
+ORD1069,Rohit Kumar,North,33040.54,8483.46,Electronics,Tablet,27-03-2025,10,4
+ORD1070,Vivek Nair,North,13072.11,2357.15,Furniture,Sofa,12-07-2025,10,2
+ORD1071,Sandeep Desai,North,68718.43,3239.37,Furniture,Chair,23-12-2025,25,10
+ORD1072,Karan Joshi,West,1786.98,291.45,Stationery,Notebooks,05-12-2025,10,10
+ORD1073,Sanjay Chopra,West,183.72,26.84,Stationery,Office Supplies,10-08-2025,30,1
+ORD1074,Sanjay Chopra,North,1864.94,626.97,Grocery,Beverages,19-05-2025,20,7
+ORD1075,Neha Reddy,North,2547.02,146.09,Grocery,Dairy,06-05-2025,20,7
+ORD1076,Meena Verma,South,2603.82,264.54,Grocery,Beverages,15-01-2025,25,8
+ORD1077,Kavita Iyer,West,8698.18,463.97,Clothing,Jeans,24-05-2025,30,8
+ORD1078,Anjali Kumar,West,26969.81,3036.03,Electronics,Tablet,12-10-2025,25,4
+ORD1079,Anjali Iyer,North,2871.52,194.39,Grocery,Dairy,27-07-2025,0,8
+ORD1080,Anjali Iyer,South,1292.08,155.31,Stationery,Office Supplies,09-10-2025,10,8
+ORD1081,Ashok Verma,South,1388.55,331.19,Grocery,Staples,11-06-2025,0,5
+ORD1082,Vivek Nair,North,544.92,33.02,Stationery,Pens,29-10-2025,15,4
+ORD1083,Ravi Joshi,West,4550.99,99.11,Clothing,Shirts,08-01-2025,10,4
+ORD1084,Neha Reddy,West,1292.02,423.31,Clothing,Shirts,23-11-2025,25,1
+ORD1085,Kavita Iyer,West,41387.94,3571.05,Electronics,Tablet,27-01-2025,15,5
+ORD1086,Deepak Reddy,West,600.21,108.52,Grocery,Snacks,18-12-2025,0,2
+ORD1087,Karan Chatterjee,West,25277.71,-66.21,Furniture,Bed,02-08-2025,5,5
+ORD1088,Ravi Malhotra,North,1505.1,442.6,Stationery,Art Supplies,08-08-2025,10,8
+ORD1089,Karan Joshi,West,1920.08,631.78,Stationery,Notebooks,17-04-2025,0,10
+ORD1090,Gaurav Sharma,South,28381.02,357.97,Electronics,Laptop,29-07-2025,0,4
+ORD1091,Vikram Nair,North,612.24,142.52,Stationery,Art Supplies,26-12-2025,10,5
+ORD1092,Sandeep Gupta,West,72263.06,23374.74,Furniture,Sofa,06-08-2025,30,11
+ORD1093,Vivek Nair,West,36399.47,-951.66,Furniture,Table,07-06-2025,0,5
+ORD1094,Arjun Chopra,East,91396.38,29893.06,Electronics,Camera,14-09-2025,15,12
+ORD1095,Neha Reddy,East,2459.79,599.73,Grocery,Snacks,06-11-2025,15,10
+ORD1096,Deepak Reddy,West,107182.18,19812.54,Electronics,Laptop,11-01-2025,20,11
+ORD1097,Anjali Kumar,West,67806.84,21456.06,Electronics,Laptop,03-04-2025,15,8
+ORD1098,Anil Gupta,North,2337.55,183.32,Grocery,Snacks,23-02-2025,10,8
+ORD1099,Anil Chatterjee,South,1696.94,467.38,Grocery,Dairy,09-10-2025,15,5
+ORD1100,Rohit Singh,East,38465.48,4295.44,Electronics,Headphones,21-09-2025,30,5`;
+
+CSV.hr_clean = `Employee ID,Department,Salary,Experience,Location,Gender,Performance Rating,Email
+EMP101,Finance,889000,13,Delhi,Female,5,priya.chatterjee100@company.com
+EMP102,Customer Support,308000,1,Bangalore,Male,5,nikhil.kapoor101@company.com
+EMP103,Operations,813000,15,Mumbai,Male,5,deepak.kapoor102@company.com
+EMP104,Marketing,396000,0,Hyderabad,Female,1,sunita.rao103@company.com
+EMP105,Sales,1085000,20,Nagpur,Male,4,suresh.kapoor104@company.com
+EMP106,Operations,587000,8,Indore,Female,4,swati.bose105@company.com
+EMP107,Marketing,525000,4,Delhi,Female,5,meena.kapoor106@company.com
+EMP108,HR,1192000,24,Indore,Female,4,kavita.gupta107@company.com
+EMP109,Customer Support,279000,0,Lucknow,Male,3,ashok.iyer108@company.com
+EMP110,Customer Support,429000,4,Ahmedabad,Female,4,kiran.agarwal109@company.com
+EMP111,Finance,941000,14,Indore,Male,2,gaurav.chatterjee110@company.com
+EMP112,Finance,731000,7,Chandigarh,Female,4,meena.pillai111@company.com
+EMP113,Finance,1217000,21,Indore,Male,2,nikhil.chopra112@company.com
+EMP114,Marketing,1012000,18,Indore,Male,1,amit.singh113@company.com
+EMP115,Marketing,851000,14,Lucknow,Female,2,rekha.kumar114@company.com
+EMP116,Finance,1322000,25,Chennai,Male,5,rajesh.gupta115@company.com
+EMP117,Customer Support,1051000,21,Ahmedabad,Female,4,neha.mehta116@company.com
+EMP118,Sales,999000,19,Delhi,Female,3,suman.chatterjee117@company.com
+EMP119,Sales,1212000,24,Lucknow,Female,1,neha.malhotra118@company.com
+EMP120,Sales,732000,10,Mumbai,Male,3,deepak.sharma119@company.com
+EMP121,IT,1067000,16,Surat,Male,2,vivek.singh120@company.com
+EMP122,Customer Support,721000,12,Jaipur,Male,2,vikram.desai121@company.com
+EMP123,IT,1012000,14,Bangalore,Male,4,sandeep.singh122@company.com
+EMP124,HR,1071000,21,Nagpur,Male,1,rahul.kapoor123@company.com
+EMP125,HR,1028000,20,Lucknow,Male,3,ajay.pillai124@company.com
+EMP126,Finance,1407000,27,Pune,Male,2,deepak.reddy125@company.com
+EMP127,HR,1089000,22,Mumbai,Male,4,ajay.pillai126@company.com
+EMP128,Marketing,1198000,23,Indore,Male,3,sandeep.verma127@company.com
+EMP129,Customer Support,659000,11,Jaipur,Female,2,meena.desai128@company.com
+EMP130,Operations,983000,20,Bangalore,Female,4,kavita.kumar129@company.com
+EMP131,Sales,666000,9,Lucknow,Male,4,ajay.singh130@company.com
+EMP132,HR,893000,16,Bhopal,Male,3,rajesh.chatterjee131@company.com
+EMP133,Customer Support,624000,9,Indore,Female,3,shalini.agarwal132@company.com
+EMP134,IT,1335000,24,Indore,Female,4,rekha.gupta133@company.com
+EMP135,Sales,1231000,25,Mumbai,Female,3,preeti.joshi134@company.com
+EMP136,Operations,1129000,23,Bangalore,Female,5,rekha.joshi135@company.com
+EMP137,Operations,556000,7,Mumbai,Male,5,ajay.kumar136@company.com
+EMP138,Marketing,647000,7,Pune,Female,4,preeti.mehta137@company.com
+EMP139,Sales,473000,4,Mumbai,Female,3,swati.malhotra138@company.com
+EMP140,IT,1495000,28,Nagpur,Female,4,pooja.kumar139@company.com
+EMP141,Marketing,1213000,23,Nagpur,Male,4,gaurav.malhotra140@company.com
+EMP142,Finance,712000,8,Lucknow,Female,3,suman.desai141@company.com
+EMP143,Customer Support,652000,11,Jaipur,Male,3,rohit.nair142@company.com
+EMP144,Finance,722000,8,Pune,Female,4,ritu.verma143@company.com
+EMP145,Sales,417000,1,Chennai,Male,2,karan.desai144@company.com
+EMP146,Sales,1290000,26,Ahmedabad,Female,2,kiran.reddy145@company.com
+EMP147,Customer Support,452000,4,Bhopal,Female,5,meena.mehta146@company.com
+EMP148,Marketing,692000,8,Nagpur,Male,1,rajesh.singh147@company.com
+EMP149,Sales,767000,11,Chandigarh,Female,2,priya.singh148@company.com
+EMP150,HR,343000,1,Lucknow,Female,4,priya.patel149@company.com
+EMP151,Finance,1294000,24,Ahmedabad,Female,5,neha.agarwal150@company.com
+EMP152,Marketing,443000,1,Chandigarh,Male,5,ashok.nair151@company.com
+EMP153,Finance,1401000,27,Hyderabad,Male,1,rahul.verma152@company.com
+EMP154,Sales,720000,10,Nagpur,Male,1,rohit.gupta153@company.com
+EMP155,Marketing,1151000,22,Hyderabad,Male,5,pankaj.pillai154@company.com
+EMP156,Marketing,821000,13,Chandigarh,Female,1,rekha.bose155@company.com
+EMP157,Finance,978000,14,Delhi,Female,4,preeti.reddy156@company.com
+EMP158,Finance,1241000,23,Chennai,Male,4,rohit.chopra157@company.com
+EMP159,IT,1246000,21,Pune,Male,1,manoj.joshi158@company.com
+EMP160,Sales,1183000,23,Chennai,Female,2,neha.malhotra159@company.com
+EMP161,Marketing,754000,10,Pune,Female,4,kiran.chatterjee160@company.com
+EMP162,HR,985000,19,Chennai,Male,1,vivek.verma161@company.com
+EMP163,Operations,820000,15,Indore,Female,1,divya.singh162@company.com
+EMP164,Sales,1188000,24,Surat,Male,2,gaurav.joshi163@company.com
+EMP165,Marketing,1137000,21,Ahmedabad,Female,1,preeti.desai164@company.com
+EMP166,IT,806000,8,Chandigarh,Female,3,shalini.sharma165@company.com
+EMP167,IT,1434000,27,Surat,Female,4,ritu.sharma166@company.com
+EMP168,Operations,854000,16,Hyderabad,Male,4,rahul.gupta167@company.com
+EMP169,HR,1126000,23,Chandigarh,Male,5,arjun.joshi168@company.com
+EMP170,IT,1360000,24,Mumbai,Female,1,anjali.singh169@company.com
+EMP171,Marketing,877000,14,Bangalore,Male,2,vivek.agarwal170@company.com
+EMP172,Finance,554000,3,Jaipur,Female,5,pooja.joshi171@company.com
+EMP173,IT,939000,12,Mumbai,Male,1,deepak.verma172@company.com
+EMP174,Customer Support,559000,8,Chennai,Male,1,karan.singh173@company.com
+EMP175,IT,935000,12,Lucknow,Male,2,vivek.patel174@company.com
+EMP176,Finance,1424000,27,Mumbai,Female,4,ritu.gupta175@company.com
+EMP177,Marketing,853000,13,Hyderabad,Male,4,vikram.mehta176@company.com
+EMP178,HR,528000,5,Surat,Male,4,anil.sharma177@company.com
+EMP179,Finance,1382000,27,Delhi,Female,4,ritu.gupta178@company.com
+EMP180,Finance,1395000,27,Lucknow,Female,3,nisha.gupta179@company.com
+EMP181,Marketing,1067000,20,Ahmedabad,Male,5,arjun.gupta180@company.com
+EMP182,Operations,1232000,26,Indore,Male,2,ajay.joshi181@company.com
+EMP183,IT,694000,5,Nagpur,Male,1,rajesh.iyer182@company.com
+EMP184,Customer Support,940000,18,Surat,Male,4,nikhil.kapoor183@company.com
+EMP185,HR,1286000,27,Chennai,Female,2,kiran.desai184@company.com
+EMP186,Operations,647000,9,Bangalore,Male,5,nikhil.kapoor185@company.com
+EMP187,HR,820000,14,Mumbai,Male,1,ashok.gupta186@company.com
+EMP188,Operations,1281000,27,Pune,Male,5,deepak.gupta187@company.com
+EMP189,Marketing,1007000,17,Lucknow,Female,1,sneha.kapoor188@company.com
+EMP190,HR,996000,19,Ahmedabad,Male,2,sandeep.reddy189@company.com
+EMP191,Customer Support,1295000,28,Chennai,Female,1,rekha.kumar190@company.com
+EMP192,IT,1279000,22,Kolkata,Female,5,sunita.verma191@company.com
+EMP193,HR,640000,9,Hyderabad,Female,3,sunita.joshi192@company.com
+EMP194,Sales,686000,10,Ahmedabad,Female,4,anjali.mehta193@company.com
+EMP195,HR,408000,2,Jaipur,Male,2,pankaj.singh194@company.com
+EMP196,IT,1191000,19,Pune,Female,3,swati.chopra195@company.com
+EMP197,Operations,1104000,22,Lucknow,Female,5,anita.singh196@company.com
+EMP198,HR,324000,0,Bangalore,Male,2,vivek.bose197@company.com
+EMP199,IT,734000,7,Nagpur,Female,1,anita.agarwal198@company.com
+EMP200,Customer Support,910000,17,Lucknow,Male,5,suresh.bose199@company.com`;
+
+CSV.hr_dirty = `Employee ID,Department,Salary,Experience,Location,Gender,Performance Rating,Email
+EMP101,Finance,889000,13,Delhi,Female,5,priya.chatterjee100@company.com
+EMP101,Customer Support,308000,1,Bangalore,Male,5,nikhil.kapoor101@company.com
+EMP103,Operations,813000,15,Mumbai,Male,5,deepak.kapoor102company.com
+EMP104,Marketing,396000,0,Hyderabad,Female,1,sunita.rao103@gmial.com
+EMP105,SALES,1085000,20,Nagpur,Male,4,suresh.kapoor104@company.com
+EMP106,Operations,587000,8,Indore   ,Female,4,swati.bose105@company.com
+EMP107,Marketing,525000,4,   Delhi,Female,5,meena.kapoor106@company.com
+EMP108,HR,"5,50,000",24,Indore,Female,4,kavita.gupta107@company.com
+EMP109,Markting,279000,0,Lucknow,Male,3,ashok.iyer108@company.com
+EMP110,Customer Support,429000,4,Bengaluru,Female,4,kiran.agarwal109@company.com
+EMP111,Finance,941000,-3,Indore,Male,2,gaurav.chatterjee110@company.com
+EMP112,Finance,731000,7,Chandigarh,Female,,meena.pillai111@company.com
+EMP113,Finance,,21,Indore,Male,2,nikhil.chopra112@company.com
+EMP114,Marketing,1012000,18,Indore,male,1,amit.singh113@company.com
+EMP115,Marketing,851000,60,Lucknow,Female,2,rekha.kumar114@company.com
+EMP116,Finance,1322000,25,Chennai,Male,5,NULL
+EMP104,Marketing,396000,0,Hyderabad,Female,1,sunita.rao103@gmial.com
+EMP118,Sales,999000,19,Delhi,Female,3,suman.chatterjee117@company.com
+EMP119,Sales,1212000,24,Lucknow,Female,1,neha.malhotra118@company.com
+EMP120,Sales,732000,10,Mumbai,Male,3,deepak.sharma119@company.com
+EMP121,IT,1067000,16,Surat,Male,2,vivek.singh120@company.com
+EMP122,Customer Support,721000,12,Jaipur,Male,2,vikram.desai121@company.com
+EMP123,IT,1012000,14,Bangalore,Male,4,sandeep.singh122@company.com
+EMP124,HR,1071000,21,Nagpur,Male,1,rahul.kapoor123@company.com
+EMP125,HR,1028000,20,Lucknow,Male,3,ajay.pillai124@company.com
+EMP126,Finance,1407000,27,Pune,Male,2,deepak.reddy125@company.com
+EMP127,HR,1089000,22,Mumbai,Male,4,ajay.pillai126@company.com
+EMP128,Marketing,1198000,23,Indore,Male,3,sandeep.verma127@company.com
+EMP129,Customer Support,659000,11,Jaipur,Female,2,meena.desai128@company.com
+EMP130,Operations,983000,20,Bangalore,Female,4,kavita.kumar129@company.com
+EMP131,Sales,666000,9,Lucknow,Male,4,ajay.singh130@company.com
+EMP132,HR,893000,16,Bhopal,Male,3,rajesh.chatterjee131@company.com
+EMP133,Customer Support,624000,9,Indore,Female,3,shalini.agarwal132@company.com
+EMP134,IT,1335000,24,Indore,Female,4,rekha.gupta133@company.com
+EMP135,Sales,1231000,25,Mumbai,Female,3,preeti.joshi134@company.com
+EMP136,Operations,1129000,23,Bangalore,Female,5,rekha.joshi135@company.com
+EMP137,Operations,556000,7,Mumbai,Male,5,ajay.kumar136@company.com
+EMP138,Marketing,647000,7,Pune,Female,4,preeti.mehta137@company.com
+EMP139,Sales,473000,4,Mumbai,Female,3,swati.malhotra138@company.com
+EMP140,IT,1495000,28,Nagpur,Female,4,pooja.kumar139@company.com
+EMP141,Marketing,1213000,23,Nagpur,Male,4,gaurav.malhotra140@company.com
+EMP142,Finance,712000,8,Lucknow,Female,3,suman.desai141@company.com
+EMP143,Customer Support,652000,11,Jaipur,Male,3,rohit.nair142@company.com
+EMP144,Finance,722000,8,Pune,Female,4,ritu.verma143@company.com
+EMP145,Sales,417000,1,Chennai,Male,2,karan.desai144@company.com
+EMP146,Sales,1290000,26,Ahmedabad,Female,2,kiran.reddy145@company.com
+EMP147,Customer Support,452000,4,Bhopal,Female,5,meena.mehta146@company.com
+EMP148,Marketing,692000,8,Nagpur,Male,1,rajesh.singh147@company.com
+EMP149,Sales,767000,11,Chandigarh,Female,2,priya.singh148@company.com
+EMP150,HR,343000,1,Lucknow,Female,4,priya.patel149@company.com
+EMP151,Finance,1294000,24,Ahmedabad,Female,5,neha.agarwal150@company.com
+EMP152,Marketing,443000,1,Chandigarh,Male,5,ashok.nair151@company.com
+EMP153,Finance,1401000,27,Hyderabad,Male,1,rahul.verma152@company.com
+EMP154,Sales,720000,10,Nagpur,Male,1,rohit.gupta153@company.com
+EMP155,Marketing,1151000,22,Hyderabad,Male,5,pankaj.pillai154@company.com
+EMP156,Marketing,821000,13,Chandigarh,Female,1,rekha.bose155@company.com
+EMP157,Finance,978000,14,Delhi,Female,4,preeti.reddy156@company.com
+EMP158,Finance,1241000,23,Chennai,Male,4,rohit.chopra157@company.com
+EMP159,IT,1246000,21,Pune,Male,1,manoj.joshi158@company.com
+EMP160,Sales,1183000,23,Chennai,Female,2,neha.malhotra159@company.com
+EMP161,Marketing,754000,10,Pune,Female,4,kiran.chatterjee160@company.com
+EMP162,HR,985000,19,Chennai,Male,1,vivek.verma161@company.com
+EMP163,Operations,820000,15,Indore,Female,1,divya.singh162@company.com
+EMP164,Sales,1188000,24,Surat,Male,2,gaurav.joshi163@company.com
+EMP165,Marketing,1137000,21,Ahmedabad,Female,1,preeti.desai164@company.com
+EMP166,IT,806000,8,Chandigarh,Female,3,shalini.sharma165@company.com
+EMP167,IT,1434000,27,Surat,Female,4,ritu.sharma166@company.com
+EMP168,Operations,854000,16,Hyderabad,Male,4,rahul.gupta167@company.com
+EMP169,HR,1126000,23,Chandigarh,Male,5,arjun.joshi168@company.com
+EMP170,IT,1360000,24,Mumbai,Female,1,anjali.singh169@company.com
+EMP171,Marketing,877000,14,Bangalore,Male,2,vivek.agarwal170@company.com
+EMP172,Finance,554000,3,Jaipur,Female,5,pooja.joshi171@company.com
+EMP173,IT,939000,12,Mumbai,Male,1,deepak.verma172@company.com
+EMP174,Customer Support,559000,8,Chennai,Male,1,karan.singh173@company.com
+EMP175,IT,935000,12,Lucknow,Male,2,vivek.patel174@company.com
+EMP176,Finance,1424000,27,Mumbai,Female,4,ritu.gupta175@company.com
+EMP177,Marketing,853000,13,Hyderabad,Male,4,vikram.mehta176@company.com
+EMP178,HR,528000,5,Surat,Male,4,anil.sharma177@company.com
+EMP179,Finance,1382000,27,Delhi,Female,4,ritu.gupta178@company.com
+EMP180,Finance,1395000,27,Lucknow,Female,3,nisha.gupta179@company.com
+EMP181,Marketing,1067000,20,Ahmedabad,Male,5,arjun.gupta180@company.com
+EMP182,Operations,1232000,26,Indore,Male,2,ajay.joshi181@company.com
+EMP183,IT,694000,5,Nagpur,Male,1,rajesh.iyer182@company.com
+EMP184,Customer Support,940000,18,Surat,Male,4,nikhil.kapoor183@company.com
+EMP185,HR,1286000,27,Chennai,Female,2,kiran.desai184@company.com
+EMP186,Operations,647000,9,Bangalore,Male,5,nikhil.kapoor185@company.com
+EMP187,HR,820000,14,Mumbai,Male,1,ashok.gupta186@company.com
+EMP188,Operations,1281000,27,Pune,Male,5,deepak.gupta187@company.com
+EMP189,Marketing,1007000,17,Lucknow,Female,1,sneha.kapoor188@company.com
+EMP190,HR,996000,19,Ahmedabad,Male,2,sandeep.reddy189@company.com
+EMP191,Customer Support,1295000,28,Chennai,Female,1,rekha.kumar190@company.com
+EMP192,IT,1279000,22,Kolkata,Female,5,sunita.verma191@company.com
+EMP193,HR,640000,9,Hyderabad,Female,3,sunita.joshi192@company.com
+EMP194,Sales,686000,10,Ahmedabad,Female,4,anjali.mehta193@company.com
+EMP195,HR,408000,2,Jaipur,Male,2,pankaj.singh194@company.com
+EMP196,IT,1191000,19,Pune,Female,3,swati.chopra195@company.com
+EMP197,Operations,1104000,22,Lucknow,Female,5,anita.singh196@company.com
+EMP198,HR,324000,0,Bangalore,Male,2,vivek.bose197@company.com
+EMP199,IT,734000,7,Nagpur,Female,1,anita.agarwal198@company.com
+EMP200,Customer Support,910000,17,Lucknow,Male,5,suresh.bose199@company.com`;
+
+CSV.retail_clean = `Store,City,State,Product,Sales,Profit,Inventory,Date
+UrbanMart Store 01,Jaipur,Rajasthan,Soap,52830.78,9171.76,305,12-07-2025
+UrbanMart Store 03,Nagpur,Maharashtra,Cooking Oil 1L,50218.01,10255.5,414,26-03-2025
+UrbanMart Store 12,Kolkata,West Bengal,Rice 5kg,25829.8,4785.55,121,16-08-2025
+UrbanMart Store 10,Bangalore,Karnataka,Sugar 1kg,45415.12,6348.38,273,03-05-2025
+UrbanMart Store 05,Chandigarh,Punjab,Sugar 1kg,29202.91,6337.69,188,14-12-2025
+UrbanMart Store 10,Kolkata,West Bengal,Toothpaste,46627.44,9587.76,257,28-09-2025
+UrbanMart Store 07,Nagpur,Maharashtra,Salt 1kg,13582.47,2321.69,446,09-05-2025
+UrbanMart Store 01,Jaipur,Rajasthan,Toothpaste,52698.78,8479.66,52,31-12-2025
+UrbanMart Store 09,Indore,Madhya Pradesh,Wheat Flour 5kg,18533.65,3755.35,139,19-08-2025
+UrbanMart Store 09,Nagpur,Maharashtra,Salt 1kg,27373.41,6549.98,113,19-08-2025
+UrbanMart Store 06,Bhopal,Madhya Pradesh,Rice 5kg,26064.02,3369.84,191,01-05-2025
+UrbanMart Store 07,Pune,Maharashtra,Soap,15023.25,1708.7,50,29-11-2025
+UrbanMart Store 06,Chandigarh,Punjab,Cooking Oil 1L,9980.78,1071.7,424,30-08-2025
+UrbanMart Store 12,Indore,Madhya Pradesh,Cooking Oil 1L,46012.79,6617.65,315,03-01-2025
+UrbanMart Store 02,Mumbai,Maharashtra,Bread,14507.98,1159.24,481,08-11-2025
+UrbanMart Store 09,Hyderabad,Telangana,Wheat Flour 5kg,47018.01,4585.57,62,25-01-2025
+UrbanMart Store 04,Hyderabad,Telangana,Coffee 200g,48046.15,6794.82,56,13-09-2025
+UrbanMart Store 10,Ahmedabad,Gujarat,Rice 5kg,38653.39,6378.18,367,15-03-2025
+UrbanMart Store 05,Hyderabad,Telangana,Rice 5kg,37658.96,3694.83,213,06-04-2025
+UrbanMart Store 11,Jaipur,Rajasthan,Wheat Flour 5kg,32362.1,3952.08,488,27-09-2025
+UrbanMart Store 09,Ahmedabad,Gujarat,Sugar 1kg,59323.23,9540.98,199,29-08-2025
+UrbanMart Store 01,Jaipur,Rajasthan,Shampoo,58900.29,5933.03,8,02-07-2025
+UrbanMart Store 02,Chennai,Tamil Nadu,Milk 1L,44510.58,7818.35,395,25-10-2025
+UrbanMart Store 12,Chandigarh,Punjab,Soap,9737.76,1173.01,173,26-11-2025
+UrbanMart Store 03,Indore,Madhya Pradesh,Sugar 1kg,41711.59,10267.89,245,20-11-2025
+UrbanMart Store 03,Chandigarh,Punjab,Cooking Oil 1L,5659.83,1161.61,234,19-01-2025
+UrbanMart Store 05,Delhi,Delhi,Rice 5kg,47884.33,10877.31,161,08-06-2025
+UrbanMart Store 09,Hyderabad,Telangana,Salt 1kg,33495.78,3371.78,385,28-11-2025
+UrbanMart Store 04,Bangalore,Karnataka,Soap,52004.03,3097.4,335,19-06-2025
+UrbanMart Store 05,Pune,Maharashtra,Sugar 1kg,23345.11,5320.29,380,14-08-2025
+UrbanMart Store 07,Chennai,Tamil Nadu,Cooking Oil 1L,30779.79,4601.72,473,23-09-2025
+UrbanMart Store 05,Chandigarh,Punjab,Wheat Flour 5kg,44170.72,2905.79,308,03-04-2025
+UrbanMart Store 09,Bangalore,Karnataka,Soap,7950.68,918.97,151,06-06-2025
+UrbanMart Store 08,Surat,Gujarat,Detergent 1kg,26714.73,5021.11,179,17-08-2025
+UrbanMart Store 01,Lucknow,Uttar Pradesh,Salt 1kg,54873.22,9491.44,222,21-05-2025
+UrbanMart Store 11,Chandigarh,Punjab,Rice 5kg,6352.39,1127.57,186,20-09-2025
+UrbanMart Store 12,Jaipur,Rajasthan,Cooking Oil 1L,57261.78,4498.25,311,14-12-2025
+UrbanMart Store 08,Mumbai,Maharashtra,Cooking Oil 1L,5899.54,1213.55,187,05-07-2025
+UrbanMart Store 07,Surat,Gujarat,Rice 5kg,37095.5,6892.8,485,09-07-2025
+UrbanMart Store 06,Kolkata,West Bengal,Sugar 1kg,6459.35,500.85,187,23-07-2025
+UrbanMart Store 06,Jaipur,Rajasthan,Bread,16477.48,1197.74,376,06-04-2025
+UrbanMart Store 08,Ahmedabad,Gujarat,Shampoo,54985.47,4044.3,396,14-05-2025
+UrbanMart Store 12,Kolkata,West Bengal,Milk 1L,59789.18,6404.34,469,09-09-2025
+UrbanMart Store 04,Pune,Maharashtra,Cooking Oil 1L,51463.92,7225.97,460,16-08-2025
+UrbanMart Store 02,Chandigarh,Punjab,Coffee 200g,58118.55,14373.59,341,27-06-2025
+UrbanMart Store 12,Pune,Maharashtra,Biscuits,33445.94,7634.58,435,22-03-2025
+UrbanMart Store 12,Lucknow,Uttar Pradesh,Noodles,42612.72,3614.33,185,18-09-2025
+UrbanMart Store 04,Pune,Maharashtra,Milk 1L,47939.81,4666.81,252,14-01-2025
+UrbanMart Store 06,Ahmedabad,Gujarat,Tea 250g,23396.85,4930.47,282,08-03-2025
+UrbanMart Store 10,Bhopal,Madhya Pradesh,Wheat Flour 5kg,5813.39,753.6,367,03-09-2025
+UrbanMart Store 09,Hyderabad,Telangana,Sugar 1kg,25747.14,4247.77,64,12-06-2025
+UrbanMart Store 11,Pune,Maharashtra,Toothpaste,29018.33,4453.5,65,10-10-2025
+UrbanMart Store 11,Surat,Gujarat,Cooking Oil 1L,46531.33,3527.38,257,29-01-2025
+UrbanMart Store 02,Ahmedabad,Gujarat,Cooking Oil 1L,19639.22,1618.14,478,30-12-2025
+UrbanMart Store 04,Chennai,Tamil Nadu,Biscuits,53905.7,11815.41,128,11-04-2025
+UrbanMart Store 11,Ahmedabad,Gujarat,Bread,9259.88,1023.82,273,17-02-2025
+UrbanMart Store 09,Jaipur,Rajasthan,Cooking Oil 1L,36324.89,6034.63,87,04-12-2025
+UrbanMart Store 10,Lucknow,Uttar Pradesh,Noodles,37098.06,8106.15,288,22-01-2025
+UrbanMart Store 01,Pune,Maharashtra,Rice 5kg,57015.72,11642.87,135,30-11-2025
+UrbanMart Store 04,Chandigarh,Punjab,Tea 250g,26162.03,4651.56,254,18-11-2025
+UrbanMart Store 09,Bangalore,Karnataka,Coffee 200g,57485.71,8426.77,412,17-12-2025
+UrbanMart Store 07,Bangalore,Karnataka,Toothpaste,6232.44,386.3,225,01-08-2025
+UrbanMart Store 08,Kolkata,West Bengal,Milk 1L,21731.17,1710.98,441,13-06-2025
+UrbanMart Store 12,Indore,Madhya Pradesh,Soap,58571.7,4460.42,189,21-09-2025
+UrbanMart Store 09,Pune,Maharashtra,Soap,16020.8,1193.62,230,07-05-2025
+UrbanMart Store 03,Pune,Maharashtra,Rice 5kg,18832.3,2388.5,315,03-08-2025
+UrbanMart Store 04,Indore,Madhya Pradesh,Noodles,11262.58,1300.68,295,10-06-2025
+UrbanMart Store 04,Chandigarh,Punjab,Cooking Oil 1L,30899.4,4725.91,255,07-06-2025
+UrbanMart Store 08,Mumbai,Maharashtra,Wheat Flour 5kg,56823.5,8585.4,494,04-05-2025
+UrbanMart Store 04,Surat,Gujarat,Soap,4822.17,512.46,305,01-12-2025
+UrbanMart Store 11,Kolkata,West Bengal,Bread,33128.06,7269.44,220,10-03-2025
+UrbanMart Store 05,Lucknow,Uttar Pradesh,Soap,46303.69,5704.03,205,27-01-2025
+UrbanMart Store 10,Ahmedabad,Gujarat,Milk 1L,23026.38,2480.41,197,16-09-2025
+UrbanMart Store 08,Chandigarh,Punjab,Biscuits,18223.8,4516.19,348,09-11-2025
+UrbanMart Store 02,Nagpur,Maharashtra,Wheat Flour 5kg,24846.42,5192.39,173,13-10-2025
+UrbanMart Store 06,Chandigarh,Punjab,Cooking Oil 1L,13545.36,2056.52,256,21-01-2025
+UrbanMart Store 01,Mumbai,Maharashtra,Cooking Oil 1L,43388.33,9145.96,265,22-08-2025
+UrbanMart Store 03,Surat,Gujarat,Noodles,31899.33,3687.34,313,13-06-2025
+UrbanMart Store 03,Hyderabad,Telangana,Tea 250g,44880.52,4929.98,172,17-09-2025
+UrbanMart Store 09,Ahmedabad,Gujarat,Toothpaste,43106.91,4739.95,417,09-01-2025
+UrbanMart Store 06,Chennai,Tamil Nadu,Coffee 200g,8357.07,1114.06,157,19-12-2025
+UrbanMart Store 11,Mumbai,Maharashtra,Tea 250g,29526.23,7187.1,400,24-10-2025
+UrbanMart Store 10,Delhi,Delhi,Detergent 1kg,4978.6,727.32,268,19-11-2025
+UrbanMart Store 12,Surat,Gujarat,Sugar 1kg,50787.69,4040.42,348,05-05-2025
+UrbanMart Store 01,Surat,Gujarat,Detergent 1kg,8373.94,450.41,160,03-08-2025
+UrbanMart Store 03,Hyderabad,Telangana,Detergent 1kg,13825.72,2078.89,313,30-08-2025
+UrbanMart Store 12,Lucknow,Uttar Pradesh,Rice 5kg,42934.96,6600.68,287,16-06-2025
+UrbanMart Store 11,Kolkata,West Bengal,Biscuits,23855.84,5757.3,235,30-09-2025
+UrbanMart Store 06,Ahmedabad,Gujarat,Soap,41200.38,9209.56,348,26-11-2025
+UrbanMart Store 12,Bangalore,Karnataka,Tea 250g,30082.45,7263.93,142,13-10-2025
+UrbanMart Store 05,Delhi,Delhi,Bread,46728.11,8924.14,353,27-12-2025
+UrbanMart Store 08,Chennai,Tamil Nadu,Toothpaste,22230.58,5262.87,407,21-05-2025
+UrbanMart Store 05,Pune,Maharashtra,Tea 250g,41244.09,5194.23,202,26-06-2025
+UrbanMart Store 03,Bangalore,Karnataka,Rice 5kg,18682.56,3602.53,177,15-08-2025
+UrbanMart Store 11,Bangalore,Karnataka,Detergent 1kg,29786.6,2693.11,275,19-05-2025
+UrbanMart Store 09,Lucknow,Uttar Pradesh,Bread,9961.83,1724.75,300,03-05-2025
+UrbanMart Store 04,Mumbai,Maharashtra,Coffee 200g,54500.68,5184.89,119,27-01-2025
+UrbanMart Store 02,Hyderabad,Telangana,Soap,43606.77,3057.23,394,12-03-2025
+UrbanMart Store 01,Ahmedabad,Gujarat,Noodles,11160.58,2015.36,450,01-09-2025
+UrbanMart Store 08,Jaipur,Rajasthan,Milk 1L,45842.84,4925.77,146,27-11-2025`;
+
+CSV.retail_dirty = `Store,City,State,Product,Sales,Profit,Inventory,Date
+UrbanMart Store 01,Jaipur,Tamil Nadu,Soap,52830.78,9171.76,305,12-07-2025
+UrbanMart Store 03,Nagpur,Karnatka,Cooking Oil 1L,50218.01,10255.5,414,26-03-2025
+UrbanMart Store 12,Kolkata,West Bengal,Rice 5kg,-12000,4785.55,121,16-08-2025
+UrbanMart Store 10,Bangalore,Karnataka,Sugar 1kg,"₹45,230",6348.38,273,03-05-2025
+UrbanMart Store 05,Chandigarh,Punjab,Sugar 1kg,29202.91,6337.69,188,30-02-2025
+UrbanMart Store 10,Kolkata,West Bengal,Toothpaste,46627.44,9587.76,257,07/19/2025
+UrbanMart Store 07,Nagpur,Maharashtra,Salt 1kg***,13582.47,2321.69,446,09-05-2025
+UrbanMart Store 01,jaipur,Rajasthan,Toothpaste,52698.78,8479.66,52,31-12-2025
+UrbanMart Store 09,Indore,Madhya Pradesh,Wheat Flour 5kg,18533.65,3755.35,,19-08-2025
+UrbanMart Store 10,Bangalore,Karnataka,Sugar 1kg,"₹45,230",6348.38,273,03-05-2025
+  UrbanMart Store 06,Bhopal,Madhya Pradesh,Rice 5kg,26064.02,3369.84,191,01-05-2025
+UrbanMart Store 07,Pune,Maharashtra,Soap,5000000,1708.7,50,29-11-2025
+UrbanMart Store 06,Chandigarh,Punjab,Cooking Oil 1L,9980.78,,424,30-08-2025
+UrbanMart Store 12,Indore,Madhya Pradesh,Cooking Oil 1L,46012.79,6617.65,315,03-01-2025
+UrbanMart Store 02,Mumbai,Maharashtra,Bread,14507.98,1159.24,481,08-11-2025
+UrbanMart Store 09,Hyderabad,Telangana,Wheat Flour 5kg,47018.01,4585.57,62,25-01-2025
+UrbanMart Store 04,Hyderabad,Telangana,Coffee 200g,48046.15,6794.82,56,13-09-2025
+UrbanMart Store 10,Ahmedabad,Gujarat,Rice 5kg,38653.39,6378.18,367,15-03-2025
+UrbanMart Store 05,Hyderabad,Telangana,Rice 5kg,37658.96,3694.83,213,06-04-2025
+UrbanMart Store 11,Jaipur,Rajasthan,Wheat Flour 5kg,32362.1,3952.08,488,27-09-2025
+UrbanMart Store 09,Ahmedabad,Gujarat,Sugar 1kg,59323.23,9540.98,199,29-08-2025
+UrbanMart Store 01,Jaipur,Rajasthan,Shampoo,58900.29,5933.03,8,02-07-2025
+UrbanMart Store 02,Chennai,Tamil Nadu,Milk 1L,44510.58,7818.35,395,25-10-2025
+UrbanMart Store 12,Chandigarh,Punjab,Soap,9737.76,1173.01,173,26-11-2025
+UrbanMart Store 03,Indore,Madhya Pradesh,Sugar 1kg,41711.59,10267.89,245,20-11-2025
+UrbanMart Store 03,Chandigarh,Punjab,Cooking Oil 1L,5659.83,1161.61,234,19-01-2025
+UrbanMart Store 05,Delhi,Delhi,Rice 5kg,47884.33,10877.31,161,08-06-2025
+UrbanMart Store 09,Hyderabad,Telangana,Salt 1kg,33495.78,3371.78,385,28-11-2025
+UrbanMart Store 04,Bangalore,Karnataka,Soap,52004.03,3097.4,335,19-06-2025
+UrbanMart Store 05,Pune,Maharashtra,Sugar 1kg,23345.11,5320.29,380,14-08-2025
+UrbanMart Store 07,Chennai,Tamil Nadu,Cooking Oil 1L,30779.79,4601.72,473,23-09-2025
+UrbanMart Store 05,Chandigarh,Punjab,Wheat Flour 5kg,44170.72,2905.79,308,03-04-2025
+UrbanMart Store 09,Bangalore,Karnataka,Soap,7950.68,918.97,151,06-06-2025
+UrbanMart Store 08,Surat,Gujarat,Detergent 1kg,26714.73,5021.11,179,17-08-2025
+UrbanMart Store 01,Lucknow,Uttar Pradesh,Salt 1kg,54873.22,9491.44,222,21-05-2025
+UrbanMart Store 11,Chandigarh,Punjab,Rice 5kg,6352.39,1127.57,186,20-09-2025
+UrbanMart Store 12,Jaipur,Rajasthan,Cooking Oil 1L,57261.78,4498.25,311,14-12-2025
+UrbanMart Store 08,Mumbai,Maharashtra,Cooking Oil 1L,5899.54,1213.55,187,05-07-2025
+UrbanMart Store 07,Surat,Gujarat,Rice 5kg,37095.5,6892.8,485,09-07-2025
+UrbanMart Store 06,Kolkata,West Bengal,Sugar 1kg,6459.35,500.85,187,23-07-2025
+UrbanMart Store 06,Jaipur,Rajasthan,Bread,16477.48,1197.74,376,06-04-2025
+UrbanMart Store 08,Ahmedabad,Gujarat,Shampoo,54985.47,4044.3,396,14-05-2025
+UrbanMart Store 12,Kolkata,West Bengal,Milk 1L,59789.18,6404.34,469,09-09-2025
+UrbanMart Store 04,Pune,Maharashtra,Cooking Oil 1L,51463.92,7225.97,460,16-08-2025
+UrbanMart Store 02,Chandigarh,Punjab,Coffee 200g,58118.55,14373.59,341,27-06-2025
+UrbanMart Store 12,Pune,Maharashtra,Biscuits,33445.94,7634.58,435,22-03-2025
+UrbanMart Store 12,Lucknow,Uttar Pradesh,Noodles,42612.72,3614.33,185,18-09-2025
+UrbanMart Store 04,Pune,Maharashtra,Milk 1L,47939.81,4666.81,252,14-01-2025
+UrbanMart Store 06,Ahmedabad,Gujarat,Tea 250g,23396.85,4930.47,282,08-03-2025
+UrbanMart Store 10,Bhopal,Madhya Pradesh,Wheat Flour 5kg,5813.39,753.6,367,03-09-2025
+UrbanMart Store 09,Hyderabad,Telangana,Sugar 1kg,25747.14,4247.77,64,12-06-2025
+UrbanMart Store 11,Pune,Maharashtra,Toothpaste,29018.33,4453.5,65,10-10-2025
+UrbanMart Store 11,Surat,Gujarat,Cooking Oil 1L,46531.33,3527.38,257,29-01-2025
+UrbanMart Store 02,Ahmedabad,Gujarat,Cooking Oil 1L,19639.22,1618.14,478,30-12-2025
+UrbanMart Store 04,Chennai,Tamil Nadu,Biscuits,53905.7,11815.41,128,11-04-2025
+UrbanMart Store 11,Ahmedabad,Gujarat,Bread,9259.88,1023.82,273,17-02-2025
+UrbanMart Store 09,Jaipur,Rajasthan,Cooking Oil 1L,36324.89,6034.63,87,04-12-2025
+UrbanMart Store 10,Lucknow,Uttar Pradesh,Noodles,37098.06,8106.15,288,22-01-2025
+UrbanMart Store 01,Pune,Maharashtra,Rice 5kg,57015.72,11642.87,135,30-11-2025
+UrbanMart Store 04,Chandigarh,Punjab,Tea 250g,26162.03,4651.56,254,18-11-2025
+UrbanMart Store 09,Bangalore,Karnataka,Coffee 200g,57485.71,8426.77,412,17-12-2025
+UrbanMart Store 07,Bangalore,Karnataka,Toothpaste,6232.44,386.3,225,01-08-2025
+UrbanMart Store 08,Kolkata,West Bengal,Milk 1L,21731.17,1710.98,441,13-06-2025
+UrbanMart Store 12,Indore,Madhya Pradesh,Soap,58571.7,4460.42,189,21-09-2025
+UrbanMart Store 09,Pune,Maharashtra,Soap,16020.8,1193.62,230,07-05-2025
+UrbanMart Store 03,Pune,Maharashtra,Rice 5kg,18832.3,2388.5,315,03-08-2025
+UrbanMart Store 04,Indore,Madhya Pradesh,Noodles,11262.58,1300.68,295,10-06-2025
+UrbanMart Store 04,Chandigarh,Punjab,Cooking Oil 1L,30899.4,4725.91,255,07-06-2025
+UrbanMart Store 08,Mumbai,Maharashtra,Wheat Flour 5kg,56823.5,8585.4,494,04-05-2025
+UrbanMart Store 04,Surat,Gujarat,Soap,4822.17,512.46,305,01-12-2025
+UrbanMart Store 11,Kolkata,West Bengal,Bread,33128.06,7269.44,220,10-03-2025
+UrbanMart Store 05,Lucknow,Uttar Pradesh,Soap,46303.69,5704.03,205,27-01-2025
+UrbanMart Store 10,Ahmedabad,Gujarat,Milk 1L,23026.38,2480.41,197,16-09-2025
+UrbanMart Store 08,Chandigarh,Punjab,Biscuits,18223.8,4516.19,348,09-11-2025
+UrbanMart Store 02,Nagpur,Maharashtra,Wheat Flour 5kg,24846.42,5192.39,173,13-10-2025
+UrbanMart Store 06,Chandigarh,Punjab,Cooking Oil 1L,13545.36,2056.52,256,21-01-2025
+UrbanMart Store 01,Mumbai,Maharashtra,Cooking Oil 1L,43388.33,9145.96,265,22-08-2025
+UrbanMart Store 03,Surat,Gujarat,Noodles,31899.33,3687.34,313,13-06-2025
+UrbanMart Store 03,Hyderabad,Telangana,Tea 250g,44880.52,4929.98,172,17-09-2025
+UrbanMart Store 09,Ahmedabad,Gujarat,Toothpaste,43106.91,4739.95,417,09-01-2025
+UrbanMart Store 06,Chennai,Tamil Nadu,Coffee 200g,8357.07,1114.06,157,19-12-2025
+UrbanMart Store 11,Mumbai,Maharashtra,Tea 250g,29526.23,7187.1,400,24-10-2025
+UrbanMart Store 10,Delhi,Delhi,Detergent 1kg,4978.6,727.32,268,19-11-2025
+UrbanMart Store 12,Surat,Gujarat,Sugar 1kg,50787.69,4040.42,348,05-05-2025
+UrbanMart Store 01,Surat,Gujarat,Detergent 1kg,8373.94,450.41,160,03-08-2025
+UrbanMart Store 03,Hyderabad,Telangana,Detergent 1kg,13825.72,2078.89,313,30-08-2025
+UrbanMart Store 12,Lucknow,Uttar Pradesh,Rice 5kg,42934.96,6600.68,287,16-06-2025
+UrbanMart Store 11,Kolkata,West Bengal,Biscuits,23855.84,5757.3,235,30-09-2025
+UrbanMart Store 06,Ahmedabad,Gujarat,Soap,41200.38,9209.56,348,26-11-2025
+UrbanMart Store 12,Bangalore,Karnataka,Tea 250g,30082.45,7263.93,142,13-10-2025
+UrbanMart Store 05,Delhi,Delhi,Bread,46728.11,8924.14,353,27-12-2025
+UrbanMart Store 08,Chennai,Tamil Nadu,Toothpaste,22230.58,5262.87,407,21-05-2025
+UrbanMart Store 05,Pune,Maharashtra,Tea 250g,41244.09,5194.23,202,26-06-2025
+UrbanMart Store 03,Bangalore,Karnataka,Rice 5kg,18682.56,3602.53,177,15-08-2025
+UrbanMart Store 11,Bangalore,Karnataka,Detergent 1kg,29786.6,2693.11,275,19-05-2025
+UrbanMart Store 09,Lucknow,Uttar Pradesh,Bread,9961.83,1724.75,300,03-05-2025
+UrbanMart Store 04,Mumbai,Maharashtra,Coffee 200g,54500.68,5184.89,119,27-01-2025
+UrbanMart Store 02,Hyderabad,Telangana,Soap,43606.77,3057.23,394,12-03-2025
+UrbanMart Store 01,Ahmedabad,Gujarat,Noodles,11160.58,2015.36,450,01-09-2025
+UrbanMart Store 08,Jaipur,Rajasthan,Milk 1L,45842.84,4925.77,146,27-11-2025`;
+
+CSV.banking_clean = `Customer,Loan Amount,EMI,Income,Credit Score,Loan Status
+Suresh Gupta,500000,43725.74,183900.0,539,Rejected
+Nisha Nair,100000,3179.97,14300.0,596,Rejected
+Rekha Verma,5000000,63337.89,299700.0,628,Rejected
+Ajay Malhotra,750000,23849.8,142100.0,833,Rejected
+Ajay Verma,1500000,24133.62,92300.0,870,Rejected
+Sunita Agarwal,1500000,13495.89,42400.0,652,Closed
+Ajay Rao,3000000,38002.73,193400.0,718,Rejected
+Vikram Sharma,750000,7607.0,27000.0,850,Closed
+Pankaj Pillai,500000,10379.18,40500.0,447,Closed
+Kiran Kumar,100000,1014.27,6000.0,870,Rejected
+Anjali Rao,1500000,31137.53,117200.0,638,Approved
+Swati Chatterjee,2000000,25335.15,83000.0,495,Approved
+Deepika Agarwal,750000,7607.0,38200.0,340,Approved
+Manoj Bose,500000,10379.18,46100.0,640,Pending
+Swati Iyer,100000,2075.84,12100.0,420,Closed
+Anil Kumar,500000,10379.18,43500.0,545,Pending
+Anjali Patel,750000,7607.0,33500.0,667,Pending
+Swati Iyer,750000,9500.68,43100.0,809,Closed
+Ajay Sharma,200000,1799.45,9500.0,627,Rejected
+Anjali Rao,1000000,12667.58,53700.0,876,Rejected
+Nisha Reddy,300000,26235.44,99200.0,898,Closed
+Ajay Desai,750000,23849.8,85600.0,535,Closed
+Sunita Malhotra,5000000,103791.78,466800.0,645,Pending
+Sneha Mehta,2000000,17994.52,78900.0,660,Rejected
+Arjun Chopra,300000,2699.18,9600.0,855,Approved
+Karan Patel,3000000,262354.43,1447500.0,376,Approved
+Manoj Agarwal,100000,1014.27,3500.0,536,Approved
+Priya Nair,300000,26235.44,95900.0,766,Pending
+Rahul Iyer,100000,899.73,4500.0,316,Approved
+Kavita Nair,3000000,30428.0,92400.0,842,Pending
+Shalini Iyer,3000000,48267.23,147300.0,740,Rejected
+Anjali Rao,200000,9136.95,41800.0,546,Rejected
+Preeti Pillai,5000000,80445.39,438100.0,573,Closed
+Rahul Iyer,200000,2533.52,14900.0,770,Rejected
+Pooja Nair,500000,8044.54,40600.0,382,Approved
+Suresh Kumar,200000,2028.53,8400.0,865,Closed
+Swati Rao,100000,8745.15,44700.0,384,Closed
+Ravi Chopra,1500000,19001.37,89300.0,397,Approved
+Sneha Rao,500000,10379.18,59200.0,880,Closed
+Sanjay Rao,750000,65588.61,378600.0,587,Approved
+Pooja Desai,300000,3800.27,11600.0,512,Rejected
+Rohit Nair,1500000,68527.11,267100.0,877,Rejected
+Manoj Agarwal,5000000,50713.33,255100.0,853,Pending
+Deepak Kapoor,1500000,47699.6,256200.0,380,Pending
+Kiran Joshi,100000,4568.47,19700.0,377,Pending
+Divya Chatterjee,5000000,50713.33,299600.0,634,Approved
+Anita Chatterjee,750000,6747.94,30200.0,664,Closed
+Vivek Nair,1500000,47699.6,240400.0,689,Approved
+Kiran Gupta,5000000,80445.39,433900.0,375,Approved
+Deepika Kapoor,750000,23849.8,98700.0,457,Closed
+Deepika Joshi,1000000,12667.58,42100.0,305,Pending
+Rajesh Pillai,2000000,25335.15,133900.0,404,Rejected
+Sanjay Verma,200000,6359.95,27300.0,870,Closed
+Suman Bose,200000,17490.3,57200.0,867,Approved
+Anil Pillai,5000000,63337.89,354100.0,312,Pending
+Rekha Singh,1500000,15214.0,81200.0,872,Rejected
+Ravi Mehta,5000000,158998.66,803900.0,473,Rejected
+Deepika Kapoor,750000,12066.81,45900.0,449,Approved
+Sanjay Reddy,300000,3042.8,11600.0,606,Closed
+Preeti Agarwal,200000,2533.52,9500.0,552,Closed
+Arjun Bose,5000000,103791.78,453900.0,438,Pending
+Shalini Verma,100000,1014.27,4100.0,689,Pending
+Swati Singh,2000000,25335.15,108700.0,439,Pending
+Sneha Malhotra,1000000,20758.36,92100.0,481,Closed
+Swati Pillai,1000000,16089.08,83700.0,802,Rejected
+Suresh Chatterjee,1000000,10142.67,39000.0,702,Pending
+Swati Rao,200000,4151.67,19800.0,858,Rejected
+Amit Chopra,3000000,262354.43,1537100.0,772,Rejected
+Ashok Sharma,2000000,32178.16,176800.0,370,Closed
+Vivek Pillai,2000000,63599.47,311600.0,547,Pending
+Rajesh Verma,300000,3042.8,16300.0,375,Closed
+Meena Joshi,5000000,44986.3,213500.0,847,Closed
+Rajesh Chatterjee,3000000,262354.43,1409400.0,668,Approved
+Suresh Gupta,200000,4151.67,20600.0,663,Rejected
+Anita Verma,5000000,437257.38,2050600.0,709,Pending
+Sandeep Malhotra,1500000,68527.11,207700.0,564,Rejected
+Ajay Singh,3000000,62275.07,270100.0,700,Closed
+Divya Joshi,5000000,158998.66,641500.0,325,Closed
+Kavita Kapoor,200000,3217.82,13700.0,387,Approved
+Kavita Chopra,300000,3800.27,15000.0,766,Rejected
+Arjun Chatterjee,3000000,26991.78,109200.0,399,Closed
+Manoj Joshi,2000000,25335.15,81100.0,345,Approved
+Sanjay Patel,100000,1266.76,6300.0,468,Rejected
+Rekha Chopra,3000000,95399.2,444200.0,638,Closed
+Deepika Singh,2000000,41516.71,223900.0,488,Rejected
+Rohit Sharma,1500000,15214.0,47000.0,502,Closed
+Amit Rao,5000000,50713.33,211300.0,519,Rejected
+Swati Chatterjee,750000,34263.56,162100.0,849,Rejected
+Meena Chatterjee,1000000,12667.58,45500.0,416,Pending
+Kavita Nair,2000000,25335.15,121400.0,701,Approved
+Nikhil Kapoor,1000000,12667.58,70100.0,476,Pending
+Neha Singh,5000000,228423.71,1145800.0,620,Approved
+Gaurav Reddy,500000,8044.54,27000.0,682,Rejected
+Sanjay Verma,3000000,30428.0,129500.0,441,Closed
+Divya Desai,1500000,47699.6,212700.0,850,Rejected
+Amit Nair,3000000,95399.2,426300.0,443,Rejected
+Vivek Gupta,1000000,8997.26,43700.0,667,Approved
+Karan Desai,2000000,63599.47,228000.0,693,Closed
+Vikram Kapoor,1500000,13495.89,57300.0,754,Closed
+Kiran Verma,300000,13705.42,64400.0,525,Pending`;
+
+CSV.banking_dirty = `Customer,Loan Amount,EMI,Income,Credit Score,Loan Status
+Suresh Gupta,"₹10,00,000",43725.74,183900.0,539,Rejected
+Nisha Nair,100000,Nine Thousand,14300.0,596,Rejected
+Rekha Verma,5000000,63337.89,299700.0,9999,Rejected
+Ajay Malhotra,750000,23849.8,142100.0,50,Rejected
+Ajay Verma,1500000,24133.62,,870,Rejected
+Sunita Agarwal,1500000,13495.89,-5000,652,Closed
+Ajay Rao,3000000,38002.73,193400.0,718,rejected
+Vikram Sharma,750000,7607.0,27000.0,850,Aproved
+Pankaj Pillai,500000,10379.18,40500.0,447,CLOSED
+Kiran Kumar,100000,1014.27,6000.0,NULL,Rejected
+Suresh Gupta,"₹10,00,000",43725.74,183900.0,539,Rejected
+Swati Chatterjee   ,2000000,25335.15,83000.0,495,Approved
+Deepika Agarwal,,7607.0,38200.0,340,Approved
+Manoj Bose,500000,10379.18,46100.0,640,Pending
+Swati Iyer,100000,2075.84,12100.0,420,Closed
+Anil Kumar,500000,10379.18,43500.0,545,Pending
+Anjali Patel,750000,7607.0,33500.0,667,Pending
+Swati Iyer,750000,9500.68,43100.0,809,Closed
+Ajay Sharma,200000,1799.45,9500.0,627,Rejected
+Anjali Rao,1000000,12667.58,53700.0,876,Rejected
+Nisha Reddy,300000,26235.44,99200.0,898,Closed
+Ajay Desai,750000,23849.8,85600.0,535,Closed
+Sunita Malhotra,5000000,103791.78,466800.0,645,Pending
+Sneha Mehta,2000000,17994.52,78900.0,660,Rejected
+Arjun Chopra,300000,2699.18,9600.0,855,Approved
+Karan Patel,3000000,262354.43,1447500.0,376,Approved
+Manoj Agarwal,100000,1014.27,3500.0,536,Approved
+Priya Nair,300000,26235.44,95900.0,766,Pending
+Rahul Iyer,100000,899.73,4500.0,316,Approved
+Kavita Nair,3000000,30428.0,92400.0,842,Pending
+Shalini Iyer,3000000,48267.23,147300.0,740,Rejected
+Anjali Rao,200000,9136.95,41800.0,546,Rejected
+Preeti Pillai,5000000,80445.39,438100.0,573,Closed
+Rahul Iyer,200000,2533.52,14900.0,770,Rejected
+Pooja Nair,500000,8044.54,40600.0,382,Approved
+Suresh Kumar,200000,2028.53,8400.0,865,Closed
+Swati Rao,100000,8745.15,44700.0,384,Closed
+Ravi Chopra,1500000,19001.37,89300.0,397,Approved
+Sneha Rao,500000,10379.18,59200.0,880,Closed
+Sanjay Rao,750000,65588.61,378600.0,587,Approved
+Pooja Desai,300000,3800.27,11600.0,512,Rejected
+Rohit Nair,1500000,68527.11,267100.0,877,Rejected
+Manoj Agarwal,5000000,50713.33,255100.0,853,Pending
+Deepak Kapoor,1500000,47699.6,256200.0,380,Pending
+Kiran Joshi,100000,4568.47,19700.0,377,Pending
+Divya Chatterjee,5000000,50713.33,299600.0,634,Approved
+Anita Chatterjee,750000,6747.94,30200.0,664,Closed
+Vivek Nair,1500000,47699.6,240400.0,689,Approved
+Kiran Gupta,5000000,80445.39,433900.0,375,Approved
+Deepika Kapoor,750000,23849.8,98700.0,457,Closed
+Deepika Joshi,1000000,12667.58,42100.0,305,Pending
+Rajesh Pillai,2000000,25335.15,133900.0,404,Rejected
+Sanjay Verma,200000,6359.95,27300.0,870,Closed
+Suman Bose,200000,17490.3,57200.0,867,Approved
+Anil Pillai,5000000,63337.89,354100.0,312,Pending
+Rekha Singh,1500000,15214.0,81200.0,872,Rejected
+Ravi Mehta,5000000,158998.66,803900.0,473,Rejected
+Deepika Kapoor,750000,12066.81,45900.0,449,Approved
+Sanjay Reddy,300000,3042.8,11600.0,606,Closed
+Preeti Agarwal,200000,2533.52,9500.0,552,Closed
+Arjun Bose,5000000,103791.78,453900.0,438,Pending
+Shalini Verma,100000,1014.27,4100.0,689,Pending
+Swati Singh,2000000,25335.15,108700.0,439,Pending
+Sneha Malhotra,1000000,20758.36,92100.0,481,Closed
+Swati Pillai,1000000,16089.08,83700.0,802,Rejected
+Suresh Chatterjee,1000000,10142.67,39000.0,702,Pending
+Swati Rao,200000,4151.67,19800.0,858,Rejected
+Amit Chopra,3000000,262354.43,1537100.0,772,Rejected
+Ashok Sharma,2000000,32178.16,176800.0,370,Closed
+Vivek Pillai,2000000,63599.47,311600.0,547,Pending
+Rajesh Verma,300000,3042.8,16300.0,375,Closed
+Meena Joshi,5000000,44986.3,213500.0,847,Closed
+Rajesh Chatterjee,3000000,262354.43,1409400.0,668,Approved
+Suresh Gupta,200000,4151.67,20600.0,663,Rejected
+Anita Verma,5000000,437257.38,2050600.0,709,Pending
+Sandeep Malhotra,1500000,68527.11,207700.0,564,Rejected
+Ajay Singh,3000000,62275.07,270100.0,700,Closed
+Divya Joshi,5000000,158998.66,641500.0,325,Closed
+Kavita Kapoor,200000,3217.82,13700.0,387,Approved
+Kavita Chopra,300000,3800.27,15000.0,766,Rejected
+Arjun Chatterjee,3000000,26991.78,109200.0,399,Closed
+Manoj Joshi,2000000,25335.15,81100.0,345,Approved
+Sanjay Patel,100000,1266.76,6300.0,468,Rejected
+Rekha Chopra,3000000,95399.2,444200.0,638,Closed
+Deepika Singh,2000000,41516.71,223900.0,488,Rejected
+Rohit Sharma,1500000,15214.0,47000.0,502,Closed
+Amit Rao,5000000,50713.33,211300.0,519,Rejected
+Swati Chatterjee,750000,34263.56,162100.0,849,Rejected
+Meena Chatterjee,1000000,12667.58,45500.0,416,Pending
+Kavita Nair,2000000,25335.15,121400.0,701,Approved
+Nikhil Kapoor,1000000,12667.58,70100.0,476,Pending
+Neha Singh,5000000,228423.71,1145800.0,620,Approved
+Gaurav Reddy,500000,8044.54,27000.0,682,Rejected
+Sanjay Verma,3000000,30428.0,129500.0,441,Closed
+Divya Desai,1500000,47699.6,212700.0,850,Rejected
+Amit Nair,3000000,95399.2,426300.0,443,Rejected
+Vivek Gupta,1000000,8997.26,43700.0,667,Approved
+Karan Desai,2000000,63599.47,228000.0,693,Closed
+Vikram Kapoor,1500000,13495.89,57300.0,754,Closed
+Kiran Verma,300000,13705.42,64400.0,525,Pending`;
+
+CSV.hospital_clean = `Patient,Doctor,Department,Age,Gender,Diagnosis,Bill Amount,Admission Date,Discharge Date
+Divya Reddy,Dr. Rohit Chatterjee,ENT,77,Female,Tonsillitis,136075.83,15-06-2025,20-06-2025
+Manoj Bose,Dr. Swati Pillai,Neurology,8,Male,Nerve Pain,248144.1,02-12-2025,05-12-2025
+Kavita Nair,Dr. Ritu Chatterjee,ENT,87,Female,Ear Infection,99997.09,14-03-2025,24-03-2025
+Deepika Chopra,Dr. Ashok Joshi,Orthopedics,52,Female,Fracture,130356.53,23-05-2025,29-05-2025
+Nikhil Mehta,Dr. Neha Desai,Cardiology,59,Male,Hypertension,159805.61,24-12-2025,30-12-2025
+Preeti Chopra,Dr. Nisha Kumar,Gynecology,64,Female,PCOS,69328.6,26-05-2025,01-06-2025
+Kavita Pillai,Dr. Arjun Kapoor,ENT,6,Female,Sinusitis,27594.96,24-08-2025,25-08-2025
+Arjun Kapoor,Dr. Ashok Joshi,Cardiology,26,Male,Arrhythmia,248936.43,09-03-2025,14-03-2025
+Manoj Gupta,Dr. Meena Kumar,General Medicine,48,Male,Fever,167133.68,29-11-2025,02-12-2025
+Deepak Nair,Dr. Vikram Kapoor,Orthopedics,1,Male,Fracture,55715.03,09-02-2025,12-02-2025
+Nisha Kapoor,Dr. Vikram Iyer,Cardiology,16,Female,Chest Pain,247074.26,05-08-2025,08-08-2025
+Sanjay Chopra,Dr. Sandeep Patel,Orthopedics,41,Male,Fracture,93787.74,03-06-2025,06-06-2025
+Rajesh Singh,Dr. Sandeep Patel,Cardiology,57,Male,Cardiac Arrest,89743.37,20-04-2025,23-04-2025
+Lakshmi Kapoor,Dr. Nisha Kumar,Orthopedics,18,Female,Fracture,188854.07,29-10-2025,05-11-2025
+Vivek Mehta,Dr. Ritu Chatterjee,Pediatrics,83,Male,Cough and Cold,23809.43,11-10-2025,21-10-2025
+Lakshmi Rao,Dr. Vikram Iyer,General Medicine,67,Female,Diabetes,152910.94,07-04-2025,14-04-2025
+Amit Nair,Dr. Arjun Kapoor,Gynecology,31,Male,Maternity,126396.89,01-11-2025,03-11-2025
+Priya Joshi,Dr. Rekha Reddy,Neurology,73,Female,Nerve Pain,106953.29,07-10-2025,10-10-2025
+Neha Sharma,Dr. Neha Desai,Orthopedics,34,Female,Fracture,56288.51,31-01-2025,07-02-2025
+Nisha Malhotra,Dr. Vikram Kapoor,Gynecology,82,Female,Maternity,135531.51,12-11-2025,15-11-2025
+Deepak Gupta,Dr. Sanjay Nair,Pediatrics,69,Male,Chickenpox,83707.32,28-10-2025,30-10-2025
+Vivek Nair,Dr. Rohit Chatterjee,Pediatrics,56,Male,Fever,31648.69,10-11-2025,20-11-2025
+Arjun Kumar,Dr. Vikram Iyer,Neurology,21,Male,Migraine,125613.99,27-06-2025,06-07-2025
+Shalini Patel,Dr. Meena Kumar,Neurology,16,Female,Stroke,193543.28,16-01-2025,22-01-2025
+Shalini Bose,Dr. Sandeep Patel,General Medicine,64,Female,Fever,115433.85,04-07-2025,05-07-2025
+Sandeep Patel,Dr. Meena Kumar,Neurology,14,Male,Stroke,223884.3,12-12-2025,14-12-2025
+Ashok Sharma,Dr. Rohit Chatterjee,Cardiology,6,Male,Cardiac Arrest,119525.85,16-07-2025,19-07-2025
+Amit Chatterjee,Dr. Vikram Kapoor,Pediatrics,32,Male,Cough and Cold,105815.38,13-06-2025,18-06-2025
+Kiran Joshi,Dr. Swati Pillai,Cardiology,29,Female,Cardiac Arrest,201671.49,24-01-2025,31-01-2025
+Rohit Rao,Dr. Vikram Kapoor,ENT,71,Male,Sinusitis,115816.31,08-07-2025,12-07-2025
+Deepak Desai,Dr. Gaurav Chatterjee,Dermatology,76,Male,Eczema,243048.86,11-04-2025,20-04-2025
+Meena Singh,Dr. Vikram Iyer,Gynecology,30,Female,Maternity,136761.66,22-11-2025,23-11-2025
+Priya Chopra,Dr. Vikram Kapoor,Orthopedics,68,Female,Joint Pain,245829.59,03-08-2025,11-08-2025
+Kavita Iyer,Dr. Sandeep Patel,Cardiology,67,Female,Cardiac Arrest,105025.03,10-07-2025,18-07-2025
+Neha Pillai,Dr. Swati Pillai,Neurology,10,Female,Nerve Pain,149198.25,01-02-2025,08-02-2025
+Kavita Nair,Dr. Vikram Kapoor,General Medicine,51,Female,Typhoid,176079.22,17-06-2025,23-06-2025
+Sanjay Gupta,Dr. Nisha Kumar,Neurology,20,Male,Migraine,29097.46,19-08-2025,27-08-2025
+Suresh Chatterjee,Dr. Meena Kumar,Pediatrics,40,Male,Vomiting,117446.61,03-03-2025,05-03-2025
+Deepak Desai,Dr. Rohit Chatterjee,Pediatrics,19,Male,Cough and Cold,25529.59,08-05-2025,14-05-2025
+Amit Rao,Dr. Pooja Chatterjee,Neurology,52,Male,Migraine,214086.52,12-10-2025,21-10-2025
+Rohit Kumar,Dr. Ritu Chatterjee,Orthopedics,8,Male,Fracture,208101.97,24-04-2025,27-04-2025
+Anil Joshi,Dr. Sandeep Patel,General Medicine,3,Male,Fever,249298.87,12-04-2025,20-04-2025
+Neha Mehta,Dr. Swati Pillai,Cardiology,7,Female,Arrhythmia,44493.33,21-10-2025,28-10-2025
+Sneha Agarwal,Dr. Vikram Iyer,Gynecology,23,Female,Infection,90423.98,06-04-2025,11-04-2025
+Rajesh Verma,Dr. Meena Patel,Pediatrics,64,Male,Cough and Cold,104762.07,09-10-2025,17-10-2025
+Manoj Chopra,Dr. Ritu Chatterjee,Gynecology,83,Male,PCOS,221509.17,27-09-2025,01-10-2025
+Preeti Sharma,Dr. Nikhil Rao,ENT,70,Female,Hearing Loss,196014.47,26-06-2025,06-07-2025
+Sneha Iyer,Dr. Sneha Kumar,Cardiology,77,Female,Chest Pain,57097.99,24-05-2025,25-05-2025
+Suman Bose,Dr. Meena Kumar,Pediatrics,13,Female,Chickenpox,64220.69,04-05-2025,09-05-2025
+Anjali Nair,Dr. Neha Desai,Gynecology,23,Female,Prenatal Checkup,46496.79,31-10-2025,06-11-2025
+Ritu Pillai,Dr. Vikram Iyer,ENT,73,Female,Ear Infection,237247.02,10-09-2025,19-09-2025
+Nikhil Verma,Dr. Sandeep Patel,Cardiology,78,Male,Cardiac Arrest,57045.81,27-09-2025,05-10-2025
+Pankaj Reddy,Dr. Ritu Chatterjee,ENT,42,Male,Ear Infection,17710.32,17-03-2025,27-03-2025
+Kavita Kumar,Dr. Sanjay Nair,ENT,48,Female,Sinusitis,177020.89,06-12-2025,13-12-2025
+Anita Rao,Dr. Rekha Reddy,Neurology,56,Female,Epilepsy,198585.1,07-09-2025,13-09-2025
+Gaurav Desai,Dr. Meena Kumar,Pediatrics,49,Male,Chickenpox,78785.34,19-12-2025,24-12-2025
+Rahul Pillai,Dr. Nikhil Rao,Cardiology,78,Male,Cardiac Arrest,81599.58,10-11-2025,14-11-2025
+Pooja Agarwal,Dr. Ritu Chatterjee,ENT,31,Female,Sinusitis,88662.1,13-06-2025,16-06-2025
+Neha Mehta,Dr. Ashok Joshi,Cardiology,27,Female,Chest Pain,64636.59,04-02-2025,10-02-2025
+Suresh Sharma,Dr. Rohit Chatterjee,Gynecology,54,Male,Infection,242368.15,31-07-2025,08-08-2025
+Ritu Chatterjee,Dr. Nikhil Rao,Orthopedics,74,Female,Arthritis,163789.48,18-12-2025,22-12-2025
+Vikram Verma,Dr. Vikram Kapoor,Cardiology,34,Male,Chest Pain,238060.55,07-02-2025,13-02-2025
+Anil Patel,Dr. Sandeep Patel,Orthopedics,77,Male,Sprain,246363.2,05-09-2025,06-09-2025
+Arjun Desai,Dr. Vikram Kapoor,Neurology,13,Male,Migraine,84780.36,08-04-2025,15-04-2025
+Preeti Iyer,Dr. Vikram Kapoor,General Medicine,13,Female,Diabetes,15259.95,20-10-2025,29-10-2025
+Kavita Verma,Dr. Meena Kumar,Cardiology,12,Female,Arrhythmia,75753.71,05-12-2025,15-12-2025
+Suresh Sharma,Dr. Nisha Kumar,Neurology,11,Male,Stroke,119971.95,01-03-2025,06-03-2025
+Suman Agarwal,Dr. Pooja Chatterjee,Orthopedics,24,Female,Arthritis,94642.07,15-07-2025,21-07-2025
+Amit Iyer,Dr. Ashok Joshi,Dermatology,29,Male,Eczema,209758.45,16-10-2025,17-10-2025
+Suresh Gupta,Dr. Meena Kumar,Gynecology,71,Male,PCOS,18062.99,18-07-2025,27-07-2025
+Gaurav Agarwal,Dr. Neha Desai,Pediatrics,39,Male,Vomiting,22501.9,18-01-2025,27-01-2025
+Nisha Pillai,Dr. Meena Patel,Neurology,58,Female,Migraine,45701.11,27-03-2025,31-03-2025
+Kavita Verma,Dr. Vikram Kapoor,Orthopedics,26,Female,Arthritis,249325.5,18-11-2025,21-11-2025
+Shalini Mehta,Dr. Sandeep Patel,Orthopedics,72,Female,Arthritis,101146.68,16-06-2025,21-06-2025
+Priya Desai,Dr. Neha Desai,Gynecology,54,Female,Maternity,39961.65,18-10-2025,28-10-2025
+Pooja Kumar,Dr. Neha Desai,Orthopedics,69,Female,Sprain,220393.54,30-07-2025,04-08-2025
+Nikhil Pillai,Dr. Meena Patel,Dermatology,23,Male,Skin Allergy,71027.29,15-03-2025,25-03-2025
+Sneha Verma,Dr. Nikhil Rao,ENT,7,Female,Ear Infection,187200.21,18-05-2025,24-05-2025
+Deepak Rao,Dr. Pooja Chatterjee,Dermatology,30,Male,Skin Allergy,36193.22,15-08-2025,21-08-2025
+Vivek Desai,Dr. Sandeep Patel,Pediatrics,28,Male,Vomiting,228617.9,28-07-2025,05-08-2025
+Ritu Verma,Dr. Sanjay Nair,Neurology,40,Female,Migraine,178263.64,26-07-2025,29-07-2025
+Nisha Pillai,Dr. Vikram Iyer,Neurology,26,Female,Epilepsy,209733.24,08-05-2025,09-05-2025
+Ajay Reddy,Dr. Pooja Chatterjee,ENT,65,Male,Hearing Loss,101044.74,05-03-2025,06-03-2025
+Nikhil Desai,Dr. Ashok Joshi,Neurology,76,Male,Nerve Pain,139179.43,26-06-2025,29-06-2025
+Shalini Gupta,Dr. Vikram Kapoor,Cardiology,7,Female,Arrhythmia,43238.13,20-10-2025,24-10-2025
+Meena Reddy,Dr. Pooja Chatterjee,Gynecology,88,Female,Maternity,5197.8,09-03-2025,12-03-2025
+Priya Nair,Dr. Pooja Chatterjee,General Medicine,55,Female,Typhoid,224184.29,28-06-2025,06-07-2025
+Rohit Rao,Dr. Sanjay Nair,Gynecology,1,Male,Maternity,129343.89,06-12-2025,12-12-2025
+Lakshmi Desai,Dr. Vikram Kapoor,General Medicine,62,Female,Fever,18767.75,22-05-2025,28-05-2025
+Shalini Rao,Dr. Nisha Kumar,Neurology,8,Female,Epilepsy,201941.17,04-11-2025,11-11-2025
+Kavita Sharma,Dr. Arjun Kapoor,General Medicine,54,Female,Typhoid,102935.93,19-01-2025,29-01-2025
+Kiran Reddy,Dr. Rekha Reddy,Pediatrics,86,Female,Vomiting,91548.79,03-06-2025,06-06-2025
+Preeti Patel,Dr. Vikram Kapoor,Orthopedics,17,Female,Arthritis,186006.97,14-10-2025,17-10-2025
+Anita Gupta,Dr. Gaurav Chatterjee,ENT,40,Female,Ear Infection,106856.72,19-06-2025,25-06-2025
+Deepak Kapoor,Dr. Swati Pillai,Dermatology,82,Male,Skin Allergy,147142.93,14-11-2025,16-11-2025
+Karan Bose,Dr. Swati Pillai,Gynecology,53,Male,Prenatal Checkup,16353.31,19-03-2025,22-03-2025
+Anita Malhotra,Dr. Neha Desai,Dermatology,41,Female,Acne,216011.3,03-04-2025,05-04-2025
+Arjun Mehta,Dr. Rohit Chatterjee,Cardiology,36,Male,Arrhythmia,54717.44,28-03-2025,07-04-2025
+Suman Gupta,Dr. Ritu Chatterjee,Gynecology,52,Female,Infection,108969.29,02-09-2025,09-09-2025
+Gaurav Reddy,Dr. Meena Kumar,Cardiology,68,Male,Chest Pain,50072.45,13-12-2025,14-12-2025`;
+
+CSV.hospital_dirty = `Patient,Doctor,Department,Age,Gender,Diagnosis,Bill Amount,Admission Date,Discharge Date
+Divya Reddy,Dr. Rohit Chatterjee,ENT,77,Female,Tonsillitis,136075.83,15-06-2025,01-01-2025
+Manoj Bose,Dr. Swati Pillai,Neurology,-5,Male,Nerve Pain,248144.1,02-12-2025,05-12-2025
+Kavita Nair,Dr. Ritu Chatterjee,ENT,150,Female,Ear Infection,99997.09,14-03-2025,24-03-2025
+Deepika Chopra,Dr. Ashok Joshi,Orthopedics,52,Female,Fracture,,23-05-2025,29-05-2025
+Nikhil Mehta,Dr. Neha Desai,Cardiology,59,M,Hypertension,159805.61,24-12-2025,30-12-2025
+Preeti Chopra,Dr. Nisha Kumar,Gynecology,64,female,PCOS,69328.6,26-05-2025,01-06-2025
+Kavita Pillai,Dr. Arjun Kapoor,Cardiologyy,6,Female,Sinusitis,27594.96,24-08-2025,25-08-2025
+Arjun Kapoor,Dr. Ashok Joshi,cardiology,26,Male,Arrhythmia,248936.43,09-03-2025,14-03-2025
+Manoj Gupta,Dr. Meena Kumar,General Medicine,48,Male,Fever,167133.68,2025/09/05,02-12-2025
+Deepak Nair,  Dr. Vikram Kapoor,Orthopedics,1,Male,Fracture,55715.03,09-02-2025,12-02-2025
+Nisha Kapoor,Dr. Vikram Iyer,Cardiology,16,Female,Chest Pain,-5000,05-08-2025,08-08-2025
+Kavita Nair,Dr. Ritu Chatterjee,ENT,150,Female,Ear Infection,99997.09,14-03-2025,24-03-2025
+Rajesh@Singh,Dr. Sandeep Patel,Cardiology,57,Male,Cardiac Arrest,89743.37,20-04-2025,23-04-2025
+Lakshmi Kapoor,Dr. Nisha Kumar,Orthopedics,18,Female,Fracture,"₹1,25,000",29-10-2025,05-11-2025
+Vivek Mehta,Dr. Ritu Chatterjee,Pediatrics,83,Male,Cough and Cold,23809.43,11-10-2025,21-10-2025
+Lakshmi Rao,Dr. Vikram Iyer,General Medicine,67,Female,Diabetes,152910.94,07-04-2025,14-04-2025
+Amit Nair,Dr. Arjun Kapoor,Gynecology,31,Male,Maternity,126396.89,01-11-2025,03-11-2025
+Priya Joshi,Dr. Rekha Reddy,Neurology,73,Female,Nerve Pain,106953.29,07-10-2025,10-10-2025
+Neha Sharma,Dr. Neha Desai,Orthopedics,34,Female,Fracture,56288.51,31-01-2025,07-02-2025
+Nisha Malhotra,Dr. Vikram Kapoor,Gynecology,82,Female,Maternity,135531.51,12-11-2025,15-11-2025
+Deepak Gupta,Dr. Sanjay Nair,Pediatrics,69,Male,Chickenpox,83707.32,28-10-2025,30-10-2025
+Vivek Nair,Dr. Rohit Chatterjee,Pediatrics,56,Male,Fever,31648.69,10-11-2025,20-11-2025
+Arjun Kumar,Dr. Vikram Iyer,Neurology,21,Male,Migraine,125613.99,27-06-2025,06-07-2025
+Shalini Patel,Dr. Meena Kumar,Neurology,16,Female,Stroke,193543.28,16-01-2025,22-01-2025
+Shalini Bose,Dr. Sandeep Patel,General Medicine,64,Female,Fever,115433.85,04-07-2025,05-07-2025
+Sandeep Patel,Dr. Meena Kumar,Neurology,14,Male,Stroke,223884.3,12-12-2025,14-12-2025
+Ashok Sharma,Dr. Rohit Chatterjee,Cardiology,6,Male,Cardiac Arrest,119525.85,16-07-2025,19-07-2025
+Amit Chatterjee,Dr. Vikram Kapoor,Pediatrics,32,Male,Cough and Cold,105815.38,13-06-2025,18-06-2025
+Kiran Joshi,Dr. Swati Pillai,Cardiology,29,Female,Cardiac Arrest,201671.49,24-01-2025,31-01-2025
+Rohit Rao,Dr. Vikram Kapoor,ENT,71,Male,Sinusitis,115816.31,08-07-2025,12-07-2025
+Deepak Desai,Dr. Gaurav Chatterjee,Dermatology,76,Male,Eczema,243048.86,11-04-2025,20-04-2025
+Meena Singh,Dr. Vikram Iyer,Gynecology,30,Female,Maternity,136761.66,22-11-2025,23-11-2025
+Priya Chopra,Dr. Vikram Kapoor,Orthopedics,68,Female,Joint Pain,245829.59,03-08-2025,11-08-2025
+Kavita Iyer,Dr. Sandeep Patel,Cardiology,67,Female,Cardiac Arrest,105025.03,10-07-2025,18-07-2025
+Neha Pillai,Dr. Swati Pillai,Neurology,10,Female,Nerve Pain,149198.25,01-02-2025,08-02-2025
+Kavita Nair,Dr. Vikram Kapoor,General Medicine,51,Female,Typhoid,176079.22,17-06-2025,23-06-2025
+Sanjay Gupta,Dr. Nisha Kumar,Neurology,20,Male,Migraine,29097.46,19-08-2025,27-08-2025
+Suresh Chatterjee,Dr. Meena Kumar,Pediatrics,40,Male,Vomiting,117446.61,03-03-2025,05-03-2025
+Deepak Desai,Dr. Rohit Chatterjee,Pediatrics,19,Male,Cough and Cold,25529.59,08-05-2025,14-05-2025
+Amit Rao,Dr. Pooja Chatterjee,Neurology,52,Male,Migraine,214086.52,12-10-2025,21-10-2025
+Rohit Kumar,Dr. Ritu Chatterjee,Orthopedics,8,Male,Fracture,208101.97,24-04-2025,27-04-2025
+Anil Joshi,Dr. Sandeep Patel,General Medicine,3,Male,Fever,249298.87,12-04-2025,20-04-2025
+Neha Mehta,Dr. Swati Pillai,Cardiology,7,Female,Arrhythmia,44493.33,21-10-2025,28-10-2025
+Sneha Agarwal,Dr. Vikram Iyer,Gynecology,23,Female,Infection,90423.98,06-04-2025,11-04-2025
+Rajesh Verma,Dr. Meena Patel,Pediatrics,64,Male,Cough and Cold,104762.07,09-10-2025,17-10-2025
+Manoj Chopra,Dr. Ritu Chatterjee,Gynecology,83,Male,PCOS,221509.17,27-09-2025,01-10-2025
+Preeti Sharma,Dr. Nikhil Rao,ENT,70,Female,Hearing Loss,196014.47,26-06-2025,06-07-2025
+Sneha Iyer,Dr. Sneha Kumar,Cardiology,77,Female,Chest Pain,57097.99,24-05-2025,25-05-2025
+Suman Bose,Dr. Meena Kumar,Pediatrics,13,Female,Chickenpox,64220.69,04-05-2025,09-05-2025
+Anjali Nair,Dr. Neha Desai,Gynecology,23,Female,Prenatal Checkup,46496.79,31-10-2025,06-11-2025
+Ritu Pillai,Dr. Vikram Iyer,ENT,73,Female,Ear Infection,237247.02,10-09-2025,19-09-2025
+Nikhil Verma,Dr. Sandeep Patel,Cardiology,78,Male,Cardiac Arrest,57045.81,27-09-2025,05-10-2025
+Pankaj Reddy,Dr. Ritu Chatterjee,ENT,42,Male,Ear Infection,17710.32,17-03-2025,27-03-2025
+Kavita Kumar,Dr. Sanjay Nair,ENT,48,Female,Sinusitis,177020.89,06-12-2025,13-12-2025
+Anita Rao,Dr. Rekha Reddy,Neurology,56,Female,Epilepsy,198585.1,07-09-2025,13-09-2025
+Gaurav Desai,Dr. Meena Kumar,Pediatrics,49,Male,Chickenpox,78785.34,19-12-2025,24-12-2025
+Rahul Pillai,Dr. Nikhil Rao,Cardiology,78,Male,Cardiac Arrest,81599.58,10-11-2025,14-11-2025
+Pooja Agarwal,Dr. Ritu Chatterjee,ENT,31,Female,Sinusitis,88662.1,13-06-2025,16-06-2025
+Neha Mehta,Dr. Ashok Joshi,Cardiology,27,Female,Chest Pain,64636.59,04-02-2025,10-02-2025
+Suresh Sharma,Dr. Rohit Chatterjee,Gynecology,54,Male,Infection,242368.15,31-07-2025,08-08-2025
+Ritu Chatterjee,Dr. Nikhil Rao,Orthopedics,74,Female,Arthritis,163789.48,18-12-2025,22-12-2025
+Vikram Verma,Dr. Vikram Kapoor,Cardiology,34,Male,Chest Pain,238060.55,07-02-2025,13-02-2025
+Anil Patel,Dr. Sandeep Patel,Orthopedics,77,Male,Sprain,246363.2,05-09-2025,06-09-2025
+Arjun Desai,Dr. Vikram Kapoor,Neurology,13,Male,Migraine,84780.36,08-04-2025,15-04-2025
+Preeti Iyer,Dr. Vikram Kapoor,General Medicine,13,Female,Diabetes,15259.95,20-10-2025,29-10-2025
+Kavita Verma,Dr. Meena Kumar,Cardiology,12,Female,Arrhythmia,75753.71,05-12-2025,15-12-2025
+Suresh Sharma,Dr. Nisha Kumar,Neurology,11,Male,Stroke,119971.95,01-03-2025,06-03-2025
+Suman Agarwal,Dr. Pooja Chatterjee,Orthopedics,24,Female,Arthritis,94642.07,15-07-2025,21-07-2025
+Amit Iyer,Dr. Ashok Joshi,Dermatology,29,Male,Eczema,209758.45,16-10-2025,17-10-2025
+Suresh Gupta,Dr. Meena Kumar,Gynecology,71,Male,PCOS,18062.99,18-07-2025,27-07-2025
+Gaurav Agarwal,Dr. Neha Desai,Pediatrics,39,Male,Vomiting,22501.9,18-01-2025,27-01-2025
+Nisha Pillai,Dr. Meena Patel,Neurology,58,Female,Migraine,45701.11,27-03-2025,31-03-2025
+Kavita Verma,Dr. Vikram Kapoor,Orthopedics,26,Female,Arthritis,249325.5,18-11-2025,21-11-2025
+Shalini Mehta,Dr. Sandeep Patel,Orthopedics,72,Female,Arthritis,101146.68,16-06-2025,21-06-2025
+Priya Desai,Dr. Neha Desai,Gynecology,54,Female,Maternity,39961.65,18-10-2025,28-10-2025
+Pooja Kumar,Dr. Neha Desai,Orthopedics,69,Female,Sprain,220393.54,30-07-2025,04-08-2025
+Nikhil Pillai,Dr. Meena Patel,Dermatology,23,Male,Skin Allergy,71027.29,15-03-2025,25-03-2025
+Sneha Verma,Dr. Nikhil Rao,ENT,7,Female,Ear Infection,187200.21,18-05-2025,24-05-2025
+Deepak Rao,Dr. Pooja Chatterjee,Dermatology,30,Male,Skin Allergy,36193.22,15-08-2025,21-08-2025
+Vivek Desai,Dr. Sandeep Patel,Pediatrics,28,Male,Vomiting,228617.9,28-07-2025,05-08-2025
+Ritu Verma,Dr. Sanjay Nair,Neurology,40,Female,Migraine,178263.64,26-07-2025,29-07-2025
+Nisha Pillai,Dr. Vikram Iyer,Neurology,26,Female,Epilepsy,209733.24,08-05-2025,09-05-2025
+Ajay Reddy,Dr. Pooja Chatterjee,ENT,65,Male,Hearing Loss,101044.74,05-03-2025,06-03-2025
+Nikhil Desai,Dr. Ashok Joshi,Neurology,76,Male,Nerve Pain,139179.43,26-06-2025,29-06-2025
+Shalini Gupta,Dr. Vikram Kapoor,Cardiology,7,Female,Arrhythmia,43238.13,20-10-2025,24-10-2025
+Meena Reddy,Dr. Pooja Chatterjee,Gynecology,88,Female,Maternity,5197.8,09-03-2025,12-03-2025
+Priya Nair,Dr. Pooja Chatterjee,General Medicine,55,Female,Typhoid,224184.29,28-06-2025,06-07-2025
+Rohit Rao,Dr. Sanjay Nair,Gynecology,1,Male,Maternity,129343.89,06-12-2025,12-12-2025
+Lakshmi Desai,Dr. Vikram Kapoor,General Medicine,62,Female,Fever,18767.75,22-05-2025,28-05-2025
+Shalini Rao,Dr. Nisha Kumar,Neurology,8,Female,Epilepsy,201941.17,04-11-2025,11-11-2025
+Kavita Sharma,Dr. Arjun Kapoor,General Medicine,54,Female,Typhoid,102935.93,19-01-2025,29-01-2025
+Kiran Reddy,Dr. Rekha Reddy,Pediatrics,86,Female,Vomiting,91548.79,03-06-2025,06-06-2025
+Preeti Patel,Dr. Vikram Kapoor,Orthopedics,17,Female,Arthritis,186006.97,14-10-2025,17-10-2025
+Anita Gupta,Dr. Gaurav Chatterjee,ENT,40,Female,Ear Infection,106856.72,19-06-2025,25-06-2025
+Deepak Kapoor,Dr. Swati Pillai,Dermatology,82,Male,Skin Allergy,147142.93,14-11-2025,16-11-2025
+Karan Bose,Dr. Swati Pillai,Gynecology,53,Male,Prenatal Checkup,16353.31,19-03-2025,22-03-2025
+Anita Malhotra,Dr. Neha Desai,Dermatology,41,Female,Acne,216011.3,03-04-2025,05-04-2025
+Arjun Mehta,Dr. Rohit Chatterjee,Cardiology,36,Male,Arrhythmia,54717.44,28-03-2025,07-04-2025
+Suman Gupta,Dr. Ritu Chatterjee,Gynecology,52,Female,Infection,108969.29,02-09-2025,09-09-2025
+Gaurav Reddy,Dr. Meena Kumar,Cardiology,68,Male,Chest Pain,50072.45,13-12-2025,14-12-2025`;
+
+/* ============= download handler ============= */
+function dl(key){
+  const names = {sales_clean:'Sales_Clean.csv', sales_dirty:'Sales_Dirty.csv',
+    hr_clean:'HR_Clean.csv', hr_dirty:'HR_Dirty.csv',
+    retail_clean:'Retail_Clean.csv', retail_dirty:'Retail_Dirty.csv',
+    banking_clean:'Banking_Clean.csv', banking_dirty:'Banking_Dirty.csv',
+    hospital_clean:'Hospital_Clean.csv', hospital_dirty:'Hospital_Dirty.csv'};
+  const blob = new Blob([CSV[key]], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = names[key];
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ============= quiz data (15 MCQ + 6 scenario) ============= */
+const QUIZ = [
+{t:'mcq', mod:'Architecture', q:'What is the correct order of the Power BI data journey?', opts:['Visuals → Data Model → Power Query → DAX','Data Sources → Power Query → Data Model → DAX → Visuals → Service','DAX → Power Query → Visuals → Data Sources','Power Query → Visuals → Data Sources → DAX'], correct:1, explain:'You can\'t clean before you have a source, or visualize before cleaning — the six stages always run in this order.'},
+{t:'mcq', mod:'Architecture', q:'Where do you go to remove duplicate rows or fix spelling mistakes in your data?', opts:['Report View','Power Query Editor (Transform Data)','Visualizations Pane','Power BI Service'], correct:1, explain:'Power Query Editor is the only place raw data gets cleaned — never on a chart directly.'},
+{t:'mcq', mod:'Architecture', q:'What is the main difference between a "Report" and a "Dashboard"?', opts:['They are exactly the same thing','A Report is only in Excel; a Dashboard is only in Power BI','A Report is a multi-page file built in Desktop; a Dashboard is a single-page pinboard in the Service','A Dashboard can only contain one chart'], correct:2, explain:'Report = multi-page file in Desktop. Dashboard = single-page cloud pinboard in the Service.'},
+{t:'mcq', mod:'Architecture', q:'Which pane do you drag a column like "Region" or "Sales" from, to build a chart?', opts:['Filters Pane','Fields Pane','Insert Ribbon','Model View'], correct:1, explain:'The Fields Pane lists every available table/column — you drag from there onto a visual.'},
+{t:'mcq', mod:'Architecture', q:'What does a Gateway do?', opts:['Deletes old data automatically','Securely connects Power BI Service in the cloud to data inside a private company network','Is another name for a dashboard','Creates DAX formulas automatically'], correct:1, explain:'A Gateway is the secure bridge letting cloud Power BI Service reach an on-premises/private data source.'},
+{t:'scenario', mod:'Architecture', q:'You are a Blinkit analyst. Your manager emails you a messy Excel file with delivery times and asks for a dashboard by tomorrow morning. What are the first TWO things you should do in Power BI, in order?', explain:'(1) Get Data → Excel to load the file, then (2) Transform Data to open Power Query and clean it — cleaning always happens before charting, because building on dirty data produces wrong, misleading numbers.'},
+{t:'scenario', mod:'Architecture', q:'Your hospital dashboard has two tables, "Patients" and "Doctors." A chart showing "patients per doctor" throws an error. What screen should you check first, and why?', explain:'Model View — to see whether a relationship exists between the two tables. Without a relationship, they can\'t "talk" to each other for a cross-table calculation.'},
+{t:'mcq', mod:'Connecting & Power Query', q:'You\'ve just connected to an Excel file in the Navigator window. Which button should you click if the data looks messy?', opts:['Load','Transform Data','Combine','Cancel'], correct:1, explain:'Transform Data opens Power Query so you clean before the data enters your report.'},
+{t:'mcq', mod:'Connecting & Power Query', q:'Which connection mode copies data into Power BI\'s own memory and needs a manual/scheduled Refresh to stay current?', opts:['DirectQuery','Live Connection','Import','Gateway'], correct:2, explain:'Import copies data into memory; DirectQuery and Live Connection stay live against the source instead.'},
+{t:'mcq', mod:'Connecting & Power Query', q:'Which transformation fixes "  Rohit Singh  " so it matches "Rohit Singh" exactly?', opts:['Split Column','Trim','Fill Down','Merge Columns'], correct:1, explain:'Trim specifically strips leading/trailing spaces.'},
+{t:'mcq', mod:'Connecting & Power Query', q:'A column shows "North" once, then 9 blank cells below it (from a merged-cell Excel export). What fixes this?', opts:['Remove Duplicates','Fill Down','Replace Values','Change Data Type'], correct:1, explain:'Fill Down copies the last non-blank value downward into the blanks below it.'},
+{t:'mcq', mod:'Connecting & Power Query', q:'Which is the safest way to connect to a public Wikipedia table?', opts:['Get Data → SQL Server','Get Data → Web → paste URL','Get Data → Excel','Manually retype the table into Excel first'], correct:1, explain:'Get Data → Web reads HTML tables directly from a pasted URL.'},
+{t:'scenario', mod:'Connecting & Power Query', q:'You import a banking dataset and the Loan Amount column shows values like "₹10,00,000" — Power BI won\'t let you sum it in a chart. What\'s happening, and how do you fix it, in order?', explain:'The column is Text-typed (because of ₹ and commas), so Power BI can\'t sum it. Fix: Replace Values to strip ₹ and commas, then Change Data Type to Decimal Number. Data type must be numeric before any aggregation works.'},
+{t:'scenario', mod:'Connecting & Power Query', q:'Two rows in your HR dataset both say Employee ID "EMP101" but belong to two clearly different people. What issue is this, and why is it dangerous for a headcount dashboard?', explain:'A duplicate ID / broken primary key. Any "by Employee ID" chart merges two different people into one, undercounting headcount and mixing their salary/performance data. Fix by assigning truly unique IDs or correcting the source.'},
+{t:'mcq', mod:'Visualizations', q:'Which chart type should you AVOID when you have 9 categories to compare?', opts:['Bar Chart','Pie Chart','Line Chart','Table'], correct:1, explain:'The Rule of 5: pie charts fail past ~5 categories — angles become impossible to compare accurately.'},
+{t:'mcq', mod:'Visualizations', q:'What does dragging a field into the "Size" well of a Scatter Chart create?', opts:['A Tree Map','A Bubble Chart','A Gauge','A Filled Map'], correct:1, explain:'The Size well adds a third dimension, turning flat dots into sized bubbles.'},
+{t:'mcq', mod:'Visualizations', q:'On a Gauge Chart, what does the small marker line represent?', opts:['The Minimum','The current Actual value','The Target','The Maximum'], correct:2, explain:'The Target marker is the goal line the Actual fill is measured against.'},
+{t:'mcq', mod:'Visualizations', q:'Why should you almost always turn OFF data labels on a dense Line Chart with 365 daily points?', opts:['Data labels are never useful','They would overlap into unreadable clutter','Line charts can\'t display labels','It slows down the report'], correct:1, explain:'With hundreds of points, labels overlap into noise — let the line\'s shape speak instead.'},
+{t:'mcq', mod:'Visualizations', q:'What does "Edit Interactions" control?', opts:['Which colors a chart uses','How clicking one visual filters or highlights other visuals on the page','How to rename a chart\'s title','Where a visual is positioned on the page'], correct:1, explain:'Edit Interactions controls the filter/highlight/none behavior between visuals sharing a page.'},
+{t:'scenario', mod:'Visualizations', q:'Your manager wants "top 3 products by revenue" shown in a board meeting where people glance at the slide for 5 seconds. Bar chart, pie chart, or scatter plot — and why?', explain:'Bar chart — it enables instant, accurate comparison of magnitude. A pie chart needs slower angle comparison, and a scatter needs two numeric variables, not a ranking.'},
+{t:'scenario', mod:'Visualizations', q:'You built a Sales-vs-Profit scatter plot and one dot sits far from every other dot (high Sales, very low/negative Profit). What should you do next?', explain:'Investigate before presenting — could be a real event (a heavily discounted bulk order) or a data error. Never silently delete or ignore an outlier; it\'s often the most important point on the chart, not the most disposable.'},
+];
+
+function renderQuiz(){
+  const list = document.getElementById('quizList');
+  const mcqTotal = QUIZ.filter(x=>x.t==='mcq').length;
+  document.getElementById('scoreDisplay').textContent = `0 / ${mcqTotal}`;
+  let html = '';
+  let mod = '';
+  QUIZ.forEach((item, i)=>{
+    if(item.mod !== mod){ mod = item.mod; html += `<h3 style="margin-top:26px">${mod}</h3>`; }
+    if(item.t === 'mcq'){
+      html += `<div class="card" style="margin-bottom:14px" data-qi="${i}">
+        <div style="font-size:.68rem" class="eyebrow">Question ${i+1} · Multiple choice</div>
+        <p style="font-weight:600;margin-top:6px">${item.q}</p>
+        <div class="qopts" style="display:grid;gap:8px;margin-top:10px">
+          ${item.opts.map((o,oi)=>`<button class="btn ghost sm qopt" style="text-align:left;justify-content:flex-start" data-oi="${oi}" onclick="answerQuiz(${i},${oi})">${o}</button>`).join('')}
+        </div>
+        <p class="qexplain" style="display:none;font-size:.85rem;color:var(--text-muted);margin-top:10px;border-top:1px solid var(--border);padding-top:10px"></p>
+      </div>`;
+    } else {
+      html += `<div class="card" style="margin-bottom:14px" data-qi="${i}">
+        <div style="font-size:.68rem" class="eyebrow">Question ${i+1} · Scenario</div>
+        <p style="font-weight:600;margin-top:6px">${item.q}</p>
+        <button class="btn ghost sm" onclick="revealScenario(${i})">Reveal model answer</button>
+        <p class="qexplain" style="display:none;font-size:.85rem;color:var(--text-muted);margin-top:10px;border-top:1px solid var(--border);padding-top:10px">${item.explain}</p>
+      </div>`;
+    }
+  });
+  list.innerHTML = html;
+}
+let quizScore = 0;
+const answered = new Set();
+function answerQuiz(i, oi){
+  if(answered.has(i)) return;
+  answered.add(i);
+  const item = QUIZ[i];
+  const card = document.querySelector(`[data-qi="${i}"]`);
+  const btns = card.querySelectorAll('.qopt');
+  btns.forEach((b,bi)=>{
+    b.style.pointerEvents = 'none';
+    if(bi === item.correct){ b.style.background = 'var(--good-soft)'; b.style.color = 'var(--good)'; b.style.borderColor='transparent'; b.style.fontWeight='700'; }
+    else if(bi === oi){ b.style.background = 'var(--bad-soft)'; b.style.color = 'var(--bad)'; b.style.borderColor='transparent'; }
+  });
+  const ex = card.querySelector('.qexplain');
+  ex.textContent = (oi===item.correct? '✓ Correct. ' : '✗ Not quite. ') + item.explain;
+  ex.style.display = 'block';
+  if(oi === item.correct) quizScore++;
+  document.getElementById('scoreDisplay').textContent = `${quizScore} / ${QUIZ.filter(x=>x.t==='mcq').length}`;
+}
+function revealScenario(i){
+  const card = document.querySelector(`[data-qi="${i}"]`);
+  card.querySelector('.qexplain').style.display = 'block';
+}
+document.getElementById('resetQuiz').addEventListener('click', ()=>{
+  quizScore = 0; answered.clear(); renderQuiz();
+});
+
+/* ============= Power Query before/after examples ============= */
+const PQ_EXAMPLES = [
+  {issue:'Negative Sales', col:'Sales · row 3', before:'-1587.53', after:'1587.53', fix:'Investigate the source, then Replace Values or correct the sign — a sale can\'t be negative revenue.'},
+  {issue:'Leading/Trailing Spaces', col:'Customer · row 4', before:'"  Rohit Singh  "', after:'"Rohit Singh"', fix:'Transform → Format → Trim, so this customer isn\'t silently split into two different people.'},
+  {issue:'Spelling Mistake', col:'Region · row 6', before:'"Souths"', after:'"South"', fix:'Right-click column → Replace Values.'},
+  {issue:'Mixed Date Format', col:'Date · row 9', before:'2025/07/19', after:'19-07-2025', fix:'Change Data Type → Date. If Power Query mis-parses it, fix the source format first via Replace Values.'},
+  {issue:'Currency Symbol + Commas', col:'Sales · row 11', before:'"₹45,230.50"', after:'45230.50', fix:'Replace Values to strip ₹ and commas, then Change Data Type → Decimal Number.'},
+  {issue:'Duplicate Row', col:'entire row · 13', before:'exact copy of row 12', after:'(removed)', fix:'Select all columns → right-click → Remove Duplicates.'},
+];
+document.getElementById('pqExamples').innerHTML = PQ_EXAMPLES.map(e => `
+  <div class="card">
+    <span class="pill bad">${e.issue}</span>
+    <div style="font-size:.78rem;color:var(--text-muted);margin-top:8px">${e.col}</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:8px;font-family:var(--font-mono);font-size:.85rem">
+      <span style="color:var(--bad)">${e.before}</span><span style="color:var(--text-muted)">→</span><span style="color:var(--good)">${e.after}</span>
+    </div>
+    <p style="font-size:.83rem;margin-top:8px">${e.fix}</p>
+  </div>`).join('');
+
+/* ============= chart accordion ============= */
+const CHARTS = [
+{name:'Bar Chart', use:'Sales by Category', purpose:'Compares a number across categories, side by side — the single most useful chart in business analytics.', biz:'A Flipkart category manager asking "which product category sells the most?"', avoid:'More than ~10–12 categories, or showing a trend over time (use a Line Chart instead).',
+  steps:['Visualizations pane → Clustered Column Chart','Drag Category into X-axis','Drag Sales into Y-axis','Sort descending via the "..." menu','Turn on Data Labels'],
+  best:'Sort biggest-to-smallest unless there\'s a natural order like months. One consistent color unless Legend is used meaningfully.',
+  mistake:'Leaving the default ugly auto-title ("Sum of Sales by Category"). Using a Bar Chart for a trend over time.',
+  interpret:'Look at the tallest bar first — that\'s your headline. The shortest is often the more interesting question.'},
+{name:'Pie Chart', use:'Market Share by Category', purpose:'Shows how a whole is divided into parts — each slice as a percentage of the total.', biz:'A telecom company showing market share by brand in one glance.', avoid:'More than 5 categories (the Rule of 5), comparing exact values precisely, or trends over time.',
+  steps:['Visualizations pane → Pie Chart','Drag Category into Legend','Drag Sales into Values','Data labels → Category, Percent of total'],
+  best:'Maximum 5 slices. Always show percentage, not just raw numbers.',
+  mistake:'Using pie charts for 8+ categories — a "rainbow wheel" nobody can read. Forgetting percentage labels.',
+  interpret:'A pie chart answers exactly one question: what\'s the biggest piece of the pie? Nothing else.'},
+{name:'Line Chart', use:'Monthly Sales Trend', purpose:'Shows how a number changes over time — the only chart built specifically for trend.', biz:'A Swiggy ops team tracking daily order volume to spot growth, dips, or a viral spike.', avoid:'Comparing unrelated categories (use Bar), or showing a single point in time (use a Card).',
+  steps:['Visualizations pane → Line Chart','Drag Date into X-axis','Drag Sales into Y-axis','Drill to Month for a cleaner view','Analytics pane → add a Trend line'],
+  best:'Always sort the X-axis chronologically — needs a real Date type, not text. Limit to 1–3 lines max.',
+  mistake:'A Date column still typed as Text sorts alphabetically, not chronologically, producing a nonsensical zig-zag.',
+  interpret:'Look at direction and bumps, not just height. A sawtooth pattern usually means a weekly cycle.'},
+{name:'KPI Card', use:'Total Sales, Profit, Orders, AOV', purpose:'Displays one single, critical number as large as possible — the headline number of your dashboard.', biz:'The four numbers a Zomato regional head checks first every morning.', avoid:'More than 4–6 cards on one page — beyond that, nothing feels important anymore.',
+  steps:['Visualizations pane → Card','Drag a measure into Fields','For unique counts, change aggregation to Count (Distinct)','For Average Order Value, write a DAX measure using DIVIDE'],
+  best:'Round large numbers (Format → Display units). Keep the label short — "Total Sales," not a full sentence.',
+  mistake:'A KPI with no context, or using Sum when Average was intended.',
+  interpret:'KPI cards are read in under 2 seconds — if someone has to think about what it means, it failed.'},
+{name:'Gauge Chart', use:'Monthly Target vs Actual', purpose:'Shows progress of a single number toward a goal — like a car\'s speedometer.', biz:'A bank branch manager tracking "have we hit this month\'s loan disbursement target?"', avoid:'Comparing multiple items — a gauge shows exactly ONE value against ONE target.',
+  steps:['Visualizations pane → Gauge','Drag a measure into Value (the Actual/needle)','Set Minimum (usually 0)','Set Maximum (~120–150% of target)','Set Target value in the Format pane'],
+  best:'Only use for a single, high-importance goal metric. Keep Maximum realistic.',
+  mistake:'Forgetting to set a Target — it becomes just a fancier, less clear KPI Card.',
+  interpret:'Only 3 readings matter: behind goal, on track, or exceeded. If you need more nuance, pick a different chart.'},
+{name:'Scatter Plot', use:'Sales vs Profit', purpose:'Shows the relationship between two numeric measures at once — reveals correlation, clusters, outliers.', biz:'Do higher-sales products also have higher profit, or are some best-sellers actually low-margin traps?', avoid:'Only one number to show, or fewer than ~10 data points.',
+  steps:['Visualizations pane → Scatter Chart','Drag one measure into X-axis, another into Y-axis','Drag Category into Legend','Drag Quantity into Size for a bubble chart'],
+  best:'Always label axes clearly. Use color/Legend purposefully, not for decoration.',
+  mistake:'Plotting two measures with no logical relationship. Ignoring outliers instead of investigating them.',
+  interpret:'Look for the lonely dot far from the cluster — a data error or a genuinely unusual event worth a closer look.'},
+{name:'Map', use:'Sales by State', purpose:'Shows geographic distribution of a number — instantly answers "where" questions.', biz:'A Blinkit ops head asking "which cities should we open more dark stores in?"', avoid:'When precise value comparison matters more than location, or fewer than ~4–5 locations.',
+  steps:['Visualizations pane → Filled Map (or Map for bubbles)','Drag Region/State/City into Location','Drag Sales into Color saturation (Filled) or Size (Bubble)'],
+  best:'Pair a map with a bar chart of the same data — map for "where," bar for "how much exactly."',
+  mistake:'Relying on a map as the ONLY way to show regional performance — circle/shade size is hard to compare precisely.',
+  interpret:'Use to show WHERE something is happening; use a bar chart to know precisely HOW MUCH more one place has.'},
+{name:'Tree Map', use:'Revenue by Category & Sub-Category', purpose:'Shows part-to-whole AND hierarchy at the same time, using nested rectangles sized by value.', biz:'An Amazon category head viewing Revenue by Category, then Sub-Category, in one single view.', avoid:'When exact value comparison matters, or you only have one level of category.',
+  steps:['Visualizations pane → Treemap','Drag Category into the Category well','Drag Sub Category into the same well, below it','Drag Sales into Values'],
+  best:'Limit to 2 hierarchy levels. Use only when hierarchy AND proportion both matter.',
+  mistake:'Using a Tree Map when a simple bar chart would communicate faster and more precisely.',
+  interpret:'Scan for the biggest rectangle first, then look inside it — what\'s carrying that category?'},
+];
+document.getElementById('chartAccordion').innerHTML = CHARTS.map(c => `
+  <details class="card" style="margin-bottom:10px;padding:14px 18px">
+    <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem;display:flex;justify-content:space-between;gap:10px;align-items:center">
+      <span>${c.name} <span style="font-weight:400;font-size:.82rem;color:var(--text-muted);font-family:var(--font-body)">— ${c.use}</span></span>
+    </summary>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+      <p style="font-size:.9rem"><b>Purpose:</b> ${c.purpose}</p>
+      <p style="font-size:.9rem;color:var(--text-muted)"><b>Business use:</b> ${c.biz}</p>
+      <div class="callout warn" style="margin:12px 0"><b>Avoid when:</b> ${c.avoid}</div>
+      <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+      <ol class="steps">${c.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+      <div class="grid grid-2" style="margin-top:10px">
+        <div><p style="font-size:.85rem"><b>Best practice:</b> ${c.best}</p></div>
+        <div><p style="font-size:.85rem"><b>Common mistake:</b> ${c.mistake}</p></div>
+      </div>
+      <p style="font-size:.85rem;margin-top:6px"><b>How to interpret:</b> ${c.interpret}</p>
+    </div>
+  </details>`).join('');
+
+/* ============= exercises ============= */
+const EXERCISES = [
+{n:1, title:'Sales Dashboard', level:'Beginner', mins:10, dataset:'sales_clean', skills:'Connect to Excel, basic Bar + Pie + Card, sorting, data labels.',
+  scenario:'You\'re a junior analyst at an online retailer. Your manager wants a one-page snapshot before a 9 AM meeting.',
+  tasks:['Import the Sales dataset','2 KPI Cards: Total Sales, Total Profit','Bar Chart: Sales by Category, sorted descending, labels on','Pie Chart: Market Share by Category','Title text box: "Sales Snapshot"']},
+{n:2, title:'Retail Dashboard', level:'Easy–Medium', mins:12, dataset:'retail_clean', skills:'Line chart trend, Map, Filters pane.',
+  scenario:'You work for UrbanMart, a 12-store retail chain. Leadership wants to see where sales are strongest and how they trend across the year.',
+  tasks:['Import the Retail dataset','Line Chart: Sales by Month','Filled Map: Sales by State','Table: Store, City, Sales, Inventory','Page filter: 3 states of your choice','Bonus: Treemap of Sales by Product']},
+{n:3, title:'Hospital Dashboard', level:'Medium', mins:15, dataset:'hospital_clean', skills:'Scatter plot, Gauge, first non-trivial DAX measure.',
+  scenario:'Build a dashboard for a hospital administrator: patient volume by department, average billing, and whether length of stay affects billing.',
+  tasks:['Import the Hospital dataset','Bar Chart: Patient count by Department','KPI Card: Average Bill Amount','DAX: Length of Stay = DATEDIFF(Admission, Discharge, DAY)','Scatter: Length of Stay vs Bill Amount, colored by Department','Gauge: Average Bill vs a cost-control target']},
+{n:4, title:'HR Dashboard', level:'Medium–Hard', mins:15, dataset:'hr_clean', skills:'AVERAGE/AVERAGEX, conditional formatting, slicers.',
+  scenario:'HR leadership wants to understand pay equity and performance across departments before the annual review cycle.',
+  tasks:['Import the HR dataset','DAX: Average Salary = AVERAGE(Salary)','Bar Chart: Average Salary by Department','Bar Chart: Average Salary by Gender','Table with conditional formatting on Performance Rating (red/yellow/green)','2 slicers: Department, Location']},
+{n:5, title:'Bank Loan Dashboard', level:'Hardest', mins:18, dataset:'banking_clean', skills:'Multiple DAX measures, CALCULATE, DIVIDE, risk-flagging.',
+  scenario:'Build a credit risk dashboard for a bank\'s loan department: approval rates, average credit score, and flag risky loans.',
+  tasks:['Import the Banking dataset','DAX: Total Loans, Approved Loans (CALCULATE), Approval Rate (DIVIDE), Average Credit Score','3 KPI Cards + a Gauge (Approval Rate vs 70% target)','Bar Chart: Count of Loans by Status','Table: Customer, Loan Amount, Credit Score, Status — flag Credit Score below 600','Slicer: Loan Status']},
+];
+document.getElementById('exerciseList').innerHTML = EXERCISES.map(e => `
+  <div class="card" style="margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+      <div>
+        <span class="eyebrow">Exercise ${e.n} · ${e.level}</span>
+        <h3 style="margin-top:4px">${e.title}</h3>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="pill">⏱ ${e.mins} min</span>
+        <button class="btn sm" onclick="dl('${e.dataset}')">⇩ Get dataset</button>
+      </div>
+    </div>
+    <p style="font-size:.9rem;font-style:italic;color:var(--text-muted)">"${e.scenario}"</p>
+    <p style="font-size:.82rem;margin-bottom:4px"><b>Skills:</b> ${e.skills}</p>
+    <ul class="kicker-list" style="margin-top:10px">
+      ${e.tasks.map(t=>`<li><span class="ico">✓</span><div style="font-size:.88rem">${t}</div></li>`).join('')}
+    </ul>
+  </div>`).join('');
+
+/* ============= navigation ============= */
+const pages = document.querySelectorAll('.page');
+const navbtns = document.querySelectorAll('.navbtn');
+function goTo(target){
+  pages.forEach(p => p.classList.toggle('active', p.id === target));
+  navbtns.forEach(b => b.classList.toggle('active', b.dataset.target === target));
+  document.getElementById('crumbLabel').textContent = (document.querySelector(`.navbtn[data-target="${target}"]`)||{}).textContent?.trim().replace(/^\S+\s/,'') || 'Home';
+  document.getElementById('content').scrollTop = 0;
+  window.scrollTo(0,0);
+  document.getElementById('sidebar').classList.remove('open');
+}
+document.addEventListener('click', (e)=>{
+  const el = e.target.closest('[data-target]');
+  if(el){ e.preventDefault(); goTo(el.dataset.target); }
+});
+
+/* ============= mobile menu ============= */
+document.getElementById('menutoggle').addEventListener('click', ()=>{
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+/* ============= theme switching ============= */
+const themebtns = document.querySelectorAll('.themebtn');
+function setTheme(choice){
+  if(choice === 'auto'){ document.documentElement.removeAttribute('data-theme'); }
+  else{ document.documentElement.setAttribute('data-theme', choice); }
+  themebtns.forEach(b => b.classList.toggle('active', b.dataset.themeChoice === choice));
+  try{ localStorage.setItem('pbi-theme', choice); }catch(e){}
+}
+themebtns.forEach(b => b.addEventListener('click', ()=> setTheme(b.dataset.themeChoice)));
+let savedTheme = 'auto';
+try{ savedTheme = localStorage.getItem('pbi-theme') || 'auto'; }catch(e){}
+setTheme(savedTheme);
+
+/* ============= init ============= */
+renderQuiz();
+goTo('home');
+</script>
+
