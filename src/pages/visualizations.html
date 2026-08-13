@@ -1,0 +1,99 @@
+      <div class="section-head">
+        <span class="eyebrow">05 · Visualizations</span>
+        <h1>Eight charts. One rule: every chart answers a business question.</h1>
+        <p class="lede">If you can't say what question a chart answers, don't build it. Click any card below to see steps, formatting, best practices, and common mistakes.</p>
+      </div>
+
+      <h2>Which chart, when?</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Business question</th><th>Chart</th><th>Avoid when…</th></tr>
+          <tr><td>Compare a number across categories</td><td><b>Bar Chart</b></td><td>More than ~10–12 categories</td></tr>
+          <tr><td>Show parts of a whole</td><td><b>Pie Chart</b></td><td>More than 5 categories (Rule of 5)</td></tr>
+          <tr><td>Show change over time</td><td><b>Line Chart</b></td><td>Comparing unrelated categories</td></tr>
+          <tr><td>Show one critical headline number</td><td><b>KPI Card</b></td><td>You need more than 4–6 things at once</td></tr>
+          <tr><td>Show progress toward a goal</td><td><b>Gauge Chart</b></td><td>Comparing multiple items at once</td></tr>
+          <tr><td>Show relationship between two numbers</td><td><b>Scatter Plot</b></td><td>Only one number available, &lt;10 points</td></tr>
+          <tr><td>Show geographic distribution</td><td><b>Map</b></td><td>Precise comparison matters more than location</td></tr>
+          <tr><td>Show hierarchy + proportion together</td><td><b>Tree Map</b></td><td>Only one category level exists</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:28px">The eight charts, in depth</h2>
+      <div id="chartAccordion"></div>
+
+      <h2 style="margin-top:30px">Formatting that makes it look professional</h2>
+      <div class="grid grid-3">
+        <div class="card"><h4>Theme</h4><p style="font-size:.85rem">One click applies a consistent palette + font to the whole report. Pick it first, build after.</p></div>
+        <div class="card"><h4>Real titles</h4><p style="font-size:.85rem">Never ship "Sum of Sales by Category." Rename to what a CEO understands in 2 seconds.</p></div>
+        <div class="card"><h4>Data labels</h4><p style="font-size:.85rem">On for Bar/Pie/Card. Usually off for dense Line/Scatter — labels overlap into noise.</p></div>
+        <div class="card"><h4>Conditional formatting</h4><p style="font-size:.85rem">Red/green rules on tables and KPIs so problems jump out without reading every number.</p></div>
+        <div class="card"><h4>Tooltips</h4><p style="font-size:.85rem">Extra detail on hover without permanently cluttering the chart.</p></div>
+        <div class="card"><h4>Interactions</h4><p style="font-size:.85rem">Click one visual, watch the others filter — Power BI's biggest "wow" moment, on by default.</p></div>
+      </div>
+
+      <footer class="pagefoot"><span>05 · Visualizations</span><a href="06-exercises.html">Next: Exercises →</a></footer>
+
+<script>
+/* ============= chart accordion ============= */
+const CHARTS = [
+{name:'Bar Chart', use:'Sales by Category', purpose:'Compares a number across categories, side by side — the single most useful chart in business analytics.', biz:'A Flipkart category manager asking "which product category sells the most?"', avoid:'More than ~10–12 categories, or showing a trend over time (use a Line Chart instead).',
+  steps:['Visualizations pane → Clustered Column Chart','Drag Category into X-axis','Drag Sales into Y-axis','Sort descending via the "..." menu','Turn on Data Labels'],
+  best:'Sort biggest-to-smallest unless there\'s a natural order like months. One consistent color unless Legend is used meaningfully.',
+  mistake:'Leaving the default ugly auto-title ("Sum of Sales by Category"). Using a Bar Chart for a trend over time.',
+  interpret:'Look at the tallest bar first — that\'s your headline. The shortest is often the more interesting question.'},
+{name:'Pie Chart', use:'Market Share by Category', purpose:'Shows how a whole is divided into parts — each slice as a percentage of the total.', biz:'A telecom company showing market share by brand in one glance.', avoid:'More than 5 categories (the Rule of 5), comparing exact values precisely, or trends over time.',
+  steps:['Visualizations pane → Pie Chart','Drag Category into Legend','Drag Sales into Values','Data labels → Category, Percent of total'],
+  best:'Maximum 5 slices. Always show percentage, not just raw numbers.',
+  mistake:'Using pie charts for 8+ categories — a "rainbow wheel" nobody can read. Forgetting percentage labels.',
+  interpret:'A pie chart answers exactly one question: what\'s the biggest piece of the pie? Nothing else.'},
+{name:'Line Chart', use:'Monthly Sales Trend', purpose:'Shows how a number changes over time — the only chart built specifically for trend.', biz:'A Swiggy ops team tracking daily order volume to spot growth, dips, or a viral spike.', avoid:'Comparing unrelated categories (use Bar), or showing a single point in time (use a Card).',
+  steps:['Visualizations pane → Line Chart','Drag Date into X-axis','Drag Sales into Y-axis','Drill to Month for a cleaner view','Analytics pane → add a Trend line'],
+  best:'Always sort the X-axis chronologically — needs a real Date type, not text. Limit to 1–3 lines max.',
+  mistake:'A Date column still typed as Text sorts alphabetically, not chronologically, producing a nonsensical zig-zag.',
+  interpret:'Look at direction and bumps, not just height. A sawtooth pattern usually means a weekly cycle.'},
+{name:'KPI Card', use:'Total Sales, Profit, Orders, AOV', purpose:'Displays one single, critical number as large as possible — the headline number of your dashboard.', biz:'The four numbers a Zomato regional head checks first every morning.', avoid:'More than 4–6 cards on one page — beyond that, nothing feels important anymore.',
+  steps:['Visualizations pane → Card','Drag a measure into Fields','For unique counts, change aggregation to Count (Distinct)','For Average Order Value, write a DAX measure using DIVIDE'],
+  best:'Round large numbers (Format → Display units). Keep the label short — "Total Sales," not a full sentence.',
+  mistake:'A KPI with no context, or using Sum when Average was intended.',
+  interpret:'KPI cards are read in under 2 seconds — if someone has to think about what it means, it failed.'},
+{name:'Gauge Chart', use:'Monthly Target vs Actual', purpose:'Shows progress of a single number toward a goal — like a car\'s speedometer.', biz:'A bank branch manager tracking "have we hit this month\'s loan disbursement target?"', avoid:'Comparing multiple items — a gauge shows exactly ONE value against ONE target.',
+  steps:['Visualizations pane → Gauge','Drag a measure into Value (the Actual/needle)','Set Minimum (usually 0)','Set Maximum (~120–150% of target)','Set Target value in the Format pane'],
+  best:'Only use for a single, high-importance goal metric. Keep Maximum realistic.',
+  mistake:'Forgetting to set a Target — it becomes just a fancier, less clear KPI Card.',
+  interpret:'Only 3 readings matter: behind goal, on track, or exceeded. If you need more nuance, pick a different chart.'},
+{name:'Scatter Plot', use:'Sales vs Profit', purpose:'Shows the relationship between two numeric measures at once — reveals correlation, clusters, outliers.', biz:'Do higher-sales products also have higher profit, or are some best-sellers actually low-margin traps?', avoid:'Only one number to show, or fewer than ~10 data points.',
+  steps:['Visualizations pane → Scatter Chart','Drag one measure into X-axis, another into Y-axis','Drag Category into Legend','Drag Quantity into Size for a bubble chart'],
+  best:'Always label axes clearly. Use color/Legend purposefully, not for decoration.',
+  mistake:'Plotting two measures with no logical relationship. Ignoring outliers instead of investigating them.',
+  interpret:'Look for the lonely dot far from the cluster — a data error or a genuinely unusual event worth a closer look.'},
+{name:'Map', use:'Sales by State', purpose:'Shows geographic distribution of a number — instantly answers "where" questions.', biz:'A Blinkit ops head asking "which cities should we open more dark stores in?"', avoid:'When precise value comparison matters more than location, or fewer than ~4–5 locations.',
+  steps:['Visualizations pane → Filled Map (or Map for bubbles)','Drag Region/State/City into Location','Drag Sales into Color saturation (Filled) or Size (Bubble)'],
+  best:'Pair a map with a bar chart of the same data — map for "where," bar for "how much exactly."',
+  mistake:'Relying on a map as the ONLY way to show regional performance — circle/shade size is hard to compare precisely.',
+  interpret:'Use to show WHERE something is happening; use a bar chart to know precisely HOW MUCH more one place has.'},
+{name:'Tree Map', use:'Revenue by Category & Sub-Category', purpose:'Shows part-to-whole AND hierarchy at the same time, using nested rectangles sized by value.', biz:'An Amazon category head viewing Revenue by Category, then Sub-Category, in one single view.', avoid:'When exact value comparison matters, or you only have one level of category.',
+  steps:['Visualizations pane → Treemap','Drag Category into the Category well','Drag Sub Category into the same well, below it','Drag Sales into Values'],
+  best:'Limit to 2 hierarchy levels. Use only when hierarchy AND proportion both matter.',
+  mistake:'Using a Tree Map when a simple bar chart would communicate faster and more precisely.',
+  interpret:'Scan for the biggest rectangle first, then look inside it — what\'s carrying that category?'},
+];
+document.getElementById('chartAccordion').innerHTML = CHARTS.map(c => `
+  <details class="card" style="margin-bottom:10px;padding:14px 18px">
+    <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem;display:flex;justify-content:space-between;gap:10px;align-items:center">
+      <span>${c.name} <span style="font-weight:400;font-size:.82rem;color:var(--text-muted);font-family:var(--font-body)">— ${c.use}</span></span>
+    </summary>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+      <p style="font-size:.9rem"><b>Purpose:</b> ${c.purpose}</p>
+      <p style="font-size:.9rem;color:var(--text-muted)"><b>Business use:</b> ${c.biz}</p>
+      <div class="callout warn" style="margin:12px 0"><b>Avoid when:</b> ${c.avoid}</div>
+      <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+      <ol class="steps">${c.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+      <div class="grid grid-2" style="margin-top:10px">
+        <div><p style="font-size:.85rem"><b>Best practice:</b> ${c.best}</p></div>
+        <div><p style="font-size:.85rem"><b>Common mistake:</b> ${c.mistake}</p></div>
+      </div>
+      <p style="font-size:.85rem;margin-top:6px"><b>How to interpret:</b> ${c.interpret}</p>
+    </div>
+  </details>`).join('');
+</script>

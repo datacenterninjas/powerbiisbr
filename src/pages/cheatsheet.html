@@ -1,0 +1,55 @@
+      <div class="section-head">
+        <span class="eyebrow">◆ Reference</span>
+        <h1>The one-page cheat sheet</h1>
+        <p class="lede">Everything taught in the workshop, condensed. <button class="btn ghost sm no-print" onclick="window.print()">🖨 Print this page</button></p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>Golden rule</h4>
+          <p style="font-size:.9rem">Always click <b>Transform Data</b>, never Load, unless you've already verified the data is clean.</p>
+        </div>
+        <div class="card">
+          <h4>DIVIDE, not /</h4>
+          <p style="font-size:.9rem"><code>DIVIDE()</code> safely handles divide-by-zero. <code>CALCULATE()</code> filters a sum/count by a condition.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:26px">DAX formulas from this course</h2>
+      <div class="codeblock">Average Order Value = <span class="c-fn">DIVIDE</span>(<span class="c-fn">SUM</span>(Sales[Sales]), <span class="c-fn">DISTINCTCOUNT</span>(Sales[Order ID]))
+
+Profit Margin % = <span class="c-fn">DIVIDE</span>(<span class="c-fn">SUM</span>(Sales[Profit]), <span class="c-fn">SUM</span>(Sales[Sales]))
+
+Length of Stay = <span class="c-fn">DATEDIFF</span>(Hospital[Admission Date], Hospital[Discharge Date], DAY)
+
+Average Salary = <span class="c-fn">AVERAGE</span>(HR[Salary])
+
+Total Loans = <span class="c-fn">COUNTROWS</span>(Banking)
+Approved Loans = <span class="c-fn">CALCULATE</span>(<span class="c-fn">COUNTROWS</span>(Banking), Banking[Loan Status] = <span class="c-str">"Approved"</span>)
+Approval Rate = <span class="c-fn">DIVIDE</span>([Approved Loans], [Total Loans])</div>
+
+      <h2 style="margin-top:26px">10 most common beginner mistakes</h2>
+      <ol class="steps">
+        <li>Clicking <b>Load</b> instead of <b>Transform Data</b> out of Excel habit</li>
+        <li>Leaving default chart titles like "Sum of Sales by Category"</li>
+        <li>Using a <b>Pie Chart</b> with 8+ slices</li>
+        <li>Forgetting to <b>Trim</b> text columns, silently splitting one customer into two</li>
+        <li>Summing a column that should be <b>averaged</b> (Salary, Credit Score)</li>
+        <li>Ignoring outliers instead of investigating them</li>
+        <li>Using a <b>Bar Chart</b> for a trend over time (should be a Line Chart)</li>
+        <li>Overloading one page with every chart type "just because you learned it"</li>
+        <li>Not checking <b>Data Types</b> before building a chart</li>
+        <li>Skipping <b>Remove Duplicates</b>, quietly inflating every total</li>
+      </ol>
+
+      <h2 style="margin-top:26px">Formatting checklist</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">✓</span><div>One consistent Theme across the whole page</div></li>
+        <li><span class="ico">✓</span><div>Every visual has a real title</div></li>
+        <li><span class="ico">✓</span><div>Data labels on for Bar/Pie/Card, off for dense Line/Scatter</div></li>
+        <li><span class="ico">✓</span><div>Conditional formatting where "good vs bad" should jump out</div></li>
+        <li><span class="ico">✓</span><div>Interactions checked between visuals on the same page</div></li>
+        <li><span class="ico">✓</span><div>No more than 4–6 KPI cards, ~6 visuals per page</div></li>
+      </ul>
+
+      <footer class="pagefoot no-print"><span>◆ Cheat Sheet</span><a href="datasets.html">Next: Datasets →</a></footer>

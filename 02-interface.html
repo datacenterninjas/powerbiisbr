@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Power BI for MBA Analytics — Course Portal</title>
+<title>The Interface — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -193,9 +193,9 @@
     </div>
         <div class="navgroup">
       <div class="label">Course</div>
-      <a class="navbtn active" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
+      <a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
       <a class="navbtn" href="01-architecture.html"><span class="num">01</span> Architecture</a>
-      <a class="navbtn" href="02-interface.html"><span class="num">02</span> The Interface</a>
+      <a class="navbtn active" href="02-interface.html"><span class="num">02</span> The Interface</a>
       <a class="navbtn" href="03-connecting-data.html"><span class="num">03</span> Connecting to Data</a>
       <a class="navbtn" href="04-power-query.html"><span class="num">04</span> Power Query</a>
       <a class="navbtn" href="05-visualizations.html"><span class="num">05</span> Visualizations</a>
@@ -225,46 +225,90 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Home</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">The Interface</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Start here</span>
-        <h1>From a blank screen to a real dashboard — in three sessions.</h1>
-        <p class="lede">This is the companion site for your classroom workshop. Everything your instructor demonstrated live is here to revisit: the concepts, the click-paths, the practice files, and a self-test quiz. No prior Power BI experience assumed — just the basic Excel you already know.</p>
+        <span class="eyebrow">02 · The Interface</span>
+        <h1>Six zones. Once you can name them, you can navigate them.</h1>
+        <p class="lede">Power BI Desktop looks intimidating for about twenty minutes. Every screen you'll ever see is built from the same six zones below — learn the map once.</p>
       </div>
 
-      <div class="grid grid-3">
-        <div class="card">
-          <span class="pill">Session 1 · 55 min</span>
-          <h3 style="margin-top:10px">Fundamentals</h3>
-          <p style="font-size:.9rem">What Power BI actually is, how data flows through it, and a full tour of the screen you'll be living in.</p>
-        </div>
-        <div class="card">
-          <span class="pill">Session 2 · 55 min</span>
-          <h3 style="margin-top:10px">Data &amp; Cleaning</h3>
-          <p style="font-size:.9rem">Pull data in from Excel, SQL Server, and the web — then fix everything wrong with it in Power Query.</p>
-        </div>
-        <div class="card">
-          <span class="pill">Session 3 · 60 min</span>
-          <h3 style="margin-top:10px">Dashboards</h3>
-          <p style="font-size:.9rem">Every core chart type, formatting that looks professional, and your own end-to-end dashboard.</p>
-        </div>
+      <figure>
+        <svg viewBox="0 0 1040 640" role="img" aria-label="Power BI Desktop screen wireframe: a ribbon strip across the top, a report canvas with sample chart bars on the left, three stacked panes (Visualizations, Fields, Filters) on the right, and a view-switcher strip along the bottom.">
+          <rect x="20" y="20" width="1000" height="600" rx="12" fill="none" stroke="currentColor" stroke-width="1.3"/>
+          <!-- ribbon -->
+          <rect x="20" y="20" width="1000" height="50" rx="12" fill="var(--surface-3)"/>
+          <rect x="20" y="46" width="1000" height="24" fill="var(--surface-3)"/>
+          <text x="42" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" font-weight="700">Home</text>
+          <text x="104" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".65">Insert</text>
+          <text x="168" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".65">Modeling</text>
+          <text x="252" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".65">View</text>
+          <text x="960" y="50" font-size="11" font-family="ui-monospace,Consolas,monospace" fill="var(--accent)" text-anchor="end">① Ribbon</text>
+
+          <!-- canvas -->
+          <rect x="20" y="70" width="680" height="520" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4"/>
+          <text x="360" y="100" text-anchor="middle" font-size="13" fill="currentColor" opacity=".7" font-family="Georgia,serif">Report Canvas</text>
+          <text x="360" y="118" text-anchor="middle" font-size="10.5" fill="var(--accent)" font-family="ui-monospace,Consolas,monospace">② your visuals live here</text>
+          <!-- mini bar chart hint -->
+          <g transform="translate(140,300)">
+            <rect x="0" y="120" width="46" height="60" fill="var(--teal)" opacity=".55"/>
+            <rect x="60" y="80" width="46" height="100" fill="var(--teal)" opacity=".75"/>
+            <rect x="120" y="40" width="46" height="140" fill="var(--accent)"/>
+            <rect x="180" y="100" width="46" height="80" fill="var(--teal)" opacity=".65"/>
+            <rect x="240" y="150" width="46" height="30" fill="var(--teal)" opacity=".45"/>
+            <line x1="-10" y1="180" x2="300" y2="180" stroke="currentColor" stroke-width="1" opacity=".4"/>
+          </g>
+          <text x="360" y="560" text-anchor="middle" font-size="10" fill="currentColor" opacity=".5" font-family="ui-monospace,Consolas,monospace">e.g. "Sales by Category"</text>
+
+          <!-- right panes -->
+          <rect x="700" y="70" width="320" height="167" rx="8" fill="none" stroke="currentColor" stroke-width="1"/>
+          <text x="716" y="93" font-size="12" fill="currentColor" font-weight="700" font-family="Georgia,serif">Visualizations</text>
+          <text x="716" y="110" font-size="10" fill="currentColor" opacity=".6">③ click a chart icon to add it</text>
+          <g transform="translate(716,122)" opacity=".55">
+            <rect width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
+            <rect x="34" width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
+            <rect x="68" width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
+            <rect x="102" width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
+          </g>
+
+          <rect x="700" y="247" width="320" height="167" rx="8" fill="none" stroke="currentColor" stroke-width="1"/>
+          <text x="716" y="270" font-size="12" fill="currentColor" font-weight="700" font-family="Georgia,serif">Fields</text>
+          <text x="716" y="287" font-size="10" fill="currentColor" opacity=".6">④ drag columns onto visuals</text>
+          <text x="716" y="306" font-size="10.5" fill="currentColor" opacity=".7" font-family="ui-monospace,Consolas,monospace">▸ Sales</text>
+          <text x="716" y="322" font-size="10.5" fill="currentColor" opacity=".7" font-family="ui-monospace,Consolas,monospace">▸ HR</text>
+
+          <rect x="700" y="424" width="320" height="166" rx="8" fill="none" stroke="currentColor" stroke-width="1"/>
+          <text x="716" y="447" font-size="12" fill="currentColor" font-weight="700" font-family="Georgia,serif">Filters</text>
+          <text x="716" y="464" font-size="10" fill="currentColor" opacity=".6">⑤ restrict what a visual shows</text>
+
+          <!-- bottom strip -->
+          <rect x="20" y="590" width="1000" height="30" fill="var(--surface-3)"/>
+          <text x="42" y="609" font-size="10.5" font-family="ui-monospace,Consolas,monospace" fill="var(--accent)" font-weight="700">● Report</text>
+          <text x="110" y="609" font-size="10.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".55">○ Data</text>
+          <text x="168" y="609" font-size="10.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".55">○ Model</text>
+          <text x="960" y="609" text-anchor="end" font-size="10" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".6">⑥ Page Navigation</text>
+        </svg>
+        <figcaption>The six zones of Power BI Desktop — every screen you'll use today is a variation of this layout.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Zone</th><th>Purpose</th><th>When you use it</th></tr>
+          <tr><td><b>① Ribbon</b><br><span class="pill">Home · Insert · Modeling · View</span></td><td>Home = Get Data, Refresh, Publish. Insert = logos, text, buttons. Modeling = relationships &amp; DAX measures.</td><td>Home starts every session; Modeling whenever tables need linking or a calculation is needed.</td></tr>
+          <tr><td><b>② Report Canvas</b></td><td>The blank page where visuals are placed and arranged.</td><td>Every time you design what the dashboard looks like.</td></tr>
+          <tr><td><b>③ Visualizations Pane</b></td><td>The palette of chart types — bar, pie, line, map, and 30+ others.</td><td>Anytime you want to add a new chart.</td></tr>
+          <tr><td><b>④ Fields Pane</b></td><td>Every table and column available — your ingredient list.</td><td>Constantly — you drag from here onto every chart you build.</td></tr>
+          <tr><td><b>⑤ Filters Pane</b></td><td>Restricts what data shows, on one visual, the page, or the whole report — without deleting anything.</td><td>To focus a view, e.g. "2025 only" or "exclude cancelled orders."</td></tr>
+          <tr><td><b>⑥ Page Navigation</b></td><td>Tabs at the bottom to switch between report pages, plus the Report / Data / Model view switcher.</td><td>Multi-page dashboards; switching to Data View to sanity-check a column, or Model View to check relationships.</td></tr>
+        </table>
       </div>
 
-      <h2 style="margin-top:34px">How to use this site</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>Follow along live.</strong> Keep this open on a second window while your instructor teaches — jump to the matching section from the sidebar.</div></li>
-        <li><span class="ico">2</span><div><strong>Download the practice files.</strong> The <em>Datasets</em> section has every CSV used in class — both clean and deliberately messy versions — ready to open in Excel or load into Power BI.</div></li>
-        <li><span class="ico">3</span><div><strong>Test yourself.</strong> The <em>Self-Test Quiz</em> has all 21 questions from class, fully interactive — click an answer and get instant feedback with the reasoning.</div></li>
-        <li><span class="ico">4</span><div><strong>Come back later.</strong> Everything here — the chart-selection guide, the DAX formulas, the cheat sheet — is meant to outlast the workshop. Bookmark it.</div></li>
-      </ul>
+      <div class="callout warn"><b>Common mix-up:</b> Model View is only for relationships — it is not where you build charts. That's Report View. Students confuse these two constantly in week one.</div>
 
-      <div class="callout"><b>Business lens:</b> Every idea in this course is tied to a company you already use — Swiggy, Zomato, Flipkart, Amazon, Blinkit, a bank, a hospital. If you can explain a Power BI concept using one of those, you've actually understood it — not just memorized a button location.</div>
-
-      <footer class="pagefoot"><span>Power BI Workshop · MBA Analytics</span><span>12 sections · ~2 hr of reference reading</span></footer>
+      <footer class="pagefoot"><span>02 · The Interface</span><a href="03-connecting-data.html">Next: Connecting to Data →</a></footer>
     </main>
   </div>
 </div>

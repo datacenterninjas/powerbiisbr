@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Power BI for MBA Analytics — Course Portal</title>
+<title>Cheat Sheet — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -193,7 +193,7 @@
     </div>
         <div class="navgroup">
       <div class="label">Course</div>
-      <a class="navbtn active" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
+      <a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
       <a class="navbtn" href="01-architecture.html"><span class="num">01</span> Architecture</a>
       <a class="navbtn" href="02-interface.html"><span class="num">02</span> The Interface</a>
       <a class="navbtn" href="03-connecting-data.html"><span class="num">03</span> Connecting to Data</a>
@@ -208,7 +208,7 @@
     </div>
     <div class="navgroup">
       <div class="label">Reference</div>
-      <a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a>
+      <a class="navbtn active" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a>
       <a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a>
     </div>
     <div class="navgroup">
@@ -225,46 +225,66 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Home</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Cheat Sheet</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Start here</span>
-        <h1>From a blank screen to a real dashboard — in three sessions.</h1>
-        <p class="lede">This is the companion site for your classroom workshop. Everything your instructor demonstrated live is here to revisit: the concepts, the click-paths, the practice files, and a self-test quiz. No prior Power BI experience assumed — just the basic Excel you already know.</p>
+        <span class="eyebrow">◆ Reference</span>
+        <h1>The one-page cheat sheet</h1>
+        <p class="lede">Everything taught in the workshop, condensed. <button class="btn ghost sm no-print" onclick="window.print()">🖨 Print this page</button></p>
       </div>
 
-      <div class="grid grid-3">
+      <div class="grid grid-2">
         <div class="card">
-          <span class="pill">Session 1 · 55 min</span>
-          <h3 style="margin-top:10px">Fundamentals</h3>
-          <p style="font-size:.9rem">What Power BI actually is, how data flows through it, and a full tour of the screen you'll be living in.</p>
+          <h4>Golden rule</h4>
+          <p style="font-size:.9rem">Always click <b>Transform Data</b>, never Load, unless you've already verified the data is clean.</p>
         </div>
         <div class="card">
-          <span class="pill">Session 2 · 55 min</span>
-          <h3 style="margin-top:10px">Data &amp; Cleaning</h3>
-          <p style="font-size:.9rem">Pull data in from Excel, SQL Server, and the web — then fix everything wrong with it in Power Query.</p>
-        </div>
-        <div class="card">
-          <span class="pill">Session 3 · 60 min</span>
-          <h3 style="margin-top:10px">Dashboards</h3>
-          <p style="font-size:.9rem">Every core chart type, formatting that looks professional, and your own end-to-end dashboard.</p>
+          <h4>DIVIDE, not /</h4>
+          <p style="font-size:.9rem"><code>DIVIDE()</code> safely handles divide-by-zero. <code>CALCULATE()</code> filters a sum/count by a condition.</p>
         </div>
       </div>
 
-      <h2 style="margin-top:34px">How to use this site</h2>
+      <h2 style="margin-top:26px">DAX formulas from this course</h2>
+      <div class="codeblock">Average Order Value = <span class="c-fn">DIVIDE</span>(<span class="c-fn">SUM</span>(Sales[Sales]), <span class="c-fn">DISTINCTCOUNT</span>(Sales[Order ID]))
+
+Profit Margin % = <span class="c-fn">DIVIDE</span>(<span class="c-fn">SUM</span>(Sales[Profit]), <span class="c-fn">SUM</span>(Sales[Sales]))
+
+Length of Stay = <span class="c-fn">DATEDIFF</span>(Hospital[Admission Date], Hospital[Discharge Date], DAY)
+
+Average Salary = <span class="c-fn">AVERAGE</span>(HR[Salary])
+
+Total Loans = <span class="c-fn">COUNTROWS</span>(Banking)
+Approved Loans = <span class="c-fn">CALCULATE</span>(<span class="c-fn">COUNTROWS</span>(Banking), Banking[Loan Status] = <span class="c-str">"Approved"</span>)
+Approval Rate = <span class="c-fn">DIVIDE</span>([Approved Loans], [Total Loans])</div>
+
+      <h2 style="margin-top:26px">10 most common beginner mistakes</h2>
+      <ol class="steps">
+        <li>Clicking <b>Load</b> instead of <b>Transform Data</b> out of Excel habit</li>
+        <li>Leaving default chart titles like "Sum of Sales by Category"</li>
+        <li>Using a <b>Pie Chart</b> with 8+ slices</li>
+        <li>Forgetting to <b>Trim</b> text columns, silently splitting one customer into two</li>
+        <li>Summing a column that should be <b>averaged</b> (Salary, Credit Score)</li>
+        <li>Ignoring outliers instead of investigating them</li>
+        <li>Using a <b>Bar Chart</b> for a trend over time (should be a Line Chart)</li>
+        <li>Overloading one page with every chart type "just because you learned it"</li>
+        <li>Not checking <b>Data Types</b> before building a chart</li>
+        <li>Skipping <b>Remove Duplicates</b>, quietly inflating every total</li>
+      </ol>
+
+      <h2 style="margin-top:26px">Formatting checklist</h2>
       <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>Follow along live.</strong> Keep this open on a second window while your instructor teaches — jump to the matching section from the sidebar.</div></li>
-        <li><span class="ico">2</span><div><strong>Download the practice files.</strong> The <em>Datasets</em> section has every CSV used in class — both clean and deliberately messy versions — ready to open in Excel or load into Power BI.</div></li>
-        <li><span class="ico">3</span><div><strong>Test yourself.</strong> The <em>Self-Test Quiz</em> has all 21 questions from class, fully interactive — click an answer and get instant feedback with the reasoning.</div></li>
-        <li><span class="ico">4</span><div><strong>Come back later.</strong> Everything here — the chart-selection guide, the DAX formulas, the cheat sheet — is meant to outlast the workshop. Bookmark it.</div></li>
+        <li><span class="ico">✓</span><div>One consistent Theme across the whole page</div></li>
+        <li><span class="ico">✓</span><div>Every visual has a real title</div></li>
+        <li><span class="ico">✓</span><div>Data labels on for Bar/Pie/Card, off for dense Line/Scatter</div></li>
+        <li><span class="ico">✓</span><div>Conditional formatting where "good vs bad" should jump out</div></li>
+        <li><span class="ico">✓</span><div>Interactions checked between visuals on the same page</div></li>
+        <li><span class="ico">✓</span><div>No more than 4–6 KPI cards, ~6 visuals per page</div></li>
       </ul>
 
-      <div class="callout"><b>Business lens:</b> Every idea in this course is tied to a company you already use — Swiggy, Zomato, Flipkart, Amazon, Blinkit, a bank, a hospital. If you can explain a Power BI concept using one of those, you've actually understood it — not just memorized a button location.</div>
-
-      <footer class="pagefoot"><span>Power BI Workshop · MBA Analytics</span><span>12 sections · ~2 hr of reference reading</span></footer>
+      <footer class="pagefoot no-print"><span>◆ Cheat Sheet</span><a href="datasets.html">Next: Datasets →</a></footer>
     </main>
   </div>
 </div>

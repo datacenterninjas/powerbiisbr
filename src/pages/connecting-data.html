@@ -1,0 +1,40 @@
+      <div class="section-head">
+        <span class="eyebrow">03 · Connecting to Data</span>
+        <h1>Getting your data into Power BI — three ways</h1>
+        <p class="lede">Excel, a company database, or a public website — the click-path is almost identical every time: <b>Get Data → pick a source → Navigator → Transform Data.</b></p>
+      </div>
+
+      <h2>Connecting to Excel</h2>
+      <div class="clickpath">
+        <span class="seg">Home</span><span class="arrow">→</span><span class="seg">Get Data</span><span class="arrow">→</span><span class="seg">Excel Workbook</span><span class="arrow">→</span><span class="seg">select file</span><span class="arrow">→</span><span class="seg">Navigator (tick sheet)</span><span class="arrow">→</span><span class="seg">Transform Data</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Option</th><th>What it does</th><th>When to use</th></tr>
+          <tr><td><b>Load</b></td><td>Brings data in exactly as-is, no cleaning.</td><td>Only when you're 100% sure the data is already clean — rare in real life.</td></tr>
+          <tr><td><b>Transform Data</b></td><td>Opens Power Query first so you can clean before it touches your report.</td><td><span class="pill good">your default click, always</span></td></tr>
+          <tr><td><b>Combine</b></td><td>Stacks multiple files/sheets with the same structure into one table.</td><td>Your company saves one Excel file per month and you want all 12 as one table.</td></tr>
+        </table>
+      </div>
+      <div class="callout warn"><b>Golden rule:</b> Always click <b>Transform Data</b>, never Load, unless you've already inspected the data and know it's clean.</div>
+
+      <h2 style="margin-top:30px">Connecting to SQL Server</h2>
+      <p>A SQL Server is a very large, very organized Excel workbook that lives on a powerful shared computer instead of your laptop — it can hold billions of rows, many people can use it at once, and it's always "live."</p>
+      <div class="grid grid-2">
+        <div class="card"><h4>Server Name</h4><p style="font-size:.88rem">The address of the machine where the database lives, e.g. <code>salesdb.company.com</code>. Like a building address.</p></div>
+        <div class="card"><h4>Database Name</h4><p style="font-size:.88rem">The specific database on that server, e.g. <code>SalesDB</code>. One server can host many databases — like flats in a building.</p></div>
+        <div class="card"><h4>Authentication</h4><p style="font-size:.88rem">Windows Authentication (your company login, automatic) or Database Authentication (a separate username/password).</p></div>
+        <div class="card"><h4>Connection String</h4><p style="font-size:.88rem">Server + database + settings bundled into one line, e.g. <code>Server=salesdb.company.com;Database=SalesDB;</code></p></div>
+      </div>
+
+      <h2 style="margin-top:30px">Import vs. DirectQuery vs. Live Connection</h2>
+      <p>Full comparison is on the <a href="01-architecture.html">Architecture page</a> — the short version: <b>use Import</b> for this entire course and for almost everything you'll do as a beginner.</p>
+
+      <h2 style="margin-top:30px">Connecting to Web Data</h2>
+      <div class="clickpath">
+        <span class="seg">Home</span><span class="arrow">→</span><span class="seg">Get Data</span><span class="arrow">→</span><span class="seg">Web</span><span class="arrow">→</span><span class="seg">paste URL</span><span class="arrow">→</span><span class="seg">OK</span><span class="arrow">→</span><span class="seg">Navigator</span><span class="arrow">→</span><span class="seg">Transform Data</span>
+      </div>
+      <p style="font-size:.92rem">Works on any public page with an HTML table — Wikipedia country/state data tables, government open-data portals (data.gov.in), public COVID dashboards, weather data. Power BI scans the page and lists every table it finds as <code>Table 0</code>, <code>Table 1</code>… — preview each one before loading to make sure you picked the right one.</p>
+      <div class="callout"><b>Real limitation:</b> if the website changes its table layout later, the connection can break. This is a genuine trade-off of web scraping, not a bug in Power BI.</div>
+
+      <footer class="pagefoot"><span>03 · Connecting to Data</span><a href="04-power-query.html">Next: Power Query →</a></footer>

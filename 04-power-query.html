@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Power BI for MBA Analytics — Course Portal</title>
+<title>Power Query — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -193,11 +193,11 @@
     </div>
         <div class="navgroup">
       <div class="label">Course</div>
-      <a class="navbtn active" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
+      <a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
       <a class="navbtn" href="01-architecture.html"><span class="num">01</span> Architecture</a>
       <a class="navbtn" href="02-interface.html"><span class="num">02</span> The Interface</a>
       <a class="navbtn" href="03-connecting-data.html"><span class="num">03</span> Connecting to Data</a>
-      <a class="navbtn" href="04-power-query.html"><span class="num">04</span> Power Query</a>
+      <a class="navbtn active" href="04-power-query.html"><span class="num">04</span> Power Query</a>
       <a class="navbtn" href="05-visualizations.html"><span class="num">05</span> Visualizations</a>
     </div>
     <div class="navgroup">
@@ -225,46 +225,62 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Home</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Power Query</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Start here</span>
-        <h1>From a blank screen to a real dashboard — in three sessions.</h1>
-        <p class="lede">This is the companion site for your classroom workshop. Everything your instructor demonstrated live is here to revisit: the concepts, the click-paths, the practice files, and a self-test quiz. No prior Power BI experience assumed — just the basic Excel you already know.</p>
+        <span class="eyebrow">04 · Power Query</span>
+        <h1>Real data is never clean. This is where you fix it.</h1>
+        <p class="lede">Some analysts spend 70–80% of their time right here, not in charts. Every fix below is demonstrated on our actual practice file, <code>Sales_Dirty.xlsx</code> — download it from the <a href="datasets.html">Datasets</a> page and follow along.</p>
       </div>
 
-      <div class="grid grid-3">
-        <div class="card">
-          <span class="pill">Session 1 · 55 min</span>
-          <h3 style="margin-top:10px">Fundamentals</h3>
-          <p style="font-size:.9rem">What Power BI actually is, how data flows through it, and a full tour of the screen you'll be living in.</p>
-        </div>
-        <div class="card">
-          <span class="pill">Session 2 · 55 min</span>
-          <h3 style="margin-top:10px">Data &amp; Cleaning</h3>
-          <p style="font-size:.9rem">Pull data in from Excel, SQL Server, and the web — then fix everything wrong with it in Power Query.</p>
-        </div>
-        <div class="card">
-          <span class="pill">Session 3 · 60 min</span>
-          <h3 style="margin-top:10px">Dashboards</h3>
-          <p style="font-size:.9rem">Every core chart type, formatting that looks professional, and your own end-to-end dashboard.</p>
-        </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Transformation</th><th>Fixes</th><th>Where to click</th></tr>
+          <tr><td><b>Rename Columns</b></td><td>Cryptic headers like <code>col_7</code></td><td>Double-click the column header</td></tr>
+          <tr><td><b>Remove Columns</b></td><td>Unused clutter columns</td><td>Right-click header → Remove</td></tr>
+          <tr><td><b>Split Column</b></td><td>One column secretly holding two values ("Bangalore, Karnataka")</td><td>Select column → Split Column → By Delimiter</td></tr>
+          <tr><td><b>Merge Columns</b></td><td>Two columns that need to become one (First + Last Name)</td><td>Select both → right-click → Merge Columns</td></tr>
+          <tr><td><b>Change Data Type</b></td><td>Wrong type blocking math or chronological sorting</td><td>Click the type icon on the column header</td></tr>
+          <tr><td><b>Remove Duplicates</b></td><td>Repeated rows quietly inflating totals</td><td>Right-click column(s) → Remove Duplicates</td></tr>
+          <tr><td><b>Replace Values</b></td><td>Known typos, inconsistent labels</td><td>Right-click column → Replace Values</td></tr>
+          <tr><td><b>Trim</b></td><td>Leading/trailing spaces — makes "Rohit" ≠ " Rohit "</td><td>Transform → Format → Trim</td></tr>
+          <tr><td><b>Clean</b></td><td>Invisible/non-printable characters</td><td>Transform → Format → Clean</td></tr>
+          <tr><td><b>Fill Down / Up</b></td><td>Blanks left by merged-cell Excel exports</td><td>Transform → Fill → Down/Up</td></tr>
+          <tr><td><b>Null Handling</b></td><td>Blank or "NULL"-text cells breaking SUM/AVERAGE</td><td>Replace Values (with a default) or Remove Rows</td></tr>
+        </table>
       </div>
 
-      <h2 style="margin-top:34px">How to use this site</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>Follow along live.</strong> Keep this open on a second window while your instructor teaches — jump to the matching section from the sidebar.</div></li>
-        <li><span class="ico">2</span><div><strong>Download the practice files.</strong> The <em>Datasets</em> section has every CSV used in class — both clean and deliberately messy versions — ready to open in Excel or load into Power BI.</div></li>
-        <li><span class="ico">3</span><div><strong>Test yourself.</strong> The <em>Self-Test Quiz</em> has all 21 questions from class, fully interactive — click an answer and get instant feedback with the reasoning.</div></li>
-        <li><span class="ico">4</span><div><strong>Come back later.</strong> Everything here — the chart-selection guide, the DAX formulas, the cheat sheet — is meant to outlast the workshop. Bookmark it.</div></li>
-      </ul>
+      <h2 style="margin-top:30px">See it on real (messy) data</h2>
+      <p style="font-size:.92rem">These are genuine rows from the practice dataset — not made-up examples. Each "before" is exactly what you'll see when you open <code>Sales_Dirty.xlsx</code>.</p>
+      <div id="pqExamples" class="grid grid-2"></div>
 
-      <div class="callout"><b>Business lens:</b> Every idea in this course is tied to a company you already use — Swiggy, Zomato, Flipkart, Amazon, Blinkit, a bank, a hospital. If you can explain a Power BI concept using one of those, you've actually understood it — not just memorized a button location.</div>
+      <div class="callout warn" style="margin-top:20px"><b>Never guess a fake number to hide a blank.</b> Either fill it with a defensible business default, or remove the row — and always be ready to explain which choice you made and why.</div>
 
-      <footer class="pagefoot"><span>Power BI Workshop · MBA Analytics</span><span>12 sections · ~2 hr of reference reading</span></footer>
+      <footer class="pagefoot"><span>04 · Power Query</span><a href="05-visualizations.html">Next: Visualizations →</a></footer>
+
+<script>
+/* ============= Power Query before/after examples ============= */
+const PQ_EXAMPLES = [
+  {issue:'Negative Sales', col:'Sales · row 3', before:'-1587.53', after:'1587.53', fix:'Investigate the source, then Replace Values or correct the sign — a sale can\'t be negative revenue.'},
+  {issue:'Leading/Trailing Spaces', col:'Customer · row 4', before:'"  Rohit Singh  "', after:'"Rohit Singh"', fix:'Transform → Format → Trim, so this customer isn\'t silently split into two different people.'},
+  {issue:'Spelling Mistake', col:'Region · row 6', before:'"Souths"', after:'"South"', fix:'Right-click column → Replace Values.'},
+  {issue:'Mixed Date Format', col:'Date · row 9', before:'2025/07/19', after:'19-07-2025', fix:'Change Data Type → Date. If Power Query mis-parses it, fix the source format first via Replace Values.'},
+  {issue:'Currency Symbol + Commas', col:'Sales · row 11', before:'"₹45,230.50"', after:'45230.50', fix:'Replace Values to strip ₹ and commas, then Change Data Type → Decimal Number.'},
+  {issue:'Duplicate Row', col:'entire row · 13', before:'exact copy of row 12', after:'(removed)', fix:'Select all columns → right-click → Remove Duplicates.'},
+];
+document.getElementById('pqExamples').innerHTML = PQ_EXAMPLES.map(e => `
+  <div class="card">
+    <span class="pill bad">${e.issue}</span>
+    <div style="font-size:.78rem;color:var(--text-muted);margin-top:8px">${e.col}</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:8px;font-family:var(--font-mono);font-size:.85rem">
+      <span style="color:var(--bad)">${e.before}</span><span style="color:var(--text-muted)">→</span><span style="color:var(--good)">${e.after}</span>
+    </div>
+    <p style="font-size:.83rem;margin-top:8px">${e.fix}</p>
+  </div>`).join('');
+</script>
     </main>
   </div>
 </div>

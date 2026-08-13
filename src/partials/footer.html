@@ -1,0 +1,25 @@
+    </main>
+  </div>
+</div>
+
+<script>
+/* ============= mobile menu ============= */
+document.getElementById('menutoggle').addEventListener('click', ()=>{
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+/* ============= theme switching ============= */
+const themebtns = document.querySelectorAll('.themebtn');
+function setTheme(choice){
+  if(choice === 'auto'){ document.documentElement.removeAttribute('data-theme'); }
+  else{ document.documentElement.setAttribute('data-theme', choice); }
+  themebtns.forEach(b => b.classList.toggle('active', b.dataset.themeChoice === choice));
+  try{ localStorage.setItem('pbi-theme', choice); }catch(e){}
+}
+themebtns.forEach(b => b.addEventListener('click', ()=> setTheme(b.dataset.themeChoice)));
+let savedTheme = 'auto';
+try{ savedTheme = localStorage.getItem('pbi-theme') || 'auto'; }catch(e){}
+setTheme(savedTheme);
+</script>
+</body>
+</html>

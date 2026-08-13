@@ -1,0 +1,101 @@
+Patient,Doctor,Department,Age,Gender,Diagnosis,Bill Amount,Admission Date,Discharge Date
+Divya Reddy,Dr. Rohit Chatterjee,ENT,77,Female,Tonsillitis,136075.83,15-06-2025,20-06-2025
+Manoj Bose,Dr. Swati Pillai,Neurology,8,Male,Nerve Pain,248144.1,02-12-2025,05-12-2025
+Kavita Nair,Dr. Ritu Chatterjee,ENT,87,Female,Ear Infection,99997.09,14-03-2025,24-03-2025
+Deepika Chopra,Dr. Ashok Joshi,Orthopedics,52,Female,Fracture,130356.53,23-05-2025,29-05-2025
+Nikhil Mehta,Dr. Neha Desai,Cardiology,59,Male,Hypertension,159805.61,24-12-2025,30-12-2025
+Preeti Chopra,Dr. Nisha Kumar,Gynecology,64,Female,PCOS,69328.6,26-05-2025,01-06-2025
+Kavita Pillai,Dr. Arjun Kapoor,ENT,6,Female,Sinusitis,27594.96,24-08-2025,25-08-2025
+Arjun Kapoor,Dr. Ashok Joshi,Cardiology,26,Male,Arrhythmia,248936.43,09-03-2025,14-03-2025
+Manoj Gupta,Dr. Meena Kumar,General Medicine,48,Male,Fever,167133.68,29-11-2025,02-12-2025
+Deepak Nair,Dr. Vikram Kapoor,Orthopedics,1,Male,Fracture,55715.03,09-02-2025,12-02-2025
+Nisha Kapoor,Dr. Vikram Iyer,Cardiology,16,Female,Chest Pain,247074.26,05-08-2025,08-08-2025
+Sanjay Chopra,Dr. Sandeep Patel,Orthopedics,41,Male,Fracture,93787.74,03-06-2025,06-06-2025
+Rajesh Singh,Dr. Sandeep Patel,Cardiology,57,Male,Cardiac Arrest,89743.37,20-04-2025,23-04-2025
+Lakshmi Kapoor,Dr. Nisha Kumar,Orthopedics,18,Female,Fracture,188854.07,29-10-2025,05-11-2025
+Vivek Mehta,Dr. Ritu Chatterjee,Pediatrics,83,Male,Cough and Cold,23809.43,11-10-2025,21-10-2025
+Lakshmi Rao,Dr. Vikram Iyer,General Medicine,67,Female,Diabetes,152910.94,07-04-2025,14-04-2025
+Amit Nair,Dr. Arjun Kapoor,Gynecology,31,Male,Maternity,126396.89,01-11-2025,03-11-2025
+Priya Joshi,Dr. Rekha Reddy,Neurology,73,Female,Nerve Pain,106953.29,07-10-2025,10-10-2025
+Neha Sharma,Dr. Neha Desai,Orthopedics,34,Female,Fracture,56288.51,31-01-2025,07-02-2025
+Nisha Malhotra,Dr. Vikram Kapoor,Gynecology,82,Female,Maternity,135531.51,12-11-2025,15-11-2025
+Deepak Gupta,Dr. Sanjay Nair,Pediatrics,69,Male,Chickenpox,83707.32,28-10-2025,30-10-2025
+Vivek Nair,Dr. Rohit Chatterjee,Pediatrics,56,Male,Fever,31648.69,10-11-2025,20-11-2025
+Arjun Kumar,Dr. Vikram Iyer,Neurology,21,Male,Migraine,125613.99,27-06-2025,06-07-2025
+Shalini Patel,Dr. Meena Kumar,Neurology,16,Female,Stroke,193543.28,16-01-2025,22-01-2025
+Shalini Bose,Dr. Sandeep Patel,General Medicine,64,Female,Fever,115433.85,04-07-2025,05-07-2025
+Sandeep Patel,Dr. Meena Kumar,Neurology,14,Male,Stroke,223884.3,12-12-2025,14-12-2025
+Ashok Sharma,Dr. Rohit Chatterjee,Cardiology,6,Male,Cardiac Arrest,119525.85,16-07-2025,19-07-2025
+Amit Chatterjee,Dr. Vikram Kapoor,Pediatrics,32,Male,Cough and Cold,105815.38,13-06-2025,18-06-2025
+Kiran Joshi,Dr. Swati Pillai,Cardiology,29,Female,Cardiac Arrest,201671.49,24-01-2025,31-01-2025
+Rohit Rao,Dr. Vikram Kapoor,ENT,71,Male,Sinusitis,115816.31,08-07-2025,12-07-2025
+Deepak Desai,Dr. Gaurav Chatterjee,Dermatology,76,Male,Eczema,243048.86,11-04-2025,20-04-2025
+Meena Singh,Dr. Vikram Iyer,Gynecology,30,Female,Maternity,136761.66,22-11-2025,23-11-2025
+Priya Chopra,Dr. Vikram Kapoor,Orthopedics,68,Female,Joint Pain,245829.59,03-08-2025,11-08-2025
+Kavita Iyer,Dr. Sandeep Patel,Cardiology,67,Female,Cardiac Arrest,105025.03,10-07-2025,18-07-2025
+Neha Pillai,Dr. Swati Pillai,Neurology,10,Female,Nerve Pain,149198.25,01-02-2025,08-02-2025
+Kavita Nair,Dr. Vikram Kapoor,General Medicine,51,Female,Typhoid,176079.22,17-06-2025,23-06-2025
+Sanjay Gupta,Dr. Nisha Kumar,Neurology,20,Male,Migraine,29097.46,19-08-2025,27-08-2025
+Suresh Chatterjee,Dr. Meena Kumar,Pediatrics,40,Male,Vomiting,117446.61,03-03-2025,05-03-2025
+Deepak Desai,Dr. Rohit Chatterjee,Pediatrics,19,Male,Cough and Cold,25529.59,08-05-2025,14-05-2025
+Amit Rao,Dr. Pooja Chatterjee,Neurology,52,Male,Migraine,214086.52,12-10-2025,21-10-2025
+Rohit Kumar,Dr. Ritu Chatterjee,Orthopedics,8,Male,Fracture,208101.97,24-04-2025,27-04-2025
+Anil Joshi,Dr. Sandeep Patel,General Medicine,3,Male,Fever,249298.87,12-04-2025,20-04-2025
+Neha Mehta,Dr. Swati Pillai,Cardiology,7,Female,Arrhythmia,44493.33,21-10-2025,28-10-2025
+Sneha Agarwal,Dr. Vikram Iyer,Gynecology,23,Female,Infection,90423.98,06-04-2025,11-04-2025
+Rajesh Verma,Dr. Meena Patel,Pediatrics,64,Male,Cough and Cold,104762.07,09-10-2025,17-10-2025
+Manoj Chopra,Dr. Ritu Chatterjee,Gynecology,83,Male,PCOS,221509.17,27-09-2025,01-10-2025
+Preeti Sharma,Dr. Nikhil Rao,ENT,70,Female,Hearing Loss,196014.47,26-06-2025,06-07-2025
+Sneha Iyer,Dr. Sneha Kumar,Cardiology,77,Female,Chest Pain,57097.99,24-05-2025,25-05-2025
+Suman Bose,Dr. Meena Kumar,Pediatrics,13,Female,Chickenpox,64220.69,04-05-2025,09-05-2025
+Anjali Nair,Dr. Neha Desai,Gynecology,23,Female,Prenatal Checkup,46496.79,31-10-2025,06-11-2025
+Ritu Pillai,Dr. Vikram Iyer,ENT,73,Female,Ear Infection,237247.02,10-09-2025,19-09-2025
+Nikhil Verma,Dr. Sandeep Patel,Cardiology,78,Male,Cardiac Arrest,57045.81,27-09-2025,05-10-2025
+Pankaj Reddy,Dr. Ritu Chatterjee,ENT,42,Male,Ear Infection,17710.32,17-03-2025,27-03-2025
+Kavita Kumar,Dr. Sanjay Nair,ENT,48,Female,Sinusitis,177020.89,06-12-2025,13-12-2025
+Anita Rao,Dr. Rekha Reddy,Neurology,56,Female,Epilepsy,198585.1,07-09-2025,13-09-2025
+Gaurav Desai,Dr. Meena Kumar,Pediatrics,49,Male,Chickenpox,78785.34,19-12-2025,24-12-2025
+Rahul Pillai,Dr. Nikhil Rao,Cardiology,78,Male,Cardiac Arrest,81599.58,10-11-2025,14-11-2025
+Pooja Agarwal,Dr. Ritu Chatterjee,ENT,31,Female,Sinusitis,88662.1,13-06-2025,16-06-2025
+Neha Mehta,Dr. Ashok Joshi,Cardiology,27,Female,Chest Pain,64636.59,04-02-2025,10-02-2025
+Suresh Sharma,Dr. Rohit Chatterjee,Gynecology,54,Male,Infection,242368.15,31-07-2025,08-08-2025
+Ritu Chatterjee,Dr. Nikhil Rao,Orthopedics,74,Female,Arthritis,163789.48,18-12-2025,22-12-2025
+Vikram Verma,Dr. Vikram Kapoor,Cardiology,34,Male,Chest Pain,238060.55,07-02-2025,13-02-2025
+Anil Patel,Dr. Sandeep Patel,Orthopedics,77,Male,Sprain,246363.2,05-09-2025,06-09-2025
+Arjun Desai,Dr. Vikram Kapoor,Neurology,13,Male,Migraine,84780.36,08-04-2025,15-04-2025
+Preeti Iyer,Dr. Vikram Kapoor,General Medicine,13,Female,Diabetes,15259.95,20-10-2025,29-10-2025
+Kavita Verma,Dr. Meena Kumar,Cardiology,12,Female,Arrhythmia,75753.71,05-12-2025,15-12-2025
+Suresh Sharma,Dr. Nisha Kumar,Neurology,11,Male,Stroke,119971.95,01-03-2025,06-03-2025
+Suman Agarwal,Dr. Pooja Chatterjee,Orthopedics,24,Female,Arthritis,94642.07,15-07-2025,21-07-2025
+Amit Iyer,Dr. Ashok Joshi,Dermatology,29,Male,Eczema,209758.45,16-10-2025,17-10-2025
+Suresh Gupta,Dr. Meena Kumar,Gynecology,71,Male,PCOS,18062.99,18-07-2025,27-07-2025
+Gaurav Agarwal,Dr. Neha Desai,Pediatrics,39,Male,Vomiting,22501.9,18-01-2025,27-01-2025
+Nisha Pillai,Dr. Meena Patel,Neurology,58,Female,Migraine,45701.11,27-03-2025,31-03-2025
+Kavita Verma,Dr. Vikram Kapoor,Orthopedics,26,Female,Arthritis,249325.5,18-11-2025,21-11-2025
+Shalini Mehta,Dr. Sandeep Patel,Orthopedics,72,Female,Arthritis,101146.68,16-06-2025,21-06-2025
+Priya Desai,Dr. Neha Desai,Gynecology,54,Female,Maternity,39961.65,18-10-2025,28-10-2025
+Pooja Kumar,Dr. Neha Desai,Orthopedics,69,Female,Sprain,220393.54,30-07-2025,04-08-2025
+Nikhil Pillai,Dr. Meena Patel,Dermatology,23,Male,Skin Allergy,71027.29,15-03-2025,25-03-2025
+Sneha Verma,Dr. Nikhil Rao,ENT,7,Female,Ear Infection,187200.21,18-05-2025,24-05-2025
+Deepak Rao,Dr. Pooja Chatterjee,Dermatology,30,Male,Skin Allergy,36193.22,15-08-2025,21-08-2025
+Vivek Desai,Dr. Sandeep Patel,Pediatrics,28,Male,Vomiting,228617.9,28-07-2025,05-08-2025
+Ritu Verma,Dr. Sanjay Nair,Neurology,40,Female,Migraine,178263.64,26-07-2025,29-07-2025
+Nisha Pillai,Dr. Vikram Iyer,Neurology,26,Female,Epilepsy,209733.24,08-05-2025,09-05-2025
+Ajay Reddy,Dr. Pooja Chatterjee,ENT,65,Male,Hearing Loss,101044.74,05-03-2025,06-03-2025
+Nikhil Desai,Dr. Ashok Joshi,Neurology,76,Male,Nerve Pain,139179.43,26-06-2025,29-06-2025
+Shalini Gupta,Dr. Vikram Kapoor,Cardiology,7,Female,Arrhythmia,43238.13,20-10-2025,24-10-2025
+Meena Reddy,Dr. Pooja Chatterjee,Gynecology,88,Female,Maternity,5197.8,09-03-2025,12-03-2025
+Priya Nair,Dr. Pooja Chatterjee,General Medicine,55,Female,Typhoid,224184.29,28-06-2025,06-07-2025
+Rohit Rao,Dr. Sanjay Nair,Gynecology,1,Male,Maternity,129343.89,06-12-2025,12-12-2025
+Lakshmi Desai,Dr. Vikram Kapoor,General Medicine,62,Female,Fever,18767.75,22-05-2025,28-05-2025
+Shalini Rao,Dr. Nisha Kumar,Neurology,8,Female,Epilepsy,201941.17,04-11-2025,11-11-2025
+Kavita Sharma,Dr. Arjun Kapoor,General Medicine,54,Female,Typhoid,102935.93,19-01-2025,29-01-2025
+Kiran Reddy,Dr. Rekha Reddy,Pediatrics,86,Female,Vomiting,91548.79,03-06-2025,06-06-2025
+Preeti Patel,Dr. Vikram Kapoor,Orthopedics,17,Female,Arthritis,186006.97,14-10-2025,17-10-2025
+Anita Gupta,Dr. Gaurav Chatterjee,ENT,40,Female,Ear Infection,106856.72,19-06-2025,25-06-2025
+Deepak Kapoor,Dr. Swati Pillai,Dermatology,82,Male,Skin Allergy,147142.93,14-11-2025,16-11-2025
+Karan Bose,Dr. Swati Pillai,Gynecology,53,Male,Prenatal Checkup,16353.31,19-03-2025,22-03-2025
+Anita Malhotra,Dr. Neha Desai,Dermatology,41,Female,Acne,216011.3,03-04-2025,05-04-2025
+Arjun Mehta,Dr. Rohit Chatterjee,Cardiology,36,Male,Arrhythmia,54717.44,28-03-2025,07-04-2025
+Suman Gupta,Dr. Ritu Chatterjee,Gynecology,52,Female,Infection,108969.29,02-09-2025,09-09-2025
+Gaurav Reddy,Dr. Meena Kumar,Cardiology,68,Male,Chest Pain,50072.45,13-12-2025,14-12-2025

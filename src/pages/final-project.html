@@ -1,0 +1,38 @@
+      <div class="section-head">
+        <span class="eyebrow">07 · Capstone</span>
+        <h1>Your first day as a Business Analyst Intern</h1>
+        <p class="lede">"Attached is our raw sales data. Board meeting is tomorrow morning. I need a one-page dashboard, and I need YOU to walk me through 3 insights before I present." — that's the whole brief. That's also almost word-for-word what a real first assignment looks like.</p>
+      </div>
+
+      <h2>Deliverable checklist</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">✓</span><div>Data imported from <code>Sales_Dirty.xlsx</code></div></li>
+        <li><span class="ico">✓</span><div>All data-quality issues cleaned in Power Query — zero errors, zero unexplained blanks, zero duplicate rows</div></li>
+        <li><span class="ico">✓</span><div>At least 4 KPI Cards: Total Sales, Total Profit, Total Orders, Average Order Value</div></li>
+        <li><span class="ico">✓</span><div>At least 4 chart types, each answering a clear business question</div></li>
+        <li><span class="ico">✓</span><div>Consistent theme, real titles, interactions tested</div></li>
+        <li><span class="ico">✓</span><div>3 spoken insights, each backed by a specific number</div></li>
+      </ul>
+
+      <h2 style="margin-top:26px">The insight template</h2>
+      <p>Every insight follows this exact sentence structure:</p>
+      <div class="callout">"[Business fact] is happening in [specific area], shown by [specific number/chart], which suggests [business implication]."</div>
+      <p style="font-size:.9rem;color:var(--text-muted)"><b>Model example:</b> "Electronics is our strongest category, generating roughly ₹9.2 lakh — nearly a third of total sales — shown by the tallest bar in our Category chart, which suggests marketing spend should keep prioritizing Electronics inventory ahead of the next quarter."</p>
+
+      <h2 style="margin-top:26px">DAX you'll need</h2>
+      <div class="codeblock">Average Order Value = <span class="c-fn">DIVIDE</span>(<span class="c-fn">SUM</span>(Sales[Sales]), <span class="c-fn">DISTINCTCOUNT</span>(Sales[Order ID]))</div>
+      <div class="callout warn"><b>Before writing any DAX:</b> rename your table to <code>Sales</code> right after loading (right-click the query name → Rename). Every formula on this site assumes that name — a table still called "Sheet1" will show a red error, not because the formula is wrong, but because the name doesn't match.</div>
+
+      <h2 style="margin-top:26px">Grading rubric</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Criterion</th><th class="num">Weight</th></tr>
+          <tr><td>Data cleaned correctly</td><td class="num">25%</td></tr>
+          <tr><td>All 4 KPIs, correctly aggregated</td><td class="num">20%</td></tr>
+          <tr><td>4+ chart types, each answering a real question</td><td class="num">25%</td></tr>
+          <tr><td>Formatting: theme, titles, readable labels</td><td class="num">15%</td></tr>
+          <tr><td>3 insights, each backed by a number</td><td class="num">15%</td></tr>
+        </table>
+      </div>
+
+      <footer class="pagefoot"><span>07 · Final Project</span><a href="quiz.html">Next: Self-Test Quiz →</a></footer>

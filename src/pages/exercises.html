@@ -1,0 +1,47 @@
+      <div class="section-head">
+        <span class="eyebrow">06 · Practice</span>
+        <h1>Five dashboards, increasing difficulty</h1>
+        <p class="lede">Each one uses a dataset from the <a href="datasets.html">Datasets page</a>. Work through them in order — each borrows a skill from the one before.</p>
+      </div>
+      <div id="exerciseList"></div>
+      <footer class="pagefoot"><span>06 · Exercises</span><a href="07-final-project.html">Next: Final Project →</a></footer>
+
+<script>
+/* ============= exercises ============= */
+const DATASET_FILES = {sales_clean:'Sales_Clean.csv', hr_clean:'HR_Clean.csv', retail_clean:'Retail_Clean.csv', banking_clean:'Banking_Clean.csv', hospital_clean:'Hospital_Clean.csv'};
+const EXERCISES = [
+{n:1, title:'Sales Dashboard', level:'Beginner', mins:10, dataset:'sales_clean', skills:'Connect to Excel, basic Bar + Pie + Card, sorting, data labels.',
+  scenario:'You\'re a junior analyst at an online retailer. Your manager wants a one-page snapshot before a 9 AM meeting.',
+  tasks:['Import the Sales dataset','2 KPI Cards: Total Sales, Total Profit','Bar Chart: Sales by Category, sorted descending, labels on','Pie Chart: Market Share by Category','Title text box: "Sales Snapshot"']},
+{n:2, title:'Retail Dashboard', level:'Easy–Medium', mins:12, dataset:'retail_clean', skills:'Line chart trend, Map, Filters pane.',
+  scenario:'You work for UrbanMart, a 12-store retail chain. Leadership wants to see where sales are strongest and how they trend across the year.',
+  tasks:['Import the Retail dataset','Line Chart: Sales by Month','Filled Map: Sales by State','Table: Store, City, Sales, Inventory','Page filter: 3 states of your choice','Bonus: Treemap of Sales by Product']},
+{n:3, title:'Hospital Dashboard', level:'Medium', mins:15, dataset:'hospital_clean', skills:'Scatter plot, Gauge, first non-trivial DAX measure.',
+  scenario:'Build a dashboard for a hospital administrator: patient volume by department, average billing, and whether length of stay affects billing.',
+  tasks:['Import the Hospital dataset','Bar Chart: Patient count by Department','KPI Card: Average Bill Amount','DAX: Length of Stay = DATEDIFF(Admission, Discharge, DAY)','Scatter: Length of Stay vs Bill Amount, colored by Department','Gauge: Average Bill vs a cost-control target']},
+{n:4, title:'HR Dashboard', level:'Medium–Hard', mins:15, dataset:'hr_clean', skills:'AVERAGE/AVERAGEX, conditional formatting, slicers.',
+  scenario:'HR leadership wants to understand pay equity and performance across departments before the annual review cycle.',
+  tasks:['Import the HR dataset','DAX: Average Salary = AVERAGE(Salary)','Bar Chart: Average Salary by Department','Bar Chart: Average Salary by Gender','Table with conditional formatting on Performance Rating (red/yellow/green)','2 slicers: Department, Location']},
+{n:5, title:'Bank Loan Dashboard', level:'Hardest', mins:18, dataset:'banking_clean', skills:'Multiple DAX measures, CALCULATE, DIVIDE, risk-flagging.',
+  scenario:'Build a credit risk dashboard for a bank\'s loan department: approval rates, average credit score, and flag risky loans.',
+  tasks:['Import the Banking dataset','DAX: Total Loans, Approved Loans (CALCULATE), Approval Rate (DIVIDE), Average Credit Score','3 KPI Cards + a Gauge (Approval Rate vs 70% target)','Bar Chart: Count of Loans by Status','Table: Customer, Loan Amount, Credit Score, Status — flag Credit Score below 600','Slicer: Loan Status']},
+];
+document.getElementById('exerciseList').innerHTML = EXERCISES.map(e => `
+  <div class="card" style="margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+      <div>
+        <span class="eyebrow">Exercise ${e.n} · ${e.level}</span>
+        <h3 style="margin-top:4px">${e.title}</h3>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="pill">⏱ ${e.mins} min</span>
+        <a class="btn sm" href="datasets/${DATASET_FILES[e.dataset]}" download>⇩ Get dataset</a>
+      </div>
+    </div>
+    <p style="font-size:.9rem;font-style:italic;color:var(--text-muted)">"${e.scenario}"</p>
+    <p style="font-size:.82rem;margin-bottom:4px"><b>Skills:</b> ${e.skills}</p>
+    <ul class="kicker-list" style="margin-top:10px">
+      ${e.tasks.map(t=>`<li><span class="ico">✓</span><div style="font-size:.88rem">${t}</div></li>`).join('')}
+    </ul>
+  </div>`).join('');
+</script>

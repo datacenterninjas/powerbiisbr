@@ -1,0 +1,101 @@
+Order ID,Customer,Region,Sales,Profit,Category,Sub Category,Date,Discount,Quantity
+ORD1001,Anjali Kumar,North,77930.1,3734.75,Electronics,Tablet,25-08-2025,25,11
+ORD1002,Arjun Chatterjee,South,1587.53,413.39,Stationery,Pens,28-04-2025,30,11
+ORD1003,Rohit Singh,North,4998.57,1502.31,Clothing,Footwear,11-06-2025,20,5
+ORD1004,Gaurav Sharma,North,3397.11,19.88,Grocery,Dairy,15-10-2025,10,11
+ORD1005,Neha Reddy,South,1499.55,523.24,Stationery,Art Supplies,12-03-2025,5,10
+ORD1006,Swati Joshi,East,14022.73,3741.71,Electronics,Mobile,05-08-2025,5,2
+ORD1007,Arjun Pillai,South,2554.94,751.95,Grocery,Packaged Food,06-01-2025,20,8
+ORD1008,Vivek Nair,North,1600.64,198.33,Stationery,Office Supplies,21-08-2025,10,11
+ORD1009,Sanjay Sharma,North,3793.83,1131.35,Clothing,Jackets,02-06-2025,0,3
+ORD1010,Swati Joshi,West,42525.19,14092.84,Furniture,Table,29-09-2025,20,6
+ORD1011,Sanjay Sharma,West,1027.12,309.67,Clothing,Footwear,07-06-2025,10,1
+ORD1012,Anjali Iyer,West,10113.92,2795.58,Furniture,Bed,30-09-2025,15,2
+ORD1013,Sneha Desai,West,839.28,161.68,Grocery,Packaged Food,19-04-2025,30,3
+ORD1014,Neha Reddy,North,54498.14,5415.38,Furniture,Sofa,22-09-2025,25,7
+ORD1015,Vikram Nair,West,11628.51,1995.09,Furniture,Table,29-10-2025,20,2
+ORD1016,Ravi Malhotra,West,26678.41,7839.56,Electronics,Mobile,06-02-2025,0,4
+ORD1017,Swati Joshi,North,5134.16,1664.52,Clothing,Footwear,20-10-2025,25,4
+ORD1018,Rohit Kumar,North,1016.6,124.45,Grocery,Dairy,05-08-2025,25,4
+ORD1019,Pooja Pillai,East,8010.49,2164.73,Electronics,Mobile,25-02-2025,10,1
+ORD1020,Anjali Iyer,North,41764.38,2565.09,Furniture,Bed,08-05-2025,5,8
+ORD1021,Arjun Pillai,East,168.91,48.04,Stationery,Notebooks,17-02-2025,20,1
+ORD1022,Anjali Iyer,West,2176.5,676.84,Grocery,Dairy,26-03-2025,15,8
+ORD1023,Arjun Chatterjee,West,2262.3,753.18,Grocery,Staples,12-10-2025,25,8
+ORD1024,Kavita Iyer,West,30824.51,7530.27,Furniture,Sofa,01-02-2025,20,4
+ORD1025,Neha Desai,West,67291.21,10931.49,Electronics,Tablet,30-01-2025,30,8
+ORD1026,Swati Joshi,West,50038.83,2205.79,Furniture,Chair,03-03-2025,30,10
+ORD1027,Anjali Iyer,West,1261.49,231.44,Stationery,Notebooks,25-09-2025,25,10
+ORD1028,Neha Desai,West,15286.87,859.82,Clothing,Jeans,09-03-2025,5,11
+ORD1029,Karan Joshi,East,1234.97,430.31,Clothing,Shirts,07-02-2025,20,1
+ORD1030,Neha Reddy,North,569.98,171.97,Stationery,Office Supplies,09-07-2025,0,3
+ORD1031,Arjun Chopra,West,3424.53,724.6,Grocery,Packaged Food,05-01-2025,30,12
+ORD1032,Karan Joshi,West,34308.57,8473.07,Electronics,Laptop,21-03-2025,0,5
+ORD1033,Anjali Kumar,South,1748.59,356.18,Stationery,Pens,16-05-2025,25,12
+ORD1034,Swati Joshi,East,2681.14,162.67,Clothing,Shirts,02-01-2025,30,2
+ORD1035,Ashok Verma,North,21071.08,4894.12,Furniture,Sofa,15-10-2025,20,3
+ORD1036,Sanjay Sharma,West,58897.01,10778.38,Electronics,Laptop,17-03-2025,10,9
+ORD1037,Anil Gupta,West,59975.56,20324.43,Electronics,Headphones,21-01-2025,30,6
+ORD1038,Swati Chatterjee,North,42842.09,4821.92,Furniture,Chair,14-11-2025,30,6
+ORD1039,Amit Chatterjee,West,22332.75,485.61,Furniture,Table,20-06-2025,0,3
+ORD1040,Pooja Pillai,North,21486.37,2213.45,Furniture,Sofa,20-01-2025,0,3
+ORD1041,Rohit Kumar,North,34293.44,10237.59,Furniture,Bookshelf,25-04-2025,30,6
+ORD1042,Gaurav Nair,North,33814.86,11387.34,Furniture,Bookshelf,23-05-2025,0,6
+ORD1043,Swati Chatterjee,North,2129.45,175.59,Stationery,Art Supplies,15-01-2025,20,11
+ORD1044,Vivek Nair,West,15375.21,-533.48,Clothing,Jeans,02-11-2025,10,10
+ORD1045,Anil Gupta,South,15505.42,1613.78,Clothing,Footwear,23-10-2025,0,10
+ORD1046,Shalini Pillai,South,8479.68,1402.38,Electronics,Camera,10-12-2025,30,1
+ORD1047,Shalini Pillai,South,4159.27,314.3,Grocery,Snacks,05-03-2025,20,11
+ORD1048,Karan Joshi,West,7208.64,1238.19,Clothing,Footwear,09-04-2025,10,6
+ORD1049,Pooja Pillai,North,3253.66,550.44,Grocery,Beverages,01-01-2025,15,10
+ORD1050,Karan Joshi,South,66199.85,9002.87,Furniture,Bookshelf,15-08-2025,10,10
+ORD1051,Gaurav Sharma,West,2779.91,599.19,Grocery,Beverages,14-11-2025,20,11
+ORD1052,Ashok Verma,West,28878.75,-1161.79,Furniture,Sofa,06-05-2025,5,4
+ORD1053,Rohit Kumar,West,69611.83,1933.41,Electronics,Camera,23-12-2025,20,7
+ORD1054,Arjun Chatterjee,East,1015.23,311.74,Grocery,Beverages,24-02-2025,0,3
+ORD1055,Anil Gupta,North,39605.24,12554.39,Furniture,Bed,04-03-2025,5,8
+ORD1056,Sandeep Gupta,West,2963.86,908.63,Grocery,Packaged Food,10-11-2025,30,9
+ORD1057,Swati Joshi,South,527.32,68.57,Stationery,Art Supplies,07-05-2025,15,3
+ORD1058,Anjali Kumar,North,1517.38,-28.84,Stationery,Art Supplies,27-05-2025,15,11
+ORD1059,Anjali Iyer,South,9075.12,385.73,Clothing,Ethnic Wear,22-12-2025,5,9
+ORD1060,Amit Chatterjee,North,42159.59,5749.29,Furniture,Chair,01-02-2025,20,7
+ORD1061,Gaurav Sharma,West,3819.09,1117.82,Grocery,Dairy,22-10-2025,0,10
+ORD1062,Arjun Chatterjee,East,47069.5,14434.17,Electronics,Headphones,03-08-2025,30,5
+ORD1063,Neha Reddy,North,626.47,77.89,Stationery,Files,15-01-2025,10,4
+ORD1064,Arjun Chatterjee,South,3023.45,494.79,Grocery,Beverages,21-07-2025,20,8
+ORD1065,Gaurav Nair,West,2138.07,217.32,Grocery,Beverages,19-04-2025,10,8
+ORD1066,Sandeep Gupta,South,7056.03,837.03,Clothing,Footwear,11-02-2025,30,5
+ORD1067,Rohit Kumar,West,820.9,215.48,Stationery,Notebooks,30-11-2025,0,6
+ORD1068,Rohit Singh,North,39027.66,427.47,Electronics,Laptop,06-03-2025,20,4
+ORD1069,Rohit Kumar,North,33040.54,8483.46,Electronics,Tablet,27-03-2025,10,4
+ORD1070,Vivek Nair,North,13072.11,2357.15,Furniture,Sofa,12-07-2025,10,2
+ORD1071,Sandeep Desai,North,68718.43,3239.37,Furniture,Chair,23-12-2025,25,10
+ORD1072,Karan Joshi,West,1786.98,291.45,Stationery,Notebooks,05-12-2025,10,10
+ORD1073,Sanjay Chopra,West,183.72,26.84,Stationery,Office Supplies,10-08-2025,30,1
+ORD1074,Sanjay Chopra,North,1864.94,626.97,Grocery,Beverages,19-05-2025,20,7
+ORD1075,Neha Reddy,North,2547.02,146.09,Grocery,Dairy,06-05-2025,20,7
+ORD1076,Meena Verma,South,2603.82,264.54,Grocery,Beverages,15-01-2025,25,8
+ORD1077,Kavita Iyer,West,8698.18,463.97,Clothing,Jeans,24-05-2025,30,8
+ORD1078,Anjali Kumar,West,26969.81,3036.03,Electronics,Tablet,12-10-2025,25,4
+ORD1079,Anjali Iyer,North,2871.52,194.39,Grocery,Dairy,27-07-2025,0,8
+ORD1080,Anjali Iyer,South,1292.08,155.31,Stationery,Office Supplies,09-10-2025,10,8
+ORD1081,Ashok Verma,South,1388.55,331.19,Grocery,Staples,11-06-2025,0,5
+ORD1082,Vivek Nair,North,544.92,33.02,Stationery,Pens,29-10-2025,15,4
+ORD1083,Ravi Joshi,West,4550.99,99.11,Clothing,Shirts,08-01-2025,10,4
+ORD1084,Neha Reddy,West,1292.02,423.31,Clothing,Shirts,23-11-2025,25,1
+ORD1085,Kavita Iyer,West,41387.94,3571.05,Electronics,Tablet,27-01-2025,15,5
+ORD1086,Deepak Reddy,West,600.21,108.52,Grocery,Snacks,18-12-2025,0,2
+ORD1087,Karan Chatterjee,West,25277.71,-66.21,Furniture,Bed,02-08-2025,5,5
+ORD1088,Ravi Malhotra,North,1505.1,442.6,Stationery,Art Supplies,08-08-2025,10,8
+ORD1089,Karan Joshi,West,1920.08,631.78,Stationery,Notebooks,17-04-2025,0,10
+ORD1090,Gaurav Sharma,South,28381.02,357.97,Electronics,Laptop,29-07-2025,0,4
+ORD1091,Vikram Nair,North,612.24,142.52,Stationery,Art Supplies,26-12-2025,10,5
+ORD1092,Sandeep Gupta,West,72263.06,23374.74,Furniture,Sofa,06-08-2025,30,11
+ORD1093,Vivek Nair,West,36399.47,-951.66,Furniture,Table,07-06-2025,0,5
+ORD1094,Arjun Chopra,East,91396.38,29893.06,Electronics,Camera,14-09-2025,15,12
+ORD1095,Neha Reddy,East,2459.79,599.73,Grocery,Snacks,06-11-2025,15,10
+ORD1096,Deepak Reddy,West,107182.18,19812.54,Electronics,Laptop,11-01-2025,20,11
+ORD1097,Anjali Kumar,West,67806.84,21456.06,Electronics,Laptop,03-04-2025,15,8
+ORD1098,Anil Gupta,North,2337.55,183.32,Grocery,Snacks,23-02-2025,10,8
+ORD1099,Anil Chatterjee,South,1696.94,467.38,Grocery,Dairy,09-10-2025,15,5
+ORD1100,Rohit Singh,East,38465.48,4295.44,Electronics,Headphones,21-09-2025,30,5

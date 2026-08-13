@@ -1,0 +1,120 @@
+      <div class="section-head">
+        <span class="eyebrow">01 · Architecture</span>
+        <h1>From raw data to dashboard: the six-stage journey</h1>
+        <p class="lede">Every Power BI report you will ever build — a Swiggy orders dashboard, a bank's loan-risk report, a hospital's bed-occupancy tracker — moves through the exact same six stages. Learn this once, and the whole tool stops feeling random.</p>
+      </div>
+
+      <figure>
+        <svg viewBox="0 0 1160 220" role="img" aria-label="Data flow diagram: Data Sources leads to Power Query which cleans and shapes, into Data Model which links tables, into DAX which calculates, into Visualizations which render charts, into Power BI Service which publishes and refreshes.">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <!-- boxes -->
+          <g font-family="ui-monospace, Consolas, monospace">
+            <!-- 0 Data Sources -->
+            <rect x="20" y="75" width="150" height="90" rx="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+            <text x="95" y="113" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Data</text>
+            <text x="95" y="130" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Sources</text>
+            <text x="95" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">Excel · SQL · Web</text>
+
+            <!-- 1 Power Query (emphasized) -->
+            <rect x="214" y="75" width="150" height="90" rx="10" fill="var(--accent)" stroke="none"/>
+            <text x="289" y="113" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent-ink)" font-family="Georgia, serif">Power</text>
+            <text x="289" y="130" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent-ink)" font-family="Georgia, serif">Query</text>
+            <text x="289" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">clean · shape</text>
+
+            <!-- 2 Data Model -->
+            <rect x="408" y="75" width="150" height="90" rx="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+            <text x="483" y="113" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Data</text>
+            <text x="483" y="130" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Model</text>
+            <text x="483" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">relationships</text>
+
+            <!-- 3 DAX -->
+            <rect x="602" y="75" width="150" height="90" rx="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+            <text x="677" y="122" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor" font-family="Georgia, serif">DAX</text>
+            <text x="677" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">measures</text>
+
+            <!-- 4 Visuals -->
+            <rect x="796" y="75" width="150" height="90" rx="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+            <text x="871" y="122" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Visuals</text>
+            <text x="871" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">charts · reports</text>
+
+            <!-- 5 Service -->
+            <rect x="990" y="75" width="150" height="90" rx="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+            <text x="1065" y="122" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor" font-family="Georgia, serif">Service</text>
+            <text x="1065" y="183" text-anchor="middle" font-size="10.5" fill="currentColor" opacity=".62">cloud · refresh</text>
+
+            <!-- arrows -->
+            <line x1="171" y1="120" x2="212" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#arrow)"/>
+            <text x="192" y="103" text-anchor="middle" font-size="9.5" fill="currentColor" opacity=".7">pull raw</text>
+
+            <line x1="365" y1="120" x2="406" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#arrow)"/>
+            <text x="386" y="103" text-anchor="middle" font-size="9.5" fill="currentColor" opacity=".7">cleaned</text>
+
+            <line x1="559" y1="120" x2="600" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#arrow)"/>
+            <text x="580" y="103" text-anchor="middle" font-size="9.5" fill="currentColor" opacity=".7">linked</text>
+
+            <line x1="753" y1="120" x2="794" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#arrow)"/>
+            <text x="774" y="103" text-anchor="middle" font-size="9.5" fill="currentColor" opacity=".7">calculated</text>
+
+            <line x1="947" y1="120" x2="988" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#arrow)"/>
+            <text x="968" y="103" text-anchor="middle" font-size="9.5" fill="currentColor" opacity=".7">published</text>
+          </g>
+        </svg>
+        <figcaption>The same six stages carry every Power BI report — only the source and the business question change.</figcaption>
+      </figure>
+
+      <div class="callout"><b>Kitchen analogy:</b> Data Sources are raw ingredients. Power Query is washing and chopping. The Data Model is the recipe linking ingredients together. DAX is the cooking method and measurements. Visuals are the plating. The Service is serving the finished dish to your guests.</div>
+
+      <h2 style="margin-top:32px">Every stage, explained</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>① Data Sources</h4>
+          <p style="font-size:.9rem">Where raw data physically lives before Power BI touches it — an Excel export, a company SQL Server database, or a public webpage. Nothing is clean yet.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> A Zomato analyst's data source might be an Excel export of last month's orders.</p>
+        </div>
+        <div class="card">
+          <h4>② Power Query</h4>
+          <p style="font-size:.9rem">The cleaning layer — remove duplicates, fix spelling, split columns, handle blanks. Real data is never clean; this is where you make it usable.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> Standardizing "bangalore", "Bangalore", "BANGALORE " into one clean value.</p>
+        </div>
+        <div class="card">
+          <h4>③ Data Model</h4>
+          <p style="font-size:.9rem">Where cleaned tables get connected through relationships — the same job as VLOOKUP in Excel, but automatic and drawn once for the whole report.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> Linking a bank's Loans table to its Customers table by Customer ID.</p>
+        </div>
+        <div class="card">
+          <h4>④ DAX</h4>
+          <p style="font-size:.9rem">The formula language — Excel formulas' cousin, built for whole tables instead of single cells. This is how you create numbers that don't already exist as a column.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Profit = SUM(Sales) − SUM(Cost)</code>, recalculated instantly however you slice it.</p>
+        </div>
+        <div class="card">
+          <h4>⑤ Visuals &amp; Reports</h4>
+          <p style="font-size:.9rem">The charts, maps, and tables you actually see — built in Report View. This is the "plating" step, turning numbers into a picture a human reads in five seconds.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> "Top 5 restaurants by revenue" becomes a bar chart.</p>
+        </div>
+        <div class="card">
+          <h4>⑥ Dashboards &amp; Service</h4>
+          <p style="font-size:.9rem">Desktop is where you <em>build</em>. The Power BI Service (cloud) is where you <em>publish and share</em> — a Report is multi-page and lives in Desktop; a Dashboard is a single-page pinboard that lives only in the Service.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> Your CEO opens your published dashboard on their phone during a flight layover.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:32px">Gateways &amp; refresh</h2>
+      <p>A <b>Gateway</b> is a small piece of software that lets Power BI Service securely reach data sitting inside a private company network — like a sales database that never touches the public internet — so it can refresh automatically. <b>Refresh</b> is simply re-pulling the latest data so your numbers stay current: manual (click Refresh) or scheduled (e.g. every night at 6 AM).</p>
+
+      <h2 style="margin-top:32px">Import vs. DirectQuery vs. Live Connection</h2>
+      <p>Three ways Power BI can connect to data. For this whole course — and almost everything you'll do as a beginner — you'll use <b>Import</b>.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>Import</th><th>DirectQuery</th><th>Live Connection</th></tr>
+          <tr><td><b>What happens</b></td><td>Data is copied into Power BI's own memory</td><td>Data stays at the source; queried live on every click</td><td>Connects straight to an existing model built elsewhere</td></tr>
+          <tr><td><b>Speed</b></td><td>Very fast</td><td>Can be slower</td><td>Depends on the source model</td></tr>
+          <tr><td><b>Freshness</b></td><td>As of last Refresh</td><td>Always live</td><td>Always live</td></tr>
+          <tr><td><b>Best for</b></td><td>Beginners, small–medium data <span class="pill good">default choice</span></td><td>Huge databases, real-time needs</td><td>Reusing a shared company model</td></tr>
+        </table>
+      </div>
+
+      <footer class="pagefoot"><span>01 · Architecture</span><a href="02-interface.html">Next: The Interface →</a></footer>

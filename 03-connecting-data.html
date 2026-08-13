@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Power BI for MBA Analytics — Course Portal</title>
+<title>Connecting to Data — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -193,10 +193,10 @@
     </div>
         <div class="navgroup">
       <div class="label">Course</div>
-      <a class="navbtn active" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
+      <a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
       <a class="navbtn" href="01-architecture.html"><span class="num">01</span> Architecture</a>
       <a class="navbtn" href="02-interface.html"><span class="num">02</span> The Interface</a>
-      <a class="navbtn" href="03-connecting-data.html"><span class="num">03</span> Connecting to Data</a>
+      <a class="navbtn active" href="03-connecting-data.html"><span class="num">03</span> Connecting to Data</a>
       <a class="navbtn" href="04-power-query.html"><span class="num">04</span> Power Query</a>
       <a class="navbtn" href="05-visualizations.html"><span class="num">05</span> Visualizations</a>
     </div>
@@ -225,46 +225,51 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Home</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Connecting to Data</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Start here</span>
-        <h1>From a blank screen to a real dashboard — in three sessions.</h1>
-        <p class="lede">This is the companion site for your classroom workshop. Everything your instructor demonstrated live is here to revisit: the concepts, the click-paths, the practice files, and a self-test quiz. No prior Power BI experience assumed — just the basic Excel you already know.</p>
+        <span class="eyebrow">03 · Connecting to Data</span>
+        <h1>Getting your data into Power BI — three ways</h1>
+        <p class="lede">Excel, a company database, or a public website — the click-path is almost identical every time: <b>Get Data → pick a source → Navigator → Transform Data.</b></p>
       </div>
 
-      <div class="grid grid-3">
-        <div class="card">
-          <span class="pill">Session 1 · 55 min</span>
-          <h3 style="margin-top:10px">Fundamentals</h3>
-          <p style="font-size:.9rem">What Power BI actually is, how data flows through it, and a full tour of the screen you'll be living in.</p>
-        </div>
-        <div class="card">
-          <span class="pill">Session 2 · 55 min</span>
-          <h3 style="margin-top:10px">Data &amp; Cleaning</h3>
-          <p style="font-size:.9rem">Pull data in from Excel, SQL Server, and the web — then fix everything wrong with it in Power Query.</p>
-        </div>
-        <div class="card">
-          <span class="pill">Session 3 · 60 min</span>
-          <h3 style="margin-top:10px">Dashboards</h3>
-          <p style="font-size:.9rem">Every core chart type, formatting that looks professional, and your own end-to-end dashboard.</p>
-        </div>
+      <h2>Connecting to Excel</h2>
+      <div class="clickpath">
+        <span class="seg">Home</span><span class="arrow">→</span><span class="seg">Get Data</span><span class="arrow">→</span><span class="seg">Excel Workbook</span><span class="arrow">→</span><span class="seg">select file</span><span class="arrow">→</span><span class="seg">Navigator (tick sheet)</span><span class="arrow">→</span><span class="seg">Transform Data</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Option</th><th>What it does</th><th>When to use</th></tr>
+          <tr><td><b>Load</b></td><td>Brings data in exactly as-is, no cleaning.</td><td>Only when you're 100% sure the data is already clean — rare in real life.</td></tr>
+          <tr><td><b>Transform Data</b></td><td>Opens Power Query first so you can clean before it touches your report.</td><td><span class="pill good">your default click, always</span></td></tr>
+          <tr><td><b>Combine</b></td><td>Stacks multiple files/sheets with the same structure into one table.</td><td>Your company saves one Excel file per month and you want all 12 as one table.</td></tr>
+        </table>
+      </div>
+      <div class="callout warn"><b>Golden rule:</b> Always click <b>Transform Data</b>, never Load, unless you've already inspected the data and know it's clean.</div>
+
+      <h2 style="margin-top:30px">Connecting to SQL Server</h2>
+      <p>A SQL Server is a very large, very organized Excel workbook that lives on a powerful shared computer instead of your laptop — it can hold billions of rows, many people can use it at once, and it's always "live."</p>
+      <div class="grid grid-2">
+        <div class="card"><h4>Server Name</h4><p style="font-size:.88rem">The address of the machine where the database lives, e.g. <code>salesdb.company.com</code>. Like a building address.</p></div>
+        <div class="card"><h4>Database Name</h4><p style="font-size:.88rem">The specific database on that server, e.g. <code>SalesDB</code>. One server can host many databases — like flats in a building.</p></div>
+        <div class="card"><h4>Authentication</h4><p style="font-size:.88rem">Windows Authentication (your company login, automatic) or Database Authentication (a separate username/password).</p></div>
+        <div class="card"><h4>Connection String</h4><p style="font-size:.88rem">Server + database + settings bundled into one line, e.g. <code>Server=salesdb.company.com;Database=SalesDB;</code></p></div>
       </div>
 
-      <h2 style="margin-top:34px">How to use this site</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>Follow along live.</strong> Keep this open on a second window while your instructor teaches — jump to the matching section from the sidebar.</div></li>
-        <li><span class="ico">2</span><div><strong>Download the practice files.</strong> The <em>Datasets</em> section has every CSV used in class — both clean and deliberately messy versions — ready to open in Excel or load into Power BI.</div></li>
-        <li><span class="ico">3</span><div><strong>Test yourself.</strong> The <em>Self-Test Quiz</em> has all 21 questions from class, fully interactive — click an answer and get instant feedback with the reasoning.</div></li>
-        <li><span class="ico">4</span><div><strong>Come back later.</strong> Everything here — the chart-selection guide, the DAX formulas, the cheat sheet — is meant to outlast the workshop. Bookmark it.</div></li>
-      </ul>
+      <h2 style="margin-top:30px">Import vs. DirectQuery vs. Live Connection</h2>
+      <p>Full comparison is on the <a href="01-architecture.html">Architecture page</a> — the short version: <b>use Import</b> for this entire course and for almost everything you'll do as a beginner.</p>
 
-      <div class="callout"><b>Business lens:</b> Every idea in this course is tied to a company you already use — Swiggy, Zomato, Flipkart, Amazon, Blinkit, a bank, a hospital. If you can explain a Power BI concept using one of those, you've actually understood it — not just memorized a button location.</div>
+      <h2 style="margin-top:30px">Connecting to Web Data</h2>
+      <div class="clickpath">
+        <span class="seg">Home</span><span class="arrow">→</span><span class="seg">Get Data</span><span class="arrow">→</span><span class="seg">Web</span><span class="arrow">→</span><span class="seg">paste URL</span><span class="arrow">→</span><span class="seg">OK</span><span class="arrow">→</span><span class="seg">Navigator</span><span class="arrow">→</span><span class="seg">Transform Data</span>
+      </div>
+      <p style="font-size:.92rem">Works on any public page with an HTML table — Wikipedia country/state data tables, government open-data portals (data.gov.in), public COVID dashboards, weather data. Power BI scans the page and lists every table it finds as <code>Table 0</code>, <code>Table 1</code>… — preview each one before loading to make sure you picked the right one.</p>
+      <div class="callout"><b>Real limitation:</b> if the website changes its table layout later, the connection can break. This is a genuine trade-off of web scraping, not a bug in Power BI.</div>
 
-      <footer class="pagefoot"><span>Power BI Workshop · MBA Analytics</span><span>12 sections · ~2 hr of reference reading</span></footer>
+      <footer class="pagefoot"><span>03 · Connecting to Data</span><a href="04-power-query.html">Next: Power Query →</a></footer>
     </main>
   </div>
 </div>

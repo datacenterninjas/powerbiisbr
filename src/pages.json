@@ -1,0 +1,122 @@
+[
+  {
+    "id": "home",
+    "file": "index.html",
+    "fragment": "home.html",
+    "group": "Course",
+    "num": "·",
+    "label": "Home &amp; Roadmap",
+    "crumb": "Home",
+    "title": "Power BI for MBA Analytics — Course Portal"
+  },
+  {
+    "id": "architecture",
+    "file": "01-architecture.html",
+    "fragment": "architecture.html",
+    "group": "Course",
+    "num": "01",
+    "label": "Architecture",
+    "crumb": "Architecture",
+    "title": "Architecture — Power BI for MBA Analytics"
+  },
+  {
+    "id": "interface",
+    "file": "02-interface.html",
+    "fragment": "interface.html",
+    "group": "Course",
+    "num": "02",
+    "label": "The Interface",
+    "crumb": "The Interface",
+    "title": "The Interface — Power BI for MBA Analytics"
+  },
+  {
+    "id": "connecting",
+    "file": "03-connecting-data.html",
+    "fragment": "connecting-data.html",
+    "group": "Course",
+    "num": "03",
+    "label": "Connecting to Data",
+    "crumb": "Connecting to Data",
+    "title": "Connecting to Data — Power BI for MBA Analytics"
+  },
+  {
+    "id": "powerquery",
+    "file": "04-power-query.html",
+    "fragment": "power-query.html",
+    "group": "Course",
+    "num": "04",
+    "label": "Power Query",
+    "crumb": "Power Query",
+    "title": "Power Query — Power BI for MBA Analytics"
+  },
+  {
+    "id": "visuals",
+    "file": "05-visualizations.html",
+    "fragment": "visualizations.html",
+    "group": "Course",
+    "num": "05",
+    "label": "Visualizations",
+    "crumb": "Visualizations",
+    "title": "Visualizations — Power BI for MBA Analytics"
+  },
+  {
+    "id": "exercises",
+    "file": "06-exercises.html",
+    "fragment": "exercises.html",
+    "group": "Practice",
+    "num": "06",
+    "label": "5 Exercises",
+    "crumb": "5 Exercises",
+    "title": "5 Exercises — Power BI for MBA Analytics"
+  },
+  {
+    "id": "finalproject",
+    "file": "07-final-project.html",
+    "fragment": "final-project.html",
+    "group": "Practice",
+    "num": "07",
+    "label": "Final Project",
+    "crumb": "Final Project",
+    "title": "Final Project — Power BI for MBA Analytics"
+  },
+  {
+    "id": "quiz",
+    "file": "quiz.html",
+    "fragment": "quiz.html",
+    "group": "Practice",
+    "num": "★",
+    "label": "Self-Test Quiz",
+    "crumb": "Self-Test Quiz",
+    "title": "Self-Test Quiz — Power BI for MBA Analytics"
+  },
+  {
+    "id": "cheatsheet",
+    "file": "cheatsheet.html",
+    "fragment": "cheatsheet.html",
+    "group": "Reference",
+    "num": "◆",
+    "label": "Cheat Sheet",
+    "crumb": "Cheat Sheet",
+    "title": "Cheat Sheet — Power BI for MBA Analytics"
+  },
+  {
+    "id": "datasets",
+    "file": "datasets.html",
+    "fragment": "datasets.html",
+    "group": "Reference",
+    "num": "⇩",
+    "label": "Datasets",
+    "crumb": "Datasets",
+    "title": "Datasets — Power BI for MBA Analytics"
+  },
+  {
+    "id": "sqlserver",
+    "file": "08-sql-server-adventureworks.html",
+    "fragment": "sql-server-adventureworks.html",
+    "group": "Extended Modules",
+    "num": "08",
+    "label": "SQL Server &amp; AdventureWorks",
+    "crumb": "SQL Server &amp; AdventureWorks",
+    "title": "SQL Server &amp; AdventureWorks — Power BI for MBA Analytics"
+  }
+]
