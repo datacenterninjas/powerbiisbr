@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 300" role="img" aria-label="Left: a scatter plot of DimProduct StandardCost versus ListPrice, dots colored by Product Line — Road, Mountain, Standard — with a dashed 1:1 reference line and one outlier circled far above the cluster. Right: the same data split into three small-multiple scatter plots, one per Class — L, M, H — with the cluster shifting up and to the right as Class increases.">
+  <rect width="820" height="300" fill="#FFFFFF"/>
+  <defs>
+    <marker id="scatterArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#565B6B"/>
+    </marker>
+  </defs>
+
+  <text x="190" y="24" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="11" letter-spacing="1" fill="#565B6B">ONE SCATTER — COST VS. PRICE</text>
+  <text x="650" y="24" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="11" letter-spacing="1" fill="#565B6B">SPLIT INTO SMALL MULTIPLES BY CLASS</text>
+
+  <!-- LEFT: main scatter -->
+  <g transform="translate(45,42)">
+    <line x1="0" y1="0" x2="0" y2="190" stroke="#DEDACE"/>
+    <line x1="0" y1="190" x2="300" y2="190" stroke="#DEDACE"/>
+    <text x="0" y="-10" font-family="ui-monospace,Consolas,monospace" font-size="10" fill="#565B6B">DimProduct[ListPrice] ↑</text>
+    <text x="150" y="212" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="10" fill="#565B6B">DimProduct[StandardCost] →</text>
+
+    <!-- 1:1 reference line -->
+    <line x1="8" y1="182" x2="275" y2="15" stroke="#C97A1E" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="205" y="70" font-family="ui-monospace,Consolas,monospace" font-size="9" fill="#C97A1E" transform="rotate(-32 205 70)">1:1 line — no markup</text>
+
+    <!-- Standard cluster (muted grey) -->
+    <g fill="#565B6B" opacity=".5">
+      <circle cx="35" cy="168" r="5"/><circle cx="52" cy="155" r="5"/><circle cx="68" cy="162" r="5"/><circle cx="85" cy="145" r="5"/>
+    </g>
+    <!-- Road cluster (teal) -->
+    <g fill="#2A6560" opacity=".8">
+      <circle cx="105" cy="122" r="5"/><circle cx="128" cy="105" r="5"/><circle cx="148" cy="112" r="5"/><circle cx="168" cy="88" r="5"/><circle cx="188" cy="98" r="5"/>
+    </g>
+    <!-- Mountain cluster (accent) -->
+    <g fill="#C97A1E" opacity=".85">
+      <circle cx="118" cy="62" r="5"/><circle cx="148" cy="48" r="5"/><circle cx="170" cy="58" r="5"/><circle cx="198" cy="38" r="5"/><circle cx="222" cy="52" r="5"/>
+    </g>
+    <!-- Outlier -->
+    <circle cx="50" cy="22" r="5" fill="#B3402D"/>
+    <circle cx="50" cy="22" r="10" fill="none" stroke="#B3402D" stroke-width="1.3" stroke-dasharray="2,2"/>
+    <text x="62" y="18" font-family="ui-monospace,Consolas,monospace" font-size="9" fill="#B3402D">low cost, sky-high price?</text>
+
+    <!-- legend -->
+    <g font-family="ui-monospace,Consolas,monospace" font-size="9" fill="#565B6B">
+      <circle cx="4" cy="228" r="5" fill="#2A6560" opacity=".8"/><text x="15" y="231">Road (R)</text>
+      <circle cx="88" cy="228" r="5" fill="#C97A1E" opacity=".85"/><text x="99" y="231">Mountain (M)</text>
+      <circle cx="200" cy="228" r="5" fill="#565B6B" opacity=".5"/><text x="211" y="231">Standard (S)</text>
+    </g>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M362,150 C395,150 405,150 435,150" stroke="#C97A1E" stroke-width="2" fill="none" marker-end="url(#scatterArrow)"/>
+  <text x="398" y="132" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="10" fill="#C97A1E">split by Class</text>
+
+  <!-- RIGHT: three small multiples -->
+  <g transform="translate(460,42)">
+    <g font-family="ui-monospace,Consolas,monospace" font-size="9" fill="#565B6B">
+      <!-- Class L -->
+      <g transform="translate(0,0)">
+        <line x1="0" y1="0" x2="0" y2="140" stroke="#DEDACE"/>
+        <line x1="0" y1="140" x2="95" y2="140" stroke="#DEDACE"/>
+        <g fill="#2A6560" opacity=".7">
+          <circle cx="14" cy="128" r="3.5"/><circle cx="24" cy="118" r="3.5"/><circle cx="34" cy="130" r="3.5"/><circle cx="44" cy="115" r="3.5"/>
+        </g>
+        <text x="47" y="158" text-anchor="middle" font-weight="700" fill="#14171F">Class L</text>
+      </g>
+      <!-- Class M -->
+      <g transform="translate(115,0)">
+        <line x1="0" y1="0" x2="0" y2="140" stroke="#DEDACE"/>
+        <line x1="0" y1="140" x2="95" y2="140" stroke="#DEDACE"/>
+        <g fill="#2A6560" opacity=".7">
+          <circle cx="30" cy="95" r="3.5"/><circle cx="45" cy="80" r="3.5"/><circle cx="55" cy="98" r="3.5"/><circle cx="65" cy="82" r="3.5"/>
+        </g>
+        <text x="47" y="158" text-anchor="middle" font-weight="700" fill="#14171F">Class M</text>
+      </g>
+      <!-- Class H -->
+      <g transform="translate(230,0)">
+        <line x1="0" y1="0" x2="0" y2="140" stroke="#DEDACE"/>
+        <line x1="0" y1="140" x2="95" y2="140" stroke="#DEDACE"/>
+        <g fill="#2A6560" opacity=".7">
+          <circle cx="55" cy="48" r="3.5"/><circle cx="68" cy="30" r="3.5"/><circle cx="78" cy="52" r="3.5"/><circle cx="82" cy="20" r="3.5"/>
+        </g>
+        <text x="47" y="158" text-anchor="middle" font-weight="700" fill="#14171F">Class H</text>
+      </g>
+    </g>
+  </g>
+
+  <text x="410" y="285" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="10" fill="#565B6B">same DimProduct table, no join — cost &amp; price for every product, then the same shape split by Class</text>
+</svg>

@@ -1,0 +1,241 @@
+# PROJECT.md — Power BI for MBA Analytics (course portal)
+
+> **This file exists so an LLM/agent picking up this repo cold — with no
+> prior conversation history — can understand what this project is, how it's
+> built, and what's changed recently, without having to re-derive it from
+> scratch by reading 30+ HTML files.**
+>
+> **If you are an LLM/agent and you make ANY change to this repository —
+> content, structure, tooling, datasets, anything — you MUST append a new
+> entry to the [Changelog](#changelog) section at the bottom of this file
+> before you finish. See "How to add a changelog entry" for the format.
+> This is not optional busywork: the changelog is the only record of intent
+> ("why") behind changes, since git commit messages in this repo are
+> written by the human maintainer, not per-edit.**
+
+## What this is
+
+A free, static, multi-page website teaching Power BI to MBA students with
+little/no prior BI experience — "Power BI for MBA Analytics." Five modules,
+beginner → intermediate, built around Microsoft's own free **AdventureWorksDW**
+sample database plus a set of small hand-built practice CSVs. No login, no
+backend, no analytics — just static HTML served by GitHub Pages.
+
+Audience: business-school students, not CS/engineering students. Tone
+throughout is plain-English, business-question-first ("what does this chart
+answer?"), not statistics-textbook language.
+
+## Tech stack / architecture
+
+**Zero-dependency static site.** No npm, no framework, no build tooling
+beyond one small Node script.
+
+```
+src/
+  pages.json              the manifest — nav order, output filenames, titles, breadcrumbs
+  partials/
+    header.html            <!DOCTYPE>…<style>…sidebar shell…opens <main class="content">
+    footer.html             closes tags + shared theme-toggle/mobile-menu/glossary script
+  pages/
+    *.html                  one content FRAGMENT per page — no <html>/<head>/nav, just body content
+tools/
+  build.mjs                 stitches header + fragment + footer → root-level output file
+datasets/                   real downloadable CSVs (Sales/HR/Retail/Banking/Hospital, clean+dirty pairs)
+images/                     hand-built inline-style SVG diagrams referenced by <figure><img> in pages
+<33 root-level .html files> GENERATED OUTPUT — index.html, 01-architecture.html, 05-visualizations.html, etc.
+README.md                   human-facing contributor guide (how to add a page, editing workflow)
+PROJECT.md                  this file — LLM-facing project map + changelog
+```
+
+**The root-level `.html` files are generated. Never hand-edit them directly**
+— edits get silently lost the next time someone runs the build. Always edit
+the matching file under `src/pages/` (or `src/partials/` for shared chrome),
+then rebuild:
+
+```
+node tools/build.mjs
+```
+
+This regenerates **all 33 pages** every run (it's cheap and idempotent — no
+incremental build). Because git line-ending normalization is in effect,
+rebuilding tends to touch the line endings of every output file even when
+only one page's content actually changed — after building, diff each touched
+file and `git checkout --` any file whose only change is line endings, so
+commits stay scoped to the actual content edit. (`git diff --stat -- file`
+showing 0 insertions/deletions with only the CRLF warning printed means it's
+line-ending-only.)
+
+If `node` isn't on PATH in the current environment, it can be installed via
+`winget install --id OpenJS.NodeJS.LTS -e` (this is what was done in this
+project's environment on 2026-08-14 — see changelog).
+
+## Design system
+
+Single shared `<style>` block lives in `src/partials/header.html` (every
+page gets it). Key points for anyone editing:
+
+- CSS custom properties on `:root` for a light/warm-paper palette, with a
+  `@media (prefers-color-scheme: dark)` override plus explicit
+  `:root[data-theme="dark"]` / `[data-theme="light"]` blocks so the
+  sidebar's Light/Dark/Auto toggle can force either mode regardless of OS
+  setting. Theme choice persists via `localStorage['pbi-theme']`.
+- Reusable components (all defined once, used everywhere): `.card`,
+  `.callout` / `.callout.warn`, `.steps` (numbered circles via CSS counters),
+  `.clickpath` (`.seg` + `.arrow` chips for "exact clicks" UI paths),
+  `.pill`, `.fieldflow` (animated dot flowing from a `.chip` into a
+  `.chip.well` — used to show "this column goes in this field well"),
+  `.term` (click-to-define glossary terms, popover via `.term-pop`),
+  `.mockreport` / `.mockbars` / `.mocktile` (hand-built, JS-driven mini chart
+  demos — no charting library anywhere on the site).
+- Diagrams are static hand-authored SVGs in `images/`, referenced via
+  `<figure><img src="images/whatever.svg" alt="..."><figcaption>...</figcaption></figure>`.
+  Convention: `viewBox="0 0 W H"`, white background rect (`fill="#FFFFFF"` —
+  these do NOT theme-switch in dark mode, matches every existing diagram),
+  `ui-monospace,Consolas,monospace` for labels, and this fixed hex palette
+  lifted straight from the CSS custom properties: `#2A6560` (teal),
+  `#C97A1E` (accent/orange), `#565B6B` (muted grey/labels), `#B3402D`
+  (bad/red, used only for "look here" warning callouts like outliers),
+  `#DEDACE` (border/gridlines), `#14171F` (dark text), `#FFFFFF` (bg).
+- Per-page content lives in `<script>` blocks as JS data arrays
+  (`const CHARTS = [...]`, template-literal-rendered into accordion
+  `<details>` cards). This lets one page like `05-visualizations.html`
+  describe 12 chart types with consistent structure instead of hand-writing
+  12 near-identical HTML blocks. See "Notable page: Basic Visualizations"
+  below for the exact pattern.
+
+## Content map (5 modules + practice + reference)
+
+Full authoritative list is `src/pages.json`. Summary by nav group:
+
+- **Module 1 — Introduction to BI & BI Tools**: Understanding BI → BI Tools
+  Overview → Power BI Architecture → Connecting to Data Sources → *SQL
+  Server & AdventureWorks* (setup guide) → Navigating the Interface →
+  **Basic Visualizations** (`05-visualizations.html`, see below) → Module 1
+  Assignment (10 marks).
+- **Module 2 — Advanced Visualizations**: Custom Visuals → Groups &
+  Histograms → Best Practices → Interactivity → Tables & Matrix →
+  Conditional Formatting → Filters → Slicers.
+- **Module 3 — Introduction to DAX**: DAX Basics & Measures → Time
+  Intelligence & Aggregations → Context & Dynamic Measures → CALCULATE,
+  FILTER & Modeling.
+- **Module 4 — Power Query Editor**: Power Query Editor → M Language &
+  End-to-End ETL → KPIs & Single-Page Dashboard.
+- **Module 5 — Power BI Service**: Publishing & Sharing → Q&A and Scenario
+  Manager → Practical Applications & Pivots → Slicers at Scale &
+  Interactivity.
+- **Practice**: 5 Exercises, Final Project, Self-Test Quiz.
+- **Reference**: Cheat Sheet, Datasets.
+
+## The two datasets, and which pages use which
+
+1. **AdventureWorksDW** (Microsoft's real SQL Server sample data warehouse,
+   student-installed locally — NOT shipped in this repo, too large). Used
+   for the primary worked examples on chart/feature pages: `DimProduct`,
+   `FactInternetSales`, `DimGeography`, etc. Setup instructions live on
+   `08-sql-server-adventureworks.html`. **Use the DW (star-schema) variant,
+   not the OLTP `AdventureWorks` or the `AdventureWorksLT` variant** — the
+   whole site's single-table, no-join teaching examples depend on DW's
+   pre-joined fact/dimension shape.
+2. **Inbuilt practice CSVs** (small, ~100 rows each, actually committed to
+   this repo under `datasets/`, linked from `datasets.html`): `Sales`, `HR`,
+   `Retail`, `Banking`, `Hospital` — each as a `_Clean.csv` and a
+   `_Dirty.csv` (deliberately messy, for Power Query cleaning practice).
+   Exact columns are documented in the table on `datasets.html` / the
+   `src/pages/datasets.html` fragment — **check that table before
+   referencing a column name that may not exist.** These are the datasets
+   used for **take-away exercises** (see below) — independent, ungraded
+   practice so students build a chart from scratch on a dataset they
+   haven't already seen worked for them, instead of just tweaking the
+   AdventureWorksDW example.
+
+## Notable page: Basic Visualizations (`05-visualizations.html` / `src/pages/visualizations.html`)
+
+This is the most complex page on the site and the one most recently
+touched (see changelog) — worth understanding its internal pattern before
+editing it.
+
+- `CHARTS` array (8 entries): the core chart types (Bar, Pie, Line, KPI
+  Card, Gauge, Scatter, Map, Tree Map), tiered as Basic/Building
+  Blocks/Advanced. Each object has: `purpose`, `biz` (business framing),
+  `avoid`, `steps` (must use exact AdventureWorksDW column syntax like
+  `DimProduct[Color]`, matching the `aw` block below it — **do not use
+  generic placeholder field names like "Category"/"Sales" here, that was a
+  real bug fixed 2026-08-14, see changelog**), `best`, `mistake`,
+  `interpret`, `aw` (the AdventureWorksDW field→well mapping, rendered via
+  `awBlockHTML()`), and optionally `visual` (a `{src, alt, caption}` figure
+  rendered via `visualHTML()` — currently only Scatter Plot has one).
+- `REFERENCE_CHARTS` array (4 entries): lighter-treatment chart types
+  (Waterfall, Funnel, Combo, Matrix/Table) — purpose + AW example only, no
+  full steps/mistakes breakdown.
+- `TRY_IT` object: keyed by chart `name`, one "tweak the AdventureWorksDW
+  example yourself" prompt per core chart.
+- `TAKEAWAY` object: keyed by chart `name` (covers all 12 — both `CHARTS`
+  and `REFERENCE_CHARTS`), one independent-practice exercise per chart
+  using one of the 5 inbuilt CSV datasets (not AdventureWorks), each with a
+  direct download link (`datasets/Retail_Clean.csv` etc.) and a reflection
+  question.
+- `FORMATTING` array: 6 entries (Theme, Real titles, Data labels,
+  Conditional formatting, Tooltips, Interactions), each rendered as an
+  expandable `<details class="card">` with a blurb, a numbered `Steps`
+  list, an `Example:` callout, and a `Best practice:` line.
+- All four render into their container `<div id="...Accordion">` /
+  `<div id="formatAccordion">` via a `.map(...).join('')` or `.forEach(...)`
+  template-literal pattern at the bottom of the page's `<script>` block.
+
+**To add a 13th chart type or a new formatting topic**: add one object to
+the relevant array with the same shape as its siblings — the render loop
+picks it up automatically, no template changes needed.
+
+## Known gotchas (things that will silently break GitHub Pages or the build)
+
+- **Case sensitivity.** GitHub Pages is case-sensitive; local
+  Windows/macOS filesystems often aren't. `datasets/Sales_Clean.csv` and
+  `datasets/sales_clean.csv` are different files once deployed — match
+  on-disk casing exactly in every `href`/`src`.
+- **Root-relative paths only, no `../`.** Every generated page lives flat
+  at the repo root, so links must be `some-file.html` or
+  `datasets/Some_File.csv` / `images/some.svg` — never relative-up paths.
+- **Never hand-edit the generated root-level `.html` files.** Edit
+  `src/pages/*.html` (or `src/partials/*.html` for shared chrome) and
+  rebuild. A hand-edit to e.g. `05-visualizations.html` directly will be
+  silently overwritten the next time anyone runs `node tools/build.mjs`.
+- **The build touches every output file's line endings on every run**
+  (git's CRLF normalization interacting with Node's LF writes) even when
+  only one page's source changed — see the line-ending cleanup step
+  described above.
+
+## How to add a changelog entry
+
+Every entry: newest first, `### YYYY-MM-DD — short title`, then 2–5 bullet
+points covering **what changed** and **why** (the "why" is the part that
+isn't recoverable from a diff later). If you touched `src/pages/*.html`,
+note whether you also ran the build and reverted line-ending-only noise on
+unrelated files. If you're an LLM/agent: use the real current date from
+your system context, not a guess.
+
+---
+
+## Changelog
+
+### 2026-08-14 — Scatter Plot diagram + expanded context; Formatting section rewritten with detailed steps; take-away exercises added for all 12 chart types
+- **Why:** user asked for more detail/context on the Scatter Plot card plus a visual reference; then separately asked for (a) step-by-step instructions with examples for every item in "Formatting that makes it look professional" (previously 6 one-line cards) and (b) an independent take-away exercise per visualization using the site's own inbuilt datasets, distinct from the existing AdventureWorks-only "Try it yourself" prompts.
+- Added `images/scatter-cost-price-classes.svg` — a two-panel diagram: left is a Cost-vs-Price scatter colored by Product Line with a dashed 1:1 "no markup" reference line and a circled outlier; right shows the same data split into 3 small-multiple mini-scatters by Class (L/M/H), to make "small multiples" visually concrete before students build one.
+- Added a `visual` field + `visualHTML()` renderer to the `CHARTS` data structure in `src/pages/visualizations.html` (Scatter Plot is the only entry using it so far); expanded Scatter Plot's `purpose`/`avoid`/`best`/`mistake`/`interpret` text to cover correlation direction/strength, trend lines, and the correlation-≠-causation caveat.
+- Replaced the static 6-card "Formatting" grid with a `FORMATTING` data array + accordion render loop (same `<details class="card">` pattern as the chart accordions) — each item now has a full numbered `Steps` list (exact Power BI ribbon/pane clicks), a concrete `Example:` callout, and a `Best practice:` line, instead of one sentence each.
+- Added a `TAKEAWAY` object covering all 12 chart types (both `CHARTS` and `REFERENCE_CHARTS`) — each maps to one of the 5 inbuilt CSVs in `datasets/` (Sales, HR, Retail, Banking, Hospital) with a direct download link and a specific build task + reflection question, so students practice on an unseen dataset instead of only tweaking the worked AdventureWorks example. Wired into both accordion render loops as a `<div class="callout">` after the existing "Try it yourself" callout (core charts) or after the AW example block (reference charts).
+- Rebuilt via `node tools/build.mjs`; reverted line-ending-only diffs on the 32 unrelated pages so the commit stays scoped to `05-visualizations.html` / `src/pages/visualizations.html` / the new SVG.
+- Created this file, `PROJECT.md`, per explicit user request, with the standing instruction that any future LLM/agent session must append a changelog entry here on every change.
+
+### 2026-08-14 — Fixed AdventureWorksDW field-name mismatch on Basic Visualizations page; installed Node.js
+- **Why:** user reported that the numbered "Steps" on `05-visualizations.html` didn't match AdventureWorksDW's actual attributes and looked like leftover generic/old content — confirmed: the `steps` arrays used placeholder field names ("Category", "Sales", "Date", "Quantity") that disagreed with the real AdventureWorksDW columns already correctly shown in each chart's adjacent `aw` (AdventureWorksDW example) block. Worst case: Scatter Plot's steps said "drag Quantity into Size," but `Quantity` lives on `FactInternetSales`, not `DimProduct` — which would have broken the page's own stated "single table, no join" rule.
+- Rewrote all 8 `CHARTS` entries' `steps` arrays in `src/pages/visualizations.html` to reference the exact AdventureWorksDW columns used in that same entry's `aw` block (e.g. Bar Chart: `DimProduct[Color]` / `DimProduct[ListPrice]`; Scatter Plot: `DimProduct[StandardCost]` / `DimProduct[ListPrice]` / `DimProduct[ProductLine]` / `DimProduct[Class]`, dropping the incorrect cross-table `Quantity` reference).
+- `node` was not available in this environment (`node: command not found`); installed **Node.js 24.19.0 LTS** via `winget install --id OpenJS.NodeJS.LTS -e` (had to run `winget source update` first to fix a "Fast Cache data not found" error on a stale winget source). Verified with `node tools/build.mjs`, then reverted line-ending-only noise on the 32 untouched pages.
+
+### 2026-08-14 — Restructure into 5-module curriculum (commit `f6c0d44`)
+- Restructured the course from its original shape into the current 5-module curriculum (Intro to BI/Tools, Advanced Visualizations, DAX, Power Query, Power BI Service), added Module 2 content, the SQL Server & AdventureWorks setup guide page, and the Module 1 graded assignment page.
+
+### 2026-08-14 — Rebuild as multi-page static site with build script (commit `e2a72c9`)
+- Moved from a single-file (or ungenerated) site to the current `src/` + `tools/build.mjs` generated-static-site architecture described above.
+
+### 2026-08-08 — Initial commit: Power BI for MBA Analytics student portal (commit `d65fb01`)
+- First version of the site.
