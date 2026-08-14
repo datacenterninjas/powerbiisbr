@@ -1,0 +1,11 @@
+Order ID,Return Reason,Refund Amount
+ORD2003,Wrong size,449.50
+ORD2007,Changed mind,899.00
+ORD2011,Damaged in transit,1499.00
+ORD2015,Item not as described,299.00
+ORD2019,Defective,2999.00
+ORD2023,Wrong size,449.50
+ORD2027,Changed mind,899.00
+ORD2031,Late delivery,1499.00
+ORD2036,Defective,899.00
+ORD2044,Wrong item shipped,299.00

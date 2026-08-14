@@ -1,0 +1,103 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Filters</span>
+        <h1>Same filter, three different reaches.</h1>
+        <p class="lede">A <button class="term" data-term="filter">filter</button> restricts which rows are included — the only real decision is how FAR that restriction should reach: one visual, one page, or the whole report.</p>
+      </div>
+
+      <h2>The three scopes</h2>
+      <div class="grid grid-3">
+        <div class="card">
+          <h4>Visual-level filter</h4>
+          <p style="font-size:.85rem"><b>Affects:</b> one specific visual only.</p>
+          <p style="font-size:.85rem"><b>When to use:</b> one chart needs to show something different from everything else on the page — e.g. a "Top 5 Products" table that should stay Top 5 even while the rest of the page shows all products.</p>
+          <p style="font-size:.85rem"><b>Example:</b> A Filters pane filter applied with that one visual selected.</p>
+        </div>
+        <div class="card">
+          <h4>Page-level filter</h4>
+          <p style="font-size:.85rem"><b>Affects:</b> every visual on the current page.</p>
+          <p style="font-size:.85rem"><b>When to use:</b> the whole page is about one slice of the business — a "2025 Only" page, or a page dedicated to one region.</p>
+          <p style="font-size:.85rem"><b>Example:</b> Set once at the Page level in the Filters pane; every visual added to that page inherits it automatically.</p>
+        </div>
+        <div class="card">
+          <h4>Report-level filter</h4>
+          <p style="font-size:.85rem"><b>Affects:</b> every visual on every page of the report.</p>
+          <p style="font-size:.85rem"><b>When to use:</b> a restriction that should never be bypassed anywhere — e.g. excluding test/dummy data, or scoping an entire report to one business unit.</p>
+          <p style="font-size:.85rem"><b>Example:</b> Set at the Report level in the Filters pane — the broadest, least common scope.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:16px"><b>The rule of reach:</b> Visual filter → one visual. Page filter → every visual on that page (including ones added later). Report filter → every visual on every page (including pages added later). Higher scopes are inherited automatically — a page filter doesn't need to be repeated per visual.</div>
+
+      <figure>
+        <img src="images/filter-scope-funnel.svg" alt="Nested rectangles diagram: Report is the outermost scope, containing Page, containing Visual, the narrowest scope.">
+        <figcaption>Three nested scopes — a filter set anywhere is inherited by everything inside it.</figcaption>
+      </figure>
+
+      <h2 style="margin-top:30px">See the reach — interactive</h2>
+      <p class="lede" style="font-size:.95rem">Three mock visuals below: A and B live on this page, C represents a visual on a different page of the same report. Apply the same "Category = Electronics" filter at each scope and watch which ones respond.</p>
+      <div class="mockreport">
+        <div class="mockreport-controls">
+          <button class="btn ghost sm mockbtn" data-scope="visual">Apply: Visual filter (on A only)</button>
+          <button class="btn ghost sm mockbtn" data-scope="page">Apply: Page filter (this page)</button>
+          <button class="btn ghost sm mockbtn" data-scope="report">Apply: Report filter (whole report)</button>
+          <button class="btn ghost sm mockbtn active" data-scope="none">Clear</button>
+        </div>
+        <div class="mockgrid">
+          <div class="mocktile" data-mock="A">
+            <div class="mocktile-label">Visual A · this page</div>
+            <div class="mockbars"><div class="mockbar" style="height:70%"></div><div class="mockbar" style="height:45%"></div><div class="mockbar" style="height:60%"></div></div>
+            <span class="pill mock-badge" style="margin-top:8px">No filter applied</span>
+          </div>
+          <div class="mocktile" data-mock="B">
+            <div class="mocktile-label">Visual B · this page</div>
+            <div class="mockbars"><div class="mockbar" style="height:55%"></div><div class="mockbar" style="height:80%"></div><div class="mockbar" style="height:30%"></div></div>
+            <span class="pill mock-badge" style="margin-top:8px">No filter applied</span>
+          </div>
+          <div class="mocktile" data-mock="C">
+            <div class="mocktile-label">Visual C · Page 2</div>
+            <div class="mockbars"><div class="mockbar" style="height:65%"></div><div class="mockbar" style="height:50%"></div><div class="mockbar" style="height:75%"></div></div>
+            <span class="pill mock-badge" style="margin-top:8px">No filter applied</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:.83rem;color:var(--text-muted);margin-top:6px">Notice the Visual filter only ever marks A. The Page filter marks A and B, never C. Only the Report filter reaches all three — including the one on another page.</p>
+
+      <h2 style="margin-top:30px">Common mistakes</h2>
+      <div class="grid grid-2">
+        <div class="card"><h4>Wrong scope, right value</h4><p style="font-size:.85rem">Setting a filter at Report level "to be safe" when only one visual needed it — now every future page inherits a restriction nobody remembers adding.</p></div>
+        <div class="card"><h4>Forgetting inherited filters exist</h4><p style="font-size:.85rem">A number looks wrong on one visual, but the real culprit is a Page or Report filter set weeks ago, not the visual itself — always check all three panes (Visual, Page, Report) in the Filters pane before debugging the DAX.</p></div>
+      </div>
+
+      <div class="callout warn" style="margin-top:16px"><b>Best practice:</b> Default to the narrowest scope that solves the problem. It's much easier to notice and widen a Visual filter later than to hunt down a forgotten Report filter across a dozen pages.</div>
+
+      <h2 style="margin-top:30px">Exercise</h2>
+      <div class="card">
+        <span class="eyebrow">Practice · Filters</span>
+        <h3 style="margin-top:8px">Retail dataset — three scopes, one page</h3>
+        <p style="font-size:.9rem">Build a page with 3 visuals from the Retail dataset. Apply a Visual filter (Product = a single product) to just one of them, then apply a Page filter (Date = current year) that affects all three. Explain in one sentence why you chose each scope for each filter.</p>
+      </div>
+
+      <footer class="pagefoot"><span>Module 2 · Filters</span><a href="16-slicers.html">Next: Slicers →</a></footer>
+
+<script>
+/* ============= filter-scope mock demo ============= */
+const FILTER_SCOPE_AFFECTS = { visual:['A'], page:['A','B'], report:['A','B','C'], none:[] };
+function applyFilterScope(scope){
+  document.querySelectorAll('.mockbtn').forEach(b => b.classList.toggle('active', b.dataset.scope === scope));
+  const affected = FILTER_SCOPE_AFFECTS[scope];
+  document.querySelectorAll('.mocktile').forEach(t => {
+    const id = t.dataset.mock;
+    const badge = t.querySelector('.mock-badge');
+    const isAffected = affected.includes(id);
+    if(scope === 'none'){
+      badge.textContent = 'No filter applied';
+      badge.className = 'pill mock-badge';
+    } else {
+      badge.textContent = isAffected ? 'Filtered ✓' : 'Unaffected';
+      badge.className = 'pill mock-badge' + (isAffected ? ' good' : '');
+    }
+    t.classList.toggle('dimmed', scope !== 'none' && !isAffected);
+  });
+}
+document.querySelectorAll('.mockbtn').forEach(b => b.addEventListener('click', () => applyFilterScope(b.dataset.scope)));
+</script>

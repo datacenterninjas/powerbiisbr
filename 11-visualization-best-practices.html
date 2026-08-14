@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visualization Best Practices — Power BI for MBA Analytics</title>
+<style>
+  :root{
+    --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
+    --text:#14171F; --text-muted:#565B6B; --border:#DEDACE;
+    --accent:#C97A1E; --accent-ink:#1B1300; --accent-soft:#F3E1C4;
+    --teal:#2A6560; --teal-soft:#DCEBE8;
+    --good:#2E7D4F; --good-soft:#E3F1E7; --bad:#B3402D; --bad-soft:#F6E4DF;
+    --shadow: 0 1px 2px rgba(20,23,31,.06), 0 8px 24px -12px rgba(20,23,31,.18);
+    --radius:12px;
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --font-body: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", Consolas, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12141B; --surface:#1A1D27; --surface-2:#1F2330; --surface-3:#282D3D;
+      --text:#ECEAE2; --text-muted:#A2A6B5; --border:#2C3040;
+      --accent:#E8A23D; --accent-ink:#1B1300; --accent-soft:#3A2E15;
+      --teal:#5FA69E; --teal-soft:#173330;
+      --good:#4EA872; --good-soft:#153524; --bad:#E06A54; --bad-soft:#3A1E18;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12141B; --surface:#1A1D27; --surface-2:#1F2330; --surface-3:#282D3D;
+    --text:#ECEAE2; --text-muted:#A2A6B5; --border:#2C3040;
+    --accent:#E8A23D; --accent-ink:#1B1300; --accent-soft:#3A2E15;
+    --teal:#5FA69E; --teal-soft:#173330;
+    --good:#4EA872; --good-soft:#153524; --bad:#E06A54; --bad-soft:#3A1E18;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.55);
+  }
+  :root[data-theme="light"]{
+    --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
+    --text:#14171F; --text-muted:#565B6B; --border:#DEDACE;
+    --accent:#C97A1E; --accent-ink:#1B1300; --accent-soft:#F3E1C4;
+    --teal:#2A6560; --teal-soft:#DCEBE8;
+    --good:#2E7D4F; --good-soft:#E3F1E7; --bad:#B3402D; --bad-soft:#F6E4DF;
+    --shadow: 0 1px 2px rgba(20,23,31,.06), 0 8px 24px -12px rgba(20,23,31,.18);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font-body);
+    font-size:15.5px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{ font-family:var(--font-display); font-weight:700; text-wrap:balance; margin:0 0 .4em; color:var(--text); }
+  h1{ font-size:2.1rem; letter-spacing:-.01em; }
+  h2{ font-size:1.5rem; margin-top:0; }
+  h3{ font-size:1.15rem; }
+  h4{ font-size:1rem; font-family:var(--font-body); font-weight:700; }
+  p{ margin:.6em 0; max-width:68ch; }
+  a{ color:var(--teal); }
+  .eyebrow{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+  .lede{ font-size:1.05rem; color:var(--text-muted); max-width:62ch; }
+  strong{ color:var(--text); }
+  code{ font-family:var(--font-mono); background:var(--surface-2); border:1px solid var(--border); border-radius:5px; padding:.1em .4em; font-size:.88em; }
+  ::selection{ background:var(--accent-soft); }
+  :focus-visible{ outline:2.5px solid var(--accent); outline-offset:2px; border-radius:4px; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+
+  /* ---------- layout shell ---------- */
+  .app{ display:flex; min-height:100vh; }
+  .sidebar{
+    width:272px; flex:none; background:var(--surface-2); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto;
+  }
+  .brand{ padding:22px 20px 14px; border-bottom:1px solid var(--border); }
+  .brand .mark{ display:flex; align-items:center; gap:10px; }
+  .brand .mark svg{ flex:none; }
+  .brand h1{ font-size:1.05rem; margin:0; line-height:1.25; }
+  .brand .sub{ font-size:.78rem; color:var(--text-muted); margin-top:3px; font-family:var(--font-mono); }
+
+  .navgroup{ padding:14px 12px; }
+  .navgroup .label{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
+  .navbtn{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:none; border:none;
+    color:var(--text); font-family:var(--font-body); font-size:.88rem; padding:8px 10px; border-radius:8px; cursor:pointer;
+    text-decoration:none;
+  }
+  .navbtn .num{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-muted); width:1.4em; flex:none; }
+  .navbtn:hover{ background:var(--surface-3); }
+  .navbtn.active{ background:var(--accent); color:var(--accent-ink); font-weight:700; }
+  .navbtn.active .num{ color:var(--accent-ink); opacity:.7; }
+
+  .themebar{ margin-top:auto; padding:14px 20px 20px; border-top:1px solid var(--border); display:flex; gap:8px; }
+  .themebtn{ flex:1; font-family:var(--font-mono); font-size:.72rem; padding:7px 4px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text-muted); cursor:pointer; }
+  .themebtn.active{ border-color:var(--accent); color:var(--accent); }
+
+  .main-col{ flex:1; min-width:0; display:flex; flex-direction:column; }
+  .topbar{
+    position:sticky; top:0; z-index:5; background:var(--bg); border-bottom:1px solid var(--border);
+    padding:14px 40px; display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .topbar .crumb{ font-family:var(--font-mono); font-size:.78rem; color:var(--text-muted); }
+  .topbar .crumb b{ color:var(--text); font-weight:600; }
+  .menutoggle{ display:none; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:7px 10px; cursor:pointer; }
+
+  .content{ flex:1; padding:36px 40px 80px; max-width:980px; }
+
+  /* ---------- reusable components ---------- */
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow); }
+  .grid{ display:grid; gap:16px; }
+  .grid-2{ grid-template-columns:1fr 1fr; }
+  .grid-3{ grid-template-columns:repeat(3,1fr); }
+  @media (max-width:760px){ .grid-2,.grid-3{ grid-template-columns:1fr; } }
+
+  .callout{ border-left:3px solid var(--teal); background:var(--teal-soft); border-radius:0 8px 8px 0; padding:12px 16px; margin:14px 0; font-size:.93rem; }
+  .callout.warn{ border-color:var(--accent); background:var(--accent-soft); }
+  .callout b{ color:var(--text); }
+
+  .steps{ counter-reset:step; list-style:none; padding:0; margin:14px 0; }
+  .steps li{ counter-increment:step; position:relative; padding:6px 0 6px 38px; margin-bottom:2px; font-size:.94rem; }
+  .steps li::before{ content:counter(step); position:absolute; left:0; top:5px; width:24px; height:24px; border-radius:50%; background:var(--surface-3); color:var(--text); font-family:var(--font-mono); font-size:.75rem; display:flex; align-items:center; justify-content:center; font-weight:700; }
+
+  .clickpath{ font-family:var(--font-mono); font-size:.85rem; background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:12px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0; }
+  .clickpath .seg{ background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:3px 9px; }
+  .clickpath .arrow{ color:var(--text-muted); }
+
+  table{ width:100%; border-collapse:collapse; font-size:.88rem; }
+  th,td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+  th{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); font-weight:600; }
+  td.num, th.num{ font-variant-numeric:tabular-nums; text-align:right; }
+  .table-wrap{ overflow-x:auto; margin:14px 0; border:1px solid var(--border); border-radius:10px; }
+  .table-wrap table{ margin:0; }
+  .table-wrap th,.table-wrap td{ border-bottom:1px solid var(--border); }
+  tr:last-child td{ border-bottom:none; }
+
+  .codeblock{ background:#181A20; color:#E9E6DB; font-family:var(--font-mono); font-size:.85rem; border-radius:10px; padding:16px 18px; overflow-x:auto; line-height:1.55; margin:14px 0; }
+  .codeblock .c-fn{ color:#E8A23D; } .codeblock .c-str{ color:#8FBF9F; } .codeblock .c-com{ color:#7C8194; }
+
+  .pill{ display:inline-flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:.72rem; padding:3px 10px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:var(--text-muted); }
+  .pill.good{ background:var(--good-soft); color:var(--good); border-color:transparent; }
+  .pill.bad{ background:var(--bad-soft); color:var(--bad); border-color:transparent; }
+  .pill.table{ background:var(--teal-soft); color:var(--teal); border-color:transparent; font-weight:700; }
+
+  /* field → well animated flow diagram */
+  .fieldflow{ display:flex; align-items:center; gap:10px; margin:8px 0; font-size:.82rem; flex-wrap:wrap; }
+  .fieldflow .chip{ font-family:var(--font-mono); font-size:.78rem; padding:4px 10px; border-radius:999px; border:1px solid var(--border); white-space:nowrap; background:var(--surface-2); color:var(--text); }
+  .fieldflow .chip.well{ background:var(--accent-soft); color:var(--accent-ink); border-color:transparent; font-weight:700; }
+  .flowline{ position:relative; flex:1 1 40px; min-width:32px; height:2px; background:var(--border); }
+  .flowline .dot{ position:absolute; top:50%; width:5px; height:5px; margin-top:-2.5px; border-radius:50%; background:var(--accent); opacity:0; animation:flowdot 1.8s linear infinite; }
+  .flowline .dot:nth-child(2){ animation-delay:.6s; }
+  .flowline .dot:nth-child(3){ animation-delay:1.2s; }
+  @keyframes flowdot{ 0%{ left:0%; opacity:0; } 12%{ opacity:1; } 88%{ opacity:1; } 100%{ left:100%; opacity:0; } }
+
+  /* terminology hint system — click/tap to toggle, same on desktop + mobile */
+  .term{ font:inherit; font-weight:600; color:var(--teal); background:var(--teal-soft); border:none; border-radius:4px; padding:0 5px; cursor:pointer; position:relative; }
+  .term:hover{ filter:brightness(1.08); }
+  .term.term-open{ background:var(--accent); color:var(--accent-ink); }
+  .term-pop{ position:absolute; left:0; top:calc(100% + 6px); z-index:10; width:max(220px,min(300px,80vw)); background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); padding:10px 12px; font-size:.82rem; font-weight:400; line-height:1.5; text-align:left; white-space:normal; }
+
+  /* mock mini-report — hand-built interactive demo, no charting library */
+  .mockreport{ border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; background:var(--surface); margin:14px 0; }
+  .mockreport-controls{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .mockreport-controls .btn.active{ background:var(--accent); color:var(--accent-ink); border-color:transparent; }
+  .mockgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:760px){ .mockgrid{ grid-template-columns:1fr; } }
+  .mocktile{ border:1px solid var(--border); border-radius:8px; padding:12px; background:var(--surface-2); transition:opacity .2s ease; }
+  .mocktile.dimmed{ opacity:.28; }
+  .mocktile-label{ font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:8px; }
+  .mockbars{ display:flex; align-items:flex-end; gap:6px; height:70px; }
+  .mockbar{ flex:1; background:var(--teal); border-radius:3px 3px 0 0; opacity:.85; transition:opacity .2s ease, background .2s ease, height .2s ease; }
+  .mockbar.hi{ background:var(--accent); opacity:1; }
+  .mockkpi{ font-family:var(--font-display); font-size:1.6rem; font-weight:700; }
+
+  .section-head{ margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border); }
+  .section-head .eyebrow{ display:block; margin-bottom:8px; }
+
+  figure{ margin:20px 0; }
+  figure svg{ max-width:100%; height:auto; display:block; }
+  figure img{ max-width:100%; height:auto; display:block; border:1px solid var(--border); border-radius:10px; }
+  figcaption{ font-size:.83rem; color:var(--text-muted); margin-top:10px; text-align:center; }
+
+  .btn{ display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:var(--accent-ink); border:none; font-family:var(--font-body); font-weight:700; font-size:.85rem; padding:9px 16px; border-radius:8px; cursor:pointer; text-decoration:none; }
+  .btn:hover{ filter:brightness(1.06); }
+  .btn.ghost{ background:transparent; color:var(--text); border:1px solid var(--border); }
+  .btn.sm{ padding:6px 12px; font-size:.78rem; }
+
+  .kicker-list{ list-style:none; padding:0; margin:14px 0; display:grid; gap:10px; }
+  .kicker-list li{ display:flex; gap:12px; align-items:flex-start; font-size:.94rem; }
+  .kicker-list .ico{ flex:none; width:26px; height:26px; border-radius:7px; background:var(--teal-soft); color:var(--teal); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:.75rem; font-weight:700; }
+
+  footer.pagefoot{ margin-top:40px; padding-top:18px; border-top:1px solid var(--border); font-size:.8rem; color:var(--text-muted); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  footer.pagefoot a{ color:var(--text-muted); text-decoration:none; font-weight:600; }
+  footer.pagefoot a:hover{ color:var(--teal); }
+
+  @media (max-width:860px){
+    .sidebar{ position:fixed; inset:0 auto 0 0; z-index:20; transform:translateX(-100%); transition:transform .2s ease; box-shadow:var(--shadow); }
+    .sidebar.open{ transform:translateX(0); }
+    .menutoggle{ display:inline-flex; }
+    .content{ padding:24px 18px 60px; }
+    .topbar{ padding:12px 18px; }
+  }
+  @media print{
+    .sidebar,.topbar,.no-print{ display:none !important; }
+    .content{ padding:0; max-width:none; }
+    body{ background:#fff; color:#000; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="mark">
+        <svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Course mark">
+          <rect x="1" y="1" width="28" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="7" y="16" width="3.6" height="7" rx="1" fill="currentColor"/>
+          <rect x="13.2" y="11" width="3.6" height="12" rx="1" fill="var(--accent)"/>
+          <rect x="19.4" y="7" width="3.6" height="16" rx="1" fill="currentColor"/>
+        </svg>
+        <div>
+          <h1>Power BI Portal</h1>
+          <div class="sub">MBA Analytics · Beginner Track</div>
+        </div>
+      </div>
+    </div>
+        <div class="navgroup">
+      <div class="label">Overview</div>
+      <a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 1: Introduction to BI &amp; BI Tools</div>
+      <a class="navbtn" href="17-understanding-bi.html"><span class="num">1</span> Understanding Business Intelligence</a>
+      <a class="navbtn" href="18-bi-tools-overview.html"><span class="num">2</span> Overview of BI Tools</a>
+      <a class="navbtn" href="01-architecture.html"><span class="num">3</span> Power BI Architecture</a>
+      <a class="navbtn" href="03-connecting-data.html"><span class="num">4</span> Connecting to Data Sources</a>
+      <a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">+</span> SQL Server &amp; AdventureWorks</a>
+      <a class="navbtn" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a>
+      <a class="navbtn" href="05-visualizations.html"><span class="num">6</span> Basic Visualizations</a>
+      <a class="navbtn" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 2: Advanced Visualizations</div>
+      <a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a>
+      <a class="navbtn" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a>
+      <a class="navbtn active" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a>
+      <a class="navbtn" href="12-interactivity.html"><span class="num">4</span> Interactivity</a>
+      <a class="navbtn" href="13-tables-matrix.html"><span class="num">5</span> Tables &amp; Matrix</a>
+      <a class="navbtn" href="14-conditional-formatting.html"><span class="num">6</span> Conditional Formatting</a>
+      <a class="navbtn" href="15-filters.html"><span class="num">7</span> Filters</a>
+      <a class="navbtn" href="16-slicers.html"><span class="num">8</span> Slicers</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 3: Introduction to DAX</div>
+      <a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a>
+      <a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a>
+      <a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a>
+      <a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 4: Power Query Editor</div>
+      <a class="navbtn" href="04-power-query.html"><span class="num">1</span> Power Query Editor</a>
+      <a class="navbtn" href="23-m-language-etl.html"><span class="num">2</span> M Language &amp; End-to-End ETL</a>
+      <a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">3</span> KPIs &amp; Single-Page Dashboard</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 5: Power BI Service</div>
+      <a class="navbtn" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a>
+      <a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a>
+      <a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a>
+      <a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Practice</div>
+      <a class="navbtn" href="06-exercises.html"><span class="num">★</span> 5 Exercises</a>
+      <a class="navbtn" href="07-final-project.html"><span class="num">★</span> Final Project</a>
+      <a class="navbtn" href="quiz.html"><span class="num">★</span> Self-Test Quiz</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Reference</div>
+      <a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a>
+      <a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a>
+    </div>
+    <div class="themebar">
+      <button class="themebtn" data-theme-choice="light">☀ Light</button>
+      <button class="themebtn" data-theme-choice="dark">☾ Dark</button>
+      <button class="themebtn" data-theme-choice="auto">Auto</button>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <div class="topbar">
+      <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Visualization Best Practices</b></div>
+      <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
+    </div>
+
+    <main class="content">
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Best Practices</span>
+        <h1>The chart is right. Now make it honest, clean, and readable in three seconds.</h1>
+        <p class="lede">Picking the correct chart type is half the job — the <a href="05-visualizations.html">Visualizations</a> page's "Which chart, when?" table already covers that. This page is the other half: the cross-cutting formatting and design discipline that decides whether a technically-correct chart tells the truth clearly, or quietly misleads, clutters, or gets ignored. Every rule here applies no matter which of the twelve chart types you picked.</p>
+      </div>
+
+      <div class="callout"><b>Choosing the chart itself</b> — business question → chart type, plus per-chart best practices and common mistakes — lives on the <a href="05-visualizations.html">Visualizations</a> page's "Which chart, when?" table. This page assumes the chart type is already decided and focuses only on how it's formatted and presented.</div>
+
+      <h2 style="margin-top:28px">Avoiding misleading charts</h2>
+      <p>A chart can use the "right" type and still lie. None of the tricks below require bad intent — they're often just Power BI's defaults left un-fixed — but the effect on a reader is the same either way: a false impression of how big a difference really is.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Trick</th><th>What it does</th><th>Fix</th></tr>
+          <tr><td><b>Truncated / non-zero Y-axis</b></td><td>Starting the axis at 90 instead of 0 turns a 4% difference into what looks like a 400% difference</td><td>Format pane → Y-axis → Range → set Minimum to 0, unless there's a genuinely documented reason not to</td></tr>
+          <tr><td><b>Inconsistent scales between compared charts</b></td><td>Two bar charts placed side by side, one axis maxing at 100 and the other at 1,000 — bars look similar height but represent wildly different values</td><td>Lock both visuals to the same axis Minimum/Maximum in the Format pane before placing them side by side</td></tr>
+          <tr><td><b>Cherry-picked date range</b></td><td>Zooming into the three months that support the story and quietly dropping the ones that don't</td><td>Default every trend to the full available history; let a viewer narrow the range themselves with a slicer, don't narrow it for them</td></tr>
+          <tr><td><b>Dual axes implying false correlation</b></td><td>Two unrelated measures plotted on independent left/right axes can be dragged into looking like they move together, when the scales were just picked to make the lines cross</td><td>Only combine two measures on dual axes when they share a real, meaningful relationship — and say so in the title</td></tr>
+        </table>
+      </div>
+
+      <p style="font-size:.9rem;margin-top:10px">Same underlying numbers, two very different impressions — this is the single most common way a Power BI report misleads without anyone intending to:</p>
+      <div class="mockgrid" style="grid-template-columns:1fr 1fr">
+        <div class="mocktile">
+          <div class="mocktile-label">Needs improvement · axis starts at 80</div>
+          <div class="mockbars" style="height:90px">
+            <div class="mockbar" style="height:35%"></div>
+            <div class="mockbar" style="height:55%"></div>
+            <div class="mockbar hi" style="height:100%"></div>
+          </div>
+          <p style="font-size:.78rem;color:var(--text-muted);margin-top:8px">Region C looks nearly 3× Region A — but the axis is truncated, so the visual gap is exaggerated far past the real difference.</p>
+          <span class="pill bad" style="margin-top:4px">exaggerates the gap</span>
+        </div>
+        <div class="mocktile">
+          <div class="mocktile-label">Good · zero-based axis</div>
+          <div class="mockbars" style="height:90px">
+            <div class="mockbar" style="height:82%"></div>
+            <div class="mockbar" style="height:88%"></div>
+            <div class="mockbar hi" style="height:100%"></div>
+          </div>
+          <p style="font-size:.78rem;color:var(--text-muted);margin-top:8px">Same three regions, same underlying numbers, axis starts at 0 — Region C is ahead, but honestly by a modest margin, not a landslide.</p>
+          <span class="pill good" style="margin-top:4px">reads honestly</span>
+        </div>
+      </div>
+      <div class="callout warn" style="margin-top:12px"><b>Common mistake:</b> Power BI's default axis is <i>usually</i> zero-based, but "Auto" range on some visuals will truncate automatically once values cluster in a narrow band. Always check the Format pane's Range setting explicitly — don't assume the default protected you.</div>
+
+      <h2 style="margin-top:30px">Appropriate use of color</h2>
+      <p>Color is the fastest channel a viewer's eye reads — which is exactly why it needs the most discipline. Used well, it points straight at what matters. Used as decoration, it competes with the data for attention and usually wins.</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>Do</h4>
+          <ul class="kicker-list">
+            <li><span class="ico">✓</span><div style="font-size:.9rem">Pick one consistent palette for the whole report (Format pane → Theme) and stop touching it per-visual</div></li>
+            <li><span class="ico">✓</span><div style="font-size:.9rem">Let color mean something — the same category is always the same color across every page</div></li>
+            <li><span class="ico">✓</span><div style="font-size:.9rem">Choose a colorblind-safe palette (avoid pure red/green as the only distinguishing pair — roughly 1 in 12 men has some form of red-green color blindness)</div></li>
+            <li><span class="ico">✓</span><div style="font-size:.9rem">Use color sparingly, to highlight — one accent color on the bar that matters, neutral gray everywhere else</div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Don't</h4>
+          <ul class="kicker-list">
+            <li><span class="ico">✕</span><div style="font-size:.9rem">Give every category its own rainbow color just because the Legend well auto-generates one</div></li>
+            <li><span class="ico">✕</span><div style="font-size:.9rem">Let a category's color drift between pages — Electronics blue on page 1, Electronics green on page 3</div></li>
+            <li><span class="ico">✕</span><div style="font-size:.9rem">Rely on red vs. green alone to signal good vs. bad — pair it with an icon, label, or shape too</div></li>
+            <li><span class="ico">✕</span><div style="font-size:.9rem">Color a chart just because a blank white bar "looks unfinished" — color without meaning is noise</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <p style="font-size:.9rem;margin-top:10px">The same five categories, formatted two ways:</p>
+      <div class="mockgrid" style="grid-template-columns:1fr 1fr">
+        <div class="mocktile">
+          <div class="mocktile-label">Needs improvement · color as decoration</div>
+          <div class="mockbars" style="height:70px">
+            <div class="mockbar" style="height:60%;background:#C0392B"></div>
+            <div class="mockbar" style="height:80%;background:#F1C40F"></div>
+            <div class="mockbar" style="height:45%;background:#8E44AD"></div>
+            <div class="mockbar" style="height:95%;background:#2ECC71"></div>
+            <div class="mockbar" style="height:35%;background:#3498DB"></div>
+          </div>
+          <p style="font-size:.78rem;color:var(--text-muted);margin-top:8px">A different color per bar for no reason — the eye tries to find meaning in the color choice and finds none.</p>
+          <span class="pill bad" style="margin-top:4px">competes with the data</span>
+        </div>
+        <div class="mocktile">
+          <div class="mocktile-label">Good · one accent, used to highlight</div>
+          <div class="mockbars" style="height:70px">
+            <div class="mockbar" style="height:60%"></div>
+            <div class="mockbar" style="height:80%"></div>
+            <div class="mockbar" style="height:45%"></div>
+            <div class="mockbar hi" style="height:95%"></div>
+            <div class="mockbar" style="height:35%"></div>
+          </div>
+          <p style="font-size:.78rem;color:var(--text-muted);margin-top:8px">Neutral teal for every bar, one accent color on the single bar that's the point of the chart — the eye lands there first.</p>
+          <span class="pill good" style="margin-top:4px">points at the insight</span>
+        </div>
+      </div>
+
+      <h2 style="margin-top:30px">Consistent formatting across a report</h2>
+      <p>A report that switches fonts, number formats, or color schemes between pages reads as unfinished even when every number on it is correct — inconsistency is itself a signal that erodes trust before anyone checks the data.</p>
+      <div class="grid grid-3">
+        <div class="card"><h4>One theme</h4><p style="font-size:.85rem">View → Themes → pick or build one custom theme, apply it once, and stop hand-picking colors per visual afterward.</p></div>
+        <div class="card"><h4>One font</h4><p style="font-size:.85rem">Set it in the theme, not visual-by-visual — a report mixing Segoe UI titles with Calibri axis labels looks assembled from spare parts.</p></div>
+        <div class="card"><h4>One number format</h4><p style="font-size:.85rem">Decide once whether currency is ₹, $, or unlabeled, how many decimal places, and apply that same rule to every measure on every page.</p></div>
+      </div>
+
+      <h2 style="margin-top:30px">Titles and labels</h2>
+      <p>Power BI's auto-generated title — "Sum of Sales by Category" — describes the mechanics of the chart, not what it tells you. A real title does the reader's first thinking step for them.</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>Needs improvement</h4>
+          <p style="font-size:.88rem;font-family:var(--font-mono)">"Sum of SalesAmount by Region"</p>
+          <p style="font-size:.85rem;color:var(--text-muted)">Restates the field names. Says nothing a viewer couldn't already see in the Fields pane.</p>
+        </div>
+        <div class="card">
+          <h4>Good</h4>
+          <p style="font-size:.88rem;font-family:var(--font-mono)">"West leads every other region by 2×"</p>
+          <p style="font-size:.85rem;color:var(--text-muted)">States the finding directly. A viewer who reads only the title still walks away informed.</p>
+        </div>
+      </div>
+      <p style="font-size:.85rem;margin-top:8px"><b>Axis and legend labels</b> deserve the same attention: rename a field-derived label like "SUM(Sales_Amt)" to plain "Sales ($)" in the Format pane before a report ever leaves your laptop.</p>
+
+      <h2 style="margin-top:30px">Data labels</h2>
+      <p>A data label prints the exact number directly on the chart — genuinely useful when there are few enough data points to read cleanly, actively harmful once there are too many.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Chart is…</th><th>Data labels</th><th>Why</th></tr>
+          <tr><td>A KPI Card, Gauge, or a Bar Chart with ≤ 8–10 bars</td><td><span class="pill good">turn on</span></td><td>Few enough points that the exact number adds precision without crowding</td></tr>
+          <tr><td>A dense Line Chart (daily data across a year) or a Scatter Plot with 100+ points</td><td><span class="pill bad">leave off</span></td><td>Labels overlap into an unreadable smear — let the shape of the line or cluster carry the message, use a tooltip for exact values on hover</td></tr>
+          <tr><td>A Pie Chart</td><td><span class="pill good">on, as % of total</span></td><td>A pie only works if the reader can see the actual share each slice represents, not just relative size</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">Number formatting</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Display units:</b> Format pane → Display units → Thousands/Millions turns "1,240,000" into a much faster-to-read "1.24M"</div></li>
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Consistent decimal places:</b> pick one rule (e.g. currency to 0 decimals, percentages to 1) and apply it to every measure of that type, everywhere in the report</div></li>
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Currency symbols:</b> set once in the measure's format string, not retyped as text in a title — a hardcoded "$" breaks the moment the report is reused for a different currency</div></li>
+      </ul>
+
+      <h2 style="margin-top:30px">Sorting</h2>
+      <p>Bars sorted biggest-to-smallest let a reader find the winner and the laggard in one glance, without hunting across the chart. That's the default for anything without an inherent order.</p>
+      <div class="callout"><b>The one exception:</b> when categories have a natural order of their own — months of the year, days of the week, a funnel's stages — keep that natural order instead of re-sorting by value. Forcing "Jan, Jun, Mar, Dec…" into value order destroys the thing a time axis is supposed to communicate.</div>
+
+      <h2 style="margin-top:30px">Reducing clutter</h2>
+      <p>Every gridline, border, and legend a Power BI default turns on is a small tax on the reader's attention. If it isn't earning its place, it's competing with the data that is.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Element</th><th>Usually</th><th>Keep it when…</th></tr>
+          <tr><td>Gridlines</td><td>Turn off or lighten (Format pane → Gridlines)</td><td>The chart genuinely needs precise value reading, not just shape comparison</td></tr>
+          <tr><td>Visual border</td><td>Turn off — let a card's background do the separating</td><td>Rarely — borders mostly just add visual weight</td></tr>
+          <tr><td>Legend</td><td>Turn off when there's only one series, or when data labels already name each bar</td><td>Multiple series/colors that genuinely need a key to decode</td></tr>
+          <tr><td>Axis title</td><td>Often removable if the chart title already makes the axis obvious</td><td>The unit isn't otherwise clear from the chart title or labels</td></tr>
+        </table>
+      </div>
+      <div class="callout warn"><b>Common mistake:</b> Formatting a chart once and never revisiting it. After data labels, a title, and units are all on, go back and turn off anything that no longer earns its place — most reports get cluttered by addition, never by a single bad decision.</div>
+
+      <h2 style="margin-top:30px">Accessibility</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Contrast:</b> text and important marks should be clearly readable against their background — Power BI's built-in themes are checked for this; a fully custom palette should be too</div></li>
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Never color alone:</b> pair red/green status with an icon, label, or pattern, so the meaning still lands for a colorblind viewer or a black-and-white printout</div></li>
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Alt text:</b> Format pane → General → Alt text — a short description of what the visual shows, read aloud by screen readers</div></li>
+      </ul>
+
+      <h2 style="margin-top:30px">Mobile and responsive considerations</h2>
+      <p>A report built and tested only on a wide desktop monitor can be genuinely unusable on the phone where a manager actually opens it between meetings.</p>
+      <div class="clickpath">
+        <span class="seg">View</span><span class="arrow">→</span><span class="seg">Phone layout</span><span class="arrow">→</span><span class="seg">drag visuals into a single-column stack</span><span class="arrow">→</span><span class="seg">reorder so the most critical visual is at the top</span>
+      </div>
+      <p style="font-size:.9rem">Power BI keeps a separate phone layout from the desktop one — building it isn't automatic. The KPI or single chart someone needs first (this month's headline number, say) belongs at the very top of that stack; everything a viewer might scroll past should be exploratory detail, not the answer to the question they opened the report to ask.</p>
+
+      <h2 style="margin-top:30px">Avoiding unnecessary 3D effects</h2>
+      <div class="callout warn"><b>3D is flatly worse for reading data accurately</b> — a 3D pie or column chart distorts the visual size of the slice or bar closest to the "camera," making it look larger than its actual value while the far side looks smaller. There is no business scenario on this course's data where a 3D effect adds real information; it only adds a perception error. Stick to flat 2D charts.</div>
+
+      <h2 style="margin-top:30px">Highlighting important insights</h2>
+      <p>A dashboard that presents forty numbers with equal visual weight makes the reader do the work of finding the one that matters. Do that work for them.</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>A callout box</h4>
+          <p style="font-size:.88rem">A text box or the built-in Report Page Tooltip pattern that states the one-sentence takeaway in plain language, placed near the chart it explains — not buried in a title.</p>
+        </div>
+        <div class="card">
+          <h4>Conditional highlight color</h4>
+          <p style="font-size:.88rem">One bar (or one row, via <button class="term" data-term="conditionalformatting">conditional formatting</button>) in the accent color while the rest stay neutral — the same technique used in the color mockup above.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:30px">Keeping dashboards focused</h2>
+      <p>A page built to answer "how did we do this quarter" and a page built to answer "which customers are at risk of churning" are two different pages, even if they'd both technically fit on one. One clear purpose per page beats a single page trying to be everything the company owns data about.</p>
+      <div class="callout warn"><b>Common mistake:</b> "Let's just add it to the main dashboard" as the default answer to every new stakeholder request. A page that tries to answer every question ends up answering none of them clearly — a focused page a viewer understands in ten seconds is worth more than a comprehensive one they give up on.</div>
+
+      <h2 style="margin-top:30px">Matching visual complexity to the audience</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Audience</th><th>Wants</th><th>Report shape</th></tr>
+          <tr><td>An executive</td><td>Three numbers and a trend, in under 10 seconds</td><td>A handful of KPI cards plus one trend line — headline page first, everything else behind a click</td></tr>
+          <tr><td>An analyst</td><td>The full table, ability to slice and drill</td><td>A Matrix/Table with slicers, drill-down enabled, and a Tooltip well carrying extra detail</td></tr>
+          <tr><td>Anyone, on their phone, between meetings</td><td>The single number they came to check</td><td>Phone layout with that number pinned at the top (see Mobile, above)</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.9rem;margin-top:8px">The same underlying model can serve both — an executive summary page built from cards and a KPI trend, and a detail page built from a full Matrix, linked by a button (see <a href="12-interactivity.html">Interactivity</a>). Building one page and hoping it satisfies both audiences is how a report ends up too sparse for the analyst and too dense for the executive at the same time.</p>
+
+      <div class="callout" style="margin-top:20px"><b>The one-line test:</b> before shipping any report, ask whether a first-time viewer — someone who has never seen this data before — could look at each chart for five seconds and correctly state what it's telling them. If not, the fix is almost always on this page: a truncated axis, a missing title, decorative color, or clutter that needs removing.</div>
+
+      <h2 style="margin-top:30px">Exercise</h2>
+      <div class="card">
+        <span class="eyebrow">Practice · Best Practices Audit</span>
+        <h3 style="margin-top:8px">Fix your own Module 1 assignment</h3>
+        <p style="font-size:.9rem">Open the dashboard you built for the <a href="29-module1-assignment.html">Module 1 Assignment</a> and run the one-line test above on every chart. For each one that fails, note which specific rule from this page it's breaking (truncated axis? default title? no display units?) and fix it. Submit a short before/after screenshot pair for the chart that changed the most.</p>
+      </div>
+
+      <footer class="pagefoot"><span>Module 2 · Best Practices</span><a href="12-interactivity.html">Next: Interactivity →</a></footer>
+    </main>
+  </div>
+</div>
+
+<script>
+/* ============= mobile menu ============= */
+document.getElementById('menutoggle').addEventListener('click', ()=>{
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+/* ============= theme switching ============= */
+const themebtns = document.querySelectorAll('.themebtn');
+function setTheme(choice){
+  if(choice === 'auto'){ document.documentElement.removeAttribute('data-theme'); }
+  else{ document.documentElement.setAttribute('data-theme', choice); }
+  themebtns.forEach(b => b.classList.toggle('active', b.dataset.themeChoice === choice));
+  try{ localStorage.setItem('pbi-theme', choice); }catch(e){}
+}
+themebtns.forEach(b => b.addEventListener('click', ()=> setTheme(b.dataset.themeChoice)));
+let savedTheme = 'auto';
+try{ savedTheme = localStorage.getItem('pbi-theme') || 'auto'; }catch(e){}
+setTheme(savedTheme);
+
+/* ============= terminology hints ============= */
+const GLOSSARY = {
+  dimension: 'A descriptive field used to categorize or slice data — e.g. Product, Region, Customer, or Date.',
+  measure: 'A calculation defined in DAX that recalculates based on whatever filters are currently applied — e.g. Total Sales, Profit Margin %.',
+  fact: 'A table of measurable events — one row per transaction, order, or occurrence — that measures are built from.',
+  axis: 'The field well that places a column along the horizontal (or categorical) edge of a chart.',
+  legend: 'The field well that splits a visual into color-coded groups, one color per category.',
+  values: 'The field well that supplies the number(s) a visual actually plots or displays.',
+  tooltip: 'The small popup that appears on hover over a data point, showing extra detail without cluttering the visual.',
+  smallmultiples: 'A grid of small copies of the same chart, one per category, so you can compare shapes side by side instead of overlapping lines/bars.',
+  filter: 'A rule that restricts which rows are included — at the visual, page, or report level.',
+  slicer: 'An on-canvas control that lets the report viewer filter interactively by clicking, without opening a menu.',
+  drilldown: 'Clicking deeper into the SAME hierarchy on the SAME visual — e.g. Year → Quarter → Month on one chart.',
+  drillthrough: 'Right-clicking a data point to jump to a separate, filtered detail page built specifically for that context.',
+  bookmark: 'A saved snapshot of a report\'s current state — filters, visibility, selections — that a button can jump back to.',
+  hierarchy: 'A set of fields nested in a fixed order for drill-down, e.g. Category → Sub-Category → Product.',
+  cardinality: 'How many distinct values a column has — "high cardinality" means many unique values, like an ID column.',
+  relationship: 'A link between two tables through a shared key column, letting Power BI treat them as one connected model.',
+  starschema: 'A modeling shape with one central fact table and several dimension tables branching off it, like a star.',
+  calculatedcolumn: 'A new column computed with DAX and stored row-by-row in the table — unlike a measure, which computes on the fly.',
+  dax: '"Data Analysis Expressions" — the formula language Power BI uses for measures and calculated columns.',
+  aggregation: 'Combining many rows into one number — Sum, Average, Count, Min, Max are all aggregations.',
+  group: 'Combining several existing category values into one broader bucket, without changing the source data.',
+  binning: 'Splitting a continuous number into equal-sized ranges ("bins") so it can be treated like a category.',
+  conditionalformatting: 'Rules that change a visual\'s color or icon based on the value itself, so exceptions are visible at a glance.',
+  customvisual: 'A visual type from Microsoft AppSource, beyond Power BI\'s built-in chart types.',
+};
+function closeTerm(btn){
+  btn.classList.remove('term-open');
+  const pop = btn.querySelector('.term-pop');
+  if(pop) pop.remove();
+}
+function openTerm(btn){
+  const pop = document.createElement('span');
+  pop.className = 'term-pop';
+  pop.textContent = GLOSSARY[btn.dataset.term] || 'Definition coming soon.';
+  btn.appendChild(pop);
+  btn.classList.add('term-open');
+}
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.term');
+  if(btn){
+    e.stopPropagation();
+    const wasOpen = btn.classList.contains('term-open');
+    document.querySelectorAll('.term-open').forEach(b => { if(b !== btn) closeTerm(b); });
+    wasOpen ? closeTerm(btn) : openTerm(btn);
+    return;
+  }
+  document.querySelectorAll('.term-open').forEach(closeTerm);
+});
+</script>
+</body>
+</html>

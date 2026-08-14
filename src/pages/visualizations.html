@@ -1,7 +1,7 @@
       <div class="section-head">
-        <span class="eyebrow">05 · Visualizations</span>
-        <h1>Eight charts. One rule: every chart answers a business question.</h1>
-        <p class="lede">If you can't say what question a chart answers, don't build it. Click any card below to see steps, formatting, best practices, and common mistakes.</p>
+        <span class="eyebrow">Module 1 · 6</span>
+        <h1>Twelve charts. One rule: every chart answers a business question.</h1>
+        <p class="lede">If you can't say what question a chart answers, don't build it. Basic charts first, then the building blocks, then the ones with more moving parts — click any card to see steps, formatting, best practices, and common mistakes. Terms like <button class="term" data-term="axis">Axis</button>, <button class="term" data-term="legend">Legend</button>, and <button class="term" data-term="values">Values</button> are click-to-define wherever you see them on this site.</p>
       </div>
 
       <h2>Which chart, when?</h2>
@@ -16,11 +16,20 @@
           <tr><td>Show relationship between two numbers</td><td><b>Scatter Plot</b></td><td>Only one number available, &lt;10 points</td></tr>
           <tr><td>Show geographic distribution</td><td><b>Map</b></td><td>Precise comparison matters more than location</td></tr>
           <tr><td>Show hierarchy + proportion together</td><td><b>Tree Map</b></td><td>Only one category level exists</td></tr>
+          <tr><td>Show a running total moving through gains and losses</td><td><b>Waterfall Chart</b></td><td>Too many steps (8+) — bars get too thin to read</td></tr>
+          <tr><td>Show stage-by-stage drop-off</td><td><b>Funnel Chart</b></td><td>Steps aren't naturally sequential/shrinking</td></tr>
+          <tr><td>Compare two measures with different scales together</td><td><b>Combo Chart</b></td><td>The two measures don't share a meaningful common axis</td></tr>
+          <tr><td>Show exact numbers across a grid, not just a picture</td><td><b>Matrix / Table</b></td><td>You need people to feel a pattern at a glance, not read numbers</td></tr>
         </table>
       </div>
 
-      <h2 style="margin-top:28px">The eight charts, in depth</h2>
+      <h2 style="margin-top:28px">The core charts, in depth</h2>
+      <div class="callout">Every chart below includes an <b>AdventureWorksDW</b> example — deliberately built from a <b>single table, no joins</b>. Every field-well mapping shows the table name up front and animates the column flowing into its well, so it's obvious at a glance what's being dragged where. Full connection walkthrough: <a href="08-sql-server-adventureworks.html">SQL Server &amp; AdventureWorks</a>. Column names match the standard AdventureWorksDW schema — worth a quick glance at your own restored copy before class.</div>
       <div id="chartAccordion"></div>
+
+      <h2 style="margin-top:30px">Reference: a few more chart types</h2>
+      <p class="lede" style="font-size:.95rem">Not core to this course, but worth recognizing when you see them. Lighter treatment than the charts above — no full steps/mistakes breakdown, just what they're for and a single-table AdventureWorksDW example where a fair one exists.</p>
+      <div id="referenceAccordion"></div>
 
       <h2 style="margin-top:30px">Formatting that makes it look professional</h2>
       <div class="grid grid-3">
@@ -29,56 +38,113 @@
         <div class="card"><h4>Data labels</h4><p style="font-size:.85rem">On for Bar/Pie/Card. Usually off for dense Line/Scatter — labels overlap into noise.</p></div>
         <div class="card"><h4>Conditional formatting</h4><p style="font-size:.85rem">Red/green rules on tables and KPIs so problems jump out without reading every number.</p></div>
         <div class="card"><h4>Tooltips</h4><p style="font-size:.85rem">Extra detail on hover without permanently cluttering the chart.</p></div>
-        <div class="card"><h4>Interactions</h4><p style="font-size:.85rem">Click one visual, watch the others filter — Power BI's biggest "wow" moment, on by default.</p></div>
+        <div class="card"><h4>Interactions</h4><p style="font-size:.85rem">Click one visual, watch the others <button class="term" data-term="filter">filter</button> — Power BI's biggest "wow" moment, on by default.</p></div>
       </div>
 
-      <footer class="pagefoot"><span>05 · Visualizations</span><a href="06-exercises.html">Next: Exercises →</a></footer>
+      <footer class="pagefoot"><span>Module 1 · Basic Visualizations</span><a href="29-module1-assignment.html">Next: Module 1 Assignment →</a></footer>
 
 <script>
-/* ============= chart accordion ============= */
+/* ============= field→well animated flow diagram ============= */
+function fieldflowHTML(rows){
+  return rows.map(r => `
+    <div class="fieldflow">
+      <span class="chip">${r[0]}</span>
+      <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+      <span class="chip well">${r[1]}</span>
+    </div>`).join('');
+}
+function awBlockHTML(aw){
+  return `
+    <div style="margin-top:12px">
+      <p style="font-size:.85rem;font-weight:700;margin-bottom:8px">AdventureWorksDW example &nbsp;<span class="pill table">Table: ${aw.table}</span></p>
+      ${fieldflowHTML(aw.fields)}
+      <p style="font-size:.83rem;color:var(--text-muted);margin-top:8px">${aw.note}</p>
+    </div>`;
+}
+
+/* ============= core chart accordion (tiered) ============= */
 const CHARTS = [
-{name:'Bar Chart', use:'Sales by Category', purpose:'Compares a number across categories, side by side — the single most useful chart in business analytics.', biz:'A Flipkart category manager asking "which product category sells the most?"', avoid:'More than ~10–12 categories, or showing a trend over time (use a Line Chart instead).',
+{tier:'Basic Charts', name:'Bar Chart', use:'Sales by Category', purpose:'Compares a number across categories, side by side — the single most useful chart in business analytics.', biz:'A Flipkart category manager asking "which product category sells the most?"', avoid:'More than ~10–12 categories, or showing a trend over time (use a Line Chart instead).',
   steps:['Visualizations pane → Clustered Column Chart','Drag Category into X-axis','Drag Sales into Y-axis','Sort descending via the "..." menu','Turn on Data Labels'],
   best:'Sort biggest-to-smallest unless there\'s a natural order like months. One consistent color unless Legend is used meaningfully.',
   mistake:'Leaving the default ugly auto-title ("Sum of Sales by Category"). Using a Bar Chart for a trend over time.',
-  interpret:'Look at the tallest bar first — that\'s your headline. The shortest is often the more interesting question.'},
-{name:'Pie Chart', use:'Market Share by Category', purpose:'Shows how a whole is divided into parts — each slice as a percentage of the total.', biz:'A telecom company showing market share by brand in one glance.', avoid:'More than 5 categories (the Rule of 5), comparing exact values precisely, or trends over time.',
+  interpret:'Look at the tallest bar first — that\'s your headline. The shortest is often the more interesting question.',
+  aw:{table:'DimProduct', fields:[['DimProduct[Color]','Axis (X)'],['DimProduct[ListPrice]  (Average)','Values (Y)'],['DimProduct[Weight]','Tooltip']],
+    note:'Color, List Price, and Weight all live directly on DimProduct — single table, no join. The Tooltip well adds Weight as extra on-hover detail without changing what the bars themselves show.'}},
+
+{tier:'Basic Charts', name:'Pie Chart', use:'Market Share by Category', purpose:'Shows how a whole is divided into parts — each slice as a percentage of the total.', biz:'A telecom company showing market share by brand in one glance.', avoid:'More than 5 categories (the Rule of 5), comparing exact values precisely, or trends over time.',
   steps:['Visualizations pane → Pie Chart','Drag Category into Legend','Drag Sales into Values','Data labels → Category, Percent of total'],
   best:'Maximum 5 slices. Always show percentage, not just raw numbers.',
   mistake:'Using pie charts for 8+ categories — a "rainbow wheel" nobody can read. Forgetting percentage labels.',
-  interpret:'A pie chart answers exactly one question: what\'s the biggest piece of the pie? Nothing else.'},
-{name:'Line Chart', use:'Monthly Sales Trend', purpose:'Shows how a number changes over time — the only chart built specifically for trend.', biz:'A Swiggy ops team tracking daily order volume to spot growth, dips, or a viral spike.', avoid:'Comparing unrelated categories (use Bar), or showing a single point in time (use a Card).',
+  interpret:'A pie chart answers exactly one question: what\'s the biggest piece of the pie? Nothing else.',
+  aw:{table:'DimProduct', fields:[['DimProduct[Class]','Legend'],['DimProduct[ProductKey]  (Count)','Values']],
+    note:'Class only has three values (L / M / H), so it respects the Rule of 5 automatically. Some products may have a blank Class — worth a quick Power Query check before presenting.'}},
+
+{tier:'Basic Charts', name:'Line Chart', use:'Monthly Sales Trend', purpose:'Shows how a number changes over time — the only chart built specifically for trend.', biz:'A Swiggy ops team tracking daily order volume to spot growth, dips, or a viral spike.', avoid:'Comparing unrelated categories (use Bar), or showing a single point in time (use a Card).',
   steps:['Visualizations pane → Line Chart','Drag Date into X-axis','Drag Sales into Y-axis','Drill to Month for a cleaner view','Analytics pane → add a Trend line'],
   best:'Always sort the X-axis chronologically — needs a real Date type, not text. Limit to 1–3 lines max.',
   mistake:'A Date column still typed as Text sorts alphabetically, not chronologically, producing a nonsensical zig-zag.',
-  interpret:'Look at direction and bumps, not just height. A sawtooth pattern usually means a weekly cycle.'},
-{name:'KPI Card', use:'Total Sales, Profit, Orders, AOV', purpose:'Displays one single, critical number as large as possible — the headline number of your dashboard.', biz:'The four numbers a Zomato regional head checks first every morning.', avoid:'More than 4–6 cards on one page — beyond that, nothing feels important anymore.',
+  interpret:'Look at direction and bumps, not just height. A sawtooth pattern usually means a weekly cycle.',
+  aw:{table:'FactInternetSales', fields:[['FactInternetSales[OrderDate]  (by Month)','Axis (X)'],['FactInternetSales[SalesAmount]  (Sum)','Values (Y)']],
+    note:'FactInternetSales carries its own OrderDate column — Power BI builds a Year/Quarter/Month hierarchy straight from it, no separate date table required.'}},
+
+{tier:'Building Blocks', name:'KPI Card', use:'Total Sales, Profit, Orders, AOV', purpose:'Displays one single, critical number as large as possible — the headline number of your dashboard.', biz:'The four numbers a Zomato regional head checks first every morning.', avoid:'More than 4–6 cards on one page — beyond that, nothing feels important anymore.',
   steps:['Visualizations pane → Card','Drag a measure into Fields','For unique counts, change aggregation to Count (Distinct)','For Average Order Value, write a DAX measure using DIVIDE'],
   best:'Round large numbers (Format → Display units). Keep the label short — "Total Sales," not a full sentence.',
   mistake:'A KPI with no context, or using Sum when Average was intended.',
-  interpret:'KPI cards are read in under 2 seconds — if someone has to think about what it means, it failed.'},
-{name:'Gauge Chart', use:'Monthly Target vs Actual', purpose:'Shows progress of a single number toward a goal — like a car\'s speedometer.', biz:'A bank branch manager tracking "have we hit this month\'s loan disbursement target?"', avoid:'Comparing multiple items — a gauge shows exactly ONE value against ONE target.',
+  interpret:'KPI cards are read in under 2 seconds — if someone has to think about what it means, it failed.',
+  aw:{table:'FactInternetSales', fields:[['FactInternetSales[SalesAmount]  (Sum)','Total Sales'],['FactInternetSales[SalesOrderNumber]  (Distinct Count)','Total Orders']],
+    note:'Profit and AOV are measures, not raw columns: Profit = SUM(SalesAmount) − SUM(TotalProductCost); AOV = DIVIDE(SUM(SalesAmount), DISTINCTCOUNT(SalesOrderNumber)). Both source columns are native to FactInternetSales — still one table.'}},
+
+{tier:'Building Blocks', name:'Gauge Chart', use:'Monthly Target vs Actual', purpose:'Shows progress of a single number toward a goal — like a car\'s speedometer.', biz:'A bank branch manager tracking "have we hit this month\'s loan disbursement target?"', avoid:'Comparing multiple items — a gauge shows exactly ONE value against ONE target.',
   steps:['Visualizations pane → Gauge','Drag a measure into Value (the Actual/needle)','Set Minimum (usually 0)','Set Maximum (~120–150% of target)','Set Target value in the Format pane'],
   best:'Only use for a single, high-importance goal metric. Keep Maximum realistic.',
   mistake:'Forgetting to set a Target — it becomes just a fancier, less clear KPI Card.',
-  interpret:'Only 3 readings matter: behind goal, on track, or exceeded. If you need more nuance, pick a different chart.'},
-{name:'Scatter Plot', use:'Sales vs Profit', purpose:'Shows the relationship between two numeric measures at once — reveals correlation, clusters, outliers.', biz:'Do higher-sales products also have higher profit, or are some best-sellers actually low-margin traps?', avoid:'Only one number to show, or fewer than ~10 data points.',
+  interpret:'Only 3 readings matter: behind goal, on track, or exceeded. If you need more nuance, pick a different chart.',
+  aw:{table:'FactInternetSales', fields:[['FactInternetSales[SalesAmount]  (Sum), filtered to this month','Value'],['typed manually in the Format pane','Target']],
+    note:'The month filter comes from FactInternetSales\' own OrderDate column — still no join needed. AdventureWorksDW has no built-in "target" column, same as the generic lesson.'}},
+
+{tier:'Advanced Charts', name:'Scatter Plot', use:'Sales vs Profit', purpose:'Shows the relationship between two numeric measures at once — reveals correlation, clusters, outliers.', biz:'Do higher-sales products also have higher profit, or are some best-sellers actually low-margin traps?', avoid:'Only one number to show, or fewer than ~10 data points.',
   steps:['Visualizations pane → Scatter Chart','Drag one measure into X-axis, another into Y-axis','Drag Category into Legend','Drag Quantity into Size for a bubble chart'],
   best:'Always label axes clearly. Use color/Legend purposefully, not for decoration.',
   mistake:'Plotting two measures with no logical relationship. Ignoring outliers instead of investigating them.',
-  interpret:'Look for the lonely dot far from the cluster — a data error or a genuinely unusual event worth a closer look.'},
-{name:'Map', use:'Sales by State', purpose:'Shows geographic distribution of a number — instantly answers "where" questions.', biz:'A Blinkit ops head asking "which cities should we open more dark stores in?"', avoid:'When precise value comparison matters more than location, or fewer than ~4–5 locations.',
+  interpret:'Look for the lonely dot far from the cluster — a data error or a genuinely unusual event worth a closer look.',
+  aw:{table:'DimProduct', fields:[['DimProduct[StandardCost]','Axis (X)'],['DimProduct[ListPrice]','Axis (Y)'],['DimProduct[ProductLine]','Legend'],['DimProduct[Class]','Small multiples']],
+    note:'Cost and price live on the same table, so this reads as pure markup per product — the gap between a dot and a 1:1 line is margin. Small multiples by Class splits one crowded scatter into three side-by-side mini-scatters (Low/Medium/High), one table, no join.'}},
+
+{tier:'Advanced Charts', name:'Map', use:'Sales by State', purpose:'Shows geographic distribution of a number — instantly answers "where" questions.', biz:'A Blinkit ops head asking "which cities should we open more dark stores in?"', avoid:'When precise value comparison matters more than location, or fewer than ~4–5 locations.',
   steps:['Visualizations pane → Filled Map (or Map for bubbles)','Drag Region/State/City into Location','Drag Sales into Color saturation (Filled) or Size (Bubble)'],
   best:'Pair a map with a bar chart of the same data — map for "where," bar for "how much exactly."',
   mistake:'Relying on a map as the ONLY way to show regional performance — circle/shade size is hard to compare precisely.',
-  interpret:'Use to show WHERE something is happening; use a bar chart to know precisely HOW MUCH more one place has.'},
-{name:'Tree Map', use:'Revenue by Category & Sub-Category', purpose:'Shows part-to-whole AND hierarchy at the same time, using nested rectangles sized by value.', biz:'An Amazon category head viewing Revenue by Category, then Sub-Category, in one single view.', avoid:'When exact value comparison matters, or you only have one level of category.',
+  interpret:'Use to show WHERE something is happening; use a bar chart to know precisely HOW MUCH more one place has.',
+  aw:{table:'DimGeography', fields:[['DimGeography[StateProvinceName]','Location'],['DimGeography[GeographyKey]  (Count)','Values']],
+    note:'This counts cities on file per state, not sales — geography is a dimension-only table by design, so a real sales-by-state map needs a join through DimCustomer to FactInternetSales. This single-table version is the honest stand-in until joins are covered.'}},
+
+{tier:'Advanced Charts', name:'Tree Map', use:'Revenue by Category & Sub-Category', purpose:'Shows part-to-whole AND hierarchy at the same time, using nested rectangles sized by value.', biz:'An Amazon category head viewing Revenue by Category, then Sub-Category, in one single view.', avoid:'When exact value comparison matters, or you only have one level of category.',
   steps:['Visualizations pane → Treemap','Drag Category into the Category well','Drag Sub Category into the same well, below it','Drag Sales into Values'],
   best:'Limit to 2 hierarchy levels. Use only when hierarchy AND proportion both matter.',
   mistake:'Using a Tree Map when a simple bar chart would communicate faster and more precisely.',
-  interpret:'Scan for the biggest rectangle first, then look inside it — what\'s carrying that category?'},
+  interpret:'Scan for the biggest rectangle first, then look inside it — what\'s carrying that category?',
+  aw:{table:'DimProduct', fields:[['DimProduct[Class]','Category (level 1)'],['DimProduct[Style]','Category (level 2)'],['DimProduct[ProductKey]  (Count)','Values']],
+    note:'Both hierarchy levels and the count all come from DimProduct alone — one table.'}},
 ];
-document.getElementById('chartAccordion').innerHTML = CHARTS.map(c => `
+
+const TRY_IT = {
+  'Bar Chart': 'Using DimProduct alone, build a Bar Chart of Average StandardCost by Style instead of Color — does the ranking surprise you?',
+  'Pie Chart': 'Swap Class for Style as the Legend — does Style still respect the Rule of 5?',
+  'Line Chart': 'Change the axis from Month to Year using the same OrderDate column — no new field needed, just a different level of the same date hierarchy.',
+  'KPI Card': 'Add a fourth card: Average List Price, straight off DimProduct — no fact table needed for this one.',
+  'Gauge Chart': 'Set the Target to last month\'s actual SalesAmount instead of a typed-in number, using a second measure.',
+  'Scatter Plot': 'Add DimProduct[Weight] into the Size well on top of the Small Multiples by Class — does a heavier product also tend to cost more?',
+  'Map': 'Switch Location from StateProvinceName to CountryRegionCode for a country-level view instead.',
+  'Tree Map': 'Swap the two hierarchy levels — Style first, then Class — does the picture tell a different story?',
+};
+
+let chartsHTML = '';
+let curTier = '';
+CHARTS.forEach(c => {
+  if(c.tier !== curTier){ curTier = c.tier; chartsHTML += `<h3 style="margin-top:26px">${c.tier}</h3>`; }
+  chartsHTML += `
   <details class="card" style="margin-bottom:10px;padding:14px 18px">
     <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem;display:flex;justify-content:space-between;gap:10px;align-items:center">
       <span>${c.name} <span style="font-weight:400;font-size:.82rem;color:var(--text-muted);font-family:var(--font-body)">— ${c.use}</span></span>
@@ -86,6 +152,7 @@ document.getElementById('chartAccordion').innerHTML = CHARTS.map(c => `
     <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
       <p style="font-size:.9rem"><b>Purpose:</b> ${c.purpose}</p>
       <p style="font-size:.9rem;color:var(--text-muted)"><b>Business use:</b> ${c.biz}</p>
+      ${awBlockHTML(c.aw)}
       <div class="callout warn" style="margin:12px 0"><b>Avoid when:</b> ${c.avoid}</div>
       <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
       <ol class="steps">${c.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
@@ -94,6 +161,33 @@ document.getElementById('chartAccordion').innerHTML = CHARTS.map(c => `
         <div><p style="font-size:.85rem"><b>Common mistake:</b> ${c.mistake}</p></div>
       </div>
       <p style="font-size:.85rem;margin-top:6px"><b>How to interpret:</b> ${c.interpret}</p>
+      ${TRY_IT[c.name] ? `<div class="callout" style="margin-top:10px"><b>Try it yourself:</b> ${TRY_IT[c.name]}</div>` : ''}
+    </div>
+  </details>`;
+});
+document.getElementById('chartAccordion').innerHTML = chartsHTML;
+
+/* ============= reference chart types (lighter treatment) ============= */
+const REFERENCE_CHARTS = [
+{name:'Waterfall Chart', purpose:'Shows a running total moving up and down through a sequence of steps — how you got from a starting number to an ending number, not just what the ending number is.',
+  aw:{table:'FactInternetSales', fields:[['FactInternetSales[OrderDate]  (by Month)','Breakdown'],['FactInternetSales[SalesAmount]  (Sum)','Values']],
+    note:'Reads as "how did the year\'s sales build up, month by month" — single table, no join.'}},
+{name:'Funnel Chart', purpose:'Shows drop-off across ordered stages — classically a sales or signup pipeline, each stage smaller than the last.',
+  aw:{table:'FactInternetSales', fields:[['FactInternetSales[OrderQuantity]  binned (1 / 2–3 / 4+)','Stage'],['count of orders','Values']],
+    note:'Honest caveat: AdventureWorksDW records completed transactions, not a pipeline/CRM system, so there\'s no natural stage-by-stage field. This binned-quantity version is a stretch, included for the shape of the chart rather than a realistic business question.'}},
+{name:'Combo Chart (Line and Clustered Column)', purpose:'Overlays two measures with different scales on one shared category axis — one as columns, one as a line — instead of forcing them into separate charts.',
+  aw:{table:'FactInternetSales', fields:[['FactInternetSales[OrderDate]  (by Month)','Shared axis'],['FactInternetSales[SalesAmount]  (Sum)','Column values'],['FactInternetSales[OrderQuantity]  (Sum)','Line values']],
+    note:'Revenue as bars, order volume as a line, over the same monthly axis — single table.'}},
+{name:'Matrix / Table', purpose:'A cross-tab grid — rows, optional column groups, and several measures side by side — for when the exact numbers matter more than the picture.',
+  aw:{table:'DimProduct', fields:[['DimProduct[ProductLine]','Rows'],['Count of ProductKey, Average(ListPrice), Average(StandardCost)','Values (multiple)']],
+    note:'A Matrix is the one visual built to hold several measures at once — all three come straight off DimProduct.'}},
+];
+document.getElementById('referenceAccordion').innerHTML = REFERENCE_CHARTS.map(c => `
+  <details class="card" style="margin-bottom:10px;padding:14px 18px">
+    <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">${c.name}</summary>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+      <p style="font-size:.9rem"><b>Purpose:</b> ${c.purpose}</p>
+      ${awBlockHTML(c.aw)}
     </div>
   </details>`).join('');
 </script>

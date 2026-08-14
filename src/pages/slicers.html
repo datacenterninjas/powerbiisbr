@@ -1,0 +1,190 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Slicers</span>
+        <h1>Hand the viewer a filter they can click, not one you set for them.</h1>
+        <p class="lede">A <button class="term" data-term="slicer">slicer</button> is a filter left out in the open — an on-canvas control the report VIEWER clicks, instead of a restriction the report BUILDER locks in once behind the Filters pane.</p>
+      </div>
+
+      <h2>Slicer vs. Filters pane — who's actually in control</h2>
+      <p style="font-size:.92rem">The <a href="15-filters.html">Filters page</a> covered visual, page, and report-level <button class="term" data-term="filter">filters</button> — all of them set once by the BUILDER, invisible to whoever opens the report. A slicer is different in one specific way: it puts that same filtering power directly on the canvas, so the VIEWER can change it themselves, any time, without ever opening a menu.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>Filter (Filters pane)</th><th>Slicer (on-canvas)</th></tr>
+          <tr><td><b>Who sets it</b></td><td>The report builder, at design time</td><td>The report viewer, at any time</td></tr>
+          <tr><td><b>Who can change it</b></td><td>Only someone editing the report</td><td>Anyone viewing the report</td></tr>
+          <tr><td><b>Where it lives</b></td><td>Tucked away in a side pane</td><td>A visible tile, right on the report</td></tr>
+          <tr><td><b>Best for</b></td><td>A restriction that should never move</td><td>Letting someone self-serve their own slice</td></tr>
+        </table>
+      </div>
+      <div class="callout"><b>Same engine, different owner:</b> a slicer isn't a new filtering mechanism — it's a visual, and visuals can be filtered just like any other visual. The difference is purely who gets to touch the control.</div>
+
+      <h2 style="margin-top:30px">When to reach for a slicer</h2>
+      <p style="font-size:.92rem">Use a slicer whenever a business user needs to answer "show me just my region" or "just my team" without knowing Power BI exists underneath. If the answer to "who decides the filter value" is "whoever happens to be looking at the report right now," it's a slicer — not a Filters-pane filter.</p>
+      <p style="font-size:.85rem;color:var(--text-muted)"><b>Real-world example:</b> A regional sales manager in the North opens the same company-wide report every Monday. Nobody is going to rebuild the report just for her — a Region slicer lets her click "North" once and every visual on the page instantly reflects only her territory.</p>
+
+      <h2 style="margin-top:30px">Creating a slicer</h2>
+      <div class="clickpath">
+        <span class="seg">Visualizations pane</span><span class="arrow">→</span><span class="seg">Slicer icon</span><span class="arrow">→</span><span class="seg">drag a field into the Field well</span>
+      </div>
+      <ol class="steps">
+        <li>Click an empty area of the canvas so nothing else is selected</li>
+        <li>In the Visualizations pane, click the Slicer icon to place a blank slicer</li>
+        <li>Drag the field you want a viewer to filter by (e.g. Region) into the slicer's Field well</li>
+        <li>Resize and position it — usually along the top or left edge, where a viewer expects controls to live</li>
+      </ol>
+
+      <h2 style="margin-top:30px">List vs. dropdown</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>List</h4>
+          <p style="font-size:.88rem">Every value shown at once, stacked vertically (or horizontally). Takes more canvas space but lets a viewer see every option and the current selection in one glance.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Use when:</b> the field has a short list of values — Region (North/South/East/West) is a textbook case. <span class="pill good">default choice for short lists</span></p>
+        </div>
+        <div class="card">
+          <h4>Dropdown</h4>
+          <p style="font-size:.88rem">Collapses to a single line until clicked. Saves real estate but hides the current selection until the viewer looks closely at the header text.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Use when:</b> canvas space is tight, or the field has more values than comfortably fit as a list — e.g. a Sub Category field with a dozen entries.</p>
+        </div>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">Switch between them in the Format pane → Slicer settings → Options → Style, or from the small dropdown-arrow icon in the slicer's own header.</p>
+
+      <h2 style="margin-top:30px">Matching the slicer to the data type</h2>
+      <div class="grid grid-3">
+        <div class="card">
+          <h4>Date slicer</h4>
+          <p style="font-size:.85rem">Drag a Date field in and the slicer offers a Between range, a Before/After cut-off, or a draggable slider style instead of a list of individual dates.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> Filtering the Sales dataset's Date column to a specific order window.</p>
+        </div>
+        <div class="card">
+          <h4>Numeric slicer</h4>
+          <p style="font-size:.85rem">Drag a numeric field in and the slicer becomes a range slider with two handles, instead of a list of every distinct number.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> A Loan Amount slicer on the Banking dataset, dragged to ₹1,00,000–₹50,00,000, isolating only mid-to-large loans.</p>
+        </div>
+        <div class="card">
+          <h4>Relative date filtering</h4>
+          <p style="font-size:.85rem">Instead of a fixed range that goes stale, a relative filter says "last 30 days" or "this quarter" — it recalculates itself against today's date on every refresh.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> An operations dashboard filtered to "last 30 days" of orders never needs to be touched again — it's automatically current every Monday morning.</p>
+        </div>
+      </div>
+      <div class="callout warn" style="margin-top:14px"><b>Fixed range vs. relative:</b> a Between filter of "1 Jan 2025 – 31 Jan 2025" is frozen forever — next month it's showing the wrong period unless someone manually updates it. A Relative Date filter of "this month" needs no maintenance at all; that's the whole point of reaching for it.</div>
+
+      <h2 style="margin-top:30px">Formatting a slicer</h2>
+      <p style="font-size:.92rem">Select the slicer, open the Format pane (the paint-roller icon), and the options that matter most for a beginner are:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Setting</th><th>What it controls</th></tr>
+          <tr><td><b>Orientation</b></td><td>Vertical (stacked list) or Horizontal (a row of chips) — horizontal suits a short Region-style list placed along the top of a page.</td></tr>
+          <tr><td><b>Header</b></td><td>Toggles the small title bar showing the field name on/off — turn it off only when the slicer's purpose is already obvious from its position or a text label nearby.</td></tr>
+          <tr><td><b>Style</b></td><td>Tile, Dropdown, Between, or Slider — the available options change automatically depending on whether the field is text, date, or numeric.</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">Multi-select and search</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>Multi-select</h4>
+          <p style="font-size:.88rem">By default, clicking a new value in a slicer replaces the old selection. Hold <b>Ctrl</b> while clicking to select several values at once, or click the small multi-select icon in the slicer's header to make every click additive without needing Ctrl.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> Selecting both North and East on a Region slicer to compare two territories side by side.</p>
+        </div>
+        <div class="card">
+          <h4>Search within a slicer</h4>
+          <p style="font-size:.88rem">A small magnifying-glass icon that turns a long list into a searchable box, so a viewer can type instead of scrolling.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> The practice Sales file only has 33 customers, but a real company's customer table often runs into the hundreds — that's exactly when Search stops being a nice-to-have and becomes essential.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:30px">Sync Slicers — one control, every page</h2>
+      <p style="font-size:.92rem">A slicer lives visually on one page. <b>Sync Slicers</b> (View → Sync Slicers pane) lets that slicer's selection apply its filter to OTHER pages too — even pages where the slicer itself isn't shown. Tick a page's <b>Sync</b> box to have it obey the selection; tick its <b>Visible</b> box as well if you also want the slicer control to physically appear there.</p>
+      <div class="callout"><b>Not the same as a Report-level filter:</b> a Report filter (see the <a href="15-filters.html">Filters page</a>) also reaches every page — but it's fixed by the BUILDER and the viewer can't touch it. A synced slicer reaches multiple pages too, but stays a live control the VIEWER can change at any time. Same reach, completely different owner.</div>
+      <p style="font-size:.85rem;color:var(--text-muted)"><b>Real-world example:</b> A Region slicer sits on a report's "Overview" page. With Sync Slicers turned on for the "Regional Detail" page, clicking "South" on Overview instantly re-filters Regional Detail too — one click, both pages, no second slicer to build or keep in sync by hand.</p>
+
+      <figure>
+        <img src="images/slicer-sync-diagram.svg" alt="One Region slicer connects to three separate report pages, keeping all of them filtered to the same selection at once.">
+        <figcaption>One slicer, several pages, one selection kept in sync automatically.</figcaption>
+      </figure>
+
+      <p style="font-size:.9rem;margin-top:14px"><b>Try it below</b> — a real, clickable mock of the mechanic, not a screenshot. Two pages of the same report, one Region slicer. Toggle Sync on and off and watch what happens to the second page:</p>
+      <div class="mockreport">
+        <div class="mockreport-controls">
+          <button class="btn ghost sm mocksyncbtn active" data-sync="on">Sync: ON</button>
+          <button class="btn ghost sm mocksyncbtn" data-sync="off">Sync: OFF</button>
+        </div>
+        <div class="mockreport-controls">
+          <span style="font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted);align-self:center;margin-right:2px">Region slicer:</span>
+          <button class="btn ghost sm mockregionbtn active" data-region="North">North</button>
+          <button class="btn ghost sm mockregionbtn" data-region="South">South</button>
+          <button class="btn ghost sm mockregionbtn" data-region="East">East</button>
+          <button class="btn ghost sm mockregionbtn" data-region="West">West</button>
+        </div>
+        <div class="mockgrid" style="grid-template-columns:1fr 1fr">
+          <div class="mocktile">
+            <div class="mocktile-label">Overview page · slicer lives here</div>
+            <div class="mockbars" id="syncBarsA"></div>
+            <span class="pill mock-badge good" id="syncBadgeA" style="margin-top:8px">Region: North</span>
+          </div>
+          <div class="mocktile" id="syncTileB">
+            <div class="mocktile-label">Regional Detail page</div>
+            <div class="mockbars" id="syncBarsB"></div>
+            <span class="pill mock-badge" id="syncBadgeB" style="margin-top:8px">Region: North</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:.83rem;color:var(--text-muted);margin-top:6px">With Sync ON, clicking a region updates both pages together. Switch Sync OFF, click a different region, and only the Overview page moves — Regional Detail freezes on its last selection until Sync is switched back on.</p>
+
+      <h2 style="margin-top:30px">Common mistakes</h2>
+      <div class="grid grid-2">
+        <div class="card"><h4>Confusing sync with visibility</h4><p style="font-size:.85rem">Sync and Visible are two separate checkboxes in the Sync Slicers pane. A page can obey the synced filter (Sync ✓) without ever showing the slicer control itself (Visible unchecked) — useful when you want the effect everywhere but the control cluttering only one page.</p></div>
+        <div class="card"><h4>One slicer per field, everywhere</h4><p style="font-size:.85rem">Building a separate Region slicer on every page instead of syncing one is extra work and a maintenance trap — two "Region" slicers can silently drift out of agreement if a viewer only clicks one of them.</p></div>
+      </div>
+      <div class="callout warn" style="margin-top:16px"><b>Best practice:</b> Build one slicer per field, put it on the page a viewer lands on first, and use Sync Slicers to extend its reach — don't duplicate the control across pages just to get the same filtering effect everywhere.</div>
+
+      <h2 style="margin-top:30px">Exercise</h2>
+      <div class="card">
+        <span class="eyebrow">Practice · Slicers</span>
+        <h3 style="margin-top:8px">Two pages, one synced Region slicer</h3>
+        <p style="font-size:.9rem">Build "Overview" and "Regional Detail" pages from the Retail dataset. Place a Region slicer on Overview only, then turn on Sync Slicers so Regional Detail obeys it without showing the control. Confirm clicking a region on Overview updates both pages.</p>
+      </div>
+
+      <footer class="pagefoot"><span>Module 2 · Slicers</span><a href="19-dax-basics.html">Next: DAX Basics &amp; Measures →</a></footer>
+
+<script>
+/* ============= sync-slicers mock demo ============= */
+const SYNC_REGION_DATA = {
+  North: [70, 45, 60, 35],
+  South: [55, 80, 30, 65],
+  East:  [40, 60, 75, 50],
+  West:  [85, 35, 55, 40],
+};
+let syncMode = 'on';
+let pageARegion = 'North';
+let pageBRegion = 'North';
+
+function renderSyncBars(elId, region){
+  document.getElementById(elId).innerHTML = SYNC_REGION_DATA[region]
+    .map(v => `<div class="mockbar" style="height:${v}%"></div>`).join('');
+}
+function refreshSyncDemo(){
+  renderSyncBars('syncBarsA', pageARegion);
+  renderSyncBars('syncBarsB', pageBRegion);
+  document.getElementById('syncBadgeA').textContent = 'Region: ' + pageARegion;
+
+  const badgeB = document.getElementById('syncBadgeB');
+  const inSync = pageBRegion === pageARegion;
+  badgeB.textContent = 'Region: ' + pageBRegion + (syncMode === 'on' ? ' · Synced ✓' : ' · Not synced');
+  badgeB.className = 'pill mock-badge' + (syncMode === 'on' ? ' good' : '');
+  document.getElementById('syncTileB').classList.toggle('dimmed', syncMode === 'off' && !inSync);
+
+  document.querySelectorAll('.mockregionbtn').forEach(b => b.classList.toggle('active', b.dataset.region === pageARegion));
+  document.querySelectorAll('.mocksyncbtn').forEach(b => b.classList.toggle('active', b.dataset.sync === syncMode));
+}
+document.querySelectorAll('.mockregionbtn').forEach(b => b.addEventListener('click', () => {
+  pageARegion = b.dataset.region;
+  if(syncMode === 'on') pageBRegion = pageARegion;
+  refreshSyncDemo();
+}));
+document.querySelectorAll('.mocksyncbtn').forEach(b => b.addEventListener('click', () => {
+  syncMode = b.dataset.sync;
+  if(syncMode === 'on') pageBRegion = pageARegion;
+  refreshSyncDemo();
+}));
+refreshSyncDemo();
+</script>

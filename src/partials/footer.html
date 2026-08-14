@@ -20,6 +20,57 @@ themebtns.forEach(b => b.addEventListener('click', ()=> setTheme(b.dataset.theme
 let savedTheme = 'auto';
 try{ savedTheme = localStorage.getItem('pbi-theme') || 'auto'; }catch(e){}
 setTheme(savedTheme);
+
+/* ============= terminology hints ============= */
+const GLOSSARY = {
+  dimension: 'A descriptive field used to categorize or slice data — e.g. Product, Region, Customer, or Date.',
+  measure: 'A calculation defined in DAX that recalculates based on whatever filters are currently applied — e.g. Total Sales, Profit Margin %.',
+  fact: 'A table of measurable events — one row per transaction, order, or occurrence — that measures are built from.',
+  axis: 'The field well that places a column along the horizontal (or categorical) edge of a chart.',
+  legend: 'The field well that splits a visual into color-coded groups, one color per category.',
+  values: 'The field well that supplies the number(s) a visual actually plots or displays.',
+  tooltip: 'The small popup that appears on hover over a data point, showing extra detail without cluttering the visual.',
+  smallmultiples: 'A grid of small copies of the same chart, one per category, so you can compare shapes side by side instead of overlapping lines/bars.',
+  filter: 'A rule that restricts which rows are included — at the visual, page, or report level.',
+  slicer: 'An on-canvas control that lets the report viewer filter interactively by clicking, without opening a menu.',
+  drilldown: 'Clicking deeper into the SAME hierarchy on the SAME visual — e.g. Year → Quarter → Month on one chart.',
+  drillthrough: 'Right-clicking a data point to jump to a separate, filtered detail page built specifically for that context.',
+  bookmark: 'A saved snapshot of a report\'s current state — filters, visibility, selections — that a button can jump back to.',
+  hierarchy: 'A set of fields nested in a fixed order for drill-down, e.g. Category → Sub-Category → Product.',
+  cardinality: 'How many distinct values a column has — "high cardinality" means many unique values, like an ID column.',
+  relationship: 'A link between two tables through a shared key column, letting Power BI treat them as one connected model.',
+  starschema: 'A modeling shape with one central fact table and several dimension tables branching off it, like a star.',
+  calculatedcolumn: 'A new column computed with DAX and stored row-by-row in the table — unlike a measure, which computes on the fly.',
+  dax: '"Data Analysis Expressions" — the formula language Power BI uses for measures and calculated columns.',
+  aggregation: 'Combining many rows into one number — Sum, Average, Count, Min, Max are all aggregations.',
+  group: 'Combining several existing category values into one broader bucket, without changing the source data.',
+  binning: 'Splitting a continuous number into equal-sized ranges ("bins") so it can be treated like a category.',
+  conditionalformatting: 'Rules that change a visual\'s color or icon based on the value itself, so exceptions are visible at a glance.',
+  customvisual: 'A visual type from Microsoft AppSource, beyond Power BI\'s built-in chart types.',
+};
+function closeTerm(btn){
+  btn.classList.remove('term-open');
+  const pop = btn.querySelector('.term-pop');
+  if(pop) pop.remove();
+}
+function openTerm(btn){
+  const pop = document.createElement('span');
+  pop.className = 'term-pop';
+  pop.textContent = GLOSSARY[btn.dataset.term] || 'Definition coming soon.';
+  btn.appendChild(pop);
+  btn.classList.add('term-open');
+}
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.term');
+  if(btn){
+    e.stopPropagation();
+    const wasOpen = btn.classList.contains('term-open');
+    document.querySelectorAll('.term-open').forEach(b => { if(b !== btn) closeTerm(b); });
+    wasOpen ? closeTerm(btn) : openTerm(btn);
+    return;
+  }
+  document.querySelectorAll('.term-open').forEach(closeTerm);
+});
 </script>
 </body>
 </html>

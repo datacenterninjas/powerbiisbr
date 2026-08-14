@@ -3,68 +3,288 @@
     "id": "home",
     "file": "index.html",
     "fragment": "home.html",
-    "group": "Course",
+    "group": "Overview",
     "num": "·",
     "label": "Home &amp; Roadmap",
     "crumb": "Home",
     "title": "Power BI for MBA Analytics — Course Portal"
   },
   {
+    "id": "understandingbi",
+    "file": "17-understanding-bi.html",
+    "fragment": "understanding-bi.html",
+    "group": "Module 1: Introduction to BI &amp; BI Tools",
+    "num": "1",
+    "label": "Understanding Business Intelligence",
+    "crumb": "Understanding Business Intelligence",
+    "title": "Understanding Business Intelligence — Power BI for MBA Analytics"
+  },
+  {
+    "id": "bitoolsoverview",
+    "file": "18-bi-tools-overview.html",
+    "fragment": "bi-tools-overview.html",
+    "group": "Module 1: Introduction to BI &amp; BI Tools",
+    "num": "2",
+    "label": "Overview of BI Tools",
+    "crumb": "Overview of BI Tools",
+    "title": "Overview of BI Tools — Power BI for MBA Analytics"
+  },
+  {
     "id": "architecture",
     "file": "01-architecture.html",
     "fragment": "architecture.html",
-    "group": "Course",
-    "num": "01",
-    "label": "Architecture",
-    "crumb": "Architecture",
-    "title": "Architecture — Power BI for MBA Analytics"
-  },
-  {
-    "id": "interface",
-    "file": "02-interface.html",
-    "fragment": "interface.html",
-    "group": "Course",
-    "num": "02",
-    "label": "The Interface",
-    "crumb": "The Interface",
-    "title": "The Interface — Power BI for MBA Analytics"
+    "group": "Module 1: Introduction to BI &amp; BI Tools",
+    "num": "3",
+    "label": "Power BI Architecture",
+    "crumb": "Power BI Architecture",
+    "title": "Power BI Architecture — Power BI for MBA Analytics"
   },
   {
     "id": "connecting",
     "file": "03-connecting-data.html",
     "fragment": "connecting-data.html",
-    "group": "Course",
-    "num": "03",
-    "label": "Connecting to Data",
-    "crumb": "Connecting to Data",
-    "title": "Connecting to Data — Power BI for MBA Analytics"
+    "group": "Module 1: Introduction to BI &amp; BI Tools",
+    "num": "4",
+    "label": "Connecting to Data Sources",
+    "crumb": "Connecting to Data Sources",
+    "title": "Connecting to Data Sources — Power BI for MBA Analytics"
   },
   {
-    "id": "powerquery",
-    "file": "04-power-query.html",
-    "fragment": "power-query.html",
-    "group": "Course",
-    "num": "04",
-    "label": "Power Query",
-    "crumb": "Power Query",
-    "title": "Power Query — Power BI for MBA Analytics"
+    "id": "sqlserver",
+    "file": "08-sql-server-adventureworks.html",
+    "fragment": "sql-server-adventureworks.html",
+    "group": "Module 1: Introduction to BI &amp; BI Tools",
+    "num": "+",
+    "label": "SQL Server &amp; AdventureWorks",
+    "crumb": "SQL Server &amp; AdventureWorks",
+    "title": "SQL Server &amp; AdventureWorks — Power BI for MBA Analytics"
+  },
+  {
+    "id": "interface",
+    "file": "02-interface.html",
+    "fragment": "interface.html",
+    "group": "Module 1: Introduction to BI &amp; BI Tools",
+    "num": "5",
+    "label": "Navigating the Interface",
+    "crumb": "Navigating the Interface",
+    "title": "Navigating the Interface — Power BI for MBA Analytics"
   },
   {
     "id": "visuals",
     "file": "05-visualizations.html",
     "fragment": "visualizations.html",
-    "group": "Course",
-    "num": "05",
-    "label": "Visualizations",
-    "crumb": "Visualizations",
-    "title": "Visualizations — Power BI for MBA Analytics"
+    "group": "Module 1: Introduction to BI &amp; BI Tools",
+    "num": "6",
+    "label": "Basic Visualizations",
+    "crumb": "Basic Visualizations",
+    "title": "Basic Visualizations — Power BI for MBA Analytics"
+  },
+  {
+    "id": "module1assignment",
+    "file": "29-module1-assignment.html",
+    "fragment": "module1-assignment.html",
+    "group": "Module 1: Introduction to BI &amp; BI Tools",
+    "num": "★",
+    "label": "Assignment (10 marks)",
+    "crumb": "Module 1 Assignment",
+    "title": "Module 1 Assignment — Power BI for MBA Analytics"
+  },
+  {
+    "id": "customvisuals",
+    "file": "09-custom-visuals.html",
+    "fragment": "custom-visuals.html",
+    "group": "Module 2: Advanced Visualizations",
+    "num": "1",
+    "label": "Custom Visuals",
+    "crumb": "Custom Visuals",
+    "title": "Custom Visuals — Power BI for MBA Analytics"
+  },
+  {
+    "id": "groupshistograms",
+    "file": "10-groups-histograms.html",
+    "fragment": "groups-histograms.html",
+    "group": "Module 2: Advanced Visualizations",
+    "num": "2",
+    "label": "Groups &amp; Histograms",
+    "crumb": "Groups &amp; Histograms",
+    "title": "Groups &amp; Histograms — Power BI for MBA Analytics"
+  },
+  {
+    "id": "bestpractices",
+    "file": "11-visualization-best-practices.html",
+    "fragment": "visualization-best-practices.html",
+    "group": "Module 2: Advanced Visualizations",
+    "num": "3",
+    "label": "Best Practices",
+    "crumb": "Visualization Best Practices",
+    "title": "Visualization Best Practices — Power BI for MBA Analytics"
+  },
+  {
+    "id": "interactivity",
+    "file": "12-interactivity.html",
+    "fragment": "interactivity.html",
+    "group": "Module 2: Advanced Visualizations",
+    "num": "4",
+    "label": "Interactivity",
+    "crumb": "Interactivity",
+    "title": "Interactivity — Power BI for MBA Analytics"
+  },
+  {
+    "id": "tablesmatrix",
+    "file": "13-tables-matrix.html",
+    "fragment": "tables-matrix.html",
+    "group": "Module 2: Advanced Visualizations",
+    "num": "5",
+    "label": "Tables &amp; Matrix",
+    "crumb": "Tables &amp; Matrix",
+    "title": "Tables &amp; Matrix — Power BI for MBA Analytics"
+  },
+  {
+    "id": "conditionalformatting",
+    "file": "14-conditional-formatting.html",
+    "fragment": "conditional-formatting.html",
+    "group": "Module 2: Advanced Visualizations",
+    "num": "6",
+    "label": "Conditional Formatting",
+    "crumb": "Conditional Formatting",
+    "title": "Conditional Formatting — Power BI for MBA Analytics"
+  },
+  {
+    "id": "filters",
+    "file": "15-filters.html",
+    "fragment": "filters.html",
+    "group": "Module 2: Advanced Visualizations",
+    "num": "7",
+    "label": "Filters",
+    "crumb": "Filters",
+    "title": "Filters — Power BI for MBA Analytics"
+  },
+  {
+    "id": "slicers",
+    "file": "16-slicers.html",
+    "fragment": "slicers.html",
+    "group": "Module 2: Advanced Visualizations",
+    "num": "8",
+    "label": "Slicers",
+    "crumb": "Slicers &amp; Synced Slicers",
+    "title": "Slicers &amp; Synced Slicers — Power BI for MBA Analytics"
+  },
+  {
+    "id": "daxbasics",
+    "file": "19-dax-basics.html",
+    "fragment": "dax-basics.html",
+    "group": "Module 3: Introduction to DAX",
+    "num": "1",
+    "label": "DAX Basics &amp; Measures",
+    "crumb": "DAX Basics &amp; Measures",
+    "title": "DAX Basics &amp; Measures — Power BI for MBA Analytics"
+  },
+  {
+    "id": "daxtimeintelligence",
+    "file": "20-dax-time-intelligence.html",
+    "fragment": "dax-time-intelligence.html",
+    "group": "Module 3: Introduction to DAX",
+    "num": "2",
+    "label": "Time Intelligence &amp; Aggregations",
+    "crumb": "Time Intelligence &amp; Aggregations",
+    "title": "Time Intelligence &amp; Aggregations — Power BI for MBA Analytics"
+  },
+  {
+    "id": "daxcontext",
+    "file": "21-dax-context.html",
+    "fragment": "dax-context.html",
+    "group": "Module 3: Introduction to DAX",
+    "num": "3",
+    "label": "Context &amp; Dynamic Measures",
+    "crumb": "Context &amp; Dynamic Measures",
+    "title": "Context &amp; Dynamic Measures — Power BI for MBA Analytics"
+  },
+  {
+    "id": "daxcalculatemodeling",
+    "file": "22-dax-calculate-modeling.html",
+    "fragment": "dax-calculate-modeling.html",
+    "group": "Module 3: Introduction to DAX",
+    "num": "4",
+    "label": "CALCULATE, FILTER &amp; Modeling",
+    "crumb": "CALCULATE, FILTER &amp; Modeling",
+    "title": "CALCULATE, FILTER &amp; Data Modeling — Power BI for MBA Analytics"
+  },
+  {
+    "id": "powerquery",
+    "file": "04-power-query.html",
+    "fragment": "power-query.html",
+    "group": "Module 4: Power Query Editor",
+    "num": "1",
+    "label": "Power Query Editor",
+    "crumb": "Power Query Editor",
+    "title": "Power Query Editor — Power BI for MBA Analytics"
+  },
+  {
+    "id": "mlanguageetl",
+    "file": "23-m-language-etl.html",
+    "fragment": "m-language-etl.html",
+    "group": "Module 4: Power Query Editor",
+    "num": "2",
+    "label": "M Language &amp; End-to-End ETL",
+    "crumb": "M Language &amp; End-to-End ETL",
+    "title": "M Language &amp; End-to-End ETL — Power BI for MBA Analytics"
+  },
+  {
+    "id": "kpisdashboard",
+    "file": "24-kpis-dashboard-build.html",
+    "fragment": "kpis-dashboard-build.html",
+    "group": "Module 4: Power Query Editor",
+    "num": "3",
+    "label": "KPIs &amp; Single-Page Dashboard",
+    "crumb": "KPIs &amp; Single-Page Dashboard",
+    "title": "KPIs &amp; Single-Page Dashboard — Power BI for MBA Analytics"
+  },
+  {
+    "id": "publishingsharing",
+    "file": "25-publishing-sharing.html",
+    "fragment": "publishing-sharing.html",
+    "group": "Module 5: Power BI Service",
+    "num": "1",
+    "label": "Publishing &amp; Sharing",
+    "crumb": "Publishing &amp; Sharing",
+    "title": "Publishing &amp; Sharing — Power BI for MBA Analytics"
+  },
+  {
+    "id": "qascenariomanager",
+    "file": "26-qa-scenario-manager.html",
+    "fragment": "qa-scenario-manager.html",
+    "group": "Module 5: Power BI Service",
+    "num": "2",
+    "label": "Q&amp;A and Scenario Manager",
+    "crumb": "Q&amp;A and Scenario Manager",
+    "title": "Q&amp;A and Scenario Manager — Power BI for MBA Analytics"
+  },
+  {
+    "id": "practicalapplications",
+    "file": "27-practical-applications-pivots.html",
+    "fragment": "practical-applications-pivots.html",
+    "group": "Module 5: Power BI Service",
+    "num": "3",
+    "label": "Practical Applications &amp; Pivots",
+    "crumb": "Practical Applications &amp; Pivots",
+    "title": "Practical Applications &amp; Pivot Tables — Power BI for MBA Analytics"
+  },
+  {
+    "id": "serviceslicers",
+    "file": "28-service-slicers-interactivity.html",
+    "fragment": "service-slicers-interactivity.html",
+    "group": "Module 5: Power BI Service",
+    "num": "4",
+    "label": "Slicers at Scale &amp; Interactivity",
+    "crumb": "Slicers at Scale &amp; Interactivity",
+    "title": "Slicers at Scale &amp; Interactivity — Power BI for MBA Analytics"
   },
   {
     "id": "exercises",
     "file": "06-exercises.html",
     "fragment": "exercises.html",
     "group": "Practice",
-    "num": "06",
+    "num": "★",
     "label": "5 Exercises",
     "crumb": "5 Exercises",
     "title": "5 Exercises — Power BI for MBA Analytics"
@@ -74,7 +294,7 @@
     "file": "07-final-project.html",
     "fragment": "final-project.html",
     "group": "Practice",
-    "num": "07",
+    "num": "★",
     "label": "Final Project",
     "crumb": "Final Project",
     "title": "Final Project — Power BI for MBA Analytics"
@@ -108,15 +328,5 @@
     "label": "Datasets",
     "crumb": "Datasets",
     "title": "Datasets — Power BI for MBA Analytics"
-  },
-  {
-    "id": "sqlserver",
-    "file": "08-sql-server-adventureworks.html",
-    "fragment": "sql-server-adventureworks.html",
-    "group": "Extended Modules",
-    "num": "08",
-    "label": "SQL Server &amp; AdventureWorks",
-    "crumb": "SQL Server &amp; AdventureWorks",
-    "title": "SQL Server &amp; AdventureWorks — Power BI for MBA Analytics"
   }
 ]

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200" role="img" aria-label="Flow diagram: a Value goes through a Rule check, producing a red, amber, or green color output depending on the threshold.">
+  <rect width="820" height="200" fill="#FFFFFF"/>
+  <defs>
+    <marker id="cfArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#565B6B"/>
+    </marker>
+  </defs>
+  <g font-family="Georgia,serif">
+    <rect x="30" y="60" width="160" height="80" rx="10" fill="none" stroke="#DEDACE" stroke-width="1.3"/>
+    <text x="110" y="95" text-anchor="middle" font-size="14" font-weight="700" fill="#14171F">Value</text>
+    <text x="110" y="113" text-anchor="middle" font-size="10" font-family="ui-monospace,Consolas,monospace" fill="#565B6B">or a measure</text>
+
+    <line x1="194" y1="100" x2="236" y2="100" stroke="#565B6B" stroke-width="1.4" marker-end="url(#cfArrow)"/>
+
+    <rect x="240" y="55" width="200" height="90" rx="10" fill="#EAE7DC" stroke="#C97A1E" stroke-width="1.6"/>
+    <text x="340" y="90" text-anchor="middle" font-size="14" font-weight="700" fill="#14171F">Rule check</text>
+    <text x="340" y="108" text-anchor="middle" font-size="10" font-family="ui-monospace,Consolas,monospace" fill="#565B6B">fixed number, or</text>
+    <text x="340" y="122" text-anchor="middle" font-size="10" font-family="ui-monospace,Consolas,monospace" fill="#565B6B">another measure</text>
+
+    <line x1="444" y1="100" x2="486" y2="100" stroke="#565B6B" stroke-width="1.4" marker-end="url(#cfArrow)"/>
+
+    <text x="600" y="45" text-anchor="middle" font-size="12" font-weight="700" fill="#14171F">Color output</text>
+    <circle cx="530" cy="80" r="16" fill="#B3402D"/><text x="558" y="85" font-size="11" font-family="ui-monospace,Consolas,monospace" fill="#565B6B">below target</text>
+    <circle cx="530" cy="115" r="16" fill="#E8A23D"/><text x="558" y="120" font-size="11" font-family="ui-monospace,Consolas,monospace" fill="#565B6B">near target</text>
+    <circle cx="530" cy="150" r="16" fill="#2E7D4F"/><text x="558" y="155" font-size="11" font-family="ui-monospace,Consolas,monospace" fill="#565B6B">above target</text>
+  </g>
+</svg>

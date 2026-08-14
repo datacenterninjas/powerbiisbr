@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 260" role="img" aria-label="Diagram: eight individual city bars on the left are grouped into four region bars on the right.">
+  <rect width="820" height="260" fill="#FFFFFF"/>
+  <defs>
+    <marker id="grpArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#565B6B"/>
+    </marker>
+  </defs>
+  <text x="180" y="30" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="11" letter-spacing="1" fill="#565B6B">BEFORE — 8 CITIES</text>
+  <g transform="translate(30,50)">
+    <g font-family="ui-monospace,Consolas,monospace" font-size="9" fill="#565B6B">
+      <rect x="0"  y="130" width="28" height="40" fill="#2A6560" opacity=".55"/><text x="14" y="178" text-anchor="middle">Pune</text>
+      <rect x="36" y="110" width="28" height="60" fill="#2A6560" opacity=".55"/><text x="50" y="178" text-anchor="middle">Mum</text>
+      <rect x="72" y="150" width="28" height="20" fill="#2A6560" opacity=".55"/><text x="86" y="178" text-anchor="middle">Nag</text>
+      <rect x="108" y="90"  width="28" height="80" fill="#2A6560" opacity=".55"/><text x="122" y="178" text-anchor="middle">Blr</text>
+      <rect x="144" y="120" width="28" height="50" fill="#2A6560" opacity=".55"/><text x="158" y="178" text-anchor="middle">Che</text>
+      <rect x="180" y="140" width="28" height="30" fill="#2A6560" opacity=".55"/><text x="194" y="178" text-anchor="middle">Hyd</text>
+      <rect x="216" y="100" width="28" height="70" fill="#2A6560" opacity=".55"/><text x="230" y="178" text-anchor="middle">Del</text>
+      <rect x="252" y="145" width="28" height="25" fill="#2A6560" opacity=".55"/><text x="266" y="178" text-anchor="middle">Kol</text>
+    </g>
+    <line x1="-6" y1="170" x2="286" y2="170" stroke="#DEDACE" stroke-width="1"/>
+  </g>
+
+  <path d="M330,150 C370,150 380,150 410,150" stroke="#C97A1E" stroke-width="2" fill="none" marker-end="url(#grpArrow)"/>
+  <text x="370" y="130" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="10" fill="#C97A1E">Group By</text>
+
+  <text x="620" y="30" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="11" letter-spacing="1" fill="#565B6B">AFTER — 4 REGIONS</text>
+  <g transform="translate(470,50)">
+    <g font-family="Georgia,serif" font-size="12" font-weight="700" fill="#14171F">
+      <rect x="0"   y="60"  width="60" height="110" rx="4" fill="#C97A1E"/><text x="30" y="188" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-weight="400" font-size="10">West</text>
+      <rect x="80"  y="90"  width="60" height="80"  rx="4" fill="#C97A1E"/><text x="110" y="188" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-weight="400" font-size="10">South</text>
+      <rect x="160" y="40"  width="60" height="130" rx="4" fill="#C97A1E"/><text x="190" y="188" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-weight="400" font-size="10">North</text>
+      <rect x="240" y="120" width="60" height="50"  rx="4" fill="#C97A1E"/><text x="270" y="188" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-weight="400" font-size="10">East</text>
+    </g>
+    <line x1="-6" y1="170" x2="306" y2="170" stroke="#DEDACE" stroke-width="1"/>
+  </g>
+  <text x="620" y="225" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="10" fill="#565B6B">same underlying rows — fewer, more readable bars</text>
+</svg>

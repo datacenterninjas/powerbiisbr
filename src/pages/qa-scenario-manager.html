@@ -1,0 +1,24 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 5 · 2</span>
+        <h1>Ask the report a question instead of building a chart for it</h1>
+        <p class="lede">Two features for exploring "what if" without leaving the report: asking in plain English, and testing a hypothetical number interactively.</p>
+      </div>
+
+      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough is still to come.</div>
+
+      <h2 style="margin-top:30px">Q&amp;A — natural language queries</h2>
+      <p style="font-size:.92rem">The Q&amp;A visual lets a report viewer type a question in plain English — "total sales by region last year" — and Power BI builds a visual on the fly to answer it, using the field names already in the model. It's genuinely useful for quick ad-hoc exploration, and genuinely dependent on well-named fields: a column called <code>Sales[Sales]</code> answers "total sales" far better than one still called <code>Sales[Col_7]</code>, which is exactly why the Power Query page's Rename Columns lesson matters beyond just tidiness.</p>
+      <div class="callout"><b>Setup matters:</b> Q&amp;A quality improves a lot from adding synonyms in the model (e.g. teaching it "revenue" also means the <code>Sales</code> column) — this module will cover that setup, not just the typing-a-question part.</div>
+
+      <h2 style="margin-top:30px">A note on "Scenario Manager"</h2>
+      <p style="font-size:.92rem">Scenario Manager itself is an <b>Excel</b> what-if-analysis feature, not a native part of Power BI. Power BI's closest equivalent is a <b>What-if parameter</b> — a slider a report viewer can drag (e.g. "Discount %") that live-recalculates a DAX measure using the slider's current value, giving the same "test a hypothetical" feel inside a Power BI report.</p>
+      <div class="codeblock">Adjusted Sales = <span class="c-fn">SUM</span>(Sales[Sales]) * (1 - <span class="c-str">'Discount % Parameter'</span>[Discount % Value])</div>
+
+      <h2 style="margin-top:30px">What this page will cover</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">1</span><div><strong>Adding a Q&amp;A visual and tuning synonyms.</strong> From a blank Q&amp;A box to one that understands the business's own vocabulary.</div></li>
+        <li><span class="ico">2</span><div><strong>Building a What-if parameter.</strong> Modeling → New Parameter, then wiring its value into a measure.</div></li>
+        <li><span class="ico">3</span><div><strong>A worked scenario.</strong> "What happens to margin if we discount 10% more?" — built live with a slider, not a static what-if written in a doc.</div></li>
+      </ul>
+
+      <footer class="pagefoot"><span>Module 5 · Q&amp;A and Scenario Manager</span><a href="27-practical-applications-pivots.html">Next: Practical Applications &amp; Pivots →</a></footer>

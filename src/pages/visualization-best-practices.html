@@ -1,0 +1,210 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Best Practices</span>
+        <h1>The chart is right. Now make it honest, clean, and readable in three seconds.</h1>
+        <p class="lede">Picking the correct chart type is half the job — the <a href="05-visualizations.html">Visualizations</a> page's "Which chart, when?" table already covers that. This page is the other half: the cross-cutting formatting and design discipline that decides whether a technically-correct chart tells the truth clearly, or quietly misleads, clutters, or gets ignored. Every rule here applies no matter which of the twelve chart types you picked.</p>
+      </div>
+
+      <div class="callout"><b>Choosing the chart itself</b> — business question → chart type, plus per-chart best practices and common mistakes — lives on the <a href="05-visualizations.html">Visualizations</a> page's "Which chart, when?" table. This page assumes the chart type is already decided and focuses only on how it's formatted and presented.</div>
+
+      <h2 style="margin-top:28px">Avoiding misleading charts</h2>
+      <p>A chart can use the "right" type and still lie. None of the tricks below require bad intent — they're often just Power BI's defaults left un-fixed — but the effect on a reader is the same either way: a false impression of how big a difference really is.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Trick</th><th>What it does</th><th>Fix</th></tr>
+          <tr><td><b>Truncated / non-zero Y-axis</b></td><td>Starting the axis at 90 instead of 0 turns a 4% difference into what looks like a 400% difference</td><td>Format pane → Y-axis → Range → set Minimum to 0, unless there's a genuinely documented reason not to</td></tr>
+          <tr><td><b>Inconsistent scales between compared charts</b></td><td>Two bar charts placed side by side, one axis maxing at 100 and the other at 1,000 — bars look similar height but represent wildly different values</td><td>Lock both visuals to the same axis Minimum/Maximum in the Format pane before placing them side by side</td></tr>
+          <tr><td><b>Cherry-picked date range</b></td><td>Zooming into the three months that support the story and quietly dropping the ones that don't</td><td>Default every trend to the full available history; let a viewer narrow the range themselves with a slicer, don't narrow it for them</td></tr>
+          <tr><td><b>Dual axes implying false correlation</b></td><td>Two unrelated measures plotted on independent left/right axes can be dragged into looking like they move together, when the scales were just picked to make the lines cross</td><td>Only combine two measures on dual axes when they share a real, meaningful relationship — and say so in the title</td></tr>
+        </table>
+      </div>
+
+      <p style="font-size:.9rem;margin-top:10px">Same underlying numbers, two very different impressions — this is the single most common way a Power BI report misleads without anyone intending to:</p>
+      <div class="mockgrid" style="grid-template-columns:1fr 1fr">
+        <div class="mocktile">
+          <div class="mocktile-label">Needs improvement · axis starts at 80</div>
+          <div class="mockbars" style="height:90px">
+            <div class="mockbar" style="height:35%"></div>
+            <div class="mockbar" style="height:55%"></div>
+            <div class="mockbar hi" style="height:100%"></div>
+          </div>
+          <p style="font-size:.78rem;color:var(--text-muted);margin-top:8px">Region C looks nearly 3× Region A — but the axis is truncated, so the visual gap is exaggerated far past the real difference.</p>
+          <span class="pill bad" style="margin-top:4px">exaggerates the gap</span>
+        </div>
+        <div class="mocktile">
+          <div class="mocktile-label">Good · zero-based axis</div>
+          <div class="mockbars" style="height:90px">
+            <div class="mockbar" style="height:82%"></div>
+            <div class="mockbar" style="height:88%"></div>
+            <div class="mockbar hi" style="height:100%"></div>
+          </div>
+          <p style="font-size:.78rem;color:var(--text-muted);margin-top:8px">Same three regions, same underlying numbers, axis starts at 0 — Region C is ahead, but honestly by a modest margin, not a landslide.</p>
+          <span class="pill good" style="margin-top:4px">reads honestly</span>
+        </div>
+      </div>
+      <div class="callout warn" style="margin-top:12px"><b>Common mistake:</b> Power BI's default axis is <i>usually</i> zero-based, but "Auto" range on some visuals will truncate automatically once values cluster in a narrow band. Always check the Format pane's Range setting explicitly — don't assume the default protected you.</div>
+
+      <h2 style="margin-top:30px">Appropriate use of color</h2>
+      <p>Color is the fastest channel a viewer's eye reads — which is exactly why it needs the most discipline. Used well, it points straight at what matters. Used as decoration, it competes with the data for attention and usually wins.</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>Do</h4>
+          <ul class="kicker-list">
+            <li><span class="ico">✓</span><div style="font-size:.9rem">Pick one consistent palette for the whole report (Format pane → Theme) and stop touching it per-visual</div></li>
+            <li><span class="ico">✓</span><div style="font-size:.9rem">Let color mean something — the same category is always the same color across every page</div></li>
+            <li><span class="ico">✓</span><div style="font-size:.9rem">Choose a colorblind-safe palette (avoid pure red/green as the only distinguishing pair — roughly 1 in 12 men has some form of red-green color blindness)</div></li>
+            <li><span class="ico">✓</span><div style="font-size:.9rem">Use color sparingly, to highlight — one accent color on the bar that matters, neutral gray everywhere else</div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Don't</h4>
+          <ul class="kicker-list">
+            <li><span class="ico">✕</span><div style="font-size:.9rem">Give every category its own rainbow color just because the Legend well auto-generates one</div></li>
+            <li><span class="ico">✕</span><div style="font-size:.9rem">Let a category's color drift between pages — Electronics blue on page 1, Electronics green on page 3</div></li>
+            <li><span class="ico">✕</span><div style="font-size:.9rem">Rely on red vs. green alone to signal good vs. bad — pair it with an icon, label, or shape too</div></li>
+            <li><span class="ico">✕</span><div style="font-size:.9rem">Color a chart just because a blank white bar "looks unfinished" — color without meaning is noise</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <p style="font-size:.9rem;margin-top:10px">The same five categories, formatted two ways:</p>
+      <div class="mockgrid" style="grid-template-columns:1fr 1fr">
+        <div class="mocktile">
+          <div class="mocktile-label">Needs improvement · color as decoration</div>
+          <div class="mockbars" style="height:70px">
+            <div class="mockbar" style="height:60%;background:#C0392B"></div>
+            <div class="mockbar" style="height:80%;background:#F1C40F"></div>
+            <div class="mockbar" style="height:45%;background:#8E44AD"></div>
+            <div class="mockbar" style="height:95%;background:#2ECC71"></div>
+            <div class="mockbar" style="height:35%;background:#3498DB"></div>
+          </div>
+          <p style="font-size:.78rem;color:var(--text-muted);margin-top:8px">A different color per bar for no reason — the eye tries to find meaning in the color choice and finds none.</p>
+          <span class="pill bad" style="margin-top:4px">competes with the data</span>
+        </div>
+        <div class="mocktile">
+          <div class="mocktile-label">Good · one accent, used to highlight</div>
+          <div class="mockbars" style="height:70px">
+            <div class="mockbar" style="height:60%"></div>
+            <div class="mockbar" style="height:80%"></div>
+            <div class="mockbar" style="height:45%"></div>
+            <div class="mockbar hi" style="height:95%"></div>
+            <div class="mockbar" style="height:35%"></div>
+          </div>
+          <p style="font-size:.78rem;color:var(--text-muted);margin-top:8px">Neutral teal for every bar, one accent color on the single bar that's the point of the chart — the eye lands there first.</p>
+          <span class="pill good" style="margin-top:4px">points at the insight</span>
+        </div>
+      </div>
+
+      <h2 style="margin-top:30px">Consistent formatting across a report</h2>
+      <p>A report that switches fonts, number formats, or color schemes between pages reads as unfinished even when every number on it is correct — inconsistency is itself a signal that erodes trust before anyone checks the data.</p>
+      <div class="grid grid-3">
+        <div class="card"><h4>One theme</h4><p style="font-size:.85rem">View → Themes → pick or build one custom theme, apply it once, and stop hand-picking colors per visual afterward.</p></div>
+        <div class="card"><h4>One font</h4><p style="font-size:.85rem">Set it in the theme, not visual-by-visual — a report mixing Segoe UI titles with Calibri axis labels looks assembled from spare parts.</p></div>
+        <div class="card"><h4>One number format</h4><p style="font-size:.85rem">Decide once whether currency is ₹, $, or unlabeled, how many decimal places, and apply that same rule to every measure on every page.</p></div>
+      </div>
+
+      <h2 style="margin-top:30px">Titles and labels</h2>
+      <p>Power BI's auto-generated title — "Sum of Sales by Category" — describes the mechanics of the chart, not what it tells you. A real title does the reader's first thinking step for them.</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>Needs improvement</h4>
+          <p style="font-size:.88rem;font-family:var(--font-mono)">"Sum of SalesAmount by Region"</p>
+          <p style="font-size:.85rem;color:var(--text-muted)">Restates the field names. Says nothing a viewer couldn't already see in the Fields pane.</p>
+        </div>
+        <div class="card">
+          <h4>Good</h4>
+          <p style="font-size:.88rem;font-family:var(--font-mono)">"West leads every other region by 2×"</p>
+          <p style="font-size:.85rem;color:var(--text-muted)">States the finding directly. A viewer who reads only the title still walks away informed.</p>
+        </div>
+      </div>
+      <p style="font-size:.85rem;margin-top:8px"><b>Axis and legend labels</b> deserve the same attention: rename a field-derived label like "SUM(Sales_Amt)" to plain "Sales ($)" in the Format pane before a report ever leaves your laptop.</p>
+
+      <h2 style="margin-top:30px">Data labels</h2>
+      <p>A data label prints the exact number directly on the chart — genuinely useful when there are few enough data points to read cleanly, actively harmful once there are too many.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Chart is…</th><th>Data labels</th><th>Why</th></tr>
+          <tr><td>A KPI Card, Gauge, or a Bar Chart with ≤ 8–10 bars</td><td><span class="pill good">turn on</span></td><td>Few enough points that the exact number adds precision without crowding</td></tr>
+          <tr><td>A dense Line Chart (daily data across a year) or a Scatter Plot with 100+ points</td><td><span class="pill bad">leave off</span></td><td>Labels overlap into an unreadable smear — let the shape of the line or cluster carry the message, use a tooltip for exact values on hover</td></tr>
+          <tr><td>A Pie Chart</td><td><span class="pill good">on, as % of total</span></td><td>A pie only works if the reader can see the actual share each slice represents, not just relative size</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">Number formatting</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Display units:</b> Format pane → Display units → Thousands/Millions turns "1,240,000" into a much faster-to-read "1.24M"</div></li>
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Consistent decimal places:</b> pick one rule (e.g. currency to 0 decimals, percentages to 1) and apply it to every measure of that type, everywhere in the report</div></li>
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Currency symbols:</b> set once in the measure's format string, not retyped as text in a title — a hardcoded "$" breaks the moment the report is reused for a different currency</div></li>
+      </ul>
+
+      <h2 style="margin-top:30px">Sorting</h2>
+      <p>Bars sorted biggest-to-smallest let a reader find the winner and the laggard in one glance, without hunting across the chart. That's the default for anything without an inherent order.</p>
+      <div class="callout"><b>The one exception:</b> when categories have a natural order of their own — months of the year, days of the week, a funnel's stages — keep that natural order instead of re-sorting by value. Forcing "Jan, Jun, Mar, Dec…" into value order destroys the thing a time axis is supposed to communicate.</div>
+
+      <h2 style="margin-top:30px">Reducing clutter</h2>
+      <p>Every gridline, border, and legend a Power BI default turns on is a small tax on the reader's attention. If it isn't earning its place, it's competing with the data that is.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Element</th><th>Usually</th><th>Keep it when…</th></tr>
+          <tr><td>Gridlines</td><td>Turn off or lighten (Format pane → Gridlines)</td><td>The chart genuinely needs precise value reading, not just shape comparison</td></tr>
+          <tr><td>Visual border</td><td>Turn off — let a card's background do the separating</td><td>Rarely — borders mostly just add visual weight</td></tr>
+          <tr><td>Legend</td><td>Turn off when there's only one series, or when data labels already name each bar</td><td>Multiple series/colors that genuinely need a key to decode</td></tr>
+          <tr><td>Axis title</td><td>Often removable if the chart title already makes the axis obvious</td><td>The unit isn't otherwise clear from the chart title or labels</td></tr>
+        </table>
+      </div>
+      <div class="callout warn"><b>Common mistake:</b> Formatting a chart once and never revisiting it. After data labels, a title, and units are all on, go back and turn off anything that no longer earns its place — most reports get cluttered by addition, never by a single bad decision.</div>
+
+      <h2 style="margin-top:30px">Accessibility</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Contrast:</b> text and important marks should be clearly readable against their background — Power BI's built-in themes are checked for this; a fully custom palette should be too</div></li>
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Never color alone:</b> pair red/green status with an icon, label, or pattern, so the meaning still lands for a colorblind viewer or a black-and-white printout</div></li>
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Alt text:</b> Format pane → General → Alt text — a short description of what the visual shows, read aloud by screen readers</div></li>
+      </ul>
+
+      <h2 style="margin-top:30px">Mobile and responsive considerations</h2>
+      <p>A report built and tested only on a wide desktop monitor can be genuinely unusable on the phone where a manager actually opens it between meetings.</p>
+      <div class="clickpath">
+        <span class="seg">View</span><span class="arrow">→</span><span class="seg">Phone layout</span><span class="arrow">→</span><span class="seg">drag visuals into a single-column stack</span><span class="arrow">→</span><span class="seg">reorder so the most critical visual is at the top</span>
+      </div>
+      <p style="font-size:.9rem">Power BI keeps a separate phone layout from the desktop one — building it isn't automatic. The KPI or single chart someone needs first (this month's headline number, say) belongs at the very top of that stack; everything a viewer might scroll past should be exploratory detail, not the answer to the question they opened the report to ask.</p>
+
+      <h2 style="margin-top:30px">Avoiding unnecessary 3D effects</h2>
+      <div class="callout warn"><b>3D is flatly worse for reading data accurately</b> — a 3D pie or column chart distorts the visual size of the slice or bar closest to the "camera," making it look larger than its actual value while the far side looks smaller. There is no business scenario on this course's data where a 3D effect adds real information; it only adds a perception error. Stick to flat 2D charts.</div>
+
+      <h2 style="margin-top:30px">Highlighting important insights</h2>
+      <p>A dashboard that presents forty numbers with equal visual weight makes the reader do the work of finding the one that matters. Do that work for them.</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>A callout box</h4>
+          <p style="font-size:.88rem">A text box or the built-in Report Page Tooltip pattern that states the one-sentence takeaway in plain language, placed near the chart it explains — not buried in a title.</p>
+        </div>
+        <div class="card">
+          <h4>Conditional highlight color</h4>
+          <p style="font-size:.88rem">One bar (or one row, via <button class="term" data-term="conditionalformatting">conditional formatting</button>) in the accent color while the rest stay neutral — the same technique used in the color mockup above.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:30px">Keeping dashboards focused</h2>
+      <p>A page built to answer "how did we do this quarter" and a page built to answer "which customers are at risk of churning" are two different pages, even if they'd both technically fit on one. One clear purpose per page beats a single page trying to be everything the company owns data about.</p>
+      <div class="callout warn"><b>Common mistake:</b> "Let's just add it to the main dashboard" as the default answer to every new stakeholder request. A page that tries to answer every question ends up answering none of them clearly — a focused page a viewer understands in ten seconds is worth more than a comprehensive one they give up on.</div>
+
+      <h2 style="margin-top:30px">Matching visual complexity to the audience</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Audience</th><th>Wants</th><th>Report shape</th></tr>
+          <tr><td>An executive</td><td>Three numbers and a trend, in under 10 seconds</td><td>A handful of KPI cards plus one trend line — headline page first, everything else behind a click</td></tr>
+          <tr><td>An analyst</td><td>The full table, ability to slice and drill</td><td>A Matrix/Table with slicers, drill-down enabled, and a Tooltip well carrying extra detail</td></tr>
+          <tr><td>Anyone, on their phone, between meetings</td><td>The single number they came to check</td><td>Phone layout with that number pinned at the top (see Mobile, above)</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.9rem;margin-top:8px">The same underlying model can serve both — an executive summary page built from cards and a KPI trend, and a detail page built from a full Matrix, linked by a button (see <a href="12-interactivity.html">Interactivity</a>). Building one page and hoping it satisfies both audiences is how a report ends up too sparse for the analyst and too dense for the executive at the same time.</p>
+
+      <div class="callout" style="margin-top:20px"><b>The one-line test:</b> before shipping any report, ask whether a first-time viewer — someone who has never seen this data before — could look at each chart for five seconds and correctly state what it's telling them. If not, the fix is almost always on this page: a truncated axis, a missing title, decorative color, or clutter that needs removing.</div>
+
+      <h2 style="margin-top:30px">Exercise</h2>
+      <div class="card">
+        <span class="eyebrow">Practice · Best Practices Audit</span>
+        <h3 style="margin-top:8px">Fix your own Module 1 assignment</h3>
+        <p style="font-size:.9rem">Open the dashboard you built for the <a href="29-module1-assignment.html">Module 1 Assignment</a> and run the one-line test above on every chart. For each one that fails, note which specific rule from this page it's breaking (truncated axis? default title? no display units?) and fix it. Submit a short before/after screenshot pair for the chart that changed the most.</p>
+      </div>
+
+      <footer class="pagefoot"><span>Module 2 · Best Practices</span><a href="12-interactivity.html">Next: Interactivity →</a></footer>

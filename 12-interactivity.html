@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactivity — Power BI for MBA Analytics</title>
+<style>
+  :root{
+    --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
+    --text:#14171F; --text-muted:#565B6B; --border:#DEDACE;
+    --accent:#C97A1E; --accent-ink:#1B1300; --accent-soft:#F3E1C4;
+    --teal:#2A6560; --teal-soft:#DCEBE8;
+    --good:#2E7D4F; --good-soft:#E3F1E7; --bad:#B3402D; --bad-soft:#F6E4DF;
+    --shadow: 0 1px 2px rgba(20,23,31,.06), 0 8px 24px -12px rgba(20,23,31,.18);
+    --radius:12px;
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --font-body: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", Consolas, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12141B; --surface:#1A1D27; --surface-2:#1F2330; --surface-3:#282D3D;
+      --text:#ECEAE2; --text-muted:#A2A6B5; --border:#2C3040;
+      --accent:#E8A23D; --accent-ink:#1B1300; --accent-soft:#3A2E15;
+      --teal:#5FA69E; --teal-soft:#173330;
+      --good:#4EA872; --good-soft:#153524; --bad:#E06A54; --bad-soft:#3A1E18;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12141B; --surface:#1A1D27; --surface-2:#1F2330; --surface-3:#282D3D;
+    --text:#ECEAE2; --text-muted:#A2A6B5; --border:#2C3040;
+    --accent:#E8A23D; --accent-ink:#1B1300; --accent-soft:#3A2E15;
+    --teal:#5FA69E; --teal-soft:#173330;
+    --good:#4EA872; --good-soft:#153524; --bad:#E06A54; --bad-soft:#3A1E18;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.55);
+  }
+  :root[data-theme="light"]{
+    --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
+    --text:#14171F; --text-muted:#565B6B; --border:#DEDACE;
+    --accent:#C97A1E; --accent-ink:#1B1300; --accent-soft:#F3E1C4;
+    --teal:#2A6560; --teal-soft:#DCEBE8;
+    --good:#2E7D4F; --good-soft:#E3F1E7; --bad:#B3402D; --bad-soft:#F6E4DF;
+    --shadow: 0 1px 2px rgba(20,23,31,.06), 0 8px 24px -12px rgba(20,23,31,.18);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font-body);
+    font-size:15.5px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{ font-family:var(--font-display); font-weight:700; text-wrap:balance; margin:0 0 .4em; color:var(--text); }
+  h1{ font-size:2.1rem; letter-spacing:-.01em; }
+  h2{ font-size:1.5rem; margin-top:0; }
+  h3{ font-size:1.15rem; }
+  h4{ font-size:1rem; font-family:var(--font-body); font-weight:700; }
+  p{ margin:.6em 0; max-width:68ch; }
+  a{ color:var(--teal); }
+  .eyebrow{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+  .lede{ font-size:1.05rem; color:var(--text-muted); max-width:62ch; }
+  strong{ color:var(--text); }
+  code{ font-family:var(--font-mono); background:var(--surface-2); border:1px solid var(--border); border-radius:5px; padding:.1em .4em; font-size:.88em; }
+  ::selection{ background:var(--accent-soft); }
+  :focus-visible{ outline:2.5px solid var(--accent); outline-offset:2px; border-radius:4px; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+
+  /* ---------- layout shell ---------- */
+  .app{ display:flex; min-height:100vh; }
+  .sidebar{
+    width:272px; flex:none; background:var(--surface-2); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto;
+  }
+  .brand{ padding:22px 20px 14px; border-bottom:1px solid var(--border); }
+  .brand .mark{ display:flex; align-items:center; gap:10px; }
+  .brand .mark svg{ flex:none; }
+  .brand h1{ font-size:1.05rem; margin:0; line-height:1.25; }
+  .brand .sub{ font-size:.78rem; color:var(--text-muted); margin-top:3px; font-family:var(--font-mono); }
+
+  .navgroup{ padding:14px 12px; }
+  .navgroup .label{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
+  .navbtn{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:none; border:none;
+    color:var(--text); font-family:var(--font-body); font-size:.88rem; padding:8px 10px; border-radius:8px; cursor:pointer;
+    text-decoration:none;
+  }
+  .navbtn .num{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-muted); width:1.4em; flex:none; }
+  .navbtn:hover{ background:var(--surface-3); }
+  .navbtn.active{ background:var(--accent); color:var(--accent-ink); font-weight:700; }
+  .navbtn.active .num{ color:var(--accent-ink); opacity:.7; }
+
+  .themebar{ margin-top:auto; padding:14px 20px 20px; border-top:1px solid var(--border); display:flex; gap:8px; }
+  .themebtn{ flex:1; font-family:var(--font-mono); font-size:.72rem; padding:7px 4px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text-muted); cursor:pointer; }
+  .themebtn.active{ border-color:var(--accent); color:var(--accent); }
+
+  .main-col{ flex:1; min-width:0; display:flex; flex-direction:column; }
+  .topbar{
+    position:sticky; top:0; z-index:5; background:var(--bg); border-bottom:1px solid var(--border);
+    padding:14px 40px; display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .topbar .crumb{ font-family:var(--font-mono); font-size:.78rem; color:var(--text-muted); }
+  .topbar .crumb b{ color:var(--text); font-weight:600; }
+  .menutoggle{ display:none; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:7px 10px; cursor:pointer; }
+
+  .content{ flex:1; padding:36px 40px 80px; max-width:980px; }
+
+  /* ---------- reusable components ---------- */
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow); }
+  .grid{ display:grid; gap:16px; }
+  .grid-2{ grid-template-columns:1fr 1fr; }
+  .grid-3{ grid-template-columns:repeat(3,1fr); }
+  @media (max-width:760px){ .grid-2,.grid-3{ grid-template-columns:1fr; } }
+
+  .callout{ border-left:3px solid var(--teal); background:var(--teal-soft); border-radius:0 8px 8px 0; padding:12px 16px; margin:14px 0; font-size:.93rem; }
+  .callout.warn{ border-color:var(--accent); background:var(--accent-soft); }
+  .callout b{ color:var(--text); }
+
+  .steps{ counter-reset:step; list-style:none; padding:0; margin:14px 0; }
+  .steps li{ counter-increment:step; position:relative; padding:6px 0 6px 38px; margin-bottom:2px; font-size:.94rem; }
+  .steps li::before{ content:counter(step); position:absolute; left:0; top:5px; width:24px; height:24px; border-radius:50%; background:var(--surface-3); color:var(--text); font-family:var(--font-mono); font-size:.75rem; display:flex; align-items:center; justify-content:center; font-weight:700; }
+
+  .clickpath{ font-family:var(--font-mono); font-size:.85rem; background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:12px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0; }
+  .clickpath .seg{ background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:3px 9px; }
+  .clickpath .arrow{ color:var(--text-muted); }
+
+  table{ width:100%; border-collapse:collapse; font-size:.88rem; }
+  th,td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+  th{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); font-weight:600; }
+  td.num, th.num{ font-variant-numeric:tabular-nums; text-align:right; }
+  .table-wrap{ overflow-x:auto; margin:14px 0; border:1px solid var(--border); border-radius:10px; }
+  .table-wrap table{ margin:0; }
+  .table-wrap th,.table-wrap td{ border-bottom:1px solid var(--border); }
+  tr:last-child td{ border-bottom:none; }
+
+  .codeblock{ background:#181A20; color:#E9E6DB; font-family:var(--font-mono); font-size:.85rem; border-radius:10px; padding:16px 18px; overflow-x:auto; line-height:1.55; margin:14px 0; }
+  .codeblock .c-fn{ color:#E8A23D; } .codeblock .c-str{ color:#8FBF9F; } .codeblock .c-com{ color:#7C8194; }
+
+  .pill{ display:inline-flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:.72rem; padding:3px 10px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:var(--text-muted); }
+  .pill.good{ background:var(--good-soft); color:var(--good); border-color:transparent; }
+  .pill.bad{ background:var(--bad-soft); color:var(--bad); border-color:transparent; }
+  .pill.table{ background:var(--teal-soft); color:var(--teal); border-color:transparent; font-weight:700; }
+
+  /* field → well animated flow diagram */
+  .fieldflow{ display:flex; align-items:center; gap:10px; margin:8px 0; font-size:.82rem; flex-wrap:wrap; }
+  .fieldflow .chip{ font-family:var(--font-mono); font-size:.78rem; padding:4px 10px; border-radius:999px; border:1px solid var(--border); white-space:nowrap; background:var(--surface-2); color:var(--text); }
+  .fieldflow .chip.well{ background:var(--accent-soft); color:var(--accent-ink); border-color:transparent; font-weight:700; }
+  .flowline{ position:relative; flex:1 1 40px; min-width:32px; height:2px; background:var(--border); }
+  .flowline .dot{ position:absolute; top:50%; width:5px; height:5px; margin-top:-2.5px; border-radius:50%; background:var(--accent); opacity:0; animation:flowdot 1.8s linear infinite; }
+  .flowline .dot:nth-child(2){ animation-delay:.6s; }
+  .flowline .dot:nth-child(3){ animation-delay:1.2s; }
+  @keyframes flowdot{ 0%{ left:0%; opacity:0; } 12%{ opacity:1; } 88%{ opacity:1; } 100%{ left:100%; opacity:0; } }
+
+  /* terminology hint system — click/tap to toggle, same on desktop + mobile */
+  .term{ font:inherit; font-weight:600; color:var(--teal); background:var(--teal-soft); border:none; border-radius:4px; padding:0 5px; cursor:pointer; position:relative; }
+  .term:hover{ filter:brightness(1.08); }
+  .term.term-open{ background:var(--accent); color:var(--accent-ink); }
+  .term-pop{ position:absolute; left:0; top:calc(100% + 6px); z-index:10; width:max(220px,min(300px,80vw)); background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); padding:10px 12px; font-size:.82rem; font-weight:400; line-height:1.5; text-align:left; white-space:normal; }
+
+  /* mock mini-report — hand-built interactive demo, no charting library */
+  .mockreport{ border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; background:var(--surface); margin:14px 0; }
+  .mockreport-controls{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .mockreport-controls .btn.active{ background:var(--accent); color:var(--accent-ink); border-color:transparent; }
+  .mockgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:760px){ .mockgrid{ grid-template-columns:1fr; } }
+  .mocktile{ border:1px solid var(--border); border-radius:8px; padding:12px; background:var(--surface-2); transition:opacity .2s ease; }
+  .mocktile.dimmed{ opacity:.28; }
+  .mocktile-label{ font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:8px; }
+  .mockbars{ display:flex; align-items:flex-end; gap:6px; height:70px; }
+  .mockbar{ flex:1; background:var(--teal); border-radius:3px 3px 0 0; opacity:.85; transition:opacity .2s ease, background .2s ease, height .2s ease; }
+  .mockbar.hi{ background:var(--accent); opacity:1; }
+  .mockkpi{ font-family:var(--font-display); font-size:1.6rem; font-weight:700; }
+
+  .section-head{ margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border); }
+  .section-head .eyebrow{ display:block; margin-bottom:8px; }
+
+  figure{ margin:20px 0; }
+  figure svg{ max-width:100%; height:auto; display:block; }
+  figure img{ max-width:100%; height:auto; display:block; border:1px solid var(--border); border-radius:10px; }
+  figcaption{ font-size:.83rem; color:var(--text-muted); margin-top:10px; text-align:center; }
+
+  .btn{ display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:var(--accent-ink); border:none; font-family:var(--font-body); font-weight:700; font-size:.85rem; padding:9px 16px; border-radius:8px; cursor:pointer; text-decoration:none; }
+  .btn:hover{ filter:brightness(1.06); }
+  .btn.ghost{ background:transparent; color:var(--text); border:1px solid var(--border); }
+  .btn.sm{ padding:6px 12px; font-size:.78rem; }
+
+  .kicker-list{ list-style:none; padding:0; margin:14px 0; display:grid; gap:10px; }
+  .kicker-list li{ display:flex; gap:12px; align-items:flex-start; font-size:.94rem; }
+  .kicker-list .ico{ flex:none; width:26px; height:26px; border-radius:7px; background:var(--teal-soft); color:var(--teal); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:.75rem; font-weight:700; }
+
+  footer.pagefoot{ margin-top:40px; padding-top:18px; border-top:1px solid var(--border); font-size:.8rem; color:var(--text-muted); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  footer.pagefoot a{ color:var(--text-muted); text-decoration:none; font-weight:600; }
+  footer.pagefoot a:hover{ color:var(--teal); }
+
+  @media (max-width:860px){
+    .sidebar{ position:fixed; inset:0 auto 0 0; z-index:20; transform:translateX(-100%); transition:transform .2s ease; box-shadow:var(--shadow); }
+    .sidebar.open{ transform:translateX(0); }
+    .menutoggle{ display:inline-flex; }
+    .content{ padding:24px 18px 60px; }
+    .topbar{ padding:12px 18px; }
+  }
+  @media print{
+    .sidebar,.topbar,.no-print{ display:none !important; }
+    .content{ padding:0; max-width:none; }
+    body{ background:#fff; color:#000; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="mark">
+        <svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Course mark">
+          <rect x="1" y="1" width="28" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="7" y="16" width="3.6" height="7" rx="1" fill="currentColor"/>
+          <rect x="13.2" y="11" width="3.6" height="12" rx="1" fill="var(--accent)"/>
+          <rect x="19.4" y="7" width="3.6" height="16" rx="1" fill="currentColor"/>
+        </svg>
+        <div>
+          <h1>Power BI Portal</h1>
+          <div class="sub">MBA Analytics · Beginner Track</div>
+        </div>
+      </div>
+    </div>
+        <div class="navgroup">
+      <div class="label">Overview</div>
+      <a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 1: Introduction to BI &amp; BI Tools</div>
+      <a class="navbtn" href="17-understanding-bi.html"><span class="num">1</span> Understanding Business Intelligence</a>
+      <a class="navbtn" href="18-bi-tools-overview.html"><span class="num">2</span> Overview of BI Tools</a>
+      <a class="navbtn" href="01-architecture.html"><span class="num">3</span> Power BI Architecture</a>
+      <a class="navbtn" href="03-connecting-data.html"><span class="num">4</span> Connecting to Data Sources</a>
+      <a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">+</span> SQL Server &amp; AdventureWorks</a>
+      <a class="navbtn" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a>
+      <a class="navbtn" href="05-visualizations.html"><span class="num">6</span> Basic Visualizations</a>
+      <a class="navbtn" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 2: Advanced Visualizations</div>
+      <a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a>
+      <a class="navbtn" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a>
+      <a class="navbtn" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a>
+      <a class="navbtn active" href="12-interactivity.html"><span class="num">4</span> Interactivity</a>
+      <a class="navbtn" href="13-tables-matrix.html"><span class="num">5</span> Tables &amp; Matrix</a>
+      <a class="navbtn" href="14-conditional-formatting.html"><span class="num">6</span> Conditional Formatting</a>
+      <a class="navbtn" href="15-filters.html"><span class="num">7</span> Filters</a>
+      <a class="navbtn" href="16-slicers.html"><span class="num">8</span> Slicers</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 3: Introduction to DAX</div>
+      <a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a>
+      <a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a>
+      <a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a>
+      <a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 4: Power Query Editor</div>
+      <a class="navbtn" href="04-power-query.html"><span class="num">1</span> Power Query Editor</a>
+      <a class="navbtn" href="23-m-language-etl.html"><span class="num">2</span> M Language &amp; End-to-End ETL</a>
+      <a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">3</span> KPIs &amp; Single-Page Dashboard</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 5: Power BI Service</div>
+      <a class="navbtn" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a>
+      <a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a>
+      <a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a>
+      <a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Practice</div>
+      <a class="navbtn" href="06-exercises.html"><span class="num">★</span> 5 Exercises</a>
+      <a class="navbtn" href="07-final-project.html"><span class="num">★</span> Final Project</a>
+      <a class="navbtn" href="quiz.html"><span class="num">★</span> Self-Test Quiz</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Reference</div>
+      <a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a>
+      <a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a>
+    </div>
+    <div class="themebar">
+      <button class="themebtn" data-theme-choice="light">☀ Light</button>
+      <button class="themebtn" data-theme-choice="dark">☾ Dark</button>
+      <button class="themebtn" data-theme-choice="auto">Auto</button>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <div class="topbar">
+      <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Interactivity</b></div>
+      <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
+    </div>
+
+    <main class="content">
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Interactivity</span>
+        <h1>A dashboard that responds is worth ten that don't.</h1>
+        <p class="lede">Every feature on this page turns a static picture into something a viewer can actually explore — click deeper, jump to detail, save a view, tell a story across pages. All of it is on-canvas navigation: nothing here requires leaving Power BI or writing DAX.</p>
+      </div>
+
+      <h2>Exploring one visual</h2>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Drill-down</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Clicking deeper into the SAME <button class="term" data-term="hierarchy">hierarchy</button> on the SAME visual — Category → Sub-Category → Product, one chart, three levels.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> One chart answers "what's the total" and "what's inside that total" without building three separate charts.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A retail category manager sees Electronics is the top category, drills in, and finds Laptops are carrying nearly all of it — Headphones barely sell.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Build a Bar or Column chart with a multi-level field well: drag Category, then Sub Category, into the same Axis well (Power BI treats this as a hierarchy automatically)</li>
+            <li>Turn on the drill icons in the visual header (the down-arrow and the double-down "expand" icon)</li>
+            <li>Click a bar, then click the single down-arrow to drill into just that category</li>
+            <li>Click the up-arrow to drill back up</li>
+          </ol>
+          <p style="font-size:.9rem;margin-top:8px"><b>Try it below</b> — this is a real, clickable mock of the mechanic, not a screenshot:</p>
+          <div class="mockreport">
+            <div class="mockreport-controls">
+              <button class="btn ghost sm" id="drillBack" style="display:none">← Back to Category</button>
+              <span id="drillCrumb" style="font-family:var(--font-mono);font-size:.78rem;color:var(--text-muted);align-self:center;padding:6px 0">Category</span>
+            </div>
+            <div class="mockgrid" id="drillBars"></div>
+          </div>
+          <p style="font-size:.83rem;color:var(--text-muted);margin-top:6px">Click a bar to drill into it. Click "Back" to drill back up — exactly the same up/down motion as the real drill icons.</p>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Putting unrelated fields in the same Axis well and calling it a hierarchy — Region under Product doesn't mean anything; a hierarchy needs a genuine parent-child relationship.</div>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Keep hierarchies to 2–3 levels. Beyond that, a drill-through page (below) usually communicates better than a fourth drill level.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Tooltips</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> The small popup that appears on hover over a data point, showing extra detail without permanently occupying space on the report.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> A chart can only show so many fields before it turns into clutter — a tooltip carries the "nice to know" fields without carrying their visual weight.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A Sales-by-Region map shows just Region and Sales at a glance, but hovering a state reveals Profit Margin and Order Count too.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Drag any extra field into the Tooltip well of the Visualizations pane</li>
+            <li>For a richer tooltip, build a separate small report page sized "Tooltip" (Page Information → Tooltip toggle), then reference that page name in another visual's Tooltip well</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Keep default tooltips to 2–4 fields. Reach for a full report-page tooltip only when hover detail genuinely needs its own mini chart.</p>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Relying on a tooltip to convey a number the audience needs to act on — if it's important enough to decide something, it belongs on the visual itself, not hidden behind a hover.</div>
+        </div>
+      </details>
+
+      <div class="callout" style="margin-top:14px"><b>Drill-down vs. Tooltip:</b> Drill-down changes what the chart is SHOWING (fewer, more specific bars). A tooltip changes nothing on the chart — it only reveals extra detail for the one point being hovered, then disappears.</div>
+
+      <h2 style="margin-top:30px">Jumping to another view</h2>
+      <figure>
+        <img src="images/drilldown-vs-drillthrough.svg" alt="Two rows comparing drill-down, which goes deeper on the same chart, against drill-through, which jumps to a separate detail page.">
+        <figcaption>Drill-down stays on one visual and goes deeper. Drill-through leaves the page entirely.</figcaption>
+      </figure>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Drill-through</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Right-clicking a data point to jump to a completely separate, filtered detail page built specifically for that context.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> Some questions need an entirely different LAYOUT to answer — not just fewer bars on the same chart, but different visuals altogether (a customer's full order history, say).</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> Right-click a customer on a Sales Overview page, choose "Drill through → Customer Detail," and land on a page built just for that one customer's order history, complaints, and lifetime value.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Build the detail page (e.g. "Customer Detail")</li>
+            <li>Drag the field it should filter by (e.g. Customer Name) into the Drill Through well in the Format pane of that page</li>
+            <li>A "Back" button appears automatically on the detail page</li>
+            <li>On the source page, right-click any data point → the drill-through page appears under "Drill through"</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Forgetting the detail page still needs its own visuals built — drill-through only handles the filtering and navigation, not the page's content.</div>
+          <p style="font-size:.85rem;margin-top:8px"><b>Try it yourself:</b> Build a one-page "Product Detail" report filtered by Product, drill through to it from a Bar Chart of Sales by Product.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Bookmarks</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A saved snapshot of a report's current state — filters, visibility, selections, even scroll position — that a button can jump straight back to.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> It turns a single flexible page into several "views" without duplicating the page, and it's the engine behind interactive storytelling (below).</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A dashboard has two bookmarks — "This Year" and "Last Year" — each pre-filtering the same visuals to a different date range, one click apart.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Set up the report exactly how you want it captured (filters applied, visuals shown/hidden)</li>
+            <li>View → Bookmarks pane → Add</li>
+            <li>Name the bookmark clearly (e.g. "This Year")</li>
+            <li>Repeat for each state you want to save</li>
+            <li>Wire each one to a button (next lesson)</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> In the bookmark's options, uncheck "Data" if you only want it to control visibility/selection, not re-apply filters — the two behave very differently and it's a common source of confusion.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Buttons &amp; Navigation (Page and Report level)</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Buttons are clickable shapes wired to an action — most often jumping to a bookmark or another page. Navigation is the pattern of using several buttons together as a menu.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> A viewer shouldn't need to know Power BI's page tabs exist — a button labeled "Regional Detail" is self-explanatory in a way a small tab strip isn't.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A left-hand strip of buttons — Overview, Sales, Customers, Products — turns a 4-page report into something that feels like a real app.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Insert → Buttons → Blank (or a built-in style)</li>
+            <li>Format the button → Action → turn On</li>
+            <li>Type: Page navigation (jump to a page) or Bookmark (jump to a saved state)</li>
+            <li>Pick the destination page or bookmark</li>
+            <li>Repeat for every destination, then duplicate the button strip onto every page for consistent navigation</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Hiding the native page tabs (View → Page Navigator off) before every page has its own way back — always leave one path home.</div>
+        </div>
+      </details>
+
+      <div class="callout" style="margin-top:14px"><b>Bookmark vs. Page navigation:</b> Page navigation always jumps to the same fixed page. A bookmark can jump to the SAME page in a different state (different filters, different visuals shown) — or to a different page entirely with a specific state pre-applied. A bookmark is strictly more powerful; a plain page-navigation button is simpler when state doesn't matter.</div>
+
+      <div class="callout" style="margin-top:10px"><b>Tooltip vs. Drill-through:</b> A tooltip stays on the SAME page and disappears the moment the mouse moves away — it's a glance, not a destination. Drill-through actually navigates to a different page that stays put until the viewer clicks Back.</div>
+
+      <h2 style="margin-top:30px">Putting it together</h2>
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Interactive Storytelling</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Combining bookmarks, buttons, and the Selection pane into a guided sequence — the report walks a viewer through a specific narrative instead of leaving them to find it themselves.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> A board presentation needs a story ("here's the problem, here's the driver, here's the recommendation"), not just a dashboard to poke at.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> Three bookmarks — "1. The Problem" (a KPI in red), "2. The Driver" (a Bar Chart appears, highlighting one region), "3. The Fix" (a target line and a written recommendation) — stepped through with Next/Back buttons during a live presentation.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Plan the sequence on paper first: what does the viewer see at each step, and why</li>
+            <li>Build every visual for every step on the same page (Selection pane will control what's visible when)</li>
+            <li>Create one bookmark per step, capturing which visuals are visible/hidden at that step</li>
+            <li>Add Next/Back buttons wired to the bookmarks, or group all bookmarks into a Bookmark navigator (Insert → Buttons → Bookmark navigator) for automatic step buttons</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Never more than 4–5 steps — storytelling mode is for a live walkthrough, not a replacement for the dashboard someone explores on their own later.</p>
+        </div>
+      </details>
+
+      <h2 style="margin-top:30px">Exercises</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <span class="eyebrow">Exercise 1 · Drill-through</span>
+          <h3 style="margin-top:8px">Build a Customer Detail page</h3>
+          <p style="font-size:.9rem">Using the Sales dataset, build a "Customer Detail" page filtered by Customer, then right-click a bar on a Sales-by-Customer chart on a separate Overview page and drill through to it.</p>
+        </div>
+        <div class="card">
+          <span class="eyebrow">Exercise 2 · Bookmarks &amp; Buttons</span>
+          <h3 style="margin-top:8px">A "This Year / Last Year" toggle</h3>
+          <p style="font-size:.9rem">Create two bookmarks that apply different Date filters to the same page, then wire two buttons to jump between them — no page navigation, just a state change.</p>
+        </div>
+      </div>
+
+      <footer class="pagefoot"><span>Module 2 · Interactivity</span><a href="13-tables-matrix.html">Next: Tables &amp; Matrix →</a></footer>
+
+<script>
+/* ============= drill-down mock demo ============= */
+const DRILL_DATA = {
+  Category: [{label:'Electronics', val:80, key:'Electronics'},{label:'Apparel', val:55, key:'Apparel'},{label:'Home', val:40, key:'Home'}],
+  Electronics: [{label:'Laptop', val:90},{label:'Camera', val:60},{label:'Headphones', val:35}],
+  Apparel: [{label:'Jeans', val:50},{label:'Shirts', val:65},{label:'Footwear', val:45}],
+  Home: [{label:'Sofa', val:70},{label:'Chair', val:40},{label:'Table', val:55}],
+};
+function renderDrill(level){
+  const data = DRILL_DATA[level];
+  document.getElementById('drillCrumb').textContent = level;
+  document.getElementById('drillBack').style.display = level === 'Category' ? 'none' : 'inline-flex';
+  document.getElementById('drillBars').innerHTML = data.map(d => `
+    <div class="mocktile" ${level==='Category' ? `data-key="${d.key}" style="cursor:pointer"` : ''}>
+      <div class="mocktile-label">${d.label}</div>
+      <div class="mockbars"><div class="mockbar hi" style="height:${d.val}%"></div></div>
+    </div>`).join('');
+  if(level === 'Category'){
+    document.querySelectorAll('#drillBars .mocktile').forEach(t => t.addEventListener('click', () => renderDrill(t.dataset.key)));
+  }
+}
+document.getElementById('drillBack').addEventListener('click', () => renderDrill('Category'));
+renderDrill('Category');
+</script>
+    </main>
+  </div>
+</div>
+
+<script>
+/* ============= mobile menu ============= */
+document.getElementById('menutoggle').addEventListener('click', ()=>{
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+/* ============= theme switching ============= */
+const themebtns = document.querySelectorAll('.themebtn');
+function setTheme(choice){
+  if(choice === 'auto'){ document.documentElement.removeAttribute('data-theme'); }
+  else{ document.documentElement.setAttribute('data-theme', choice); }
+  themebtns.forEach(b => b.classList.toggle('active', b.dataset.themeChoice === choice));
+  try{ localStorage.setItem('pbi-theme', choice); }catch(e){}
+}
+themebtns.forEach(b => b.addEventListener('click', ()=> setTheme(b.dataset.themeChoice)));
+let savedTheme = 'auto';
+try{ savedTheme = localStorage.getItem('pbi-theme') || 'auto'; }catch(e){}
+setTheme(savedTheme);
+
+/* ============= terminology hints ============= */
+const GLOSSARY = {
+  dimension: 'A descriptive field used to categorize or slice data — e.g. Product, Region, Customer, or Date.',
+  measure: 'A calculation defined in DAX that recalculates based on whatever filters are currently applied — e.g. Total Sales, Profit Margin %.',
+  fact: 'A table of measurable events — one row per transaction, order, or occurrence — that measures are built from.',
+  axis: 'The field well that places a column along the horizontal (or categorical) edge of a chart.',
+  legend: 'The field well that splits a visual into color-coded groups, one color per category.',
+  values: 'The field well that supplies the number(s) a visual actually plots or displays.',
+  tooltip: 'The small popup that appears on hover over a data point, showing extra detail without cluttering the visual.',
+  smallmultiples: 'A grid of small copies of the same chart, one per category, so you can compare shapes side by side instead of overlapping lines/bars.',
+  filter: 'A rule that restricts which rows are included — at the visual, page, or report level.',
+  slicer: 'An on-canvas control that lets the report viewer filter interactively by clicking, without opening a menu.',
+  drilldown: 'Clicking deeper into the SAME hierarchy on the SAME visual — e.g. Year → Quarter → Month on one chart.',
+  drillthrough: 'Right-clicking a data point to jump to a separate, filtered detail page built specifically for that context.',
+  bookmark: 'A saved snapshot of a report\'s current state — filters, visibility, selections — that a button can jump back to.',
+  hierarchy: 'A set of fields nested in a fixed order for drill-down, e.g. Category → Sub-Category → Product.',
+  cardinality: 'How many distinct values a column has — "high cardinality" means many unique values, like an ID column.',
+  relationship: 'A link between two tables through a shared key column, letting Power BI treat them as one connected model.',
+  starschema: 'A modeling shape with one central fact table and several dimension tables branching off it, like a star.',
+  calculatedcolumn: 'A new column computed with DAX and stored row-by-row in the table — unlike a measure, which computes on the fly.',
+  dax: '"Data Analysis Expressions" — the formula language Power BI uses for measures and calculated columns.',
+  aggregation: 'Combining many rows into one number — Sum, Average, Count, Min, Max are all aggregations.',
+  group: 'Combining several existing category values into one broader bucket, without changing the source data.',
+  binning: 'Splitting a continuous number into equal-sized ranges ("bins") so it can be treated like a category.',
+  conditionalformatting: 'Rules that change a visual\'s color or icon based on the value itself, so exceptions are visible at a glance.',
+  customvisual: 'A visual type from Microsoft AppSource, beyond Power BI\'s built-in chart types.',
+};
+function closeTerm(btn){
+  btn.classList.remove('term-open');
+  const pop = btn.querySelector('.term-pop');
+  if(pop) pop.remove();
+}
+function openTerm(btn){
+  const pop = document.createElement('span');
+  pop.className = 'term-pop';
+  pop.textContent = GLOSSARY[btn.dataset.term] || 'Definition coming soon.';
+  btn.appendChild(pop);
+  btn.classList.add('term-open');
+}
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.term');
+  if(btn){
+    e.stopPropagation();
+    const wasOpen = btn.classList.contains('term-open');
+    document.querySelectorAll('.term-open').forEach(b => { if(b !== btn) closeTerm(b); });
+    wasOpen ? closeTerm(btn) : openTerm(btn);
+    return;
+  }
+  document.querySelectorAll('.term-open').forEach(closeTerm);
+});
+</script>
+</body>
+</html>

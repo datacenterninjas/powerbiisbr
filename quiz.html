@@ -138,12 +138,44 @@
   .pill{ display:inline-flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:.72rem; padding:3px 10px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:var(--text-muted); }
   .pill.good{ background:var(--good-soft); color:var(--good); border-color:transparent; }
   .pill.bad{ background:var(--bad-soft); color:var(--bad); border-color:transparent; }
+  .pill.table{ background:var(--teal-soft); color:var(--teal); border-color:transparent; font-weight:700; }
+
+  /* field → well animated flow diagram */
+  .fieldflow{ display:flex; align-items:center; gap:10px; margin:8px 0; font-size:.82rem; flex-wrap:wrap; }
+  .fieldflow .chip{ font-family:var(--font-mono); font-size:.78rem; padding:4px 10px; border-radius:999px; border:1px solid var(--border); white-space:nowrap; background:var(--surface-2); color:var(--text); }
+  .fieldflow .chip.well{ background:var(--accent-soft); color:var(--accent-ink); border-color:transparent; font-weight:700; }
+  .flowline{ position:relative; flex:1 1 40px; min-width:32px; height:2px; background:var(--border); }
+  .flowline .dot{ position:absolute; top:50%; width:5px; height:5px; margin-top:-2.5px; border-radius:50%; background:var(--accent); opacity:0; animation:flowdot 1.8s linear infinite; }
+  .flowline .dot:nth-child(2){ animation-delay:.6s; }
+  .flowline .dot:nth-child(3){ animation-delay:1.2s; }
+  @keyframes flowdot{ 0%{ left:0%; opacity:0; } 12%{ opacity:1; } 88%{ opacity:1; } 100%{ left:100%; opacity:0; } }
+
+  /* terminology hint system — click/tap to toggle, same on desktop + mobile */
+  .term{ font:inherit; font-weight:600; color:var(--teal); background:var(--teal-soft); border:none; border-radius:4px; padding:0 5px; cursor:pointer; position:relative; }
+  .term:hover{ filter:brightness(1.08); }
+  .term.term-open{ background:var(--accent); color:var(--accent-ink); }
+  .term-pop{ position:absolute; left:0; top:calc(100% + 6px); z-index:10; width:max(220px,min(300px,80vw)); background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); padding:10px 12px; font-size:.82rem; font-weight:400; line-height:1.5; text-align:left; white-space:normal; }
+
+  /* mock mini-report — hand-built interactive demo, no charting library */
+  .mockreport{ border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; background:var(--surface); margin:14px 0; }
+  .mockreport-controls{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .mockreport-controls .btn.active{ background:var(--accent); color:var(--accent-ink); border-color:transparent; }
+  .mockgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:760px){ .mockgrid{ grid-template-columns:1fr; } }
+  .mocktile{ border:1px solid var(--border); border-radius:8px; padding:12px; background:var(--surface-2); transition:opacity .2s ease; }
+  .mocktile.dimmed{ opacity:.28; }
+  .mocktile-label{ font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:8px; }
+  .mockbars{ display:flex; align-items:flex-end; gap:6px; height:70px; }
+  .mockbar{ flex:1; background:var(--teal); border-radius:3px 3px 0 0; opacity:.85; transition:opacity .2s ease, background .2s ease, height .2s ease; }
+  .mockbar.hi{ background:var(--accent); opacity:1; }
+  .mockkpi{ font-family:var(--font-display); font-size:1.6rem; font-weight:700; }
 
   .section-head{ margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border); }
   .section-head .eyebrow{ display:block; margin-bottom:8px; }
 
   figure{ margin:20px 0; }
   figure svg{ max-width:100%; height:auto; display:block; }
+  figure img{ max-width:100%; height:auto; display:block; border:1px solid var(--border); border-radius:10px; }
   figcaption{ font-size:.83rem; color:var(--text-muted); margin-top:10px; text-align:center; }
 
   .btn{ display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:var(--accent-ink); border:none; font-family:var(--font-body); font-weight:700; font-size:.85rem; padding:9px 16px; border-radius:8px; cursor:pointer; text-decoration:none; }
@@ -192,28 +224,61 @@
       </div>
     </div>
         <div class="navgroup">
-      <div class="label">Course</div>
+      <div class="label">Overview</div>
       <a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
-      <a class="navbtn" href="01-architecture.html"><span class="num">01</span> Architecture</a>
-      <a class="navbtn" href="02-interface.html"><span class="num">02</span> The Interface</a>
-      <a class="navbtn" href="03-connecting-data.html"><span class="num">03</span> Connecting to Data</a>
-      <a class="navbtn" href="04-power-query.html"><span class="num">04</span> Power Query</a>
-      <a class="navbtn" href="05-visualizations.html"><span class="num">05</span> Visualizations</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 1: Introduction to BI &amp; BI Tools</div>
+      <a class="navbtn" href="17-understanding-bi.html"><span class="num">1</span> Understanding Business Intelligence</a>
+      <a class="navbtn" href="18-bi-tools-overview.html"><span class="num">2</span> Overview of BI Tools</a>
+      <a class="navbtn" href="01-architecture.html"><span class="num">3</span> Power BI Architecture</a>
+      <a class="navbtn" href="03-connecting-data.html"><span class="num">4</span> Connecting to Data Sources</a>
+      <a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">+</span> SQL Server &amp; AdventureWorks</a>
+      <a class="navbtn" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a>
+      <a class="navbtn" href="05-visualizations.html"><span class="num">6</span> Basic Visualizations</a>
+      <a class="navbtn" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 2: Advanced Visualizations</div>
+      <a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a>
+      <a class="navbtn" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a>
+      <a class="navbtn" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a>
+      <a class="navbtn" href="12-interactivity.html"><span class="num">4</span> Interactivity</a>
+      <a class="navbtn" href="13-tables-matrix.html"><span class="num">5</span> Tables &amp; Matrix</a>
+      <a class="navbtn" href="14-conditional-formatting.html"><span class="num">6</span> Conditional Formatting</a>
+      <a class="navbtn" href="15-filters.html"><span class="num">7</span> Filters</a>
+      <a class="navbtn" href="16-slicers.html"><span class="num">8</span> Slicers</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 3: Introduction to DAX</div>
+      <a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a>
+      <a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a>
+      <a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a>
+      <a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 4: Power Query Editor</div>
+      <a class="navbtn" href="04-power-query.html"><span class="num">1</span> Power Query Editor</a>
+      <a class="navbtn" href="23-m-language-etl.html"><span class="num">2</span> M Language &amp; End-to-End ETL</a>
+      <a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">3</span> KPIs &amp; Single-Page Dashboard</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 5: Power BI Service</div>
+      <a class="navbtn" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a>
+      <a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a>
+      <a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a>
+      <a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a>
     </div>
     <div class="navgroup">
       <div class="label">Practice</div>
-      <a class="navbtn" href="06-exercises.html"><span class="num">06</span> 5 Exercises</a>
-      <a class="navbtn" href="07-final-project.html"><span class="num">07</span> Final Project</a>
+      <a class="navbtn" href="06-exercises.html"><span class="num">★</span> 5 Exercises</a>
+      <a class="navbtn" href="07-final-project.html"><span class="num">★</span> Final Project</a>
       <a class="navbtn active" href="quiz.html"><span class="num">★</span> Self-Test Quiz</a>
     </div>
     <div class="navgroup">
       <div class="label">Reference</div>
       <a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a>
       <a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a>
-    </div>
-    <div class="navgroup">
-      <div class="label">Extended Modules</div>
-      <a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">08</span> SQL Server &amp; AdventureWorks</a>
     </div>
     <div class="themebar">
       <button class="themebtn" data-theme-choice="light">☀ Light</button>
@@ -353,6 +418,57 @@ themebtns.forEach(b => b.addEventListener('click', ()=> setTheme(b.dataset.theme
 let savedTheme = 'auto';
 try{ savedTheme = localStorage.getItem('pbi-theme') || 'auto'; }catch(e){}
 setTheme(savedTheme);
+
+/* ============= terminology hints ============= */
+const GLOSSARY = {
+  dimension: 'A descriptive field used to categorize or slice data — e.g. Product, Region, Customer, or Date.',
+  measure: 'A calculation defined in DAX that recalculates based on whatever filters are currently applied — e.g. Total Sales, Profit Margin %.',
+  fact: 'A table of measurable events — one row per transaction, order, or occurrence — that measures are built from.',
+  axis: 'The field well that places a column along the horizontal (or categorical) edge of a chart.',
+  legend: 'The field well that splits a visual into color-coded groups, one color per category.',
+  values: 'The field well that supplies the number(s) a visual actually plots or displays.',
+  tooltip: 'The small popup that appears on hover over a data point, showing extra detail without cluttering the visual.',
+  smallmultiples: 'A grid of small copies of the same chart, one per category, so you can compare shapes side by side instead of overlapping lines/bars.',
+  filter: 'A rule that restricts which rows are included — at the visual, page, or report level.',
+  slicer: 'An on-canvas control that lets the report viewer filter interactively by clicking, without opening a menu.',
+  drilldown: 'Clicking deeper into the SAME hierarchy on the SAME visual — e.g. Year → Quarter → Month on one chart.',
+  drillthrough: 'Right-clicking a data point to jump to a separate, filtered detail page built specifically for that context.',
+  bookmark: 'A saved snapshot of a report\'s current state — filters, visibility, selections — that a button can jump back to.',
+  hierarchy: 'A set of fields nested in a fixed order for drill-down, e.g. Category → Sub-Category → Product.',
+  cardinality: 'How many distinct values a column has — "high cardinality" means many unique values, like an ID column.',
+  relationship: 'A link between two tables through a shared key column, letting Power BI treat them as one connected model.',
+  starschema: 'A modeling shape with one central fact table and several dimension tables branching off it, like a star.',
+  calculatedcolumn: 'A new column computed with DAX and stored row-by-row in the table — unlike a measure, which computes on the fly.',
+  dax: '"Data Analysis Expressions" — the formula language Power BI uses for measures and calculated columns.',
+  aggregation: 'Combining many rows into one number — Sum, Average, Count, Min, Max are all aggregations.',
+  group: 'Combining several existing category values into one broader bucket, without changing the source data.',
+  binning: 'Splitting a continuous number into equal-sized ranges ("bins") so it can be treated like a category.',
+  conditionalformatting: 'Rules that change a visual\'s color or icon based on the value itself, so exceptions are visible at a glance.',
+  customvisual: 'A visual type from Microsoft AppSource, beyond Power BI\'s built-in chart types.',
+};
+function closeTerm(btn){
+  btn.classList.remove('term-open');
+  const pop = btn.querySelector('.term-pop');
+  if(pop) pop.remove();
+}
+function openTerm(btn){
+  const pop = document.createElement('span');
+  pop.className = 'term-pop';
+  pop.textContent = GLOSSARY[btn.dataset.term] || 'Definition coming soon.';
+  btn.appendChild(pop);
+  btn.classList.add('term-open');
+}
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.term');
+  if(btn){
+    e.stopPropagation();
+    const wasOpen = btn.classList.contains('term-open');
+    document.querySelectorAll('.term-open').forEach(b => { if(b !== btn) closeTerm(b); });
+    wasOpen ? closeTerm(btn) : openTerm(btn);
+    return;
+  }
+  document.querySelectorAll('.term-open').forEach(closeTerm);
+});
 </script>
 </body>
 </html>

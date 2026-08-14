@@ -1,0 +1,31 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 3 · 4</span>
+        <h1>CALCULATE: the one function that changes everything else</h1>
+        <p class="lede"><code>CALCULATE</code> is the function that lets a measure override its own filter context on purpose — arguably the single most important function in all of DAX.</p>
+      </div>
+
+      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
+
+      <h2 style="margin-top:30px">CALCULATE and FILTER</h2>
+      <div class="codeblock">Electronics Sales = <span class="c-fn">CALCULATE</span>(
+    <span class="c-fn">SUM</span>(Sales[Sales]),
+    Sales[Category] = <span class="c-str">"Electronics"</span>
+)</div>
+      <p style="font-size:.92rem">Read this as: "Compute <code>SUM(Sales[Sales])</code>, but first override the filter context so only Category = Electronics rows count — regardless of what the report's own slicers currently say." That override is the entire trick, and everything from "Approval Rate" on the Cheat Sheet page to a proper YTD calculation is built on it.</p>
+      <div class="callout">Every DAX example already on this site that uses <code>CALCULATE</code> — Approved Loans, Length of Stay comparisons — is doing exactly this: computing a number under a DELIBERATELY different condition than whatever's currently on screen.</div>
+
+      <h2 style="margin-top:30px">Relationships and data modeling best practices</h2>
+      <p>None of the above works without a correctly built <button class="term" data-term="relationship">relationship</button> between tables — the same Data Model concept from the <a href="01-architecture.html">Architecture</a> page, revisited with the modeling discipline a real project needs.</p>
+      <div class="grid grid-2">
+        <div class="card"><h4><button class="term" data-term="starschema">Star schema</button>, not a web</h4><p style="font-size:.85rem">One central fact table, dimension tables branching off it — never dimension-to-dimension relationships if a fact table can sit between them instead.</p></div>
+        <div class="card"><h4><button class="term" data-term="cardinality">Cardinality</button> matters</h4><p style="font-size:.85rem">Relationships should run from the "many" side (a fact table, many rows per customer) to the "one" side (a dimension table, one row per customer) — get this backwards and totals silently multiply.</p></div>
+      </div>
+
+      <h2 style="margin-top:30px">What this page will cover</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">1</span><div><strong>CALCULATE, step by step.</strong> Building up from a single filter argument to multiple combined conditions.</div></li>
+        <li><span class="ico">2</span><div><strong>FILTER as a table function.</strong> When a simple column condition isn't enough and CALCULATE needs a more complex FILTER expression instead.</div></li>
+        <li><span class="ico">3</span><div><strong>A full data model, built from scratch.</strong> Taking the Sales, HR, and Retail practice datasets and correctly relating them into one star-schema model.</div></li>
+      </ul>
+
+      <footer class="pagefoot"><span>Module 3 · CALCULATE, FILTER &amp; Modeling</span><a href="04-power-query.html">Next: Power Query Editor →</a></footer>

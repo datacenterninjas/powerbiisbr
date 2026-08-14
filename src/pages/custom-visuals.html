@@ -1,0 +1,203 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Custom Visuals</span>
+        <h1>Thirty built-in charts cover most questions. Custom visuals are for the ones that don't.</h1>
+        <p class="lede">AppSource is Power BI's plug-in marketplace — hundreds of extra <button class="term" data-term="customvisual">custom visuals</button> beyond the ~30 built-in chart types covered on the <a href="05-visualizations.html">Visualizations</a> page, built by Microsoft, its partners, and independent developers. They drop into the same Visualizations pane and read fields exactly the way a built-in chart does — but every one you add runs third-party code inside your report, so knowing when to reach for one, and how to check it first, matters as much as knowing it exists.</p>
+      </div>
+
+      <figure>
+        <img src="images/custom-visuals-flow.svg" alt="Flow diagram: AppSource Marketplace leads to Search and Preview, into Import, into the Visualizations Pane, into dragging onto the canvas.">
+        <figcaption>The path every custom visual takes, from the marketplace to your canvas.</figcaption>
+      </figure>
+
+      <h2>What a custom visual actually is</h2>
+      <p>Once installed, a custom visual behaves exactly like Bar Chart or Line Chart — drag a field into a well, format it in the same pane, save it with the rest of the report. The only difference is where it came from: Microsoft AppSource, or occasionally a file, instead of the box. Some are published by Microsoft itself, some by analytics consulting firms, many by independent developers — anyone can publish one, which is exactly why the trust-check later on this page matters.</p>
+      <p>A handful of categories show up again and again in real business reporting:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Business question</th><th>Custom visual category</th><th>Why a built-in chart falls short</th></tr>
+          <tr><td>Which words come up most in open-text feedback?</td><td><b>Word Cloud</b></td><td>No built-in visual sizes text by frequency</td></tr>
+          <tr><td>Show overlapping tasks, stays, or projects on a real date timeline</td><td><b>Gantt Chart</b></td><td>Bar charts can't position a bar between two actual dates</td></tr>
+          <tr><td>Show how volume splits and flows between stages or groups</td><td><b>Sankey / Chord Diagram</b></td><td>No built-in visual draws flow width between nodes</td></tr>
+          <tr><td>Compare a value against a target and performance bands, densely</td><td><b>Bullet Chart</b></td><td>A Gauge fits one metric per screen; Bullet fits many in a row</td></tr>
+          <tr><td>Compare several dimensions of one item at once (a scorecard)</td><td><b>Radar / Spider Chart</b></td><td>No built-in visual plots multiple axes around a center point</td></tr>
+          <tr><td>Show daily activity across many months (attendance, logins)</td><td><b>Calendar Heatmap</b></td><td>A Matrix holds the numbers but can't shade like a calendar grid</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.9rem;color:var(--text-muted)">None of these are required anywhere else in this course — they're here because you will eventually meet a business question a built-in chart genuinely cannot answer, and you should know where to look.</p>
+
+      <h2 style="margin-top:30px">When to reach for one — and when to stay native</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>Reach for a custom visual</th><th>Stay with a built-in visual</th></tr>
+          <tr><td><b>The question</b></td><td>A built-in chart structurally cannot show it — e.g. real date-range bars, word frequency, flow between groups</td><td>A bar, line, map, KPI card, or table would answer it just as well</td></tr>
+          <tr><td><b>Speed</b></td><td>Worth testing and timing before it ships</td><td>Microsoft-optimized, fastest by default <span class="pill good">default choice</span></td></tr>
+          <tr><td><b>Support</b></td><td>You've confirmed the publisher is active and the visual was updated recently</td><td>No dependency on a third party ever going quiet</td></tr>
+          <tr><td><b>Risk</b></td><td>You've vetted it (see below) and it's going into a low-stakes report first</td><td>No extra security or performance review needed</td></tr>
+        </table>
+      </div>
+      <div class="callout warn"><b>Default bias:</b> start every report with built-in visuals. Reach into AppSource only when you can name the specific business question a built-in chart cannot answer — never because a custom visual "looks more advanced."</div>
+
+      <h2 style="margin-top:30px">Advantages and disadvantages, stated plainly</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>Advantages</h4>
+          <ul class="kicker-list">
+            <li><span class="ico">✓</span><div style="font-size:.9rem">Answers questions built-in charts structurally can't — real date-range bars, word frequency, flow between groups</div></li>
+            <li><span class="ico">✓</span><div style="font-size:.9rem">Same drag-and-drop field wells as any built-in chart — no new mental model once it's installed</div></li>
+            <li><span class="ico">✓</span><div style="font-size:.9rem">Most are free, and several — including many of Microsoft's own — are Certified and actively maintained</div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Disadvantages</h4>
+          <ul class="kicker-list">
+            <li><span class="ico">✕</span><div style="font-size:.9rem">Third-party code runs inside your report — a real security surface, larger for uncertified visuals</div></li>
+            <li><span class="ico">✕</span><div style="font-size:.9rem">Can render slower than native visuals, especially on large tables (see Performance, below)</div></li>
+            <li><span class="ico">✕</span><div style="font-size:.9rem">An organization's Power BI admin can restrict which custom visuals are allowed tenant-wide — a report that works on your laptop can fail to render for a colleague</div></li>
+            <li><span class="ico">✕</span><div style="font-size:.9rem">No continuity guarantee — a publisher can stop updating a visual, or pull it from AppSource, with no Microsoft backstop the way the built-in ~30 have</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 style="margin-top:30px">Finding a custom visual</h2>
+      <div class="clickpath">
+        <span class="seg">Visualizations pane</span><span class="arrow">→</span><span class="seg">"..." More options</span><span class="arrow">→</span><span class="seg">Get more visuals</span><span class="arrow">→</span><span class="seg">search or browse a category</span><span class="arrow">→</span><span class="seg">Add</span>
+      </div>
+      <p>The same catalog is also a standalone website — AppSource (appsource.microsoft.com) — worth browsing outside Desktop while you're still planning a report. It's easier to compare several visuals side by side, read full descriptions, and check ratings there than inside the narrow pane. Anything found on the website gets added to a report the same way, from inside Desktop.</p>
+
+      <h2 style="margin-top:30px">Importing one into your report</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>From AppSource, inside Desktop</h4>
+          <ol class="steps">
+            <li>Visualizations pane → "..." → Get more visuals</li>
+            <li>Search by name, or browse a category</li>
+            <li>Open the listing — check publisher, rating, and the Certified badge before adding (next section)</li>
+            <li>Add — the icon appears at the bottom of the Visualizations pane, ready to use like any built-in chart</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h4>From a downloaded .pbiviz file</h4>
+          <ol class="steps">
+            <li>Visualizations pane → "..." → Import a visual from a file</li>
+            <li>Browse to the .pbiviz file — common for an internal company-built visual, or one shared outside AppSource entirely</li>
+            <li>Confirm the security prompt — Power BI always warns that a visual from outside AppSource hasn't been through Microsoft's review</li>
+            <li>The visual appears in the Visualizations pane for that report only</li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout warn"><b>Treat a .pbiviz file like any unfamiliar executable:</b> it's a packaged bundle of code, not a picture. Only import one from a source — a colleague, your IT team, a known vendor — you'd trust with access to whatever data you drop into it.</div>
+
+      <h2 style="margin-top:30px">Is it safe to use? Evaluating trustworthiness</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Signal</th><th>What to check</th><th>Why it matters</th></tr>
+          <tr><td><b>Certified badge</b></td><td>A checkmark shown right on the AppSource listing</td><td>Means Microsoft reviewed it for security and performance — the closest thing to an official stamp</td></tr>
+          <tr><td><b>Publisher</b></td><td>Microsoft, a known analytics partner, or an unnamed individual account</td><td>An accountable, actively-maintained publisher is lower long-term risk</td></tr>
+          <tr><td><b>Ratings &amp; review count</b></td><td>Star rating, and how many organizations actually left one</td><td>A handful of reviews tells you far less than hundreds</td></tr>
+          <tr><td><b>Data access requested</b></td><td>Whether it only renders the fields you give it, or calls out to an external service (a mapping or AI API, say)</td><td>Sending company data outside Power BI is a real governance question, not a technicality</td></tr>
+          <tr><td><b>Open source</b></td><td>Whether the code is publicly published — many, including several of Microsoft's own, are on GitHub</td><td>You or your IT team can inspect what it actually does instead of taking the listing's word for it</td></tr>
+        </table>
+      </div>
+      <div class="callout warn"><b>Certified isn't the same as risk-free</b> — it means Microsoft confirmed a baseline. For a report built on this course's HR, Banking, or Hospital data, treat "uncertified + unknown publisher + almost no reviews" as a hard no, not a maybe.</div>
+
+      <h2 style="margin-top:30px">Licensing, in general terms</h2>
+      <div class="grid grid-3">
+        <div class="card"><h4>Free</h4><p style="font-size:.88rem">No cost to add or use. Most custom visuals on AppSource fall here, including many of Microsoft's own.</p></div>
+        <div class="card"><h4>Freemium</h4><p style="font-size:.88rem">Free to add, with a paid tier unlocking extra formatting, export options, or higher data-point limits.</p></div>
+        <div class="card"><h4>Paid / subscription</h4><p style="font-size:.88rem">Requires a license key, sign-in, or subscription from the publisher before it renders at all — terms set entirely by them, not Microsoft.</p></div>
+      </div>
+      <div class="callout">Licensing lives with the publisher, not Power BI. Before building a report around a paid visual, check the listing's pricing page and confirm whether the license covers just you, or everyone who'll open the published report — that per-user vs. per-report line varies by publisher and is worth confirming in writing, not assuming.</div>
+
+      <h2 style="margin-top:30px">Performance: test before it ships company-wide</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>Native (built-in) visual</th><th>Custom visual</th></tr>
+          <tr><td><b>Render speed</b></td><td>Optimized by Microsoft, fastest by default</td><td>Varies by publisher — can be noticeably slower, especially uncertified ones</td></tr>
+          <tr><td><b>Large datasets</b></td><td>Built and tested at enterprise scale</td><td>Not guaranteed — test explicitly on a full-size table, not just a 100-row practice file</td></tr>
+          <tr><td><b>Support</b></td><td>Microsoft, as part of the product, indefinitely</td><td>Whoever published it — can pause updates or stop entirely</td></tr>
+        </table>
+      </div>
+      <div class="callout warn">A visual that feels instant on your laptop with a small sample can lag badly once it's facing the real row count in production. Add it to a copy of the report, test with realistic data volumes, and time it — before it ships in a report the whole company opens every Monday morning.</div>
+
+      <h2 style="margin-top:30px">Guided walkthrough</h2>
+      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Gantt Chart — Hospital dataset: patient length of stay</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A Gantt Chart visual draws one horizontal bar per row, positioned and sized by a start date and an end date — something no built-in Power BI chart does. The closest built-in option, a stacked bar chart, has no way to place a bar between two real calendar dates.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Business question:</b> A hospital ops manager wants to see, at a glance, which patients are occupying a bed far longer than others in the same department — a length-of-stay outlier is either a genuinely complex case or a discharge-process bottleneck worth a follow-up question.</p>
+
+          <div style="margin-top:12px">
+            <p style="font-size:.85rem;font-weight:700;margin-bottom:8px">Field mapping &nbsp;<span class="pill table">Table: Hospital</span></p>
+            <div class="fieldflow">
+              <span class="chip">Hospital[Patient]</span>
+              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              <span class="chip well">Category (task)</span>
+            </div>
+            <div class="fieldflow">
+              <span class="chip">Hospital[Admission Date]</span>
+              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              <span class="chip well">Start Date</span>
+            </div>
+            <div class="fieldflow">
+              <span class="chip">Hospital[Discharge Date]</span>
+              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              <span class="chip well">End Date</span>
+            </div>
+            <div class="fieldflow">
+              <span class="chip">Hospital[Department]</span>
+              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              <span class="chip well">Legend</span>
+            </div>
+            <p style="font-size:.83rem;color:var(--text-muted);margin-top:8px">All four fields live on the one Hospital table — no join needed to build this.</p>
+          </div>
+
+          <p style="font-size:.85rem;font-weight:700;margin-top:14px;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Download <code>Hospital_Clean.csv</code> from the <a href="datasets.html">Datasets</a> page → Get Data → Text/CSV → Transform Data</li>
+            <li>In Power Query, confirm Admission Date and Discharge Date are typed as Date, not Text — a Gantt visual can't place a text value on a date axis</li>
+            <li>Visualizations pane → "..." → Get more visuals → search "Gantt" → check the listing, then Add</li>
+            <li>Build the field mapping above: Patient into the task well, Admission Date into Start, Discharge Date into End, Department into Legend</li>
+            <li>Optional: add a <button class="term" data-term="calculatedcolumn">calculated column</button> in <button class="term" data-term="dax">DAX</button> so bars can be sorted or labeled by duration directly: <code>Length of Stay = Hospital[Discharge Date] − Hospital[Admission Date]</code></li>
+            <li>Format → sort by Start Date so the timeline reads left to right in admission order, and turn on data labels for the duration</li>
+          </ol>
+
+          <p style="font-size:.9rem;margin-top:8px">Once built, a pattern like this is what you're looking for — illustrative values, not the real file's numbers:</p>
+          <div class="mockgrid">
+            <div class="mocktile">
+              <div class="mocktile-label">Patient · Cardiology</div>
+              <div class="mockkpi">4 <span style="font-size:.55em;font-weight:400;color:var(--text-muted)">days</span></div>
+              <span class="pill good" style="margin-top:6px">typical</span>
+            </div>
+            <div class="mocktile">
+              <div class="mocktile-label">Patient · Cardiology</div>
+              <div class="mockkpi">11 <span style="font-size:.55em;font-weight:400;color:var(--text-muted)">days</span></div>
+              <span class="pill bad" style="margin-top:6px">above dept. average</span>
+            </div>
+            <div class="mocktile">
+              <div class="mocktile-label">Patient · Maternity</div>
+              <div class="mockkpi">2 <span style="font-size:.55em;font-weight:400;color:var(--text-muted)">days</span></div>
+              <span class="pill good" style="margin-top:6px">typical</span>
+            </div>
+          </div>
+
+          <div class="grid grid-2" style="margin-top:12px">
+            <div><p style="font-size:.85rem"><b>Best practice:</b> Keep Department in the Legend well — length of stay only makes sense compared within the same specialty, since a normal Maternity stay and a normal Cardiology stay are very different numbers.</p></div>
+            <div><p style="font-size:.85rem"><b>Common mistake:</b> Building the visual before checking the two date columns actually parsed as Date — the same trap as a Line Chart X-axis, except here it can silently misdraw every bar's length, not just the sort order.</p></div>
+          </div>
+          <div class="callout" style="margin-top:10px"><b>Try it yourself:</b> Swap Department for Doctor in the Legend well — does the same length-of-stay pattern hold per doctor, or only per department?</div>
+        </div>
+      </details>
+
+      <h2 style="margin-top:30px">Exercise</h2>
+      <div class="card">
+        <span class="eyebrow">Practice · Custom Visuals</span>
+        <h3 style="margin-top:8px">Find, vet, and justify one custom visual</h3>
+        <ul class="kicker-list" style="margin-top:10px">
+          <li><span class="ico">1</span><div>Pick any dataset already used in this course (Sales, HR, Retail, Banking, or Hospital) and name one real business question a built-in chart genuinely cannot answer.</div></li>
+          <li><span class="ico">2</span><div>Search AppSource for a custom visual that answers it, and note its Certified status, publisher, and review count.</div></li>
+          <li><span class="ico">3</span><div>Import it and build it against your chosen dataset.</div></li>
+          <li><span class="ico">4</span><div>Write two sentences: why a built-in chart couldn't do this job, and what you checked before trusting the visual.</div></li>
+        </ul>
+      </div>
+
+      <footer class="pagefoot"><span>Module 2 · Custom Visuals</span><a href="10-groups-histograms.html">Next: Groups &amp; Histograms →</a></footer>

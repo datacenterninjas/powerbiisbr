@@ -1,0 +1,175 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Interactivity</span>
+        <h1>A dashboard that responds is worth ten that don't.</h1>
+        <p class="lede">Every feature on this page turns a static picture into something a viewer can actually explore — click deeper, jump to detail, save a view, tell a story across pages. All of it is on-canvas navigation: nothing here requires leaving Power BI or writing DAX.</p>
+      </div>
+
+      <h2>Exploring one visual</h2>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Drill-down</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Clicking deeper into the SAME <button class="term" data-term="hierarchy">hierarchy</button> on the SAME visual — Category → Sub-Category → Product, one chart, three levels.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> One chart answers "what's the total" and "what's inside that total" without building three separate charts.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A retail category manager sees Electronics is the top category, drills in, and finds Laptops are carrying nearly all of it — Headphones barely sell.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Build a Bar or Column chart with a multi-level field well: drag Category, then Sub Category, into the same Axis well (Power BI treats this as a hierarchy automatically)</li>
+            <li>Turn on the drill icons in the visual header (the down-arrow and the double-down "expand" icon)</li>
+            <li>Click a bar, then click the single down-arrow to drill into just that category</li>
+            <li>Click the up-arrow to drill back up</li>
+          </ol>
+          <p style="font-size:.9rem;margin-top:8px"><b>Try it below</b> — this is a real, clickable mock of the mechanic, not a screenshot:</p>
+          <div class="mockreport">
+            <div class="mockreport-controls">
+              <button class="btn ghost sm" id="drillBack" style="display:none">← Back to Category</button>
+              <span id="drillCrumb" style="font-family:var(--font-mono);font-size:.78rem;color:var(--text-muted);align-self:center;padding:6px 0">Category</span>
+            </div>
+            <div class="mockgrid" id="drillBars"></div>
+          </div>
+          <p style="font-size:.83rem;color:var(--text-muted);margin-top:6px">Click a bar to drill into it. Click "Back" to drill back up — exactly the same up/down motion as the real drill icons.</p>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Putting unrelated fields in the same Axis well and calling it a hierarchy — Region under Product doesn't mean anything; a hierarchy needs a genuine parent-child relationship.</div>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Keep hierarchies to 2–3 levels. Beyond that, a drill-through page (below) usually communicates better than a fourth drill level.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Tooltips</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> The small popup that appears on hover over a data point, showing extra detail without permanently occupying space on the report.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> A chart can only show so many fields before it turns into clutter — a tooltip carries the "nice to know" fields without carrying their visual weight.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A Sales-by-Region map shows just Region and Sales at a glance, but hovering a state reveals Profit Margin and Order Count too.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Drag any extra field into the Tooltip well of the Visualizations pane</li>
+            <li>For a richer tooltip, build a separate small report page sized "Tooltip" (Page Information → Tooltip toggle), then reference that page name in another visual's Tooltip well</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Keep default tooltips to 2–4 fields. Reach for a full report-page tooltip only when hover detail genuinely needs its own mini chart.</p>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Relying on a tooltip to convey a number the audience needs to act on — if it's important enough to decide something, it belongs on the visual itself, not hidden behind a hover.</div>
+        </div>
+      </details>
+
+      <div class="callout" style="margin-top:14px"><b>Drill-down vs. Tooltip:</b> Drill-down changes what the chart is SHOWING (fewer, more specific bars). A tooltip changes nothing on the chart — it only reveals extra detail for the one point being hovered, then disappears.</div>
+
+      <h2 style="margin-top:30px">Jumping to another view</h2>
+      <figure>
+        <img src="images/drilldown-vs-drillthrough.svg" alt="Two rows comparing drill-down, which goes deeper on the same chart, against drill-through, which jumps to a separate detail page.">
+        <figcaption>Drill-down stays on one visual and goes deeper. Drill-through leaves the page entirely.</figcaption>
+      </figure>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Drill-through</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Right-clicking a data point to jump to a completely separate, filtered detail page built specifically for that context.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> Some questions need an entirely different LAYOUT to answer — not just fewer bars on the same chart, but different visuals altogether (a customer's full order history, say).</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> Right-click a customer on a Sales Overview page, choose "Drill through → Customer Detail," and land on a page built just for that one customer's order history, complaints, and lifetime value.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Build the detail page (e.g. "Customer Detail")</li>
+            <li>Drag the field it should filter by (e.g. Customer Name) into the Drill Through well in the Format pane of that page</li>
+            <li>A "Back" button appears automatically on the detail page</li>
+            <li>On the source page, right-click any data point → the drill-through page appears under "Drill through"</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Forgetting the detail page still needs its own visuals built — drill-through only handles the filtering and navigation, not the page's content.</div>
+          <p style="font-size:.85rem;margin-top:8px"><b>Try it yourself:</b> Build a one-page "Product Detail" report filtered by Product, drill through to it from a Bar Chart of Sales by Product.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Bookmarks</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A saved snapshot of a report's current state — filters, visibility, selections, even scroll position — that a button can jump straight back to.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> It turns a single flexible page into several "views" without duplicating the page, and it's the engine behind interactive storytelling (below).</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A dashboard has two bookmarks — "This Year" and "Last Year" — each pre-filtering the same visuals to a different date range, one click apart.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Set up the report exactly how you want it captured (filters applied, visuals shown/hidden)</li>
+            <li>View → Bookmarks pane → Add</li>
+            <li>Name the bookmark clearly (e.g. "This Year")</li>
+            <li>Repeat for each state you want to save</li>
+            <li>Wire each one to a button (next lesson)</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> In the bookmark's options, uncheck "Data" if you only want it to control visibility/selection, not re-apply filters — the two behave very differently and it's a common source of confusion.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Buttons &amp; Navigation (Page and Report level)</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Buttons are clickable shapes wired to an action — most often jumping to a bookmark or another page. Navigation is the pattern of using several buttons together as a menu.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> A viewer shouldn't need to know Power BI's page tabs exist — a button labeled "Regional Detail" is self-explanatory in a way a small tab strip isn't.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A left-hand strip of buttons — Overview, Sales, Customers, Products — turns a 4-page report into something that feels like a real app.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Insert → Buttons → Blank (or a built-in style)</li>
+            <li>Format the button → Action → turn On</li>
+            <li>Type: Page navigation (jump to a page) or Bookmark (jump to a saved state)</li>
+            <li>Pick the destination page or bookmark</li>
+            <li>Repeat for every destination, then duplicate the button strip onto every page for consistent navigation</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Hiding the native page tabs (View → Page Navigator off) before every page has its own way back — always leave one path home.</div>
+        </div>
+      </details>
+
+      <div class="callout" style="margin-top:14px"><b>Bookmark vs. Page navigation:</b> Page navigation always jumps to the same fixed page. A bookmark can jump to the SAME page in a different state (different filters, different visuals shown) — or to a different page entirely with a specific state pre-applied. A bookmark is strictly more powerful; a plain page-navigation button is simpler when state doesn't matter.</div>
+
+      <div class="callout" style="margin-top:10px"><b>Tooltip vs. Drill-through:</b> A tooltip stays on the SAME page and disappears the moment the mouse moves away — it's a glance, not a destination. Drill-through actually navigates to a different page that stays put until the viewer clicks Back.</div>
+
+      <h2 style="margin-top:30px">Putting it together</h2>
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Interactive Storytelling</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Combining bookmarks, buttons, and the Selection pane into a guided sequence — the report walks a viewer through a specific narrative instead of leaving them to find it themselves.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> A board presentation needs a story ("here's the problem, here's the driver, here's the recommendation"), not just a dashboard to poke at.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> Three bookmarks — "1. The Problem" (a KPI in red), "2. The Driver" (a Bar Chart appears, highlighting one region), "3. The Fix" (a target line and a written recommendation) — stepped through with Next/Back buttons during a live presentation.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Plan the sequence on paper first: what does the viewer see at each step, and why</li>
+            <li>Build every visual for every step on the same page (Selection pane will control what's visible when)</li>
+            <li>Create one bookmark per step, capturing which visuals are visible/hidden at that step</li>
+            <li>Add Next/Back buttons wired to the bookmarks, or group all bookmarks into a Bookmark navigator (Insert → Buttons → Bookmark navigator) for automatic step buttons</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Never more than 4–5 steps — storytelling mode is for a live walkthrough, not a replacement for the dashboard someone explores on their own later.</p>
+        </div>
+      </details>
+
+      <h2 style="margin-top:30px">Exercises</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <span class="eyebrow">Exercise 1 · Drill-through</span>
+          <h3 style="margin-top:8px">Build a Customer Detail page</h3>
+          <p style="font-size:.9rem">Using the Sales dataset, build a "Customer Detail" page filtered by Customer, then right-click a bar on a Sales-by-Customer chart on a separate Overview page and drill through to it.</p>
+        </div>
+        <div class="card">
+          <span class="eyebrow">Exercise 2 · Bookmarks &amp; Buttons</span>
+          <h3 style="margin-top:8px">A "This Year / Last Year" toggle</h3>
+          <p style="font-size:.9rem">Create two bookmarks that apply different Date filters to the same page, then wire two buttons to jump between them — no page navigation, just a state change.</p>
+        </div>
+      </div>
+
+      <footer class="pagefoot"><span>Module 2 · Interactivity</span><a href="13-tables-matrix.html">Next: Tables &amp; Matrix →</a></footer>
+
+<script>
+/* ============= drill-down mock demo ============= */
+const DRILL_DATA = {
+  Category: [{label:'Electronics', val:80, key:'Electronics'},{label:'Apparel', val:55, key:'Apparel'},{label:'Home', val:40, key:'Home'}],
+  Electronics: [{label:'Laptop', val:90},{label:'Camera', val:60},{label:'Headphones', val:35}],
+  Apparel: [{label:'Jeans', val:50},{label:'Shirts', val:65},{label:'Footwear', val:45}],
+  Home: [{label:'Sofa', val:70},{label:'Chair', val:40},{label:'Table', val:55}],
+};
+function renderDrill(level){
+  const data = DRILL_DATA[level];
+  document.getElementById('drillCrumb').textContent = level;
+  document.getElementById('drillBack').style.display = level === 'Category' ? 'none' : 'inline-flex';
+  document.getElementById('drillBars').innerHTML = data.map(d => `
+    <div class="mocktile" ${level==='Category' ? `data-key="${d.key}" style="cursor:pointer"` : ''}>
+      <div class="mocktile-label">${d.label}</div>
+      <div class="mockbars"><div class="mockbar hi" style="height:${d.val}%"></div></div>
+    </div>`).join('');
+  if(level === 'Category'){
+    document.querySelectorAll('#drillBars .mocktile').forEach(t => t.addEventListener('click', () => renderDrill(t.dataset.key)));
+  }
+}
+document.getElementById('drillBack').addEventListener('click', () => renderDrill('Category'));
+renderDrill('Category');
+</script>

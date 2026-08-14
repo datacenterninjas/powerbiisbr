@@ -1,0 +1,31 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 3 · 1</span>
+        <h1>DAX: Excel formulas' cousin, built for whole tables</h1>
+        <p class="lede"><button class="term" data-term="dax">DAX</button> is how you create numbers that don't already exist as a column — everything from a simple sum to a full year-over-year comparison.</p>
+      </div>
+
+      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
+
+      <h2 style="margin-top:30px">Calculated Column vs. Measure — the first fork in the road</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4><button class="term" data-term="calculatedcolumn">Calculated Column</button></h4>
+          <p style="font-size:.9rem">Computed once, row by row, and physically stored in the table — like adding a new column in Excel with a formula dragged down every row.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Full Name = [First Name] &amp; " " &amp; [Last Name]</code> — one fixed value per row, doesn't change based on what's filtered on screen.</p>
+        </div>
+        <div class="card">
+          <h4><button class="term" data-term="measure">Measure</button></h4>
+          <p style="font-size:.9rem">Computed on the fly, only when a visual asks for it — recalculates instantly based on whatever's currently filtered/sliced.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Total Sales = SUM(Sales[Sales])</code> — the same measure returns a different number for "2025" than for "2024," automatically.</p>
+        </div>
+      </div>
+      <div class="callout warn" style="margin-top:14px"><b>The rule of thumb this module will build toward:</b> if the number should change when someone clicks a slicer, it's almost always a measure, not a calculated column.</div>
+
+      <h2 style="margin-top:30px">What this page will cover</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">1</span><div><strong>DAX syntax basics.</strong> Functions, operators, referencing a column with <code>Table[Column]</code> vs. a measure with <code>[Measure Name]</code>.</div></li>
+        <li><span class="ico">2</span><div><strong>Writing your first measure.</strong> Step-by-step in the Modeling ribbon, from <code>New Measure</code> to seeing it work on a Card visual.</div></li>
+        <li><span class="ico">3</span><div><strong>Common early mistakes.</strong> Using a calculated column where a measure was needed (and the performance cost of getting that backwards at scale).</div></li>
+      </ul>
+
+      <footer class="pagefoot"><span>Module 3 · DAX Basics &amp; Measures</span><a href="20-dax-time-intelligence.html">Next: Time Intelligence &amp; Aggregations →</a></footer>

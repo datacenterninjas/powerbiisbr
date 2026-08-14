@@ -1,0 +1,256 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Conditional Formatting</span>
+        <h1>Color does the reading so the executive doesn't have to.</h1>
+        <p class="lede"><button class="term" data-term="conditionalformatting">Conditional formatting</button> changes a visual's color, font, bar, or icon based on the value itself — the exact same trick as Excel's Conditional Formatting, just applied to a card, table, or matrix instead of a spreadsheet range. A busy VP shouldn't have to read 40 rows of a table to find the one that's a problem. Color should find it for them.</p>
+      </div>
+
+      <h2>Where the dialog lives</h2>
+      <p style="font-size:.92rem">Conditional formatting is set per-field, on a table, matrix, or card-style visual — not on the visual as a whole. There are two doors into the same dialog:</p>
+      <div class="clickpath">
+        <span class="seg">Select the visual</span><span class="arrow">→</span><span class="seg">Values well → click the ▾ next to the field</span><span class="arrow">→</span><span class="seg">Conditional formatting</span><span class="arrow">→</span><span class="seg">pick a rule type</span>
+      </div>
+      <div class="clickpath">
+        <span class="seg">Select the visual</span><span class="arrow">→</span><span class="seg">Format pane (paint roller)</span><span class="arrow">→</span><span class="seg">Cell elements</span><span class="arrow">→</span><span class="seg">toggle a rule type on</span><span class="arrow">→</span><span class="seg">click <code>fx</code></span>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">Both paths open the same dialog box. The field dropdown is faster once you know a field needs formatting; the Format pane's Cell elements section is where you go to see — or turn off — every rule already applied to a visual.</p>
+
+      <div class="callout"><b>The analytical point, not just the technical one:</b> a table of 200 rows makes every number look equally important. Conditional formatting is the only feature on this site whose entire job is to make the UNimportant rows fade and the exceptions — the ones actually worth a decision — visually shout. That's the reason it exists, not decoration.</div>
+
+      <figure>
+        <img src="images/conditional-formatting-flow.svg" alt="Flow diagram: a Value goes through a Rule check, producing a red, amber, or green color output depending on the threshold.">
+        <figcaption>Every formatting type on this page is the same three-step idea underneath.</figcaption>
+      </figure>
+
+      <h2 style="margin-top:30px">The formatting types</h2>
+      <p class="lede" style="font-size:.95rem">All seven live in the same dialog, under a "Format style" dropdown. Click any card for steps and an example.</p>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Background color rules</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Fills the entire cell background with a color determined by that cell's value — either a smooth gradient across the range, or a fixed color once a value crosses a threshold.</p>
+          <p style="font-size:.9rem"><b>Real-world example:</b> A Profit table where every negative-profit row gets a solid red cell background — impossible to scroll past without noticing.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Click the field's ▾ in the Values well → Conditional formatting → Background color</li>
+            <li>Format style: Gradient (gradient across the range) or Rules (fixed color bands)</li>
+            <li>Pick the field the color should be BASED ON — usually the same field, but it doesn't have to be</li>
+            <li>Apply</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Keep the fill readable — dark backgrounds need a light font color or the number disappears into its own cell.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Font color rules</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> The same rule engine as Background color, but it recolors just the text — the cell itself stays the table's normal background.</p>
+          <p style="font-size:.9rem"><b>Real-world example:</b> A dense Sales table where only the number turns red for a below-target row, keeping the table visually quiet everywhere else — useful when a full-cell fill would feel too loud for a page with many other colored elements.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Field's ▾ → Conditional formatting → Font color</li>
+            <li>Same Gradient / Rules choice as Background color</li>
+            <li>Apply</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Use Font color instead of Background color when a table already has other color elements (icons, data bars) and a full cell fill would start to compete with them.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Data bars</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A small in-cell horizontal bar, drawn behind the number, sized relative to the column's minimum and maximum — a miniature bar chart living inside a table cell.</p>
+          <p style="font-size:.9rem"><b>Real-world example:</b> A Regional Sales table where every row shows both the exact number AND a bar — so North's bar visibly dwarfs West's, without building a separate chart.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Field's ▾ → Conditional formatting → Data bars</li>
+            <li>Set Minimum and Maximum (leave on "Automatic" to use the column's own lowest/highest value)</li>
+            <li>Optionally turn off "Show bar only" if you want the bar with no number at all — usually leave it off so the exact figure stays visible</li>
+            <li>Apply</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Data bars are the fastest way to make a plain table feel like a chart without leaving the table visual — reach for them before building a separate bar chart next to it.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Icons</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A small icon placed next to the value — arrows (up/flat/down), traffic lights (red/yellow/green circles), or stars — chosen from a preset icon set based on which threshold band the value falls into.</p>
+          <p style="font-size:.9rem"><b>Real-world example:</b> A KPI table where every metric gets a traffic-light icon: green circle for on-target, yellow for close, red for missed — readable from across a conference room, before anyone reads a single digit.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Field's ▾ → Conditional formatting → Icons</li>
+            <li>Pick an icon set (arrows, traffic lights, ratings, etc.)</li>
+            <li>Set the thresholds for each icon band, and where the icon sits (Left of value is the default)</li>
+            <li>Apply</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Traffic lights read fastest for status (good/warning/bad); arrows read fastest for direction of change (up/down vs. last period). Pick the set that matches the QUESTION, not just what looks nice.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Rules-based formatting</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Explicit if/then bands you define yourself — "if value &lt; 10 then red," "if value is between 10 and 20 then yellow," "if value &gt; 20 then green" — instead of a smooth gradient. Available under the Rules format style for Background color, Font color, and Icons alike.</p>
+          <p style="font-size:.9rem"><b>Real-world example:</b> "If Profit Margin % &lt; 10% then red background" — a hard line a finance team actually uses to flag a product for review, not a vague "redder = worse" gradient.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Field's ▾ → Conditional formatting → Background color (or Font color / Icons)</li>
+            <li>Format style: Rules</li>
+            <li>Click "+ New rule" for each band, setting the comparison ("is less than," "is between," etc.) and the color for that band</li>
+            <li>Apply</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Reach for Rules whenever the business already has a named threshold ("below 10% margin is a problem") — a gradient can't express a hard line the way an explicit rule can.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Color scales</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A continuous gradient from one color to another (often through a middle color) spread smoothly across the field's full range — the "Gradient" format style, as opposed to the hard bands of Rules-based formatting.</p>
+          <p style="font-size:.9rem"><b>Real-world example:</b> A Profit Margin column shaded on a red → yellow → green gradient — a 4% margin renders as a deep red cell, an 11% margin as a pale yellow-green, a 22% margin as a solid green, with every value in between shaded proportionally, not sorted into three flat buckets.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Field's ▾ → Conditional formatting → Background color</li>
+            <li>Format style: Gradient</li>
+            <li>Set Minimum color, (optional) Center color, and Maximum color</li>
+            <li>Apply</li>
+          </ol>
+          <div class="callout" style="margin-top:10px"><b>Color scale vs. Rules — same dialog, different feel:</b> a color scale shows every shade of the story (a 9% margin looks slightly different from an 11% margin). Rules-based formatting collapses that nuance into a small number of named bands (red / yellow / green) so a value is either "in the problem group" or it isn't. Use a scale to see the whole distribution; use Rules to draw a line a decision gets made against.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Formatting by a measure, not the raw column</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Every dialog above has a "Based on field" dropdown — and it does NOT have to be the same field being displayed. You can color one visible value using an entirely different, independently calculated <button class="term" data-term="measure">measure</button>.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> A raw Sales number, on its own, has no opinion about whether it's good or bad — 4.2 million could be a triumph or a disaster depending on what it's being compared to. A separate measure can carry that comparison (e.g. <code>Sales vs Target %</code>), and the KPI card showing raw Sales can borrow that measure's verdict for its color, without displaying the measure itself anywhere on the page.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A "Total Sales" card shows ₹42.8L in plain black-on-white — a perfectly correct number that tells a viewer nothing about whether it's a good month. Point its Background color rule at a hidden <code>Sales vs Target %</code> measure instead of at Sales itself, and the exact same card turns green when the number is ahead of target and red when it's behind — the visible number never changes, only what decides its color does.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Write the DAX measure first — e.g. <code>Sales vs Target % = DIVIDE([Total Sales] - [Target Sales], [Target Sales])</code></li>
+            <li>Select the visual → field's ▾ → Conditional formatting → Background color (or Font color / Icons)</li>
+            <li>In "Based on field," change it from the displayed field to the new measure</li>
+            <li>Set the rule/gradient against the MEASURE's range (e.g. below 0% = red), not the displayed number's range</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Leaving "Based on field" pointed at the same field that's displayed, then wondering why a KPI can only ever be colored by its own raw size — never by whether that size is actually good or bad.</div>
+        </div>
+      </details>
+
+      <h2 style="margin-top:30px">Thresholds — fixed number vs. a field that defines it</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>Fixed threshold</h4>
+          <p style="font-size:.88rem">A hard-coded number typed straight into the rule — "if value &lt; 10 then red." Simple, and correct for a genuinely fixed business line.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> A hospital compliance rule of "on-time discharge = processed within 5 days" that regulators define once and don't change often.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Weakness:</b> if the threshold ever needs to change, someone has to reopen the dialog and edit the rule by hand, on every visual that used it.</p>
+        </div>
+        <div class="card">
+          <h4>Dynamic threshold (a field or measure)</h4>
+          <p style="font-size:.88rem">The cutoff itself comes from data — a Target column, or a measure like <code>[Target Sales]</code> — instead of a number typed into the dialog.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> Each region has its own Target Sales value; a single "Sales vs Target %" measure divides actual by that region's own target, so the SAME rule correctly flags North against North's goal and South against South's — no per-region rule needed.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Strength:</b> update the underlying Target data and every visual using that measure re-evaluates automatically — nobody touches the formatting rule itself.</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:14px"><b>Rule of thumb:</b> if the business would ever say "well, it depends" when asked what the threshold should be, it depends on something — put that something in a measure, don't hard-code a single number that's secretly wrong for half the rows.</div>
+
+      <h2 style="margin-top:30px">Try it — same number, colored by a different measure</h2>
+      <p style="font-size:.92rem">Four region KPI cards below all show <b>Total Sales</b> — the number never changes. What changes their color is a separate, hidden measure: <code>Sales vs Target %</code>, using fixed Rules-based thresholds (below 0% = red, 0–5% = amber, above 5% = green). Click a month to simulate a data refresh and watch the SAME cards recolor as the underlying measure moves — nothing about how Sales itself is displayed changes.</p>
+      <div class="mockreport">
+        <div class="mockreport-controls">
+          <button class="btn ghost sm cfmonthbtn active" data-month="Month 1">Month 1</button>
+          <button class="btn ghost sm cfmonthbtn" data-month="Month 2">Month 2</button>
+          <button class="btn ghost sm cfmonthbtn" data-month="Month 3">Month 3</button>
+        </div>
+        <div class="mockgrid" id="cfTiles"></div>
+      </div>
+      <p style="font-size:.83rem;color:var(--text-muted);margin-top:6px">Each card's badge shows the hidden measure driving its color — that measure is never displayed as its own visual, only used to decide red / amber / green.</p>
+
+      <h2 style="margin-top:30px">Highlighting exceptions — the actual point</h2>
+      <p style="font-size:.92rem">Every technique above is in service of one analytical goal: a viewer should be able to glance at a table of 50, 200, or 2,000 rows and instantly know which handful need attention — without reading every single number. That's not a formatting nicety, it's the difference between a report someone actually uses every morning and one they open once and never trust again.</p>
+
+      <h2 style="margin-top:30px">Five business examples</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Scenario</th><th>Before (no formatting)</th><th>After (conditional formatting)</th></tr>
+          <tr>
+            <td><b>Revenue vs. target</b><br><span style="font-size:.78rem;color:var(--text-muted)">Sales dataset, by Region</span></td>
+            <td style="font-size:.85rem">A plain number per region — a viewer has to already know each region's target from memory to judge it.</td>
+            <td style="font-size:.85rem">Background color Rules on a <code>Sales vs Target %</code> measure — green above target, red below. <span class="pill good">on target</span> <span class="pill bad">behind</span></td>
+          </tr>
+          <tr>
+            <td><b>Profit margin</b><br><span style="font-size:.78rem;color:var(--text-muted)">Sales dataset, Profit ÷ Sales</span></td>
+            <td style="font-size:.85rem">A column of percentages, all the same plain black text — a 3% margin and a 30% margin look equally routine.</td>
+            <td style="font-size:.85rem">Color scale (Gradient), red low → green high, so the eye sorts the whole column by shade before reading a single number.</td>
+          </tr>
+          <tr>
+            <td><b>SLA / turnaround time</b><br><span style="font-size:.78rem;color:var(--text-muted)">Hospital dataset, Admission Date → Discharge Date</span></td>
+            <td style="font-size:.85rem">A Length-of-Stay column of raw day counts — nothing marks which admissions blew past an acceptable turnaround.</td>
+            <td style="font-size:.85rem">Icons (traffic light) driven by a <code>% Within SLA</code> measure — e.g. discharged within 5 days = green, 6–7 = yellow, 8+ = red — flags exactly which patients' stays ran long.</td>
+          </tr>
+          <tr>
+            <td><b>Data quality scores</b><br><span style="font-size:.78rem;color:var(--text-muted)">callback to <a href="04-power-query.html">Power Query</a></span></td>
+            <td style="font-size:.85rem">A cleaned table looks uniformly trustworthy — but some rows started with 4 issues fixed automatically and some with none; that history is invisible after the fact.</td>
+            <td style="font-size:.85rem">Rules-based background color on an "Issues Fixed" count column — 0 issues plain, 1–2 amber, 3+ red — so a reviewer can spot-check the rows that needed the most repair, exactly the trims/typos/blanks covered on the Power Query page.</td>
+          </tr>
+          <tr>
+            <td><b>Regional performance</b><br><span style="font-size:.78rem;color:var(--text-muted)">Sales / Retail dataset, Region column</span></td>
+            <td style="font-size:.85rem">A table of Region + Sales — comparing four numbers means reading each one and doing the ranking in your head.</td>
+            <td style="font-size:.85rem">Data bars on the Sales column — North's bar visibly dwarfs West's at a glance, no mental math required.</td>
+          </tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">Common mistakes</h2>
+      <div class="grid grid-2">
+        <div class="card"><h4>Formatting everything</h4><p style="font-size:.85rem">Conditional formatting on every single column turns a table into a rainbow with no clear signal — reserve it for the 1–3 fields that actually drive a decision.</p></div>
+        <div class="card"><h4>Red/green with no legend</h4><p style="font-size:.85rem">A viewer new to the report has no way to know red means "below target" versus "above budget" versus something else — a one-line caption or consistent site-wide convention (red = bad) removes the ambiguity.</p></div>
+        <div class="card"><h4>Coloring the raw value when the verdict lives elsewhere</h4><p style="font-size:.85rem">Leaving "Based on field" pointed at the same displayed column means the color can only ever reflect that number's own size — not whether it's actually good, which usually depends on a target or comparison the raw value alone can't express.</p></div>
+        <div class="card"><h4>Hard-coding a threshold that varies by group</h4><p style="font-size:.85rem">Typing one fixed number when the real cutoff differs by region, department, or product silently misjudges every group whose true target isn't that number — a measure-based threshold fixes this once, everywhere.</p></div>
+      </div>
+
+      <div class="callout warn" style="margin-top:16px"><b>Best practice:</b> Before opening the dialog, answer one question: "what should a viewer DO differently when they see red versus green?" If there's no clear answer, the formatting is decoration, not analysis — skip it.</div>
+
+      <h2 style="margin-top:30px">Exercise</h2>
+      <div class="card">
+        <span class="eyebrow">Practice · Conditional Formatting</span>
+        <h3 style="margin-top:8px">Banking dataset — flag the risky loans</h3>
+        <p style="font-size:.9rem">Build a Table of Banking[Customer, Loan Amount, Credit Score, Status]. Apply a color scale to Credit Score (red low, green high), and a rules-based background color to Loan Status (red for "Rejected," green for "Approved"). Which rows would a credit officer look at first?</p>
+      </div>
+
+      <footer class="pagefoot"><span>Module 2 · Conditional Formatting</span><a href="15-filters.html">Next: Filters →</a></footer>
+
+<script>
+/* ============= conditional-formatting-by-measure mock demo ============= */
+const CF_REGIONS = ['North','South','East','West'];
+const CF_DATA = {
+  'Month 1': { North: {sales: 42.8, vsTarget:  8.4}, South: {sales: 31.2, vsTarget: -3.2}, East: {sales: 27.5, vsTarget:  1.1}, West: {sales: 38.9, vsTarget: 12.5} },
+  'Month 2': { North: {sales: 39.1, vsTarget: -1.5}, South: {sales: 34.6, vsTarget:  6.7}, East: {sales: 24.0, vsTarget: -6.0}, West: {sales: 33.7, vsTarget:  2.2} },
+  'Month 3': { North: {sales: 47.3, vsTarget: 15.0}, South: {sales: 29.8, vsTarget:  0.5}, East: {sales: 21.4, vsTarget: -9.8}, West: {sales: 35.5, vsTarget:  4.0} },
+};
+function cfStatus(vsTarget){
+  if(vsTarget < 0) return {label:'bad', text:'below target'};
+  if(vsTarget < 5) return {label:'amber', text:'near target'};
+  return {label:'good', text:'above target'};
+}
+function renderCfTiles(month){
+  const data = CF_DATA[month];
+  document.getElementById('cfTiles').innerHTML = CF_REGIONS.map(r => {
+    const d = data[r];
+    const s = cfStatus(d.vsTarget);
+    const pillClass = s.label === 'amber' ? 'pill mock-badge' : ('pill mock-badge ' + s.label);
+    const pillStyle = s.label === 'amber' ? ' style="margin-top:8px;background:var(--accent-soft);color:var(--accent)"' : ' style="margin-top:8px"';
+    const kpiStyle = s.label === 'good' ? 'color:var(--good)' : s.label === 'bad' ? 'color:var(--bad)' : 'color:var(--accent)';
+    return `
+    <div class="mocktile">
+      <div class="mocktile-label">${r} · Total Sales</div>
+      <div class="mockkpi" style="${kpiStyle}">₹${d.sales.toFixed(1)}L</div>
+      <span class="${pillClass}"${pillStyle}>Sales vs Target: ${d.vsTarget > 0 ? '+' : ''}${d.vsTarget.toFixed(1)}% · ${s.text}</span>
+    </div>`;
+  }).join('');
+}
+document.querySelectorAll('.cfmonthbtn').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.cfmonthbtn').forEach(x => x.classList.toggle('active', x === b));
+  renderCfTiles(b.dataset.month);
+}));
+renderCfTiles('Month 1');
+</script>

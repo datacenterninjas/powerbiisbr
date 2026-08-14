@@ -1,0 +1,33 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 4 · 2</span>
+        <h1>Every click in Power Query is secretly writing code</h1>
+        <p class="lede">M is the language behind every transformation on the <a href="04-power-query.html">Power Query</a> page — you've already been generating it by clicking buttons. This module opens that hood.</p>
+      </div>
+
+      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
+
+      <h2 style="margin-top:30px">Joins, properly named</h2>
+      <p>The <a href="04-power-query.html">Power Query page</a>'s "Merge Queries" lesson already teaches a Left Outer join — attaching Returns data onto every Order, keeping every order whether it was returned or not. That's ONE of several join types Power Query supports under the same Merge dialog:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Join kind</th><th>Keeps</th></tr>
+          <tr><td><b>Left Outer</b> <span class="pill good">already taught</span></td><td>Every row from the first table, matched rows from the second</td></tr>
+          <tr><td><b>Right Outer</b></td><td>Every row from the second table, matched rows from the first</td></tr>
+          <tr><td><b>Full Outer</b></td><td>Every row from both tables, matched or not</td></tr>
+          <tr><td><b>Inner</b></td><td>Only rows that match in both tables</td></tr>
+          <tr><td><b>Anti (Left/Right)</b></td><td>Only the rows that DON'T match — e.g. "orders with no return on file"</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">Seeing the M code Power Query already wrote</h2>
+      <p style="font-size:.92rem">Every step in the Applied Steps pane (right side of Power Query Editor) is one line of M. Click <b>View → Advanced Editor</b> on any query built earlier in this course — the Trim, Split Column, and Group By steps from the Power Query page are all sitting right there as readable M code.</p>
+      <div class="codeblock">= <span class="c-fn">Table.TransformColumns</span>(#"Previous Step", {{"Customer", Text.Trim}})</div>
+
+      <h2 style="margin-top:30px">What this page will cover</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">1</span><div><strong>Reading the Advanced Editor.</strong> Recognizing what a UI click produced, before writing any M by hand.</div></li>
+        <li><span class="ico">2</span><div><strong>A first hand-written M custom column.</strong> Something the point-and-click UI can't quite express directly.</div></li>
+        <li><span class="ico">3</span><div><strong>End-to-end ETL.</strong> Extract (Get Data) → Transform (everything on the Power Query page) → Load (into the model) — walked as one continuous pipeline on a single messy source file, not as isolated lessons.</div></li>
+      </ul>
+
+      <footer class="pagefoot"><span>Module 4 · M Language &amp; End-to-End ETL</span><a href="24-kpis-dashboard-build.html">Next: KPIs &amp; Single-Page Dashboard →</a></footer>

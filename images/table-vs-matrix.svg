@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 260" role="img" aria-label="Comparison: a Table shows one flat row per record; a Matrix groups the same rows under Region and Category headers with subtotals.">
+  <rect width="820" height="260" fill="#FFFFFF"/>
+  <g font-family="ui-monospace,Consolas,monospace" font-size="11">
+    <text x="190" y="28" text-anchor="middle" font-weight="700" fill="#565B6B" letter-spacing="1">TABLE — one row per record</text>
+    <g transform="translate(30,45)">
+      <rect x="0" y="0" width="320" height="26" fill="#E0DCCC"/>
+      <text x="10" y="18" fill="#14171F" font-weight="700">Region</text><text x="120" y="18" fill="#14171F" font-weight="700">Category</text><text x="250" y="18" fill="#14171F" font-weight="700">Sales</text>
+      <g fill="#14171F">
+        <text x="10" y="46">West</text><text x="120" y="46">Electronics</text><text x="250" y="46">14,200</text>
+        <text x="10" y="70">West</text><text x="120" y="70">Apparel</text><text x="250" y="70">9,800</text>
+        <text x="10" y="94">South</text><text x="120" y="94">Electronics</text><text x="250" y="94">11,050</text>
+        <text x="10" y="118">South</text><text x="120" y="118">Home</text><text x="250" y="118">6,400</text>
+        <text x="10" y="142">North</text><text x="120" y="142">Apparel</text><text x="250" y="142">8,150</text>
+      </g>
+      <line x1="0" y1="30" x2="320" y2="30" stroke="#DEDACE"/>
+      <line x1="0" y1="54" x2="320" y2="54" stroke="#DEDACE"/>
+      <line x1="0" y1="78" x2="320" y2="78" stroke="#DEDACE"/>
+      <line x1="0" y1="102" x2="320" y2="102" stroke="#DEDACE"/>
+      <line x1="0" y1="126" x2="320" y2="126" stroke="#DEDACE"/>
+      <line x1="0" y1="150" x2="320" y2="150" stroke="#DEDACE"/>
+      <rect x="0" y="150" width="320" height="24" fill="#F3E1C4"/>
+      <text x="10" y="167" font-weight="700" fill="#1B1300">Total</text><text x="250" y="167" font-weight="700" fill="#1B1300">49,600</text>
+    </g>
+
+    <text x="630" y="28" text-anchor="middle" font-weight="700" fill="#565B6B" letter-spacing="1">MATRIX — grouped, with subtotals</text>
+    <g transform="translate(470,45)">
+      <rect x="0" y="0" width="320" height="26" fill="#E0DCCC"/>
+      <text x="10" y="18" fill="#14171F" font-weight="700">Region / Category</text><text x="250" y="18" fill="#14171F" font-weight="700">Sales</text>
+      <g fill="#14171F">
+        <text x="10" y="46" font-weight="700">West</text>
+        <text x="30" y="66">Electronics</text><text x="250" y="66">14,200</text>
+        <text x="30" y="86">Apparel</text><text x="250" y="86">9,800</text>
+        <rect x="0" y="92" width="320" height="20" fill="#DCEBE8"/>
+        <text x="10" y="106" font-weight="700" fill="#2A6560">West Total</text><text x="250" y="106" font-weight="700" fill="#2A6560">24,000</text>
+        <text x="10" y="130" font-weight="700">South</text>
+        <text x="30" y="150">Electronics</text><text x="250" y="150">11,050</text>
+      </g>
+      <line x1="0" y1="30" x2="320" y2="30" stroke="#DEDACE"/>
+      <line x1="0" y1="112" x2="320" y2="112" stroke="#DEDACE"/>
+      <rect x="0" y="160" width="320" height="24" fill="#F3E1C4"/>
+      <text x="10" y="177" font-weight="700" fill="#1B1300">Grand Total</text><text x="250" y="177" font-weight="700" fill="#1B1300">49,600</text>
+    </g>
+  </g>
+</svg>

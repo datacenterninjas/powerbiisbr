@@ -1,51 +1,239 @@
       <div class="section-head">
-        <span class="eyebrow">04 · Power Query</span>
+        <span class="eyebrow">Module 4 · 1</span>
         <h1>Real data is never clean. This is where you fix it.</h1>
-        <p class="lede">Some analysts spend 70–80% of their time right here, not in charts. Every fix below is demonstrated on our actual practice file, <code>Sales_Dirty.xlsx</code> — download it from the <a href="datasets.html">Datasets</a> page and follow along.</p>
+        <p class="lede">Some analysts spend 70–80% of their time right here, not in charts. All 25 lessons below run on real practice files — mostly <code><a href="datasets.html">PQ_Practice_Orders.csv</a></code>, plus its two companion tables for combining data and the original <code>Sales_Dirty.xlsx</code> for a few classics. Download them from the <a href="datasets.html">Datasets</a> page and follow along.</p>
       </div>
 
       <div class="table-wrap">
         <table>
           <tr><th>Transformation</th><th>Fixes</th><th>Where to click</th></tr>
-          <tr><td><b>Rename Columns</b></td><td>Cryptic headers like <code>col_7</code></td><td>Double-click the column header</td></tr>
+          <tr><td><b>Rename Columns</b></td><td>Cryptic or abbreviated headers</td><td>Double-click the column header</td></tr>
           <tr><td><b>Remove Columns</b></td><td>Unused clutter columns</td><td>Right-click header → Remove</td></tr>
           <tr><td><b>Split Column</b></td><td>One column secretly holding two values ("Bangalore, Karnataka")</td><td>Select column → Split Column → By Delimiter</td></tr>
           <tr><td><b>Merge Columns</b></td><td>Two columns that need to become one (First + Last Name)</td><td>Select both → right-click → Merge Columns</td></tr>
           <tr><td><b>Change Data Type</b></td><td>Wrong type blocking math or chronological sorting</td><td>Click the type icon on the column header</td></tr>
           <tr><td><b>Remove Duplicates</b></td><td>Repeated rows quietly inflating totals</td><td>Right-click column(s) → Remove Duplicates</td></tr>
           <tr><td><b>Replace Values</b></td><td>Known typos, inconsistent labels</td><td>Right-click column → Replace Values</td></tr>
-          <tr><td><b>Trim</b></td><td>Leading/trailing spaces — makes "Rohit" ≠ " Rohit "</td><td>Transform → Format → Trim</td></tr>
-          <tr><td><b>Clean</b></td><td>Invisible/non-printable characters</td><td>Transform → Format → Clean</td></tr>
-          <tr><td><b>Fill Down / Up</b></td><td>Blanks left by merged-cell Excel exports</td><td>Transform → Fill → Down/Up</td></tr>
-          <tr><td><b>Null Handling</b></td><td>Blank or "NULL"-text cells breaking SUM/AVERAGE</td><td>Replace Values (with a default) or Remove Rows</td></tr>
+          <tr><td><b>Trim / Clean</b></td><td>Leading/trailing spaces, invisible characters</td><td>Transform → Format → Trim / Clean</td></tr>
+          <tr><td><b>Group By</b></td><td>Detail rows that need to become one summary row per category</td><td>Select column(s) → Transform → Group By</td></tr>
+          <tr><td><b>Merge / Append Queries</b></td><td>Two related tables that need to become one</td><td>Home → Merge Queries / Append Queries</td></tr>
+          <tr><td><b>Unpivot Columns</b></td><td>Wide, one-column-per-period data that charts can't filter by period</td><td>Select the ID column(s) → right-click the rest → Unpivot Other Columns</td></tr>
         </table>
       </div>
 
-      <h2 style="margin-top:30px">See it on real (messy) data</h2>
-      <p style="font-size:.92rem">These are genuine rows from the practice dataset — not made-up examples. Each "before" is exactly what you'll see when you open <code>Sales_Dirty.xlsx</code>.</p>
-      <div id="pqExamples" class="grid grid-2"></div>
+      <h2 style="margin-top:30px">25 lessons, real messy data</h2>
+      <p class="lede" style="font-size:.95rem">Every card follows the same shape: the <b>before</b> value, why it's a problem, the <b>business impact</b> of leaving it, the exact click-path to fix it, the <b>after</b> value, and what actually changed. Grouped the way you'll meet them in practice — cleaning text first, structure second, values and dates next, then rows, extraction, computed columns, and finally combining whole tables.</p>
+      <div id="pqLessons"></div>
 
       <div class="callout warn" style="margin-top:20px"><b>Never guess a fake number to hide a blank.</b> Either fill it with a defensible business default, or remove the row — and always be ready to explain which choice you made and why.</div>
 
-      <footer class="pagefoot"><span>04 · Power Query</span><a href="05-visualizations.html">Next: Visualizations →</a></footer>
+      <footer class="pagefoot"><span>Module 4 · Power Query Editor</span><a href="23-m-language-etl.html">Next: M Language &amp; End-to-End ETL →</a></footer>
 
 <script>
-/* ============= Power Query before/after examples ============= */
-const PQ_EXAMPLES = [
-  {issue:'Negative Sales', col:'Sales · row 3', before:'-1587.53', after:'1587.53', fix:'Investigate the source, then Replace Values or correct the sign — a sale can\'t be negative revenue.'},
-  {issue:'Leading/Trailing Spaces', col:'Customer · row 4', before:'"  Rohit Singh  "', after:'"Rohit Singh"', fix:'Transform → Format → Trim, so this customer isn\'t silently split into two different people.'},
-  {issue:'Spelling Mistake', col:'Region · row 6', before:'"Souths"', after:'"South"', fix:'Right-click column → Replace Values.'},
-  {issue:'Mixed Date Format', col:'Date · row 9', before:'2025/07/19', after:'19-07-2025', fix:'Change Data Type → Date. If Power Query mis-parses it, fix the source format first via Replace Values.'},
-  {issue:'Currency Symbol + Commas', col:'Sales · row 11', before:'"₹45,230.50"', after:'45230.50', fix:'Replace Values to strip ₹ and commas, then Change Data Type → Decimal Number.'},
-  {issue:'Duplicate Row', col:'entire row · 13', before:'exact copy of row 12', after:'(removed)', fix:'Select all columns → right-click → Remove Duplicates.'},
+/* ============= 25 Power Query lessons, tiered ============= */
+const PQ_LESSONS = [
+{tier:'Cleaning Text', title:'Trim & Remove Spaces', dataset:'Sales_Dirty.csv', column:'Customer',
+  before:'"  Rohit Singh  "', after:'"Rohit Singh"',
+  issue:'Leading/trailing spaces are invisible in a cell but not to Power BI — "Rohit Singh" and "  Rohit Singh  " are two different text values.',
+  impact:'A "Sales by Customer" chart silently splits one real customer into two shorter bars instead of one tall one.',
+  steps:['Select the Customer column','Transform ribbon → Format → Trim','Also run Format → Clean to strip any invisible non-printing characters'],
+  whatChanged:'Leading and trailing whitespace removed; the value now matches every other "Rohit Singh" row exactly.',
+  challenge:'Trim the First Name column in <code>PQ_Practice_Orders.csv</code> — a couple of rows carry visible leading/trailing spaces of their own.'},
+
+{tier:'Cleaning Text', title:'Fix Inconsistent Capitalization', dataset:'PQ_Practice_Orders.csv', column:'Channel',
+  before:'"ONLINE", "online", "Online" — three spellings, one channel', after:'"Online"',
+  issue:'Text grouping in Power Query and DAX is case-sensitive — three capitalizations of the same word can be read as three different <span class="term" data-term="dimension">categories</span>.',
+  impact:'A bar chart of "Orders by Channel" shows three thin Online bars instead of one tall one, and the real leader isn\'t obvious anymore.',
+  steps:['Select the Channel column','Transform → Format → lowercase, then Format → Capitalize Each Word','Spot-check the result in the column preview before moving on'],
+  whatChanged:'Every spelling variant now renders identically as "Online."'},
+
+{tier:'Cleaning Text', title:'Replace Values', dataset:'Sales_Dirty.csv', column:'Region',
+  before:'"Souths"', after:'"South"',
+  issue:'A one-letter typo creates a category that doesn\'t match anything else in the column.',
+  impact:'The South region\'s true total is undercounted by however many rows carry the typo — and a fifth "region" quietly appears in every chart.',
+  steps:['Right-click the Region column → Replace Values','Value To Find: "Souths" · Replace With: "South"','OK'],
+  whatChanged:'The typo\'d rows now roll up into the correct region.'},
+
+{tier:'Cleaning Text', title:'Detect Inconsistent Category Values', dataset:'PQ_Practice_Orders.csv', column:'Channel',
+  before:'Column looks fine at a glance — until you actually check it', after:'A confirmed, short list: Online, Store',
+  issue:'Casing and typo fixes only work once you know every variant that exists — easy to miss in a column with hundreds of rows.',
+  impact:'Fixing the 3 variants you noticed while missing a 4th ("Onlin") leaves a silent gap in the cleanup.',
+  steps:['Click the small chart icon above the column header, or turn on Column Profile in the status bar (bottom-left)','Column Distribution shows every distinct value with its count in one glance','Cross each variant off a checklist before deciding how to standardize it'],
+  whatChanged:'Nothing yet — this is a detection step, done right before Replace Values / capitalization fixes above.'},
+
+{tier:'Fixing Structure', title:'Rename Columns', dataset:'PQ_Practice_Orders.csv', column:'Qty',
+  before:'Qty', after:'Quantity',
+  issue:'Abbreviated headers are fine for the person who exported the file and meaningless to everyone downstream.',
+  impact:'A teammate building on your query has to guess what "Qty" means instead of reading it.',
+  steps:['Double-click the column header','Type the new name','Enter'],
+  whatChanged:'The column header is now self-explanatory — nothing about the data itself changed.'},
+
+{tier:'Fixing Structure', title:'Split a Column', dataset:'PQ_Practice_Orders.csv', column:'Ship City',
+  before:'"Bangalore, Karnataka"', after:'City = "Bangalore" · State = "Karnataka"',
+  issue:'City and State are jammed into one text field — you can\'t filter, slice, or map by State alone while they\'re combined.',
+  impact:'A Filled Map by State is impossible until the two values are separated.',
+  steps:['Select the Ship City column','Transform → Split Column → By Delimiter','Delimiter: Comma · Split at: Each occurrence of the delimiter','Rename the two new columns City and State'],
+  whatChanged:'One combined column becomes two clean, independently filterable columns.',
+  challenge:'Split every row, then build a Filled Map on the new State column.'},
+
+{tier:'Fixing Structure', title:'Merge Columns', dataset:'PQ_Practice_Orders.csv', column:'First Name + Last Name',
+  before:'First Name = "Anjali" · Last Name = "Kumar"', after:'Full Name = "Anjali Kumar"',
+  issue:'Two columns that always get used together are more convenient — and often required by a visual — as one.',
+  impact:'A Table visual meant to show "Customer" cleanly needs one column, not two side by side.',
+  steps:['Select First Name, then Ctrl-click Last Name','Transform → Merge Columns','Separator: Space · New column name: Full Name'],
+  whatChanged:'The two source columns are replaced by one combined Full Name column.'},
+
+{tier:'Fixing Structure', title:'Remove Unnecessary Columns', dataset:'PQ_Practice_Orders.csv', column:'Notes',
+  before:'A Notes column, blank on every single row', after:'Column removed',
+  issue:'A column with zero populated values carries zero analytical value — it only costs load time and clutters the Fields pane.',
+  impact:'Every teammate who opens the model has to scroll past a useless field to find the ones that matter.',
+  steps:['Right-click the Notes column header','Remove Columns'],
+  whatChanged:'The model is lighter and the Fields pane only lists columns that actually mean something.'},
+
+{tier:'Fixing Values', title:'Correct Data Types', dataset:'PQ_Practice_Orders.csv', column:'Qty',
+  before:'Type shown as ABC123 (Any/Text) — one row contains "N/A"', after:'Type: Whole Number',
+  issue:'A column stuck on a text-like type can\'t be summed, averaged, or used as a numeric axis, even though most of the values look like numbers.',
+  impact:'A "Total Units Sold" measure returns blank or an error until the type is fixed.',
+  steps:['Click the type icon on the Qty column header','Choose Whole Number','Power Query will flag the "N/A" row as an Error — that\'s expected, see the next lesson'],
+  whatChanged:'The column is now genuinely numeric, ready for SUM/AVERAGE — except the one row that can\'t convert.'},
+
+{tier:'Fixing Values', title:'Handle Null/Blank Values', dataset:'PQ_Practice_Orders.csv', column:'Qty (order ORD2006)',
+  before:'blank cell', after:'row removed (or flagged, not guessed)',
+  issue:'A blank Qty means you genuinely don\'t know how many units were ordered — inventing a number would fabricate a sale that may not be real.',
+  impact:'Silently guessing "1" here means every downstream total includes a number nobody can defend in a review.',
+  steps:['Right-click Qty → Remove Rows → Remove Blank Rows, if the row truly can\'t be recovered','Or: leave it and flag it for whoever owns the source data, rather than guessing'],
+  whatChanged:'The blank no longer silently pollutes SUM(Qty) — it\'s either gone or explicitly flagged.'},
+
+{tier:'Fixing Values', title:'Fill Missing Values', dataset:'PQ_Practice_Orders.csv', column:'Discount % (order ORD2017)',
+  before:'blank cell', after:'0',
+  issue:'Unlike a blank Qty, a blank Discount % has an obvious, defensible default — no value recorded almost always means no discount was applied.',
+  impact:'Leaving it blank (rather than 0) can break a DIVIDE or make the row silently drop out of a discount-rate average.',
+  steps:['Right-click Discount % → Replace Values','Value To Find: leave blank (null) · Replace With: 0'],
+  whatChanged:'Every row now has a usable number — filled with a default you can justify out loud, not a guess.'},
+
+{tier:'Fixing Values', title:'Handle Errors', dataset:'PQ_Practice_Orders.csv', column:'Qty (order ORD2011, "N/A")',
+  before:'Error (after changing the column to Whole Number)', after:'Row removed, or replaced with a justified default',
+  issue:'An Error value breaks any <span class="term" data-term="measure">measure</span> or visual that touches the column until it\'s dealt with — it doesn\'t just sit there quietly like a blank does.',
+  impact:'A published report with unresolved errors shows a red warning icon and can block scheduled refresh entirely.',
+  steps:['Right-click Qty → Replace Errors (with 0, or a value you can defend) — or —','Home → Remove Rows → Remove Errors, if the row should just be excluded','Never publish with unresolved errors in a column feeding a measure'],
+  whatChanged:'The column loads clean, with the error either explicitly resolved or the row excluded on purpose.'},
+
+{tier:'Dates', title:'Parse Dates', dataset:'PQ_Practice_Orders.csv', column:'Order Date',
+  before:'Type: Text (or a guessed date that\'s wrong for some rows)', after:'Type: Date, verified row by row',
+  issue:'Power Query guesses a date format from the first few rows and applies it to the whole column — it doesn\'t check every row.',
+  impact:'A wrongly-parsed date silently sorts a Line Chart out of chronological order without throwing any error at all.',
+  steps:['Click the type icon on Order Date','Choose Date','Scroll through a sample of rows to confirm none of them flipped day/month by mistake'],
+  whatChanged:'The column is genuinely date-typed and ready for a Year/Quarter/Month hierarchy.'},
+
+{tier:'Dates', title:'Handle Inconsistent Date Formats', dataset:'PQ_Practice_Orders.csv', column:'Order Date',
+  before:'03-01-2025, 2025/01/09, 2025-01-15, 25/01/2025 — four formats in one column', after:'One consistent format across every row',
+  issue:'Auto-detected parsing applies ONE format to the whole column and silently mis-reads every row that doesn\'t match it — 03-01-2025 read as "3rd January" vs "1st March" is a real, undetectable error with no red flag.',
+  impact:'A monthly trend line can be quietly wrong for months at a time with nothing in the report signaling it.',
+  steps:['Change the column type to Text first, undoing any auto-date guess','Fix the format at the source if possible — or split by format pattern and parse each batch with an explicit Date.FromText format','Only change the type to Date once every row uses one confirmed format'],
+  whatChanged:'Every row parses correctly, not just the ones that happened to match the auto-detected pattern.'},
+
+{tier:'Rows', title:'Remove Duplicates', dataset:'PQ_Practice_Orders.csv', column:'entire row (ORD2012 appears twice)',
+  before:'Two byte-for-byte identical rows', after:'One row',
+  issue:'An exact duplicate row is the same order counted twice — a data export glitch, not a second sale.',
+  impact:'Every total the duplicate touches — units, revenue, order count — is inflated by exactly one extra order.',
+  steps:['Select all columns (Ctrl+A on the column headers)','Right-click → Remove Duplicates'],
+  whatChanged:'The order is counted exactly once, matching reality.'},
+
+{tier:'Rows', title:'Filter Rows', dataset:'PQ_Practice_Orders.csv', column:'Status',
+  before:'Completed and Cancelled orders mixed together', after:'Cancelled rows removed',
+  issue:'A cancelled order is still a real row in the export, but it never became revenue.',
+  impact:'Leaving cancelled rows in inflates every sales total by orders that were never actually fulfilled.',
+  steps:['Click the filter arrow on the Status column header','Uncheck "Cancelled"','OK'],
+  whatChanged:'Only orders that actually shipped remain in the table.'},
+
+{tier:'Rows', title:'Sort Data', dataset:'PQ_Practice_Orders.csv', column:'Order Date or Unit Price',
+  before:'Rows in export order', after:'Rows in a chosen order, for review',
+  issue:'It\'s hard to eyeball whether a cleanup step worked when the rows are in arbitrary export order.',
+  impact:'Not a data-quality issue by itself — it\'s a working habit that makes every other lesson on this page easier to verify.',
+  steps:['Click the sort arrow on a column header, or Home → Sort','Ascending or Descending'],
+  whatChanged:'Nothing about the data — sorting here is for your own review, and does not control how a Power BI visual sorts later.'},
+
+{tier:'Extracting', title:'Extract Text', dataset:'PQ_Practice_Orders.csv', column:'Product Code',
+  before:'"SKU-1001-RED"', after:'"RED"',
+  issue:'The color/variant code is buried inside a compound ID instead of being its own filterable field.',
+  impact:'You can\'t build a "Sales by Color" chart until the color exists as its own column.',
+  steps:['Duplicate the Product Code column first, so the original ID survives','Transform → Extract → Text After Delimiter','Delimiter: "-" · From: the last occurrence'],
+  whatChanged:'A new column holds just the variant code, ready to use on its own.'},
+
+{tier:'Extracting', title:'Extract Numbers', dataset:'PQ_Practice_Orders.csv', column:'Product Code',
+  before:'"SKU-1001-RED"', after:'"1001"',
+  issue:'The numeric SKU is mixed with letters, so it can\'t be sorted or matched numerically as-is.',
+  impact:'Matching this file to another system\'s numeric-only SKU list fails until the digits are isolated.',
+  steps:['On a duplicated copy of Product Code, Transform → Extract → Digits','(Or a Custom Column: <code>Text.Select([Product Code], {"0".."9"})</code>)'],
+  whatChanged:'A clean numeric SKU column exists alongside the original compound code.'},
+
+{tier:'Computed Columns', title:'Conditional Columns', dataset:'PQ_Practice_Orders.csv', column:'Qty',
+  before:'No size label on an order', after:'Order Size = Small / Medium / Large',
+  issue:'"Qty = 4" doesn\'t mean anything to a reader scanning a table until it\'s translated into a business-meaningful bucket.',
+  impact:'A table sorted or colored by Order Size communicates instantly; one sorted by raw Qty makes the reader do the math themselves.',
+  steps:['Add Column → Conditional Column','Column Name: Order Size','If Qty is less than 2 then "Small" · else if Qty is less than or equal to 3 then "Medium" · else "Large"'],
+  whatChanged:'A new, human-readable category column exists without touching the underlying Qty values.'},
+
+{tier:'Computed Columns', title:'Custom Columns', dataset:'PQ_Practice_Orders.csv', column:'Qty × Unit Price',
+  before:'Qty and Unit Price as two separate numbers', after:'Line Total, one computed column',
+  issue:'The line-item revenue for an order doesn\'t exist as a column — it has to be calculated.',
+  impact:'Without it, every "Total Revenue" visual needs its own DAX measure instead of a simple SUM.',
+  steps:['Add Column → Custom Column','Column Name: Line Total','Formula: <code>= [Qty] * [Unit Price]</code>'],
+  whatChanged:'A new column exists that a plain SUM can now total directly. (The one row with Qty = "N/A" will error here too — same fix as the Handle Errors lesson above.)'},
+
+{tier:'Computed Columns', title:'Group Data', dataset:'PQ_Practice_Orders.csv', column:'Category',
+  before:'One row per order', after:'One row per Category, with totals',
+  issue:'Sometimes the question is about the category as a whole, not any individual order — that needs summary rows, not detail rows.',
+  impact:'A quick "how many orders and units per Category" check otherwise means building a whole separate visual just to eyeball it.',
+  steps:['Select the Category column','Transform → Group By','New column 1: Order Count · Operation: Count Rows','New column 2: Total Qty · Operation: Sum · Column: Qty'],
+  whatChanged:'One summarized table, one row per Category — a separate query from the detail-level Orders table.'},
+
+{tier:'Combining Data', title:'Merge Queries', dataset:'PQ_Practice_Orders.csv + PQ_Practice_Returns.csv', column:'Order ID (shared key)',
+  before:'Two separate tables, joined by nothing yet', after:'Orders with Return Reason and Refund Amount attached where they exist',
+  issue:'Return information lives in a completely separate export — an order table alone can\'t show which orders came back.',
+  impact:'Without merging, "which products get returned most" is impossible to answer from either file alone.',
+  steps:['Home → Merge Queries','First table: Orders · matching column: Order ID','Second table: Returns · matching column: Order ID','Join Kind: Left Outer (keep every order, attach return info only where it exists)','Expand the new column to bring in Return Reason and Refund Amount'],
+  whatChanged:'One combined table — every order, with return details attached for the ones that have them, blank for the ones that don\'t.'},
+
+{tier:'Combining Data', title:'Append Queries', dataset:'PQ_Practice_Orders.csv + PQ_Practice_Orders_Feb.csv', column:'(same columns, different rows)',
+  before:'Two monthly export files, same structure', after:'One table, both months stacked',
+  issue:'A new month\'s export always arrives as its own file with the exact same columns as the last one.',
+  impact:'Analyzing month-over-month trend is impossible while the months live in two separate tables.',
+  steps:['Home → Append Queries → Append Queries as New','Table 1: the first month\'s Orders query','Table 2: the second month\'s Orders query'],
+  whatChanged:'One long table, same columns, every row from both months — ready for a real trend line.'},
+
+{tier:'Combining Data', title:'Pivot / Unpivot', dataset:'PQ_Practice_Wide.csv', column:'Jan, Feb, Mar, Apr',
+  before:'Region, Jan, Feb, Mar, Apr — one column per month', after:'Region, Month, Sales — one row per Region + Month',
+  issue:'A chart or measure can\'t filter or slice by "Month" while January, February, March and April are each their own separate column.',
+  impact:'A Line Chart of Sales trend by Region is impossible to build against the wide layout — Power BI needs Month as values in ONE column, not four column headers.',
+  steps:['Select the Region column (the one column to KEEP as-is)','Right-click → Unpivot Other Columns','Rename the two new columns to Month and Sales'],
+  whatChanged:'The same numbers, reshaped from wide to long — now a normal Line Chart or Matrix can use Month as an axis.'},
 ];
-document.getElementById('pqExamples').innerHTML = PQ_EXAMPLES.map(e => `
-  <div class="card">
-    <span class="pill bad">${e.issue}</span>
-    <div style="font-size:.78rem;color:var(--text-muted);margin-top:8px">${e.col}</div>
-    <div style="display:flex;align-items:center;gap:10px;margin-top:8px;font-family:var(--font-mono);font-size:.85rem">
-      <span style="color:var(--bad)">${e.before}</span><span style="color:var(--text-muted)">→</span><span style="color:var(--good)">${e.after}</span>
+
+let pqHTML = '';
+let pqTier = '';
+let pqNum = 0;
+PQ_LESSONS.forEach(l => {
+  if(l.tier !== pqTier){ pqTier = l.tier; pqHTML += `<h3 style="margin-top:26px">${pqTier}</h3>`; }
+  pqNum++;
+  pqHTML += `
+  <details class="card" style="margin-bottom:10px;padding:14px 18px">
+    <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem;display:flex;justify-content:space-between;gap:10px;align-items:center">
+      <span>${pqNum}. ${l.title} <span style="font-weight:400;font-size:.78rem;color:var(--text-muted);font-family:var(--font-mono)">— ${l.dataset}, ${l.column}</span></span>
+    </summary>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+      <div class="grid grid-2">
+        <div><p style="font-size:.85rem"><b>Before:</b> <code>${l.before}</code></p></div>
+        <div><p style="font-size:.85rem"><b>After:</b> <code>${l.after}</code></p></div>
+      </div>
+      <p style="font-size:.9rem;margin-top:8px"><b>Why it's a problem:</b> ${l.issue}</p>
+      <p style="font-size:.9rem;color:var(--text-muted)"><b>Business impact:</b> ${l.impact}</p>
+      <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+      <ol class="steps">${l.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+      <p style="font-size:.85rem;margin-top:6px"><b>What changed:</b> ${l.whatChanged}</p>
+      ${l.challenge ? `<div class="callout" style="margin-top:10px"><b>Try it yourself:</b> ${l.challenge}</div>` : ''}
     </div>
-    <p style="font-size:.83rem;margin-top:8px">${e.fix}</p>
-  </div>`).join('');
+  </details>`;
+});
+document.getElementById('pqLessons').innerHTML = pqHTML;
 </script>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tables &amp; Matrix — Power BI for MBA Analytics</title>
+<style>
+  :root{
+    --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
+    --text:#14171F; --text-muted:#565B6B; --border:#DEDACE;
+    --accent:#C97A1E; --accent-ink:#1B1300; --accent-soft:#F3E1C4;
+    --teal:#2A6560; --teal-soft:#DCEBE8;
+    --good:#2E7D4F; --good-soft:#E3F1E7; --bad:#B3402D; --bad-soft:#F6E4DF;
+    --shadow: 0 1px 2px rgba(20,23,31,.06), 0 8px 24px -12px rgba(20,23,31,.18);
+    --radius:12px;
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --font-body: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", Consolas, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12141B; --surface:#1A1D27; --surface-2:#1F2330; --surface-3:#282D3D;
+      --text:#ECEAE2; --text-muted:#A2A6B5; --border:#2C3040;
+      --accent:#E8A23D; --accent-ink:#1B1300; --accent-soft:#3A2E15;
+      --teal:#5FA69E; --teal-soft:#173330;
+      --good:#4EA872; --good-soft:#153524; --bad:#E06A54; --bad-soft:#3A1E18;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12141B; --surface:#1A1D27; --surface-2:#1F2330; --surface-3:#282D3D;
+    --text:#ECEAE2; --text-muted:#A2A6B5; --border:#2C3040;
+    --accent:#E8A23D; --accent-ink:#1B1300; --accent-soft:#3A2E15;
+    --teal:#5FA69E; --teal-soft:#173330;
+    --good:#4EA872; --good-soft:#153524; --bad:#E06A54; --bad-soft:#3A1E18;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.55);
+  }
+  :root[data-theme="light"]{
+    --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
+    --text:#14171F; --text-muted:#565B6B; --border:#DEDACE;
+    --accent:#C97A1E; --accent-ink:#1B1300; --accent-soft:#F3E1C4;
+    --teal:#2A6560; --teal-soft:#DCEBE8;
+    --good:#2E7D4F; --good-soft:#E3F1E7; --bad:#B3402D; --bad-soft:#F6E4DF;
+    --shadow: 0 1px 2px rgba(20,23,31,.06), 0 8px 24px -12px rgba(20,23,31,.18);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font-body);
+    font-size:15.5px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{ font-family:var(--font-display); font-weight:700; text-wrap:balance; margin:0 0 .4em; color:var(--text); }
+  h1{ font-size:2.1rem; letter-spacing:-.01em; }
+  h2{ font-size:1.5rem; margin-top:0; }
+  h3{ font-size:1.15rem; }
+  h4{ font-size:1rem; font-family:var(--font-body); font-weight:700; }
+  p{ margin:.6em 0; max-width:68ch; }
+  a{ color:var(--teal); }
+  .eyebrow{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+  .lede{ font-size:1.05rem; color:var(--text-muted); max-width:62ch; }
+  strong{ color:var(--text); }
+  code{ font-family:var(--font-mono); background:var(--surface-2); border:1px solid var(--border); border-radius:5px; padding:.1em .4em; font-size:.88em; }
+  ::selection{ background:var(--accent-soft); }
+  :focus-visible{ outline:2.5px solid var(--accent); outline-offset:2px; border-radius:4px; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+
+  /* ---------- layout shell ---------- */
+  .app{ display:flex; min-height:100vh; }
+  .sidebar{
+    width:272px; flex:none; background:var(--surface-2); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto;
+  }
+  .brand{ padding:22px 20px 14px; border-bottom:1px solid var(--border); }
+  .brand .mark{ display:flex; align-items:center; gap:10px; }
+  .brand .mark svg{ flex:none; }
+  .brand h1{ font-size:1.05rem; margin:0; line-height:1.25; }
+  .brand .sub{ font-size:.78rem; color:var(--text-muted); margin-top:3px; font-family:var(--font-mono); }
+
+  .navgroup{ padding:14px 12px; }
+  .navgroup .label{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
+  .navbtn{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:none; border:none;
+    color:var(--text); font-family:var(--font-body); font-size:.88rem; padding:8px 10px; border-radius:8px; cursor:pointer;
+    text-decoration:none;
+  }
+  .navbtn .num{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-muted); width:1.4em; flex:none; }
+  .navbtn:hover{ background:var(--surface-3); }
+  .navbtn.active{ background:var(--accent); color:var(--accent-ink); font-weight:700; }
+  .navbtn.active .num{ color:var(--accent-ink); opacity:.7; }
+
+  .themebar{ margin-top:auto; padding:14px 20px 20px; border-top:1px solid var(--border); display:flex; gap:8px; }
+  .themebtn{ flex:1; font-family:var(--font-mono); font-size:.72rem; padding:7px 4px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text-muted); cursor:pointer; }
+  .themebtn.active{ border-color:var(--accent); color:var(--accent); }
+
+  .main-col{ flex:1; min-width:0; display:flex; flex-direction:column; }
+  .topbar{
+    position:sticky; top:0; z-index:5; background:var(--bg); border-bottom:1px solid var(--border);
+    padding:14px 40px; display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .topbar .crumb{ font-family:var(--font-mono); font-size:.78rem; color:var(--text-muted); }
+  .topbar .crumb b{ color:var(--text); font-weight:600; }
+  .menutoggle{ display:none; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:7px 10px; cursor:pointer; }
+
+  .content{ flex:1; padding:36px 40px 80px; max-width:980px; }
+
+  /* ---------- reusable components ---------- */
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow); }
+  .grid{ display:grid; gap:16px; }
+  .grid-2{ grid-template-columns:1fr 1fr; }
+  .grid-3{ grid-template-columns:repeat(3,1fr); }
+  @media (max-width:760px){ .grid-2,.grid-3{ grid-template-columns:1fr; } }
+
+  .callout{ border-left:3px solid var(--teal); background:var(--teal-soft); border-radius:0 8px 8px 0; padding:12px 16px; margin:14px 0; font-size:.93rem; }
+  .callout.warn{ border-color:var(--accent); background:var(--accent-soft); }
+  .callout b{ color:var(--text); }
+
+  .steps{ counter-reset:step; list-style:none; padding:0; margin:14px 0; }
+  .steps li{ counter-increment:step; position:relative; padding:6px 0 6px 38px; margin-bottom:2px; font-size:.94rem; }
+  .steps li::before{ content:counter(step); position:absolute; left:0; top:5px; width:24px; height:24px; border-radius:50%; background:var(--surface-3); color:var(--text); font-family:var(--font-mono); font-size:.75rem; display:flex; align-items:center; justify-content:center; font-weight:700; }
+
+  .clickpath{ font-family:var(--font-mono); font-size:.85rem; background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:12px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0; }
+  .clickpath .seg{ background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:3px 9px; }
+  .clickpath .arrow{ color:var(--text-muted); }
+
+  table{ width:100%; border-collapse:collapse; font-size:.88rem; }
+  th,td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+  th{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); font-weight:600; }
+  td.num, th.num{ font-variant-numeric:tabular-nums; text-align:right; }
+  .table-wrap{ overflow-x:auto; margin:14px 0; border:1px solid var(--border); border-radius:10px; }
+  .table-wrap table{ margin:0; }
+  .table-wrap th,.table-wrap td{ border-bottom:1px solid var(--border); }
+  tr:last-child td{ border-bottom:none; }
+
+  .codeblock{ background:#181A20; color:#E9E6DB; font-family:var(--font-mono); font-size:.85rem; border-radius:10px; padding:16px 18px; overflow-x:auto; line-height:1.55; margin:14px 0; }
+  .codeblock .c-fn{ color:#E8A23D; } .codeblock .c-str{ color:#8FBF9F; } .codeblock .c-com{ color:#7C8194; }
+
+  .pill{ display:inline-flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:.72rem; padding:3px 10px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:var(--text-muted); }
+  .pill.good{ background:var(--good-soft); color:var(--good); border-color:transparent; }
+  .pill.bad{ background:var(--bad-soft); color:var(--bad); border-color:transparent; }
+  .pill.table{ background:var(--teal-soft); color:var(--teal); border-color:transparent; font-weight:700; }
+
+  /* field → well animated flow diagram */
+  .fieldflow{ display:flex; align-items:center; gap:10px; margin:8px 0; font-size:.82rem; flex-wrap:wrap; }
+  .fieldflow .chip{ font-family:var(--font-mono); font-size:.78rem; padding:4px 10px; border-radius:999px; border:1px solid var(--border); white-space:nowrap; background:var(--surface-2); color:var(--text); }
+  .fieldflow .chip.well{ background:var(--accent-soft); color:var(--accent-ink); border-color:transparent; font-weight:700; }
+  .flowline{ position:relative; flex:1 1 40px; min-width:32px; height:2px; background:var(--border); }
+  .flowline .dot{ position:absolute; top:50%; width:5px; height:5px; margin-top:-2.5px; border-radius:50%; background:var(--accent); opacity:0; animation:flowdot 1.8s linear infinite; }
+  .flowline .dot:nth-child(2){ animation-delay:.6s; }
+  .flowline .dot:nth-child(3){ animation-delay:1.2s; }
+  @keyframes flowdot{ 0%{ left:0%; opacity:0; } 12%{ opacity:1; } 88%{ opacity:1; } 100%{ left:100%; opacity:0; } }
+
+  /* terminology hint system — click/tap to toggle, same on desktop + mobile */
+  .term{ font:inherit; font-weight:600; color:var(--teal); background:var(--teal-soft); border:none; border-radius:4px; padding:0 5px; cursor:pointer; position:relative; }
+  .term:hover{ filter:brightness(1.08); }
+  .term.term-open{ background:var(--accent); color:var(--accent-ink); }
+  .term-pop{ position:absolute; left:0; top:calc(100% + 6px); z-index:10; width:max(220px,min(300px,80vw)); background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); padding:10px 12px; font-size:.82rem; font-weight:400; line-height:1.5; text-align:left; white-space:normal; }
+
+  /* mock mini-report — hand-built interactive demo, no charting library */
+  .mockreport{ border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; background:var(--surface); margin:14px 0; }
+  .mockreport-controls{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .mockreport-controls .btn.active{ background:var(--accent); color:var(--accent-ink); border-color:transparent; }
+  .mockgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:760px){ .mockgrid{ grid-template-columns:1fr; } }
+  .mocktile{ border:1px solid var(--border); border-radius:8px; padding:12px; background:var(--surface-2); transition:opacity .2s ease; }
+  .mocktile.dimmed{ opacity:.28; }
+  .mocktile-label{ font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:8px; }
+  .mockbars{ display:flex; align-items:flex-end; gap:6px; height:70px; }
+  .mockbar{ flex:1; background:var(--teal); border-radius:3px 3px 0 0; opacity:.85; transition:opacity .2s ease, background .2s ease, height .2s ease; }
+  .mockbar.hi{ background:var(--accent); opacity:1; }
+  .mockkpi{ font-family:var(--font-display); font-size:1.6rem; font-weight:700; }
+
+  .section-head{ margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border); }
+  .section-head .eyebrow{ display:block; margin-bottom:8px; }
+
+  figure{ margin:20px 0; }
+  figure svg{ max-width:100%; height:auto; display:block; }
+  figure img{ max-width:100%; height:auto; display:block; border:1px solid var(--border); border-radius:10px; }
+  figcaption{ font-size:.83rem; color:var(--text-muted); margin-top:10px; text-align:center; }
+
+  .btn{ display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:var(--accent-ink); border:none; font-family:var(--font-body); font-weight:700; font-size:.85rem; padding:9px 16px; border-radius:8px; cursor:pointer; text-decoration:none; }
+  .btn:hover{ filter:brightness(1.06); }
+  .btn.ghost{ background:transparent; color:var(--text); border:1px solid var(--border); }
+  .btn.sm{ padding:6px 12px; font-size:.78rem; }
+
+  .kicker-list{ list-style:none; padding:0; margin:14px 0; display:grid; gap:10px; }
+  .kicker-list li{ display:flex; gap:12px; align-items:flex-start; font-size:.94rem; }
+  .kicker-list .ico{ flex:none; width:26px; height:26px; border-radius:7px; background:var(--teal-soft); color:var(--teal); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:.75rem; font-weight:700; }
+
+  footer.pagefoot{ margin-top:40px; padding-top:18px; border-top:1px solid var(--border); font-size:.8rem; color:var(--text-muted); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  footer.pagefoot a{ color:var(--text-muted); text-decoration:none; font-weight:600; }
+  footer.pagefoot a:hover{ color:var(--teal); }
+
+  @media (max-width:860px){
+    .sidebar{ position:fixed; inset:0 auto 0 0; z-index:20; transform:translateX(-100%); transition:transform .2s ease; box-shadow:var(--shadow); }
+    .sidebar.open{ transform:translateX(0); }
+    .menutoggle{ display:inline-flex; }
+    .content{ padding:24px 18px 60px; }
+    .topbar{ padding:12px 18px; }
+  }
+  @media print{
+    .sidebar,.topbar,.no-print{ display:none !important; }
+    .content{ padding:0; max-width:none; }
+    body{ background:#fff; color:#000; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="mark">
+        <svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Course mark">
+          <rect x="1" y="1" width="28" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="7" y="16" width="3.6" height="7" rx="1" fill="currentColor"/>
+          <rect x="13.2" y="11" width="3.6" height="12" rx="1" fill="var(--accent)"/>
+          <rect x="19.4" y="7" width="3.6" height="16" rx="1" fill="currentColor"/>
+        </svg>
+        <div>
+          <h1>Power BI Portal</h1>
+          <div class="sub">MBA Analytics · Beginner Track</div>
+        </div>
+      </div>
+    </div>
+        <div class="navgroup">
+      <div class="label">Overview</div>
+      <a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 1: Introduction to BI &amp; BI Tools</div>
+      <a class="navbtn" href="17-understanding-bi.html"><span class="num">1</span> Understanding Business Intelligence</a>
+      <a class="navbtn" href="18-bi-tools-overview.html"><span class="num">2</span> Overview of BI Tools</a>
+      <a class="navbtn" href="01-architecture.html"><span class="num">3</span> Power BI Architecture</a>
+      <a class="navbtn" href="03-connecting-data.html"><span class="num">4</span> Connecting to Data Sources</a>
+      <a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">+</span> SQL Server &amp; AdventureWorks</a>
+      <a class="navbtn" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a>
+      <a class="navbtn" href="05-visualizations.html"><span class="num">6</span> Basic Visualizations</a>
+      <a class="navbtn" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 2: Advanced Visualizations</div>
+      <a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a>
+      <a class="navbtn" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a>
+      <a class="navbtn" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a>
+      <a class="navbtn" href="12-interactivity.html"><span class="num">4</span> Interactivity</a>
+      <a class="navbtn active" href="13-tables-matrix.html"><span class="num">5</span> Tables &amp; Matrix</a>
+      <a class="navbtn" href="14-conditional-formatting.html"><span class="num">6</span> Conditional Formatting</a>
+      <a class="navbtn" href="15-filters.html"><span class="num">7</span> Filters</a>
+      <a class="navbtn" href="16-slicers.html"><span class="num">8</span> Slicers</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 3: Introduction to DAX</div>
+      <a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a>
+      <a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a>
+      <a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a>
+      <a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 4: Power Query Editor</div>
+      <a class="navbtn" href="04-power-query.html"><span class="num">1</span> Power Query Editor</a>
+      <a class="navbtn" href="23-m-language-etl.html"><span class="num">2</span> M Language &amp; End-to-End ETL</a>
+      <a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">3</span> KPIs &amp; Single-Page Dashboard</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Module 5: Power BI Service</div>
+      <a class="navbtn" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a>
+      <a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a>
+      <a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a>
+      <a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Practice</div>
+      <a class="navbtn" href="06-exercises.html"><span class="num">★</span> 5 Exercises</a>
+      <a class="navbtn" href="07-final-project.html"><span class="num">★</span> Final Project</a>
+      <a class="navbtn" href="quiz.html"><span class="num">★</span> Self-Test Quiz</a>
+    </div>
+    <div class="navgroup">
+      <div class="label">Reference</div>
+      <a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a>
+      <a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a>
+    </div>
+    <div class="themebar">
+      <button class="themebtn" data-theme-choice="light">☀ Light</button>
+      <button class="themebtn" data-theme-choice="dark">☾ Dark</button>
+      <button class="themebtn" data-theme-choice="auto">Auto</button>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <div class="topbar">
+      <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Tables &amp; Matrix</b></div>
+      <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
+    </div>
+
+    <main class="content">
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Tables &amp; Matrix</span>
+        <h1>Sometimes a chart is the wrong answer. Sometimes the audience just wants the numbers.</h1>
+        <p class="lede">A Table and a Matrix are Power BI's two grid visuals — no bars, no lines, just rows and columns of exact values. A <b>Table</b> lists rows flat, one per record, the way a spreadsheet does. A <b>Matrix</b> groups rows into a <button class="term" data-term="hierarchy">hierarchy</button> and subtotals automatically, the way a PivotTable does. Same underlying data, two very different shapes — this page builds both from the same Sales rows so the difference is concrete, not theoretical.</p>
+      </div>
+
+      <figure>
+        <img src="images/table-vs-matrix.svg" alt="Comparison: a Table shows one flat row per record; a Matrix groups the same rows under Region and Category headers with subtotals.">
+        <figcaption>Same rows, two shapes — the worked example below builds both from real Sales data.</figcaption>
+      </figure>
+
+      <h2>Table</h2>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Building it: columns, measures &amp; sorting</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A Table visual lists one row per record in your data, with every field you drag in becoming a column — plain columns and DAX <button class="term" data-term="measure">measures</button> sit side by side with no special treatment.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> An ops manager wants a literal order log — every Order ID, who bought it, and what it made — to sanity-check the summary charts against, or to export for a follow-up email.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Visualizations pane → Table</li>
+            <li>Drag Order ID, Customer, Region, Category, Sub Category into Columns — each adds a plain field, no aggregation</li>
+            <li>Drag Sales into Columns too — a numeric column defaults to Sum, shown per row here since each row is already one order</li>
+            <li>Click any column header to sort by it; click again to reverse; a small arrow shows the active sort</li>
+            <li>Drag column borders in the header to resize, or drag a header left/right to reorder columns</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Dropping every available field into a Table "just in case." A Table with 15 columns forces horizontal scrolling and defeats the point — include only what the reader actually needs to check or export.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Formatting: alternating rows, header style &amp; borders</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> The Format pane (paint-roller icon) controls how the grid itself looks, separately from the data in it — row banding, header color/font, and gridlines.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> A wide table with 20+ rows is hard to scan in a single flat color — the eye loses which row it's on. Small formatting choices carry real readability.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Format pane → <b>Column headers</b> → set font weight, background fill, and text color</li>
+            <li>Format pane → <b>Grid</b> → turn on <b>Row banding</b> for alternating row colors, and pick the banded color</li>
+            <li>Format pane → <b>Grid</b> → set vertical/horizontal gridline weight and color, or turn them off for a cleaner look</li>
+            <li>Format pane → <b>Values</b> → adjust text size and cell padding once columns feel cramped</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> A subtle row band (a faint tint, not a bright color) does more for scanability than heavy borders ever will — use borders sparingly, mainly to separate the header from the data.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Totals</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A pinned row at the bottom of the table showing one <button class="term" data-term="aggregation">aggregation</button> per numeric column — the same idea as an Excel SUM row, built in.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A finance reviewer scrolling a table of 80 orders still needs the grand total of Sales and Profit visible without scrolling back to the top or building a separate KPI card.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Format pane → <b>Total</b> → toggle on (it's on by default for a new Table)</li>
+            <li>Still in <b>Total</b>, click each numeric column's dropdown to choose its aggregation — Sum, Average, Count, Min, or Max, set independently per column</li>
+            <li>Turn the toggle off entirely for a Table meant to be scanned row-by-row, where a totals row would just be noise</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Leaving every numeric column defaulted to Sum. Averaging Discount % or Credit Score and summing it instead produces a number nobody can use — check the aggregation per column, not just per table.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Data bars &amp; icons — in-cell visual cues</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Two ways to fold a small chart into a single cell. <b>Data bars</b> shade the cell background proportional to the value, showing relative magnitude without leaving the grid. <b>Icons</b> place a small conditional symbol — commonly an up/flat/down arrow — next to the number based on which rule it matches.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A Sales column with data bars lets a manager spot the biggest orders at a glance, in the same table they're already reading line by line. A Profit column with icons flags which orders lost money with a red down arrow, no separate chart required.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Select the Table, then in the Format pane find <b>Cell elements</b></li>
+            <li>Turn on <b>Data bars</b>, pick the numeric column (e.g. Sales), and set the bar color, minimum, and maximum</li>
+            <li>Turn on <b>Icons</b> instead (or alongside), pick the column (e.g. Profit), choose an icon set, and set the rule thresholds — e.g. below 0 = red down arrow, above 0 = green up arrow</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Pick one — data bars or icons — per column, not both; stacking both in the same cell gets visually noisy fast.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Conditional formatting on a Table</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> <button class="term" data-term="conditionalformatting">Conditional formatting</button> rules can also color a cell's background or font based on its value — the classic red/yellow/green pattern, applied to a whole column at once.</p>
+          <p style="font-size:.9rem">It lives in the same <b>Cell elements</b> panel as data bars and icons above, and the full rule-building walkthrough — background color, font color, rules vs. gradients, applying it to one column vs. the whole table — is its own page next: <a href="14-conditional-formatting.html">Conditional Formatting</a>. This page just flags that the option sits here, on a Table exactly like it does on a Matrix.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Search within a table</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A magnifying-glass icon in the visual's header that filters the Table's own rows to whatever text is typed — a live find-as-you-type, scoped to that one visual.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A support rep pulls up the order table during a customer call and types the customer's name to jump straight to their rows, instead of scrolling a hundred-row list.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Select the Table → Format pane → <b>Header icons</b> → turn on <b>Search</b></li>
+            <li>The magnifying-glass icon appears in the visual's top-right corner at report view (not edit view) — click it and type</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Confusing this with a report-level <button class="term" data-term="slicer">slicer</button> — table search only filters that one Table visual, not the rest of the page, and it isn't saved as part of the report's state the way a bookmark or slicer selection is.</div>
+        </div>
+      </details>
+
+      <h2 style="margin-top:30px">Matrix</h2>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Rows, Columns &amp; Values wells</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A Matrix has three field wells instead of a Table's one flat Columns well. <b>Rows</b> groups records down the left side — drop more than one field in and it becomes a hierarchy, nested in the order you dropped them. <b>Columns</b> optionally spreads a field across the top instead, turning categories into their own set of columns (a true cross-tab). <b>Values</b> holds the numbers, always aggregated — never one row per record the way a Table shows them.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A regional head wants Sales broken down by Region, then by Category inside each region, as a compact grid rather than one row per individual order.</p>
+          <div style="margin-top:12px">
+            <p style="font-size:.85rem;font-weight:700;margin-bottom:8px">Field mapping &nbsp;<span class="pill table">Table: Sales</span></p>
+            <div class="fieldflow">
+              <span class="chip">Sales[Region]</span>
+              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              <span class="chip well">Rows (level 1)</span>
+            </div>
+            <div class="fieldflow">
+              <span class="chip">Sales[Category]</span>
+              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              <span class="chip well">Rows (level 2, nested)</span>
+            </div>
+            <div class="fieldflow">
+              <span class="chip">Sales[Sales]  (Sum)</span>
+              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              <span class="chip well">Values</span>
+            </div>
+            <p style="font-size:.83rem;color:var(--text-muted);margin-top:8px">All three fields live on the one Sales table — the full worked example is below, under "Table vs. Matrix."</p>
+          </div>
+          <p style="font-size:.85rem;font-weight:700;margin-top:14px;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Visualizations pane → Matrix</li>
+            <li>Drag Region into Rows</li>
+            <li>Drag Category into Rows too, underneath Region — Power BI nests it automatically as a second hierarchy level</li>
+            <li>Drag Sales into Values — it aggregates as Sum by default</li>
+            <li>Optional: drag a field like Region into Columns instead of Rows to lay Sales across the top as a true cross-tab</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Dragging a raw column (not a measure) into Values and expecting it to behave like a Table's per-row column — in a Matrix, every field in Values is aggregated, because Matrix rows represent GROUPS of records, not single records.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Hierarchies &amp; expand/collapse</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Stacking two or more fields in the Rows well (Region, then Category) builds a <button class="term" data-term="hierarchy">hierarchy</button> — Power BI shows a +/- icon next to each Region row so the viewer can open it to see the Categories inside, without those rows always being on screen.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A one-page executive view starts fully collapsed — just four Region rows and their totals. The CFO expands only the region that looks off, instead of scrolling past every Category for every Region up front.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Click the + icon next to a Region row to reveal just that region's Categories — "expand to next level," one branch at a time</li>
+            <li>Click the − icon to collapse that branch back</li>
+            <li>Right-click any row → <b>Expand</b> → <b>Expand entire hierarchy</b> to open every Region's Categories at once, in a single click</li>
+            <li>Right-click → <b>Collapse</b> → <b>Collapse entire hierarchy</b> to snap everything back down to just the top level</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Ship a Matrix collapsed to the top level by default (Format pane → Row headers won't remember an expanded state on refresh anyway) — let the viewer choose to drill into what they care about.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Subtotals &amp; Grand totals</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Because a Matrix groups rows, it can show a subtotal at each level of the hierarchy — a Region's total across all its Categories — on top of the single Grand Total across everything, at the very bottom.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> Collapsed, a Region/Category Matrix already tells the regional head each region's total Sales — that number is the Region subtotal, visible with zero clicks, before anyone expands anything.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Format pane → <b>Subtotals</b> → toggle <b>Row subtotals</b> on or off</li>
+            <li>With multiple row levels, use <b>Per row level</b> to turn subtotals off for just one level (e.g. keep the Region subtotal, drop a redundant Category-only subtotal) while keeping others on</li>
+            <li>Same panel → toggle <b>Column subtotals</b> if a field is in Columns too</li>
+            <li>Grand Total is controlled separately in the same <b>Subtotals</b> section</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Turning off Grand Total on a report a finance audience will screenshot — losing the one number everyone checks first is a bigger problem than a slightly taller table.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Stepped layout</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> With stepped layout on (the default), each nested row level indents further right, so Category rows visually sit "inside" their Region, all sharing one row-header column. Turn it off and every hierarchy level gets its own separate, aligned column instead — Region in one column, Category in the next, side by side.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A dense Matrix with three nested levels (Region → Category → Sub Category) can get visually cramped once stepped — indentation alone stops making the level obvious. Turning stepped layout off gives each level its own labeled column, easier to scan at that depth.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Select the Matrix → Format pane → <b>Row headers</b></li>
+            <li>Toggle <b>Stepped layout</b> off</li>
+            <li>Adjust <b>Stepped layout indentation</b> instead, if keeping it on but the indent feels too wide or too narrow</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Keep stepped layout on for 2-level hierarchies — it reads naturally. Consider turning it off once a hierarchy hits 3+ levels, or once viewers keep asking "which column is this indented under?"</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Formatting &amp; conditional formatting on a Matrix</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A Matrix takes the same row banding, header style, and gridline options as a Table (Format pane → Grid / Column headers / Row headers), plus its own subtotal/Grand Total styling. <button class="term" data-term="conditionalformatting">Conditional formatting</button> — background color, font color, data bars, icons — applies the same way too, in <b>Cell elements</b>, and can be scoped to apply across every level of the hierarchy or only the values shown at one level.</p>
+          <p style="font-size:.9rem">The full conditional formatting workflow — rules, gradients, and the level-scoping option specific to a Matrix — is covered in depth on the next page: <a href="14-conditional-formatting.html">Conditional Formatting</a>.</p>
+        </div>
+      </details>
+
+      <div class="callout" style="margin-top:14px"><b>Table vs. Matrix, in one line:</b> A Table shows records. A Matrix shows groups. If the audience needs to see or export individual rows, use a Table. If the audience needs a summary that opens up on demand, use a Matrix.</div>
+
+      <h2 style="margin-top:30px">Same Sales data, two shapes: Region → Category</h2>
+      <p>Below is the same six orders from the Sales dataset (<code>Order ID, Customer, Region, Sales, Profit, Category, Sub Category, Date, Discount, Quantity</code>), built once as a flat Table and once as a Matrix grouped by <b>Region → Category</b>. The numbers reconcile exactly — a Matrix isn't different data, it's the same data organized differently.</p>
+
+      <div class="grid grid-2" style="margin-top:14px">
+        <div>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:6px">As a Table — one row per order</p>
+          <div class="table-wrap">
+            <table>
+              <tr><th>Order ID</th><th>Customer</th><th>Region</th><th>Category</th><th>Sub Category</th><th class="num">Sales</th></tr>
+              <tr><td>ORD-1042</td><td>Priya Nair</td><td>West</td><td>Furniture</td><td>Chairs</td><td class="num">₹12,400</td></tr>
+              <tr><td>ORD-1043</td><td>Rohan Mehta</td><td>West</td><td>Furniture</td><td>Tables</td><td class="num">₹8,900</td></tr>
+              <tr><td>ORD-1044</td><td>Priya Nair</td><td>West</td><td>Technology</td><td>Phones</td><td class="num">₹21,300</td></tr>
+              <tr><td>ORD-1045</td><td>Amit Shah</td><td>East</td><td>Furniture</td><td>Chairs</td><td class="num">₹9,600</td></tr>
+              <tr><td>ORD-1046</td><td>Neha Kulkarni</td><td>East</td><td>Technology</td><td>Phones</td><td class="num">₹15,750</td></tr>
+              <tr><td>ORD-1047</td><td>Amit Shah</td><td>East</td><td>Technology</td><td>Accessories</td><td class="num">₹4,200</td></tr>
+              <tr style="font-weight:700"><td colspan="5">Total</td><td class="num">₹72,150</td></tr>
+            </table>
+          </div>
+          <p style="font-size:.83rem;color:var(--text-muted);margin-top:8px">Six rows in, six rows out — every order stays individually visible. The Totals row (above) is the only aggregation on the whole visual; there's no way to see "just West" without adding a filter or slicer.</p>
+        </div>
+        <div>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:6px">As a Matrix — grouped &amp; subtotaled</p>
+          <div class="table-wrap">
+            <table>
+              <tr><th>Region</th><th>Category</th><th class="num">Sales</th></tr>
+              <tr><td rowspan="2"><b>West</b></td><td style="padding-left:22px">Furniture</td><td class="num">₹21,300</td></tr>
+              <tr><td style="padding-left:22px">Technology</td><td class="num">₹21,300</td></tr>
+              <tr style="font-weight:700;background:var(--surface-2)"><td colspan="2">West Total</td><td class="num">₹42,600</td></tr>
+              <tr><td rowspan="2"><b>East</b></td><td style="padding-left:22px">Furniture</td><td class="num">₹9,600</td></tr>
+              <tr><td style="padding-left:22px">Technology</td><td class="num">₹19,950</td></tr>
+              <tr style="font-weight:700;background:var(--surface-2)"><td colspan="2">East Total</td><td class="num">₹29,550</td></tr>
+              <tr style="font-weight:700"><td colspan="2">Grand Total</td><td class="num">₹72,150</td></tr>
+            </table>
+          </div>
+          <p style="font-size:.83rem;color:var(--text-muted);margin-top:8px">Six orders collapse into 2 Region groups and 4 Region-Category groups, each summed automatically. Collapsed to just Region (click − on each), a viewer would see only West / East / Grand Total — three lines instead of six.</p>
+        </div>
+      </div>
+
+      <div class="callout warn" style="margin-top:14px"><b>Notice what changed and what didn't:</b> the Grand Total is ₹72,150 in both — same underlying rows, so the math has to agree. What changed is the SHAPE: the Table can't hide Priya Nair's two West orders without a filter; the Matrix hides and reveals them on click, and adds two subtotal rows the Table has no equivalent for at all.</div>
+
+      <h2 style="margin-top:30px">Exercise</h2>
+      <div class="card">
+        <span class="eyebrow">Practice · Table &amp; Matrix</span>
+        <h3 style="margin-top:8px">HR dataset — build both, compare</h3>
+        <p style="font-size:.9rem">Build a flat Table of the HR dataset (Employee ID, Department, Location, Salary), then build a Matrix with Department in Rows, Location in Columns, and Average Salary in Values. Which one answers "who has the highest salary" faster? Which one answers "how does average salary vary by department and location" faster?</p>
+      </div>
+
+      <footer class="pagefoot"><span>Module 2 · Tables &amp; Matrix</span><a href="14-conditional-formatting.html">Next: Conditional Formatting →</a></footer>
+    </main>
+  </div>
+</div>
+
+<script>
+/* ============= mobile menu ============= */
+document.getElementById('menutoggle').addEventListener('click', ()=>{
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+/* ============= theme switching ============= */
+const themebtns = document.querySelectorAll('.themebtn');
+function setTheme(choice){
+  if(choice === 'auto'){ document.documentElement.removeAttribute('data-theme'); }
+  else{ document.documentElement.setAttribute('data-theme', choice); }
+  themebtns.forEach(b => b.classList.toggle('active', b.dataset.themeChoice === choice));
+  try{ localStorage.setItem('pbi-theme', choice); }catch(e){}
+}
+themebtns.forEach(b => b.addEventListener('click', ()=> setTheme(b.dataset.themeChoice)));
+let savedTheme = 'auto';
+try{ savedTheme = localStorage.getItem('pbi-theme') || 'auto'; }catch(e){}
+setTheme(savedTheme);
+
+/* ============= terminology hints ============= */
+const GLOSSARY = {
+  dimension: 'A descriptive field used to categorize or slice data — e.g. Product, Region, Customer, or Date.',
+  measure: 'A calculation defined in DAX that recalculates based on whatever filters are currently applied — e.g. Total Sales, Profit Margin %.',
+  fact: 'A table of measurable events — one row per transaction, order, or occurrence — that measures are built from.',
+  axis: 'The field well that places a column along the horizontal (or categorical) edge of a chart.',
+  legend: 'The field well that splits a visual into color-coded groups, one color per category.',
+  values: 'The field well that supplies the number(s) a visual actually plots or displays.',
+  tooltip: 'The small popup that appears on hover over a data point, showing extra detail without cluttering the visual.',
+  smallmultiples: 'A grid of small copies of the same chart, one per category, so you can compare shapes side by side instead of overlapping lines/bars.',
+  filter: 'A rule that restricts which rows are included — at the visual, page, or report level.',
+  slicer: 'An on-canvas control that lets the report viewer filter interactively by clicking, without opening a menu.',
+  drilldown: 'Clicking deeper into the SAME hierarchy on the SAME visual — e.g. Year → Quarter → Month on one chart.',
+  drillthrough: 'Right-clicking a data point to jump to a separate, filtered detail page built specifically for that context.',
+  bookmark: 'A saved snapshot of a report\'s current state — filters, visibility, selections — that a button can jump back to.',
+  hierarchy: 'A set of fields nested in a fixed order for drill-down, e.g. Category → Sub-Category → Product.',
+  cardinality: 'How many distinct values a column has — "high cardinality" means many unique values, like an ID column.',
+  relationship: 'A link between two tables through a shared key column, letting Power BI treat them as one connected model.',
+  starschema: 'A modeling shape with one central fact table and several dimension tables branching off it, like a star.',
+  calculatedcolumn: 'A new column computed with DAX and stored row-by-row in the table — unlike a measure, which computes on the fly.',
+  dax: '"Data Analysis Expressions" — the formula language Power BI uses for measures and calculated columns.',
+  aggregation: 'Combining many rows into one number — Sum, Average, Count, Min, Max are all aggregations.',
+  group: 'Combining several existing category values into one broader bucket, without changing the source data.',
+  binning: 'Splitting a continuous number into equal-sized ranges ("bins") so it can be treated like a category.',
+  conditionalformatting: 'Rules that change a visual\'s color or icon based on the value itself, so exceptions are visible at a glance.',
+  customvisual: 'A visual type from Microsoft AppSource, beyond Power BI\'s built-in chart types.',
+};
+function closeTerm(btn){
+  btn.classList.remove('term-open');
+  const pop = btn.querySelector('.term-pop');
+  if(pop) pop.remove();
+}
+function openTerm(btn){
+  const pop = document.createElement('span');
+  pop.className = 'term-pop';
+  pop.textContent = GLOSSARY[btn.dataset.term] || 'Definition coming soon.';
+  btn.appendChild(pop);
+  btn.classList.add('term-open');
+}
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.term');
+  if(btn){
+    e.stopPropagation();
+    const wasOpen = btn.classList.contains('term-open');
+    document.querySelectorAll('.term-open').forEach(b => { if(b !== btn) closeTerm(b); });
+    wasOpen ? closeTerm(btn) : openTerm(btn);
+    return;
+  }
+  document.querySelectorAll('.term-open').forEach(closeTerm);
+});
+</script>
+</body>
+</html>

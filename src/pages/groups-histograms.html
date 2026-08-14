@@ -1,0 +1,264 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Groups &amp; Histograms</span>
+        <h1>One combines categories. The other bins a number. Both exist to stop a chart from drowning in detail.</h1>
+        <p class="lede">Two small features, taught together because they solve the same underlying problem from opposite directions. A <button class="term" data-term="group">group</button> takes a column that already has categories — City, Diagnosis, Department — and collapses too many of them into a few that actually mean something on a chart. <button class="term" data-term="binning">Binning</button> does the reverse: it takes a column that has NO categories at all, just a continuous number, and manufactures ranges out of it so it can be charted like one. Neither one changes a single row of source data — both just change what the chart is allowed to look like.</p>
+      </div>
+
+      <h2>Groups: turning too many categories into a few that matter</h2>
+
+      <figure>
+        <img src="images/grouping-before-after.svg" alt="Diagram: eight individual city bars on the left are grouped into four region bars on the right.">
+        <figcaption>Same underlying rows, before and after grouping — fewer, more readable bars.</figcaption>
+      </figure>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">What grouping is, and why it's worth doing</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A <button class="term" data-term="group">group</button> combines several existing values of a category field into one broader bucket — a new field, sitting alongside the original, that a chart can use instead. The original column is untouched; Power Query never runs, nothing in the source file changes.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> Some category columns are genuinely too fine-grained for a summary view. A retail chain with stores in 15 cities produces a Bar Chart with 15 thin bars — technically correct, practically unreadable. Grouped down to 4 regions, the same data becomes a chart an executive can read in two seconds.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A Zomato ops lead doesn't plan city-by-city in a board meeting — they plan by region. The underlying orders still happened in specific cities; the chart just needs to speak at region level.</p>
+          <div class="callout warn" style="margin-top:10px"><b>Grouping is not the same as fixing dirty data.</b> If "Bengaluru" and "Banglore" show up as two different values because of a typo, that's a <a href="04-power-query.html">Power Query</a> cleanup (Replace Values), not a group. Group AFTER the category values are already clean and consistent — grouping 15 correctly-spelled cities into 4 regions is a completely different job from fixing a 16th city that's really a misspelling of one of the other 15.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">How grouping works mechanically — two ways in</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem">Power BI offers the same feature from two different starting points — pick whichever one you're already looking at.</p>
+          <div class="grid grid-2">
+            <div class="card">
+              <h4>From a visual</h4>
+              <ol class="steps">
+                <li>Build a Bar Chart with the category field on the Axis</li>
+                <li>In the chart, Ctrl-click to select several bars/values at once</li>
+                <li>Right-click the selection → Group</li>
+                <li>Rename the new group, then repeat for the next set of values</li>
+              </ol>
+            </div>
+            <div class="card">
+              <h4>From the Fields pane</h4>
+              <ol class="steps">
+                <li>Right-click the field in the Fields pane</li>
+                <li>New group</li>
+                <li>Move values into named groups in the dialog, or leave ungrouped values as "Other"</li>
+                <li>OK — a new field appears, e.g. "City (groups)"</li>
+              </ol>
+            </div>
+          </div>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Give every group a real business name (Region, Age Band, Diagnosis Category) — the default "City (groups)" is fine as a technical field name, but the individual bucket labels inside it should read like something a manager would actually say out loud.</p>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Leaving several values dumped into an unlabeled "Other" bucket that ends up larger than any real group — if "Other" is the tallest bar, the grouping logic needs a second pass.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Before/After — Retail dataset: 15 cities → 4 regions</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Business question:</b> A Retail chain manager wants Sales by location for a leadership deck — not 15 city bars nobody outside operations recognizes, but 4 regions everyone in the room already thinks in.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:8px">Field mapping &nbsp;<span class="pill table">Table: Retail</span></p>
+          <div class="fieldflow">
+            <span class="chip">Retail[City]</span>
+            <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+            <span class="chip well">right-click values in the chart → Group</span>
+          </div>
+          <div class="fieldflow">
+            <span class="chip">new field: City (groups)</span>
+            <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+            <span class="chip well">Axis (X)</span>
+          </div>
+          <div class="fieldflow">
+            <span class="chip">Retail[Sales]  (Sum)</span>
+            <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+            <span class="chip well">Values (Y)</span>
+          </div>
+
+          <div class="table-wrap" style="margin-top:14px">
+            <table>
+              <tr><th>Before — Retail[City] (15 values)</th><th>After — City (groups)</th></tr>
+              <tr><td>Mumbai, Pune, Nagpur, Nashik</td><td><b>West</b></td></tr>
+              <tr><td>Bengaluru, Chennai, Hyderabad, Coimbatore</td><td><b>South</b></td></tr>
+              <tr><td>Delhi, Jaipur, Lucknow, Chandigarh</td><td><b>North</b></td></tr>
+              <tr><td>Kolkata, Patna, Bhubaneswar</td><td><b>East</b></td></tr>
+            </table>
+          </div>
+          <p style="font-size:.83rem;color:var(--text-muted);margin-top:6px">Retail[City] and Retail[Sales] both live on the one Retail table — no join needed. Download <code>Retail_Clean.csv</code> from the <a href="datasets.html">Datasets</a> page to follow along.</p>
+
+          <p style="font-size:.85rem;font-weight:700;margin-top:14px;margin-bottom:4px">Step-by-step workflow</p>
+          <ol class="steps">
+            <li>Load <code>Retail_Clean.csv</code> and build a Bar Chart: Retail[City] into Axis, Sum of Sales into Values — this is the "before," 15 thin bars</li>
+            <li>Ctrl-click the bars for Mumbai, Pune, Nagpur, Nashik</li>
+            <li>Right-click the selection → Group → name it "West"</li>
+            <li>Repeat for South, North, and East</li>
+            <li>Rename the new field from "City (groups)" to "Region" in the Fields pane for a cleaner axis title</li>
+            <li>Swap Axis from Retail[City] to the new Region field — 15 bars become 4</li>
+          </ol>
+          <div class="callout" style="margin-top:10px"><b>Try it yourself:</b> Build the same grouping on the Hospital dataset instead — collapse the many individual values in Hospital[Diagnosis] into a handful of broader categories (say, Cardiac, Respiratory, Orthopedic, Other) and compare a Bill Amount summary before and after.</div>
+        </div>
+      </details>
+
+      <div class="callout" style="margin-top:14px"><b>Groups don't disappear when you undo them.</b> Because the original column is never touched, deleting a group field or unchecking a value from it is completely safe — the source data was never at risk in the first place.</div>
+
+      <h2 style="margin-top:30px">Histograms: seeing the shape of one number</h2>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">What a histogram actually shows</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A histogram shows the <b>distribution</b> of ONE numeric field — how many rows fall into each of several equal-width ranges across the full spread of values, from lowest to highest.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> An average hides everything interesting. "Average loan amount: ₹4.2 lakh" doesn't tell you whether most borrowers cluster tightly around that number, or whether a few huge loans are dragging the average up while most people borrow far less.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A bank's credit team doesn't just want the average loan size — they want to know whether most loans are small and a handful are huge (which changes how risk should be priced), or whether loan sizes cluster tightly around a typical amount (which means one pricing rule fits most customers).</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Histogram vs. Bar Chart — the mix-up everyone makes once</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem">Both look like a row of vertical bars, which is exactly why they get confused. The difference isn't how they look — it's where the x-axis comes from.</p>
+          <div class="table-wrap">
+            <table>
+              <tr><th></th><th>Bar Chart</th><th>Histogram</th></tr>
+              <tr><td><b>X-axis</b></td><td>An existing category already in the data (City, Product, Department)</td><td>Manufactured by <button class="term" data-term="binning">binning</button> — a continuous number sliced into equal-width ranges that don't exist as values in the source data</td></tr>
+              <tr><td><b>One bar =</b></td><td>One real category value</td><td>One numeric range (a "bin"), e.g. ₹2–4 lakh</td></tr>
+              <tr><td><b>Bar order</b></td><td>Any order you choose — often sorted by size</td><td>Fixed — must run low to high, since it's a number line</td></tr>
+              <tr><td><b>Bar spacing</b></td><td>Gaps between bars — categories are separate, unrelated things</td><td>Bars touch, no gaps — the ranges are continuous and adjacent</td></tr>
+              <tr><td><b>Answers</b></td><td>"How does X compare across categories?"</td><td>"How are the values of X spread out?"</td></tr>
+            </table>
+          </div>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Calling a Bar Chart of "Sales by Category" a histogram because it's made of bars. If the thing on the x-axis is a name someone typed into a spreadsheet, it's a Bar Chart. If the x-axis is a range of numbers nobody typed anywhere — Power BI built it by slicing a continuous number — it's a histogram.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Bins and bin size — the choice that changes the story</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A <b>bin</b> is one of the equal-width ranges a histogram slices the number line into — set either by a fixed <b>bin size</b> (e.g. every ₹1 lakh) or a target <b>number of bins</b> that Power BI divides the full range into evenly. Same underlying numbers, very different chart depending on the choice.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)">Too few bins and every interesting bump gets smoothed into one fat, boring bar. Too many bins and small sampling gaps in the data start looking like real dips and spikes — noise dressed up as a pattern. There's rarely one mathematically "correct" bin count; there's a bin count that shows the shape honestly and one that doesn't.</p>
+          <p style="font-size:.9rem">Try it below — same underlying loan amounts, three different bin counts:</p>
+          <div class="mockreport">
+            <div class="mockreport-controls" id="binButtons">
+              <button class="btn ghost sm" data-bins="3">3 bins</button>
+              <button class="btn ghost sm" data-bins="8">8 bins</button>
+              <button class="btn ghost sm" data-bins="20">20 bins</button>
+            </div>
+            <div class="mockbars" id="binBars" style="gap:2px"></div>
+          </div>
+          <p style="font-size:.83rem;color:var(--text-muted);margin-top:8px" id="binNote"></p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">When to reach for a histogram</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <div class="table-wrap">
+            <table>
+              <tr><th>Business question</th><th>Reach for</th></tr>
+              <tr><td>"What's the average order value?"</td><td>A KPI Card — one number is exactly what's asked</td></tr>
+              <tr><td>"How are order values distributed — are most orders small with a few huge ones, or fairly consistent?"</td><td><b>Histogram</b> — the question is about spread, not a single figure</td></tr>
+              <tr><td>"Are our employees' salaries clustered together or spread wide, and are there any unusual outliers?"</td><td><b>Histogram</b> on HR[Salary]</td></tr>
+              <tr><td>"Which department has the highest average salary?"</td><td>A Bar Chart — that's a category comparison, not a distribution question</td></tr>
+            </table>
+          </div>
+          <p style="font-size:.9rem;margin-top:8px">The tell: if the business question has the word "average," "typical," "distributed," "spread," or "outlier" in it, a single KPI card is probably hiding the real answer — a histogram shows what the average is quietly averaging over.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Building a histogram in Power BI — and how it connects back to Groups</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <div class="callout"><b>The connection:</b> Power BI's "New group" dialog — the same one used for cities → regions above — also works on numeric fields, with a <b>Bin</b> option instead of manual buckets. Numeric binning IS grouping; it's just Power BI grouping automatically by equal-width range instead of by hand-picked category.</div>
+          <div class="grid grid-2" style="margin-top:12px">
+            <div class="card">
+              <h4>Classic approach — bin a field, then Bar Chart</h4>
+              <ol class="steps">
+                <li>Right-click Banking[Loan Amount] in the Fields pane</li>
+                <li>New group</li>
+                <li>Group type: Bin · set Bin size (e.g. 100000) or Number of bins</li>
+                <li>OK — a new field appears, e.g. "Loan Amount (bins)"</li>
+                <li>Build a Clustered Column Chart: the binned field into Axis, Count of records into Values</li>
+              </ol>
+            </div>
+            <div class="card">
+              <h4>Certified Histogram Chart (AppSource)</h4>
+              <ol class="steps">
+                <li>Visualizations pane → "..." → Get more visuals</li>
+                <li>Search "Histogram Chart" (Microsoft-published, Certified) — see <a href="09-custom-visuals.html">Custom Visuals</a> for how to vet one</li>
+                <li>Drag the raw Banking[Loan Amount] straight into Values — no manual binning first</li>
+                <li>Use the Format pane's bin controls to change bin count live and watch the shape change</li>
+              </ol>
+            </div>
+          </div>
+          <p style="font-size:.85rem;margin-top:10px"><b>Best practice:</b> The classic bin-column approach is worth learning first — it's the same "New group" mechanic from the Groups section, so nothing new to remember. Reach for the certified visual once bin size needs to be tweaked live and re-tweaked, not once and done.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Reading the shape — Banking dataset: Loan Amount</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Business question:</b> A bank credit team asks — are our loans mostly one typical size, or is there a mix worth pricing differently?</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:8px">Field mapping &nbsp;<span class="pill table">Table: Banking</span></p>
+          <div class="fieldflow">
+            <span class="chip">Banking[Loan Amount]</span>
+            <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+            <span class="chip well">New group → Bin</span>
+          </div>
+          <div class="fieldflow">
+            <span class="chip">Loan Amount (bins)</span>
+            <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+            <span class="chip well">Axis (X)</span>
+          </div>
+          <div class="fieldflow">
+            <span class="chip">Banking[Customer]  (Count)</span>
+            <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+            <span class="chip well">Values (Y)</span>
+          </div>
+          <p style="font-size:.83rem;color:var(--text-muted);margin-top:8px">Both fields live on the one Banking table — no join needed. Download <code>Banking_Clean.csv</code> from the <a href="datasets.html">Datasets</a> page to build this yourself; treat the shape below as illustrative, not the real file's exact numbers.</p>
+
+          <p style="font-size:.9rem;margin-top:12px">Three shapes come up again and again — read in plain business language, not statistics-class language:</p>
+          <figure style="margin-top:10px">
+            <img src="images/histogram-shapes.svg" alt="Four distribution shapes: normal/bell curve, right-skewed, left-skewed, and bimodal, each shown as bars beneath a curve.">
+          </figure>
+          <div class="grid grid-3" style="margin-top:8px">
+            <div class="card"><h4>Bell-shaped</h4><p style="font-size:.85rem">Most loans cluster around one typical size, tapering evenly on both sides. There's a genuine "normal" customer — one pricing rule reasonably fits most of them.</p></div>
+            <div class="card"><h4>Skewed</h4><p style="font-size:.85rem">A long tail on one side — most loans are modest, but a handful of very large ones stretch the tail right. The average sits higher than what a typical borrower actually takes.</p></div>
+            <div class="card"><h4>Bimodal (two peaks)</h4><p style="font-size:.85rem">Two separate humps instead of one — often means two different customer segments are mixed into one column, like small personal loans and large home loans counted together.</p></div>
+          </div>
+
+          <div class="callout warn" style="margin-top:12px"><b>How this changes a decision:</b> If Loan Amount turns out right-skewed, quoting "the average loan is ₹4.2 lakh" to a planning meeting is misleading — most customers borrow well below that, and a few large loans are pulling the average up. A histogram is the chart that catches this before a wrong assumption ships into a strategy deck.</div>
+          <div class="callout" style="margin-top:10px"><b>Try it yourself:</b> Build the same histogram on Banking[Credit Score] instead. A bimodal shape there — one cluster of strong scores, one cluster of weak ones, few people in between — would mean very different things for how the bank should segment its risk pricing.</div>
+        </div>
+      </details>
+
+      <h2 style="margin-top:30px">Exercises</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <span class="eyebrow">Exercise 1 · Groups</span>
+          <h3 style="margin-top:8px">HR dataset — Location into Region</h3>
+          <p style="font-size:.9rem">Group <code>HR[Location]</code> into 3–4 named regions the way Retail[City] was grouped into 4 regions above, then build a Bar Chart of Average Salary by your new Region field.</p>
+        </div>
+        <div class="card">
+          <span class="eyebrow">Exercise 2 · Histograms</span>
+          <h3 style="margin-top:8px">Sales dataset — is Discount skewed?</h3>
+          <p style="font-size:.9rem">Bin <code>Sales[Discount]</code> into 8 bins and build a histogram. Is the shape bell, skewed, or bimodal — and what would that mean for how discounts are actually being applied?</p>
+        </div>
+      </div>
+
+      <footer class="pagefoot"><span>Module 2 · Groups &amp; Histograms</span><a href="11-visualization-best-practices.html">Next: Best Practices →</a></footer>
+
+<script>
+/* ============= bin-size interactive demo ============= */
+const BIN_DEMOS = {
+  3:  [28, 84, 34],
+  8:  [10, 24, 44, 68, 88, 70, 44, 18],
+  20: [8, 16, 10, 28, 18, 36, 26, 54, 42, 68, 56, 80, 68, 88, 72, 58, 46, 30, 20, 12],
+};
+const BIN_NOTES = {
+  3:  'Too few bins: the shape is gone. All this says is "most loans are somewhere in the middle" — the interesting detail is smoothed away.',
+  8:  'A reasonable bin count: a clear peak and a taper are both visible without noise drowning out the signal.',
+  20: 'Too many bins: small sampling gaps start looking like real dips and spikes. The chart reads as noisy rather than showing a story.',
+};
+function renderBins(n){
+  document.querySelectorAll('#binButtons button').forEach(b => b.classList.toggle('active', +b.dataset.bins === n));
+  document.getElementById('binBars').innerHTML = BIN_DEMOS[n].map(h => `<div class="mockbar hi" style="height:${h}%"></div>`).join('');
+  document.getElementById('binNote').textContent = BIN_NOTES[n];
+}
+document.querySelectorAll('#binButtons button').forEach(b => b.addEventListener('click', () => renderBins(+b.dataset.bins)));
+renderBins(8);
+</script>

@@ -1,0 +1,241 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Tables &amp; Matrix</span>
+        <h1>Sometimes a chart is the wrong answer. Sometimes the audience just wants the numbers.</h1>
+        <p class="lede">A Table and a Matrix are Power BI's two grid visuals — no bars, no lines, just rows and columns of exact values. A <b>Table</b> lists rows flat, one per record, the way a spreadsheet does. A <b>Matrix</b> groups rows into a <button class="term" data-term="hierarchy">hierarchy</button> and subtotals automatically, the way a PivotTable does. Same underlying data, two very different shapes — this page builds both from the same Sales rows so the difference is concrete, not theoretical.</p>
+      </div>
+
+      <figure>
+        <img src="images/table-vs-matrix.svg" alt="Comparison: a Table shows one flat row per record; a Matrix groups the same rows under Region and Category headers with subtotals.">
+        <figcaption>Same rows, two shapes — the worked example below builds both from real Sales data.</figcaption>
+      </figure>
+
+      <h2>Table</h2>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Building it: columns, measures &amp; sorting</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A Table visual lists one row per record in your data, with every field you drag in becoming a column — plain columns and DAX <button class="term" data-term="measure">measures</button> sit side by side with no special treatment.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> An ops manager wants a literal order log — every Order ID, who bought it, and what it made — to sanity-check the summary charts against, or to export for a follow-up email.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Visualizations pane → Table</li>
+            <li>Drag Order ID, Customer, Region, Category, Sub Category into Columns — each adds a plain field, no aggregation</li>
+            <li>Drag Sales into Columns too — a numeric column defaults to Sum, shown per row here since each row is already one order</li>
+            <li>Click any column header to sort by it; click again to reverse; a small arrow shows the active sort</li>
+            <li>Drag column borders in the header to resize, or drag a header left/right to reorder columns</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Dropping every available field into a Table "just in case." A Table with 15 columns forces horizontal scrolling and defeats the point — include only what the reader actually needs to check or export.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Formatting: alternating rows, header style &amp; borders</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> The Format pane (paint-roller icon) controls how the grid itself looks, separately from the data in it — row banding, header color/font, and gridlines.</p>
+          <p style="font-size:.9rem"><b>Why it matters:</b> A wide table with 20+ rows is hard to scan in a single flat color — the eye loses which row it's on. Small formatting choices carry real readability.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Format pane → <b>Column headers</b> → set font weight, background fill, and text color</li>
+            <li>Format pane → <b>Grid</b> → turn on <b>Row banding</b> for alternating row colors, and pick the banded color</li>
+            <li>Format pane → <b>Grid</b> → set vertical/horizontal gridline weight and color, or turn them off for a cleaner look</li>
+            <li>Format pane → <b>Values</b> → adjust text size and cell padding once columns feel cramped</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> A subtle row band (a faint tint, not a bright color) does more for scanability than heavy borders ever will — use borders sparingly, mainly to separate the header from the data.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Totals</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A pinned row at the bottom of the table showing one <button class="term" data-term="aggregation">aggregation</button> per numeric column — the same idea as an Excel SUM row, built in.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A finance reviewer scrolling a table of 80 orders still needs the grand total of Sales and Profit visible without scrolling back to the top or building a separate KPI card.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Format pane → <b>Total</b> → toggle on (it's on by default for a new Table)</li>
+            <li>Still in <b>Total</b>, click each numeric column's dropdown to choose its aggregation — Sum, Average, Count, Min, or Max, set independently per column</li>
+            <li>Turn the toggle off entirely for a Table meant to be scanned row-by-row, where a totals row would just be noise</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Leaving every numeric column defaulted to Sum. Averaging Discount % or Credit Score and summing it instead produces a number nobody can use — check the aggregation per column, not just per table.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Data bars &amp; icons — in-cell visual cues</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Two ways to fold a small chart into a single cell. <b>Data bars</b> shade the cell background proportional to the value, showing relative magnitude without leaving the grid. <b>Icons</b> place a small conditional symbol — commonly an up/flat/down arrow — next to the number based on which rule it matches.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A Sales column with data bars lets a manager spot the biggest orders at a glance, in the same table they're already reading line by line. A Profit column with icons flags which orders lost money with a red down arrow, no separate chart required.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Select the Table, then in the Format pane find <b>Cell elements</b></li>
+            <li>Turn on <b>Data bars</b>, pick the numeric column (e.g. Sales), and set the bar color, minimum, and maximum</li>
+            <li>Turn on <b>Icons</b> instead (or alongside), pick the column (e.g. Profit), choose an icon set, and set the rule thresholds — e.g. below 0 = red down arrow, above 0 = green up arrow</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Pick one — data bars or icons — per column, not both; stacking both in the same cell gets visually noisy fast.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Conditional formatting on a Table</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> <button class="term" data-term="conditionalformatting">Conditional formatting</button> rules can also color a cell's background or font based on its value — the classic red/yellow/green pattern, applied to a whole column at once.</p>
+          <p style="font-size:.9rem">It lives in the same <b>Cell elements</b> panel as data bars and icons above, and the full rule-building walkthrough — background color, font color, rules vs. gradients, applying it to one column vs. the whole table — is its own page next: <a href="14-conditional-formatting.html">Conditional Formatting</a>. This page just flags that the option sits here, on a Table exactly like it does on a Matrix.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Search within a table</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A magnifying-glass icon in the visual's header that filters the Table's own rows to whatever text is typed — a live find-as-you-type, scoped to that one visual.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A support rep pulls up the order table during a customer call and types the customer's name to jump straight to their rows, instead of scrolling a hundred-row list.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Select the Table → Format pane → <b>Header icons</b> → turn on <b>Search</b></li>
+            <li>The magnifying-glass icon appears in the visual's top-right corner at report view (not edit view) — click it and type</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Confusing this with a report-level <button class="term" data-term="slicer">slicer</button> — table search only filters that one Table visual, not the rest of the page, and it isn't saved as part of the report's state the way a bookmark or slicer selection is.</div>
+        </div>
+      </details>
+
+      <h2 style="margin-top:30px">Matrix</h2>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Rows, Columns &amp; Values wells</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A Matrix has three field wells instead of a Table's one flat Columns well. <b>Rows</b> groups records down the left side — drop more than one field in and it becomes a hierarchy, nested in the order you dropped them. <b>Columns</b> optionally spreads a field across the top instead, turning categories into their own set of columns (a true cross-tab). <b>Values</b> holds the numbers, always aggregated — never one row per record the way a Table shows them.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A regional head wants Sales broken down by Region, then by Category inside each region, as a compact grid rather than one row per individual order.</p>
+          <div style="margin-top:12px">
+            <p style="font-size:.85rem;font-weight:700;margin-bottom:8px">Field mapping &nbsp;<span class="pill table">Table: Sales</span></p>
+            <div class="fieldflow">
+              <span class="chip">Sales[Region]</span>
+              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              <span class="chip well">Rows (level 1)</span>
+            </div>
+            <div class="fieldflow">
+              <span class="chip">Sales[Category]</span>
+              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              <span class="chip well">Rows (level 2, nested)</span>
+            </div>
+            <div class="fieldflow">
+              <span class="chip">Sales[Sales]  (Sum)</span>
+              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              <span class="chip well">Values</span>
+            </div>
+            <p style="font-size:.83rem;color:var(--text-muted);margin-top:8px">All three fields live on the one Sales table — the full worked example is below, under "Table vs. Matrix."</p>
+          </div>
+          <p style="font-size:.85rem;font-weight:700;margin-top:14px;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Visualizations pane → Matrix</li>
+            <li>Drag Region into Rows</li>
+            <li>Drag Category into Rows too, underneath Region — Power BI nests it automatically as a second hierarchy level</li>
+            <li>Drag Sales into Values — it aggregates as Sum by default</li>
+            <li>Optional: drag a field like Region into Columns instead of Rows to lay Sales across the top as a true cross-tab</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Dragging a raw column (not a measure) into Values and expecting it to behave like a Table's per-row column — in a Matrix, every field in Values is aggregated, because Matrix rows represent GROUPS of records, not single records.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Hierarchies &amp; expand/collapse</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Stacking two or more fields in the Rows well (Region, then Category) builds a <button class="term" data-term="hierarchy">hierarchy</button> — Power BI shows a +/- icon next to each Region row so the viewer can open it to see the Categories inside, without those rows always being on screen.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A one-page executive view starts fully collapsed — just four Region rows and their totals. The CFO expands only the region that looks off, instead of scrolling past every Category for every Region up front.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Click the + icon next to a Region row to reveal just that region's Categories — "expand to next level," one branch at a time</li>
+            <li>Click the − icon to collapse that branch back</li>
+            <li>Right-click any row → <b>Expand</b> → <b>Expand entire hierarchy</b> to open every Region's Categories at once, in a single click</li>
+            <li>Right-click → <b>Collapse</b> → <b>Collapse entire hierarchy</b> to snap everything back down to just the top level</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Ship a Matrix collapsed to the top level by default (Format pane → Row headers won't remember an expanded state on refresh anyway) — let the viewer choose to drill into what they care about.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Subtotals &amp; Grand totals</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> Because a Matrix groups rows, it can show a subtotal at each level of the hierarchy — a Region's total across all its Categories — on top of the single Grand Total across everything, at the very bottom.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> Collapsed, a Region/Category Matrix already tells the regional head each region's total Sales — that number is the Region subtotal, visible with zero clicks, before anyone expands anything.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Format pane → <b>Subtotals</b> → toggle <b>Row subtotals</b> on or off</li>
+            <li>With multiple row levels, use <b>Per row level</b> to turn subtotals off for just one level (e.g. keep the Region subtotal, drop a redundant Category-only subtotal) while keeping others on</li>
+            <li>Same panel → toggle <b>Column subtotals</b> if a field is in Columns too</li>
+            <li>Grand Total is controlled separately in the same <b>Subtotals</b> section</li>
+          </ol>
+          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Turning off Grand Total on a report a finance audience will screenshot — losing the one number everyone checks first is a bigger problem than a slightly taller table.</div>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Stepped layout</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> With stepped layout on (the default), each nested row level indents further right, so Category rows visually sit "inside" their Region, all sharing one row-header column. Turn it off and every hierarchy level gets its own separate, aligned column instead — Region in one column, Category in the next, side by side.</p>
+          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A dense Matrix with three nested levels (Region → Category → Sub Category) can get visually cramped once stepped — indentation alone stops making the level obvious. Turning stepped layout off gives each level its own labeled column, easier to scan at that depth.</p>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
+          <ol class="steps">
+            <li>Select the Matrix → Format pane → <b>Row headers</b></li>
+            <li>Toggle <b>Stepped layout</b> off</li>
+            <li>Adjust <b>Stepped layout indentation</b> instead, if keeping it on but the indent feels too wide or too narrow</li>
+          </ol>
+          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Keep stepped layout on for 2-level hierarchies — it reads naturally. Consider turning it off once a hierarchy hits 3+ levels, or once viewers keep asking "which column is this indented under?"</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Formatting &amp; conditional formatting on a Matrix</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Concept:</b> A Matrix takes the same row banding, header style, and gridline options as a Table (Format pane → Grid / Column headers / Row headers), plus its own subtotal/Grand Total styling. <button class="term" data-term="conditionalformatting">Conditional formatting</button> — background color, font color, data bars, icons — applies the same way too, in <b>Cell elements</b>, and can be scoped to apply across every level of the hierarchy or only the values shown at one level.</p>
+          <p style="font-size:.9rem">The full conditional formatting workflow — rules, gradients, and the level-scoping option specific to a Matrix — is covered in depth on the next page: <a href="14-conditional-formatting.html">Conditional Formatting</a>.</p>
+        </div>
+      </details>
+
+      <div class="callout" style="margin-top:14px"><b>Table vs. Matrix, in one line:</b> A Table shows records. A Matrix shows groups. If the audience needs to see or export individual rows, use a Table. If the audience needs a summary that opens up on demand, use a Matrix.</div>
+
+      <h2 style="margin-top:30px">Same Sales data, two shapes: Region → Category</h2>
+      <p>Below is the same six orders from the Sales dataset (<code>Order ID, Customer, Region, Sales, Profit, Category, Sub Category, Date, Discount, Quantity</code>), built once as a flat Table and once as a Matrix grouped by <b>Region → Category</b>. The numbers reconcile exactly — a Matrix isn't different data, it's the same data organized differently.</p>
+
+      <div class="grid grid-2" style="margin-top:14px">
+        <div>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:6px">As a Table — one row per order</p>
+          <div class="table-wrap">
+            <table>
+              <tr><th>Order ID</th><th>Customer</th><th>Region</th><th>Category</th><th>Sub Category</th><th class="num">Sales</th></tr>
+              <tr><td>ORD-1042</td><td>Priya Nair</td><td>West</td><td>Furniture</td><td>Chairs</td><td class="num">₹12,400</td></tr>
+              <tr><td>ORD-1043</td><td>Rohan Mehta</td><td>West</td><td>Furniture</td><td>Tables</td><td class="num">₹8,900</td></tr>
+              <tr><td>ORD-1044</td><td>Priya Nair</td><td>West</td><td>Technology</td><td>Phones</td><td class="num">₹21,300</td></tr>
+              <tr><td>ORD-1045</td><td>Amit Shah</td><td>East</td><td>Furniture</td><td>Chairs</td><td class="num">₹9,600</td></tr>
+              <tr><td>ORD-1046</td><td>Neha Kulkarni</td><td>East</td><td>Technology</td><td>Phones</td><td class="num">₹15,750</td></tr>
+              <tr><td>ORD-1047</td><td>Amit Shah</td><td>East</td><td>Technology</td><td>Accessories</td><td class="num">₹4,200</td></tr>
+              <tr style="font-weight:700"><td colspan="5">Total</td><td class="num">₹72,150</td></tr>
+            </table>
+          </div>
+          <p style="font-size:.83rem;color:var(--text-muted);margin-top:8px">Six rows in, six rows out — every order stays individually visible. The Totals row (above) is the only aggregation on the whole visual; there's no way to see "just West" without adding a filter or slicer.</p>
+        </div>
+        <div>
+          <p style="font-size:.85rem;font-weight:700;margin-bottom:6px">As a Matrix — grouped &amp; subtotaled</p>
+          <div class="table-wrap">
+            <table>
+              <tr><th>Region</th><th>Category</th><th class="num">Sales</th></tr>
+              <tr><td rowspan="2"><b>West</b></td><td style="padding-left:22px">Furniture</td><td class="num">₹21,300</td></tr>
+              <tr><td style="padding-left:22px">Technology</td><td class="num">₹21,300</td></tr>
+              <tr style="font-weight:700;background:var(--surface-2)"><td colspan="2">West Total</td><td class="num">₹42,600</td></tr>
+              <tr><td rowspan="2"><b>East</b></td><td style="padding-left:22px">Furniture</td><td class="num">₹9,600</td></tr>
+              <tr><td style="padding-left:22px">Technology</td><td class="num">₹19,950</td></tr>
+              <tr style="font-weight:700;background:var(--surface-2)"><td colspan="2">East Total</td><td class="num">₹29,550</td></tr>
+              <tr style="font-weight:700"><td colspan="2">Grand Total</td><td class="num">₹72,150</td></tr>
+            </table>
+          </div>
+          <p style="font-size:.83rem;color:var(--text-muted);margin-top:8px">Six orders collapse into 2 Region groups and 4 Region-Category groups, each summed automatically. Collapsed to just Region (click − on each), a viewer would see only West / East / Grand Total — three lines instead of six.</p>
+        </div>
+      </div>
+
+      <div class="callout warn" style="margin-top:14px"><b>Notice what changed and what didn't:</b> the Grand Total is ₹72,150 in both — same underlying rows, so the math has to agree. What changed is the SHAPE: the Table can't hide Priya Nair's two West orders without a filter; the Matrix hides and reveals them on click, and adds two subtotal rows the Table has no equivalent for at all.</div>
+
+      <h2 style="margin-top:30px">Exercise</h2>
+      <div class="card">
+        <span class="eyebrow">Practice · Table &amp; Matrix</span>
+        <h3 style="margin-top:8px">HR dataset — build both, compare</h3>
+        <p style="font-size:.9rem">Build a flat Table of the HR dataset (Employee ID, Department, Location, Salary), then build a Matrix with Department in Rows, Location in Columns, and Average Salary in Values. Which one answers "who has the highest salary" faster? Which one answers "how does average salary vary by department and location" faster?</p>
+      </div>
+
+      <footer class="pagefoot"><span>Module 2 · Tables &amp; Matrix</span><a href="14-conditional-formatting.html">Next: Conditional Formatting →</a></footer>

@@ -1,10 +1,42 @@
       <div class="section-head">
-        <span class="eyebrow">08 · Extended Module</span>
+        <span class="eyebrow">Module 1 · Extra</span>
         <h1>SQL Server &amp; AdventureWorks</h1>
         <p class="lede">A closer look at connecting Power BI to a real SQL Server database, using Microsoft's AdventureWorks sample database as the running example — the same "Connecting to SQL Server" basics from earlier, applied end-to-end against a real multi-table database instead of a single Excel file.</p>
       </div>
 
-      <div class="callout warn"><b>This module is being built out as the class gets here.</b> The page is live and linked from the sidebar now so it has a permanent home — click-paths, screenshots, and sample queries against AdventureWorks will land here session by session.</div>
+      <div class="callout warn"><b>The connection walkthrough itself is still being built out as the class gets here.</b> Downloading and installing the database, below, is ready now — the click-paths, screenshots, and sample queries for actually connecting Power BI to it will land here session by session.</div>
+
+      <h2 style="margin-top:30px">Where to download it</h2>
+      <p style="font-size:.92rem">AdventureWorks is Microsoft's own free sample database, published on GitHub under <code>microsoft/sql-server-samples</code>, inside <code>samples/databases/adventure-works</code>. It ships in three variants — <b>use AdventureWorksDW</b>, the data-warehouse version, to match every AdventureWorks example already on this site (Visualizations page, etc.):</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Variant</th><th>What it is</th><th>Use for this course?</th></tr>
+          <tr><td><b>AdventureWorksDW</b></td><td>Pre-built star schema — fact tables (<code>FactInternetSales</code>, <code>FactResellerSales</code>) plus dimension tables (<code>DimProduct</code>, <code>DimCustomer</code>, <code>DimDate</code>, <code>DimGeography</code>…)</td><td><span class="pill good">Yes — this is the one</span></td></tr>
+          <tr><td>AdventureWorks (OLTP)</td><td>Full normalized transactional database, dozens of tables across 5 schemas</td><td>Optional — an "advanced/realistic" detour once the star schema feels comfortable</td></tr>
+          <tr><td>AdventureWorksLT</td><td>"Light" — a small simplified subset</td><td>Only if DW feels like too much at first</td></tr>
+        </table>
+      </div>
+      <div class="clickpath">
+        <span class="seg">github.com</span><span class="arrow">→</span><span class="seg">microsoft/sql-server-samples</span><span class="arrow">→</span><span class="seg">samples/databases/adventure-works</span><span class="arrow">→</span><span class="seg">pick your SQL Server version</span><span class="arrow">→</span><span class="seg">download the .bak file</span>
+      </div>
+      <p style="font-size:.9rem">Grab the <code>AdventureWorksDW20XX.bak</code> file matching your SQL Server version (2016 through 2022 are all listed) — a <b>.bak</b> is a database backup file, the standard format SQL Server restores from directly. It's a few hundred MB; give it a minute to download.</p>
+      <div class="callout"><b>Free to use:</b> AdventureWorks is released by Microsoft under the MIT license — safe to download, install, and reuse for classroom teaching with no licensing cost or restriction.</div>
+
+      <h2 style="margin-top:30px">How to install it (restore the .bak)</h2>
+      <p style="font-size:.92rem">Restoring is how you turn a downloaded backup file into a real, queryable database on your SQL Server instance.</p>
+      <ol class="steps">
+        <li>Open <b>SQL Server Management Studio (SSMS)</b> and connect to your local or class SQL Server instance</li>
+        <li>In Object Explorer, right-click <b>Databases</b> → <b>Restore Database…</b></li>
+        <li>Choose <b>Device</b> as the source → click the <code>…</code> button → <b>Add</b> → browse to the downloaded <code>AdventureWorksDW20XX.bak</code></li>
+        <li>Under <b>Files</b> (left-hand page of the dialog), confirm the destination file paths look reasonable — SSMS usually gets this right automatically</li>
+        <li>Click <b>OK</b> to start the restore — a few hundred MB typically takes under a minute on a normal laptop</li>
+        <li>Verify it worked: expand <b>Databases → AdventureWorksDW20XX → Tables</b> and confirm you can see <code>FactInternetSales</code> and <code>DimProduct</code> in the list</li>
+      </ol>
+      <div class="grid grid-2" style="margin-top:10px">
+        <div class="card"><h4>No SSMS installed?</h4><p style="font-size:.85rem">SSMS is a free download from Microsoft, Windows-only. On Mac/Linux, <b>Azure Data Studio</b> (also free, cross-platform) has an equivalent Restore flow under its Servers/Connections pane.</p></div>
+        <div class="card"><h4>No local SQL Server?</h4><p style="font-size:.85rem">SQL Server Developer Edition is free for non-production use, or run SQL Server in a Docker container — either way, restore the same <code>.bak</code> file once the instance is up.</p></div>
+      </div>
+      <div class="callout warn" style="margin-top:14px"><b>Common mistake:</b> Downloading the OLTP <code>AdventureWorks20XX.bak</code> by accident instead of <code>AdventureWorksDW20XX.bak</code> — the file names are one letter apart and sit right next to each other on the releases page. Double-check the filename contains "DW" before restoring.</div>
 
       <h2 style="margin-top:30px">What this module will cover</h2>
       <ul class="kicker-list">
@@ -27,4 +59,4 @@
         </table>
       </div>
 
-      <footer class="pagefoot"><span>08 · SQL Server &amp; AdventureWorks</span><span>More modules land here as the class continues</span></footer>
+      <footer class="pagefoot"><span>Module 1 · SQL Server &amp; AdventureWorks</span><a href="02-interface.html">Next: Navigating the Interface →</a></footer>

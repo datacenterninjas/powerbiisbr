@@ -1,0 +1,33 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 3 · 3</span>
+        <h1>The same formula, a different answer — because of context</h1>
+        <p class="lede">The single hardest DAX concept to get comfortable with, and the one that makes everything after it click: a measure has no fixed value — its answer depends entirely on what's currently filtering it.</p>
+      </div>
+
+      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
+
+      <h2 style="margin-top:30px">Row context vs. Filter context</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h4>Row context</h4>
+          <p style="font-size:.9rem">"Which row am I on right now?" — active inside a calculated column (evaluated once per row) and inside iterator functions like <code>SUMX</code>.</p>
+        </div>
+        <div class="card">
+          <h4><button class="term" data-term="filter">Filter</button> context</h4>
+          <p style="font-size:.9rem">"What's currently sliced/filtered?" — the region clicked on a map, the year picked on a slicer, even the row a Matrix visual happens to be rendering. A measure re-evaluates fresh inside whatever filter context surrounds it.</p>
+        </div>
+      </div>
+      <div class="callout">This is exactly why a <code>Total Sales</code> measure shows a different number on every row of a Region-by-Category Matrix, and yet is written only ONCE — the formula never changes, only the filter context around it does.</div>
+
+      <h2 style="margin-top:30px">Dynamic measures with IF</h2>
+      <p>Wrapping a measure in <code>IF</code> lets it change WHAT it calculates based on a condition, not just format the same number differently.</p>
+      <div class="codeblock">Status Flag = <span class="c-fn">IF</span>([Total Sales] &gt; [Target], <span class="c-str">"On Track"</span>, <span class="c-str">"Behind"</span>)</div>
+
+      <h2 style="margin-top:30px">What this page will cover</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">1</span><div><strong>Seeing filter context change live.</strong> The same card, clicking through slicers, watching the number update — before writing a single new formula.</div></li>
+        <li><span class="ico">2</span><div><strong>Row context inside SUMX.</strong> When a plain <code>SUM</code> isn't enough because the calculation itself varies row by row (e.g. <code>Qty × Unit Price</code> before summing).</div></li>
+        <li><span class="ico">3</span><div><strong>Dynamic measure-switching.</strong> Using a field parameter or disconnected table + <code>SWITCH</code> to let a report viewer pick which measure a chart shows.</div></li>
+      </ul>
+
+      <footer class="pagefoot"><span>Module 3 · Context &amp; Dynamic Measures</span><a href="22-dax-calculate-modeling.html">Next: CALCULATE, FILTER &amp; Modeling →</a></footer>

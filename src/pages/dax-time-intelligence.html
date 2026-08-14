@@ -1,0 +1,32 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 3 · 2</span>
+        <h1>"So far this year" is a formula, not a filter you set by hand</h1>
+        <p class="lede">Time intelligence functions and <button class="term" data-term="aggregation">aggregation</button> functions are the two DAX building blocks you'll reach for most often, in almost every real report.</p>
+      </div>
+
+      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
+
+      <h2 style="margin-top:30px">Aggregation functions — the basics that show up everywhere</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Function</th><th>Does what</th><th>Example</th></tr>
+          <tr><td><code>SUM</code></td><td>Adds up a numeric column</td><td><code>Total Sales = SUM(Sales[Sales])</code></td></tr>
+          <tr><td><code>AVERAGE</code></td><td>Mean of a numeric column</td><td><code>Avg Order Value = AVERAGE(Sales[Sales])</code></td></tr>
+          <tr><td><code>COUNT</code> / <code>COUNTROWS</code></td><td>Counts rows (with/without a specific column)</td><td><code>Order Count = COUNTROWS(Sales)</code></td></tr>
+          <tr><td><code>DISTINCTCOUNT</code></td><td>Counts unique values only</td><td><code>Unique Customers = DISTINCTCOUNT(Sales[Customer])</code></td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">Time intelligence — the same measure, a different time window</h2>
+      <p>YTD (Year-to-Date), MTD (Month-to-Date), and QTD (Quarter-to-Date) all answer the same shape of question: "total so far, within the current period" — without hand-typing a date range that goes stale the moment the calendar turns over.</p>
+      <div class="codeblock">Sales YTD = <span class="c-fn">TOTALYTD</span>(<span class="c-fn">SUM</span>(Sales[Sales]), Sales[Date])</div>
+      <div class="callout"><b>Why this needs a real Date table:</b> Time intelligence functions rely on a proper, continuous Date column marked as a Date table in the model — the same "Date column typed as text sorts wrong" trap already covered on the <a href="04-power-query.html">Power Query</a> and <a href="05-visualizations.html">Visualizations</a> pages resurfaces here, with higher stakes.</div>
+
+      <h2 style="margin-top:30px">What this page will cover</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">1</span><div><strong>Building a proper Date table.</strong> The prerequisite every time intelligence function silently assumes exists.</div></li>
+        <li><span class="ico">2</span><div><strong>YTD, MTD, QTD side by side.</strong> One dataset, three formulas, one Line Chart comparing all three.</div></li>
+        <li><span class="ico">3</span><div><strong>Prior-period comparisons.</strong> <code>SAMEPERIODLASTYEAR</code> and the "vs. last year" card every executive dashboard has.</div></li>
+      </ul>
+
+      <footer class="pagefoot"><span>Module 3 · Time Intelligence &amp; Aggregations</span><a href="21-dax-context.html">Next: Context &amp; Dynamic Measures →</a></footer>
