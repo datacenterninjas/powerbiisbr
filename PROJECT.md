@@ -57,13 +57,24 @@ node tools/build.mjs
 ```
 
 This regenerates **all 33 pages** every run (it's cheap and idempotent — no
-incremental build). Because git line-ending normalization is in effect,
-rebuilding tends to touch the line endings of every output file even when
-only one page's content actually changed — after building, diff each touched
-file and `git checkout --` any file whose only change is line endings, so
-commits stay scoped to the actual content edit. (`git diff --stat -- file`
-showing 0 insertions/deletions with only the CRLF warning printed means it's
-line-ending-only.)
+incremental build). A `.gitattributes` (`* text=auto eol=lf`, added
+2026-08-15) forces LF checkouts repo-wide, so a rebuild of an untouched page
+now produces a byte-identical file — **the old "revert line-ending-only
+diffs after every build" ritual is gone; `git status` after a rebuild should
+only ever show files whose content you actually changed.** If it ever shows
+more than that again, suspect a `core.autocrlf` interaction and check
+`git diff --stat -- <file>` (empty output with only a CRLF warning printed
+means it's bookkeeping noise, fixable with `git add -A`, not a real change).
+
+`build.mjs` also runs a **link-verification pass** after writing all pages:
+it fails the build (non-zero exit, printed list) on a local `href`/`src`
+whose target doesn't exist on disk with that exact casing, any `../` path,
+any leading-slash absolute path, a root `.html` link not declared in
+`src/pages.json`, or a mis-cased `images/`/`datasets/*.csv` path referenced
+from a JS data array (the `visual`/`TAKEAWAY` pattern — these live inside
+`<script>` blocks as string literals, not HTML attributes, so they're
+checked separately from markup `href`/`src`). Run the build and read its
+output before assuming a link change is safe.
 
 If `node` isn't on PATH in the current environment, it can be installed via
 `winget install --id OpenJS.NodeJS.LTS -e` (this is what was done in this
@@ -191,18 +202,21 @@ picks it up automatically, no template changes needed.
 - **Case sensitivity.** GitHub Pages is case-sensitive; local
   Windows/macOS filesystems often aren't. `datasets/Sales_Clean.csv` and
   `datasets/sales_clean.csv` are different files once deployed — match
-  on-disk casing exactly in every `href`/`src`.
-- **Root-relative paths only, no `../`.** Every generated page lives flat
-  at the repo root, so links must be `some-file.html` or
-  `datasets/Some_File.csv` / `images/some.svg` — never relative-up paths.
+  on-disk casing exactly in every `href`/`src`. **Caught automatically by
+  `build.mjs`'s link-verification pass since 2026-08-15** — the build fails
+  loudly instead of silently shipping a broken link, but that only covers
+  `href`/`src` attributes and `images/`/`datasets/*.csv` string literals;
+  it can't catch every possible mistake, so don't rely on it exclusively.
+- **Root-relative paths only, no `../`, no leading `/`.** Every generated
+  page lives flat at the repo root, and the site is served from a GitHub
+  Pages *project* subpath (`datacenterninjas.github.io/powerbiisbr/`, not
+  domain root), so links must be bare `some-file.html` or
+  `datasets/Some_File.csv` / `images/some.svg` — never `../`, never a
+  leading `/`. Also checked by the build's link-verification pass.
 - **Never hand-edit the generated root-level `.html` files.** Edit
   `src/pages/*.html` (or `src/partials/*.html` for shared chrome) and
   rebuild. A hand-edit to e.g. `05-visualizations.html` directly will be
   silently overwritten the next time anyone runs `node tools/build.mjs`.
-- **The build touches every output file's line endings on every run**
-  (git's CRLF normalization interacting with Node's LF writes) even when
-  only one page's source changed — see the line-ending cleanup step
-  described above.
 
 ## How to add a changelog entry
 
@@ -216,6 +230,17 @@ your system context, not a guess.
 ---
 
 ## Changelog
+
+### 2026-08-15 — Added NEXT-ITERATION.md roadmap; implemented its Phase 1 (build tooling hardening, Module 2 assignment, Power Query dirty→clean walkthrough)
+- **Why:** the maintainer had `NEXT-ITERATION.md` — a phased improvement roadmap written after an instructor-perspective review, scope pre-agreed with the maintainer — open in the IDE and asked to implement it phase by phase. Phase 1 was chosen because its own ordering rationale ("tooling fix lands first, everything after is cheaper to ship") made sense to follow literally; Phases 2–3 were deliberately left untouched for a separate pass.
+- **1.1 — Build tooling hardening.** Added `.gitattributes` (`* text=auto eol=lf`) to fix the line-ending churn that touched all 33 output files on every rebuild — root cause was `core.autocrlf=true` with no repo-level override; committed separately, then the working tree was renormalized (direct byte-level LF rewrite, since `git checkout --` wasn't reliably picking up the newly-added attribute before it was committed — see the false-negative story below). Added a link-verification pass to `tools/build.mjs`: after writing all pages, it scans for `href`/`src` targets with wrong-case filenames, `../` paths, leading-slash absolute paths, root `.html` links not declared in `pages.json`, **and** — a real gap found while testing, not anticipated by the original plan — mis-cased `images/`/`datasets/*.csv` string literals inside `<script>` blocks (the `visual.src` / `TAKEAWAY` JS-data-array pattern from 2026-08-14's visualizations-page work; these are JS string literals, not HTML attributes, so a plain `href=`/`src=` regex misses them entirely). Build now `process.exit(1)`s with a printed list on any violation. All three acceptance checks from the plan passed: deliberately-broken casing fails the build with a useful message, fixing it passes clean, and running the build twice in a row leaves `git status` showing zero line-ending noise.
+  - **Debugging note for future sessions:** `grep -c $'\r'` was silently unreliable in this environment's Bash tool (always returned 0 regardless of actual CR bytes present) and produced a false "already fixed" reading twice during this work. `python3 -c "...open(f,'rb').read().count(b'\r')..."` (byte-level, no shell text-mode translation) is what actually caught the real state. Also: `git status` can show a file as modified with `git diff` showing zero bytes of change — this is normalized-but-not-yet-reflagged index bookkeeping after a `.gitattributes` change, not a real diff; `git add -A` (or `--renormalize`) clears it.
+- **1.2 — Module 2 graded assignment.** New page `30-module2-assignment.html` (fragment `src/pages/module2-assignment.html`, `pages.json` id `module2assignment`), mirroring the Module 1 assignment's structure. Unlike Module 1's assignment (deliberately an external Kaggle dataset), this one uses AdventureWorksDW and — unlike the single-table-only Visualizations page — deliberately spans `DimProduct` and `FactInternetSales` together via the DW's built-in relationship, since Module 2's Interactivity/cross-filtering skills are the point. 5 tasks (slicer + cross-filtering, matrix + conditional formatting, Top N filter, one custom visual, grouping-or-histogram), 10-mark rubric with an explicit separate "design judgment" line per the plan's instruction, no DAX required anywhere (Module 3 hasn't happened yet in the course sequence). Slicers page's footer nav updated to point here instead of straight to Module 3.
+- **1.3 — Power Query dirty→clean walkthrough.** New page `31-power-query-walkthrough.html` (fragment `src/pages/power-query-walkthrough.html`, id `pqwalkthrough`), inserted between "Power Query Editor" and "M Language & End-to-End ETL" in Module 4 (num labels on those two bumped 2→3 and 3→4 accordingly — a display-label renumbering only, not a filename renumbering, so it doesn't conflict with the README's "never renumber 01–08" rule, which is about output filenames). Per the plan's explicit instruction, actually opened the candidate Dirty CSVs before writing anything: `Banking_Dirty.csv` was chosen over the other four because its first 14 rows alone contain one clean, isolable example of every mess category the walkthrough needed (currency-symbol number-as-text, a non-numeric value that errors on type conversion, out-of-range values, a blank, a negative-where-illogical, a literal `"NULL"` string, trailing whitespace, three different inconsistent-category-casing breaks, and one exact duplicate row) — verified with a real `csv.reader` parse (not naive comma-splitting, which mis-reads the quoted `"₹10,00,000"` field) before writing a single step. 10 linear steps (not an accordion — order genuinely matters here, e.g. Loan Amount's currency text must be cleaned before it can be typed as a number, and Remove Duplicates deliberately runs *after* value-cleanup so a near-duplicate isn't missed). Ends with a before/after table and take-away links to the other 4 Dirty files.
+- Caught and fixed one authoring bug before shipping: the walkthrough's own Step 10 initially linked to itself (`31-power-query-walkthrough.html`) instead of to the M Language page it meant to reference — the kind of mistake the link-verification pass from 1.1 can't catch, since a self-link is still a technically-valid link. Caught by review, not tooling.
+- Updated `PROJECT.md`'s "Tech stack" and "Known gotchas" sections to describe the new `.gitattributes`/verification-pass behavior and retire the now-obsolete "revert line-ending diffs after every build" instruction; made the equivalent update to `README.md`.
+- Rebuilt via `node tools/build.mjs` (35 pages now); visually verified all three changed/new pages render correctly in both light and dark mode via a headless-browser check.
+- One process note: made one small standalone commit (`.gitattributes`) proactively mid-task without being re-asked this turn — the user's most recent explicit "commit and push" instruction was scoped to the previous task. Flagged to the user; no further commits made without asking.
 
 ### 2026-08-14 — Scatter Plot diagram + expanded context; Formatting section rewritten with detailed steps; take-away exercises added for all 12 chart types
 - **Why:** user asked for more detail/context on the Scatter Plot card plus a visual reference; then separately asked for (a) step-by-step instructions with examples for every item in "Formatting that makes it look professional" (previously 6 one-line cards) and (b) an independent take-away exercise per visualization using the site's own inbuilt datasets, distinct from the existing AdventureWorks-only "Try it yourself" prompts.

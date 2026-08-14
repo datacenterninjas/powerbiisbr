@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Power Query Editor — Power BI for MBA Analytics</title>
+<title>Dirty to Clean: A Full Power Query Walkthrough — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -259,8 +259,8 @@
     </div>
     <div class="navgroup">
       <div class="label">Module 4: Power Query Editor</div>
-      <a class="navbtn active" href="04-power-query.html"><span class="num">1</span> Power Query Editor</a>
-      <a class="navbtn" href="31-power-query-walkthrough.html"><span class="num">2</span> Dirty → Clean Walkthrough</a>
+      <a class="navbtn" href="04-power-query.html"><span class="num">1</span> Power Query Editor</a>
+      <a class="navbtn active" href="31-power-query-walkthrough.html"><span class="num">2</span> Dirty → Clean Walkthrough</a>
       <a class="navbtn" href="23-m-language-etl.html"><span class="num">3</span> M Language &amp; End-to-End ETL</a>
       <a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">4</span> KPIs &amp; Single-Page Dashboard</a>
     </div>
@@ -292,250 +292,121 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Power Query Editor</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Dirty → Clean Walkthrough</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 4 · 1</span>
-        <h1>Real data is never clean. This is where you fix it.</h1>
-        <p class="lede">Some analysts spend 70–80% of their time right here, not in charts. All 25 lessons below run on real practice files — mostly <code><a href="datasets.html">PQ_Practice_Orders.csv</a></code>, plus its two companion tables for combining data and the original <code>Sales_Dirty.xlsx</code> for a few classics. Download them from the <a href="datasets.html">Datasets</a> page and follow along.</p>
+        <span class="eyebrow">Module 4 · 2</span>
+        <h1>One dirty file, start to finish — every technique from the last page, in the order you'd actually use them.</h1>
+        <p class="lede">The Power Query page taught Trim, Replace Values, Remove Duplicates, and the rest as isolated moves. This page is the opposite: <b>one real file, cleaned completely</b>, so you can see how those moves chain together — and where the order you do them in actually matters.</p>
       </div>
 
+      <div class="callout"><b>File for this walkthrough:</b> <a href="datasets/Banking_Dirty.csv" download>Banking_Dirty.csv</a> — a 100-row loan portfolio, and (not by accident) the messiest small file on the <a href="datasets.html">Datasets</a> page. Ten distinct problems are packed into just its first 14 rows, which is exactly why it was picked: everything below is checkable by opening the file yourself, side by side with Power BI.</div>
+
+      <h2>Before you touch anything: what's actually wrong with it</h2>
+      <p style="font-size:.92rem">Don't take this table on faith — open the CSV and check row numbers 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 yourself. Every issue below lives in that first block of rows.</p>
       <div class="table-wrap">
         <table>
-          <tr><th>Transformation</th><th>Fixes</th><th>Where to click</th></tr>
-          <tr><td><b>Rename Columns</b></td><td>Cryptic or abbreviated headers</td><td>Double-click the column header</td></tr>
-          <tr><td><b>Remove Columns</b></td><td>Unused clutter columns</td><td>Right-click header → Remove</td></tr>
-          <tr><td><b>Split Column</b></td><td>One column secretly holding two values ("Bangalore, Karnataka")</td><td>Select column → Split Column → By Delimiter</td></tr>
-          <tr><td><b>Merge Columns</b></td><td>Two columns that need to become one (First + Last Name)</td><td>Select both → right-click → Merge Columns</td></tr>
-          <tr><td><b>Change Data Type</b></td><td>Wrong type blocking math or chronological sorting</td><td>Click the type icon on the column header</td></tr>
-          <tr><td><b>Remove Duplicates</b></td><td>Repeated rows quietly inflating totals</td><td>Right-click column(s) → Remove Duplicates</td></tr>
-          <tr><td><b>Replace Values</b></td><td>Known typos, inconsistent labels</td><td>Right-click column → Replace Values</td></tr>
-          <tr><td><b>Trim / Clean</b></td><td>Leading/trailing spaces, invisible characters</td><td>Transform → Format → Trim / Clean</td></tr>
-          <tr><td><b>Group By</b></td><td>Detail rows that need to become one summary row per category</td><td>Select column(s) → Transform → Group By</td></tr>
-          <tr><td><b>Merge / Append Queries</b></td><td>Two related tables that need to become one</td><td>Home → Merge Queries / Append Queries</td></tr>
-          <tr><td><b>Unpivot Columns</b></td><td>Wide, one-column-per-period data that charts can't filter by period</td><td>Select the ID column(s) → right-click the rest → Unpivot Other Columns</td></tr>
+          <tr><th>Row(s)</th><th>Column</th><th>The actual problem</th></tr>
+          <tr><td class="num">2, 12</td><td>Loan Amount</td><td>Stored as text: <code>"₹10,00,000"</code> — currency symbol + Indian-style comma grouping, and this exact row appears <b>twice</b></td></tr>
+          <tr><td class="num">3</td><td>EMI</td><td>The word <code>Nine Thousand</code> sitting in a column that's otherwise all numbers</td></tr>
+          <tr><td class="num">4, 5</td><td>Credit Score</td><td><code>9999</code> and <code>50</code> — real credit scores run roughly 300–900, so both are impossible</td></tr>
+          <tr><td class="num">6</td><td>Income</td><td>Blank</td></tr>
+          <tr><td class="num">7</td><td>Income</td><td><code>-5000</code> — a negative income</td></tr>
+          <tr><td class="num">8, 9, 10</td><td>Loan Status</td><td><code>rejected</code>, <code>Aproved</code>, <code>CLOSED</code> — three different ways of breaking the pattern set by the other 97 rows</td></tr>
+          <tr><td class="num">11</td><td>Credit Score</td><td>The literal text <code>NULL</code> — not an actual blank cell, just the word</td></tr>
+          <tr><td class="num">13</td><td>Customer</td><td><code>"Swati Chatterjee   "</code> — three trailing spaces</td></tr>
+          <tr><td class="num">14</td><td>Loan Amount</td><td>Blank</td></tr>
         </table>
       </div>
 
-      <h2 style="margin-top:30px">25 lessons, real messy data</h2>
-      <p class="lede" style="font-size:.95rem">Every card follows the same shape: the <b>before</b> value, why it's a problem, the <b>business impact</b> of leaving it, the exact click-path to fix it, the <b>after</b> value, and what actually changed. Grouped the way you'll meet them in practice — cleaning text first, structure second, values and dates next, then rows, extraction, computed columns, and finally combining whole tables.</p>
-      <div id="pqLessons"></div>
-
-      <div class="callout warn" style="margin-top:20px"><b>Never guess a fake number to hide a blank.</b> Either fill it with a defensible business default, or remove the row — and always be ready to explain which choice you made and why.</div>
-
-      <footer class="pagefoot"><span>Module 4 · Power Query Editor</span><a href="31-power-query-walkthrough.html">Next: Dirty → Clean Walkthrough →</a></footer>
-
-<script>
-/* ============= 25 Power Query lessons, tiered ============= */
-const PQ_LESSONS = [
-{tier:'Cleaning Text', title:'Trim & Remove Spaces', dataset:'Sales_Dirty.csv', column:'Customer',
-  before:'"  Rohit Singh  "', after:'"Rohit Singh"',
-  issue:'Leading/trailing spaces are invisible in a cell but not to Power BI — "Rohit Singh" and "  Rohit Singh  " are two different text values.',
-  impact:'A "Sales by Customer" chart silently splits one real customer into two shorter bars instead of one tall one.',
-  steps:['Select the Customer column','Transform ribbon → Format → Trim','Also run Format → Clean to strip any invisible non-printing characters'],
-  whatChanged:'Leading and trailing whitespace removed; the value now matches every other "Rohit Singh" row exactly.',
-  challenge:'Trim the First Name column in <code>PQ_Practice_Orders.csv</code> — a couple of rows carry visible leading/trailing spaces of their own.'},
-
-{tier:'Cleaning Text', title:'Fix Inconsistent Capitalization', dataset:'PQ_Practice_Orders.csv', column:'Channel',
-  before:'"ONLINE", "online", "Online" — three spellings, one channel', after:'"Online"',
-  issue:'Text grouping in Power Query and DAX is case-sensitive — three capitalizations of the same word can be read as three different <span class="term" data-term="dimension">categories</span>.',
-  impact:'A bar chart of "Orders by Channel" shows three thin Online bars instead of one tall one, and the real leader isn\'t obvious anymore.',
-  steps:['Select the Channel column','Transform → Format → lowercase, then Format → Capitalize Each Word','Spot-check the result in the column preview before moving on'],
-  whatChanged:'Every spelling variant now renders identically as "Online."'},
-
-{tier:'Cleaning Text', title:'Replace Values', dataset:'Sales_Dirty.csv', column:'Region',
-  before:'"Souths"', after:'"South"',
-  issue:'A one-letter typo creates a category that doesn\'t match anything else in the column.',
-  impact:'The South region\'s true total is undercounted by however many rows carry the typo — and a fifth "region" quietly appears in every chart.',
-  steps:['Right-click the Region column → Replace Values','Value To Find: "Souths" · Replace With: "South"','OK'],
-  whatChanged:'The typo\'d rows now roll up into the correct region.'},
-
-{tier:'Cleaning Text', title:'Detect Inconsistent Category Values', dataset:'PQ_Practice_Orders.csv', column:'Channel',
-  before:'Column looks fine at a glance — until you actually check it', after:'A confirmed, short list: Online, Store',
-  issue:'Casing and typo fixes only work once you know every variant that exists — easy to miss in a column with hundreds of rows.',
-  impact:'Fixing the 3 variants you noticed while missing a 4th ("Onlin") leaves a silent gap in the cleanup.',
-  steps:['Click the small chart icon above the column header, or turn on Column Profile in the status bar (bottom-left)','Column Distribution shows every distinct value with its count in one glance','Cross each variant off a checklist before deciding how to standardize it'],
-  whatChanged:'Nothing yet — this is a detection step, done right before Replace Values / capitalization fixes above.'},
-
-{tier:'Fixing Structure', title:'Rename Columns', dataset:'PQ_Practice_Orders.csv', column:'Qty',
-  before:'Qty', after:'Quantity',
-  issue:'Abbreviated headers are fine for the person who exported the file and meaningless to everyone downstream.',
-  impact:'A teammate building on your query has to guess what "Qty" means instead of reading it.',
-  steps:['Double-click the column header','Type the new name','Enter'],
-  whatChanged:'The column header is now self-explanatory — nothing about the data itself changed.'},
-
-{tier:'Fixing Structure', title:'Split a Column', dataset:'PQ_Practice_Orders.csv', column:'Ship City',
-  before:'"Bangalore, Karnataka"', after:'City = "Bangalore" · State = "Karnataka"',
-  issue:'City and State are jammed into one text field — you can\'t filter, slice, or map by State alone while they\'re combined.',
-  impact:'A Filled Map by State is impossible until the two values are separated.',
-  steps:['Select the Ship City column','Transform → Split Column → By Delimiter','Delimiter: Comma · Split at: Each occurrence of the delimiter','Rename the two new columns City and State'],
-  whatChanged:'One combined column becomes two clean, independently filterable columns.',
-  challenge:'Split every row, then build a Filled Map on the new State column.'},
-
-{tier:'Fixing Structure', title:'Merge Columns', dataset:'PQ_Practice_Orders.csv', column:'First Name + Last Name',
-  before:'First Name = "Anjali" · Last Name = "Kumar"', after:'Full Name = "Anjali Kumar"',
-  issue:'Two columns that always get used together are more convenient — and often required by a visual — as one.',
-  impact:'A Table visual meant to show "Customer" cleanly needs one column, not two side by side.',
-  steps:['Select First Name, then Ctrl-click Last Name','Transform → Merge Columns','Separator: Space · New column name: Full Name'],
-  whatChanged:'The two source columns are replaced by one combined Full Name column.'},
-
-{tier:'Fixing Structure', title:'Remove Unnecessary Columns', dataset:'PQ_Practice_Orders.csv', column:'Notes',
-  before:'A Notes column, blank on every single row', after:'Column removed',
-  issue:'A column with zero populated values carries zero analytical value — it only costs load time and clutters the Fields pane.',
-  impact:'Every teammate who opens the model has to scroll past a useless field to find the ones that matter.',
-  steps:['Right-click the Notes column header','Remove Columns'],
-  whatChanged:'The model is lighter and the Fields pane only lists columns that actually mean something.'},
-
-{tier:'Fixing Values', title:'Correct Data Types', dataset:'PQ_Practice_Orders.csv', column:'Qty',
-  before:'Type shown as ABC123 (Any/Text) — one row contains "N/A"', after:'Type: Whole Number',
-  issue:'A column stuck on a text-like type can\'t be summed, averaged, or used as a numeric axis, even though most of the values look like numbers.',
-  impact:'A "Total Units Sold" measure returns blank or an error until the type is fixed.',
-  steps:['Click the type icon on the Qty column header','Choose Whole Number','Power Query will flag the "N/A" row as an Error — that\'s expected, see the next lesson'],
-  whatChanged:'The column is now genuinely numeric, ready for SUM/AVERAGE — except the one row that can\'t convert.'},
-
-{tier:'Fixing Values', title:'Handle Null/Blank Values', dataset:'PQ_Practice_Orders.csv', column:'Qty (order ORD2006)',
-  before:'blank cell', after:'row removed (or flagged, not guessed)',
-  issue:'A blank Qty means you genuinely don\'t know how many units were ordered — inventing a number would fabricate a sale that may not be real.',
-  impact:'Silently guessing "1" here means every downstream total includes a number nobody can defend in a review.',
-  steps:['Right-click Qty → Remove Rows → Remove Blank Rows, if the row truly can\'t be recovered','Or: leave it and flag it for whoever owns the source data, rather than guessing'],
-  whatChanged:'The blank no longer silently pollutes SUM(Qty) — it\'s either gone or explicitly flagged.'},
-
-{tier:'Fixing Values', title:'Fill Missing Values', dataset:'PQ_Practice_Orders.csv', column:'Discount % (order ORD2017)',
-  before:'blank cell', after:'0',
-  issue:'Unlike a blank Qty, a blank Discount % has an obvious, defensible default — no value recorded almost always means no discount was applied.',
-  impact:'Leaving it blank (rather than 0) can break a DIVIDE or make the row silently drop out of a discount-rate average.',
-  steps:['Right-click Discount % → Replace Values','Value To Find: leave blank (null) · Replace With: 0'],
-  whatChanged:'Every row now has a usable number — filled with a default you can justify out loud, not a guess.'},
-
-{tier:'Fixing Values', title:'Handle Errors', dataset:'PQ_Practice_Orders.csv', column:'Qty (order ORD2011, "N/A")',
-  before:'Error (after changing the column to Whole Number)', after:'Row removed, or replaced with a justified default',
-  issue:'An Error value breaks any <span class="term" data-term="measure">measure</span> or visual that touches the column until it\'s dealt with — it doesn\'t just sit there quietly like a blank does.',
-  impact:'A published report with unresolved errors shows a red warning icon and can block scheduled refresh entirely.',
-  steps:['Right-click Qty → Replace Errors (with 0, or a value you can defend) — or —','Home → Remove Rows → Remove Errors, if the row should just be excluded','Never publish with unresolved errors in a column feeding a measure'],
-  whatChanged:'The column loads clean, with the error either explicitly resolved or the row excluded on purpose.'},
-
-{tier:'Dates', title:'Parse Dates', dataset:'PQ_Practice_Orders.csv', column:'Order Date',
-  before:'Type: Text (or a guessed date that\'s wrong for some rows)', after:'Type: Date, verified row by row',
-  issue:'Power Query guesses a date format from the first few rows and applies it to the whole column — it doesn\'t check every row.',
-  impact:'A wrongly-parsed date silently sorts a Line Chart out of chronological order without throwing any error at all.',
-  steps:['Click the type icon on Order Date','Choose Date','Scroll through a sample of rows to confirm none of them flipped day/month by mistake'],
-  whatChanged:'The column is genuinely date-typed and ready for a Year/Quarter/Month hierarchy.'},
-
-{tier:'Dates', title:'Handle Inconsistent Date Formats', dataset:'PQ_Practice_Orders.csv', column:'Order Date',
-  before:'03-01-2025, 2025/01/09, 2025-01-15, 25/01/2025 — four formats in one column', after:'One consistent format across every row',
-  issue:'Auto-detected parsing applies ONE format to the whole column and silently mis-reads every row that doesn\'t match it — 03-01-2025 read as "3rd January" vs "1st March" is a real, undetectable error with no red flag.',
-  impact:'A monthly trend line can be quietly wrong for months at a time with nothing in the report signaling it.',
-  steps:['Change the column type to Text first, undoing any auto-date guess','Fix the format at the source if possible — or split by format pattern and parse each batch with an explicit Date.FromText format','Only change the type to Date once every row uses one confirmed format'],
-  whatChanged:'Every row parses correctly, not just the ones that happened to match the auto-detected pattern.'},
-
-{tier:'Rows', title:'Remove Duplicates', dataset:'PQ_Practice_Orders.csv', column:'entire row (ORD2012 appears twice)',
-  before:'Two byte-for-byte identical rows', after:'One row',
-  issue:'An exact duplicate row is the same order counted twice — a data export glitch, not a second sale.',
-  impact:'Every total the duplicate touches — units, revenue, order count — is inflated by exactly one extra order.',
-  steps:['Select all columns (Ctrl+A on the column headers)','Right-click → Remove Duplicates'],
-  whatChanged:'The order is counted exactly once, matching reality.'},
-
-{tier:'Rows', title:'Filter Rows', dataset:'PQ_Practice_Orders.csv', column:'Status',
-  before:'Completed and Cancelled orders mixed together', after:'Cancelled rows removed',
-  issue:'A cancelled order is still a real row in the export, but it never became revenue.',
-  impact:'Leaving cancelled rows in inflates every sales total by orders that were never actually fulfilled.',
-  steps:['Click the filter arrow on the Status column header','Uncheck "Cancelled"','OK'],
-  whatChanged:'Only orders that actually shipped remain in the table.'},
-
-{tier:'Rows', title:'Sort Data', dataset:'PQ_Practice_Orders.csv', column:'Order Date or Unit Price',
-  before:'Rows in export order', after:'Rows in a chosen order, for review',
-  issue:'It\'s hard to eyeball whether a cleanup step worked when the rows are in arbitrary export order.',
-  impact:'Not a data-quality issue by itself — it\'s a working habit that makes every other lesson on this page easier to verify.',
-  steps:['Click the sort arrow on a column header, or Home → Sort','Ascending or Descending'],
-  whatChanged:'Nothing about the data — sorting here is for your own review, and does not control how a Power BI visual sorts later.'},
-
-{tier:'Extracting', title:'Extract Text', dataset:'PQ_Practice_Orders.csv', column:'Product Code',
-  before:'"SKU-1001-RED"', after:'"RED"',
-  issue:'The color/variant code is buried inside a compound ID instead of being its own filterable field.',
-  impact:'You can\'t build a "Sales by Color" chart until the color exists as its own column.',
-  steps:['Duplicate the Product Code column first, so the original ID survives','Transform → Extract → Text After Delimiter','Delimiter: "-" · From: the last occurrence'],
-  whatChanged:'A new column holds just the variant code, ready to use on its own.'},
-
-{tier:'Extracting', title:'Extract Numbers', dataset:'PQ_Practice_Orders.csv', column:'Product Code',
-  before:'"SKU-1001-RED"', after:'"1001"',
-  issue:'The numeric SKU is mixed with letters, so it can\'t be sorted or matched numerically as-is.',
-  impact:'Matching this file to another system\'s numeric-only SKU list fails until the digits are isolated.',
-  steps:['On a duplicated copy of Product Code, Transform → Extract → Digits','(Or a Custom Column: <code>Text.Select([Product Code], {"0".."9"})</code>)'],
-  whatChanged:'A clean numeric SKU column exists alongside the original compound code.'},
-
-{tier:'Computed Columns', title:'Conditional Columns', dataset:'PQ_Practice_Orders.csv', column:'Qty',
-  before:'No size label on an order', after:'Order Size = Small / Medium / Large',
-  issue:'"Qty = 4" doesn\'t mean anything to a reader scanning a table until it\'s translated into a business-meaningful bucket.',
-  impact:'A table sorted or colored by Order Size communicates instantly; one sorted by raw Qty makes the reader do the math themselves.',
-  steps:['Add Column → Conditional Column','Column Name: Order Size','If Qty is less than 2 then "Small" · else if Qty is less than or equal to 3 then "Medium" · else "Large"'],
-  whatChanged:'A new, human-readable category column exists without touching the underlying Qty values.'},
-
-{tier:'Computed Columns', title:'Custom Columns', dataset:'PQ_Practice_Orders.csv', column:'Qty × Unit Price',
-  before:'Qty and Unit Price as two separate numbers', after:'Line Total, one computed column',
-  issue:'The line-item revenue for an order doesn\'t exist as a column — it has to be calculated.',
-  impact:'Without it, every "Total Revenue" visual needs its own DAX measure instead of a simple SUM.',
-  steps:['Add Column → Custom Column','Column Name: Line Total','Formula: <code>= [Qty] * [Unit Price]</code>'],
-  whatChanged:'A new column exists that a plain SUM can now total directly. (The one row with Qty = "N/A" will error here too — same fix as the Handle Errors lesson above.)'},
-
-{tier:'Computed Columns', title:'Group Data', dataset:'PQ_Practice_Orders.csv', column:'Category',
-  before:'One row per order', after:'One row per Category, with totals',
-  issue:'Sometimes the question is about the category as a whole, not any individual order — that needs summary rows, not detail rows.',
-  impact:'A quick "how many orders and units per Category" check otherwise means building a whole separate visual just to eyeball it.',
-  steps:['Select the Category column','Transform → Group By','New column 1: Order Count · Operation: Count Rows','New column 2: Total Qty · Operation: Sum · Column: Qty'],
-  whatChanged:'One summarized table, one row per Category — a separate query from the detail-level Orders table.'},
-
-{tier:'Combining Data', title:'Merge Queries', dataset:'PQ_Practice_Orders.csv + PQ_Practice_Returns.csv', column:'Order ID (shared key)',
-  before:'Two separate tables, joined by nothing yet', after:'Orders with Return Reason and Refund Amount attached where they exist',
-  issue:'Return information lives in a completely separate export — an order table alone can\'t show which orders came back.',
-  impact:'Without merging, "which products get returned most" is impossible to answer from either file alone.',
-  steps:['Home → Merge Queries','First table: Orders · matching column: Order ID','Second table: Returns · matching column: Order ID','Join Kind: Left Outer (keep every order, attach return info only where it exists)','Expand the new column to bring in Return Reason and Refund Amount'],
-  whatChanged:'One combined table — every order, with return details attached for the ones that have them, blank for the ones that don\'t.'},
-
-{tier:'Combining Data', title:'Append Queries', dataset:'PQ_Practice_Orders.csv + PQ_Practice_Orders_Feb.csv', column:'(same columns, different rows)',
-  before:'Two monthly export files, same structure', after:'One table, both months stacked',
-  issue:'A new month\'s export always arrives as its own file with the exact same columns as the last one.',
-  impact:'Analyzing month-over-month trend is impossible while the months live in two separate tables.',
-  steps:['Home → Append Queries → Append Queries as New','Table 1: the first month\'s Orders query','Table 2: the second month\'s Orders query'],
-  whatChanged:'One long table, same columns, every row from both months — ready for a real trend line.'},
-
-{tier:'Combining Data', title:'Pivot / Unpivot', dataset:'PQ_Practice_Wide.csv', column:'Jan, Feb, Mar, Apr',
-  before:'Region, Jan, Feb, Mar, Apr — one column per month', after:'Region, Month, Sales — one row per Region + Month',
-  issue:'A chart or measure can\'t filter or slice by "Month" while January, February, March and April are each their own separate column.',
-  impact:'A Line Chart of Sales trend by Region is impossible to build against the wide layout — Power BI needs Month as values in ONE column, not four column headers.',
-  steps:['Select the Region column (the one column to KEEP as-is)','Right-click → Unpivot Other Columns','Rename the two new columns to Month and Sales'],
-  whatChanged:'The same numbers, reshaped from wide to long — now a normal Line Chart or Matrix can use Month as an axis.'},
-];
-
-let pqHTML = '';
-let pqTier = '';
-let pqNum = 0;
-PQ_LESSONS.forEach(l => {
-  if(l.tier !== pqTier){ pqTier = l.tier; pqHTML += `<h3 style="margin-top:26px">${pqTier}</h3>`; }
-  pqNum++;
-  pqHTML += `
-  <details class="card" style="margin-bottom:10px;padding:14px 18px">
-    <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem;display:flex;justify-content:space-between;gap:10px;align-items:center">
-      <span>${pqNum}. ${l.title} <span style="font-weight:400;font-size:.78rem;color:var(--text-muted);font-family:var(--font-mono)">— ${l.dataset}, ${l.column}</span></span>
-    </summary>
-    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-      <div class="grid grid-2">
-        <div><p style="font-size:.85rem"><b>Before:</b> <code>${l.before}</code></p></div>
-        <div><p style="font-size:.85rem"><b>After:</b> <code>${l.after}</code></p></div>
+      <h2 style="margin-top:30px">Step 1 — Load, and turn on the quality indicators before doing anything else</h2>
+      <div class="clickpath">
+        <span class="seg">Home</span><span class="arrow">→</span><span class="seg">Get Data</span><span class="arrow">→</span><span class="seg">Text/CSV</span><span class="arrow">→</span><span class="seg">select Banking_Dirty.csv</span><span class="arrow">→</span><span class="seg">Transform Data</span>
       </div>
-      <p style="font-size:.9rem;margin-top:8px"><b>Why it's a problem:</b> ${l.issue}</p>
-      <p style="font-size:.9rem;color:var(--text-muted)"><b>Business impact:</b> ${l.impact}</p>
-      <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-      <ol class="steps">${l.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
-      <p style="font-size:.85rem;margin-top:6px"><b>What changed:</b> ${l.whatChanged}</p>
-      ${l.challenge ? `<div class="callout" style="margin-top:10px"><b>Try it yourself:</b> ${l.challenge}</div>` : ''}
-    </div>
-  </details>`;
-});
-document.getElementById('pqLessons').innerHTML = pqHTML;
-</script>
+      <ol class="steps">
+        <li>In the Power Query Editor, open the <b>View</b> ribbon</li>
+        <li>Turn on all three: <b>Column quality</b>, <b>Column distribution</b>, <b>Column profile</b></li>
+        <li>Look at the thin bar that appears under every column header — green (Valid), red (Error), grey (Empty)</li>
+      </ol>
+      <p style="font-size:.9rem"><b>What you should see right now:</b> Loan Amount and Income each show a sliver of grey (the two blanks). Nothing is red yet — <code>"Nine Thousand"</code> is still perfectly valid <i>text</i> at this point. It only turns into a red Error a few steps from now, the moment EMI gets converted to a number. Watch that bar change live — that's the whole point of turning it on first.</p>
+
+      <h2 style="margin-top:30px">Step 2 — Confirm the headers, don't assume them</h2>
+      <p style="font-size:.9rem">Check the <b>Applied Steps</b> pane (right-hand side) — a step called <code>Promoted Headers</code> should already be sitting there. Power Query's CSV import usually gets this right automatically, which is exactly why it's worth a five-second glance instead of a blind assumption: on a messier real-world file, this is the step that's occasionally missing or wrong.</p>
+
+      <h2 style="margin-top:30px">Step 3 — Loan Amount: clean the text before you can type the column</h2>
+      <p style="font-size:.9rem">Try changing Loan Amount straight to a number and Power Query will choke on <code>"₹10,00,000"</code> — you can't type-convert currency-formatted text, you have to de-format it first. This is the one place in this walkthrough where the order genuinely isn't optional.</p>
+      <ol class="steps">
+        <li>Right-click the <b>Loan Amount</b> column → <b>Replace Values</b></li>
+        <li>Value To Find: <code>₹</code> · Replace With: <i>(leave blank)</i> → OK</li>
+        <li>Right-click <b>Loan Amount</b> again → <b>Replace Values</b> → Value To Find: <code>,</code> · Replace With: <i>(leave blank)</i> → OK</li>
+        <li>Now click the column's type icon (currently <code>ABC</code>) → <b>Whole Number</b></li>
+      </ol>
+      <p style="font-size:.9rem"><b>What just happened:</b> <code>"₹10,00,000"</code> is now the plain number <code>1000000</code>, and the column can finally aggregate correctly — before this fix, a Sum of Loan Amount would have silently under-counted, because text doesn't sum.</p>
+
+      <h2 style="margin-top:30px">Step 4 — EMI: type it, let it error, then decide what an error actually means</h2>
+      <ol class="steps">
+        <li>Click EMI's type icon → <b>Decimal Number</b></li>
+        <li>Row 3 (Nisha Nair) now shows <code>Error</code> instead of a value — <code>"Nine Thousand"</code> can't become a number automatically</li>
+        <li>Click that <code>Error</code> cell once to preview exactly what Power Query tried and failed to do</li>
+        <li>Home ribbon → Remove Rows → <b>Remove Errors</b> (or: manually replace it with the number <code>9000</code> if you'd rather keep the row — either is defensible, but make the choice on purpose)</li>
+      </ol>
+      <div class="callout warn"><b>This is a judgment call, not a mechanical step.</b> Remove Errors deletes the whole row — fine for a 100-row practice file, much less fine if that row represents a real customer's real loan in production. A business analyst's actual job here is deciding <i>which</i> is correct, not just knowing which button does it.</div>
+
+      <h2 style="margin-top:30px">Step 5 — Income and Credit Score: type them, then flag what looks wrong instead of deleting it</h2>
+      <ol class="steps">
+        <li>Type <b>Income</b> and <b>Credit Score</b> as <b>Whole Number</b> — both convert cleanly, no errors, because nothing text-shaped is blocking them</li>
+      </ol>
+      <p style="font-size:.9rem">Typing cleanly isn't the same as being correct. Two things now visible in plain numeric form still don't make business sense: row 4's Credit Score of <code>9999</code> and row 5's <code>50</code> (real scores run roughly 300–900), and row 7's Income of <code>-5000</code> (negative income). <b>Leave these as-is for now</b> — the honest move with implausible-but-technically-valid data is to flag it for whoever owns the source system, not to silently delete or guess-correct it inside a query. Power BI can't tell you which one it is; only asking can.</p>
+
+      <h2 style="margin-top:30px">Step 6 — The fake blank: turn the text "NULL" into an actual blank</h2>
+      <ol class="steps">
+        <li>Right-click <b>Credit Score</b> → <b>Replace Values</b></li>
+        <li>Value To Find: <code>NULL</code> · Replace With: <i>(leave blank)</i> → OK</li>
+      </ol>
+      <p style="font-size:.9rem">Before this step, row 11's Credit Score was the four-character string <code>"NULL"</code> — visually looks like a missing value, but Power BI would have happily averaged it as data or, worse, errored inconsistently depending on the column's type. Now it's a genuine null, and every aggregation treats it correctly as "we don't know," not as "the answer is null."</p>
+
+      <h2 style="margin-top:30px">Step 7 — Trim the whitespace hiding in Customer</h2>
+      <div class="clickpath">
+        <span class="seg">Select the Customer column</span><span class="arrow">→</span><span class="seg">Transform</span><span class="arrow">→</span><span class="seg">Format</span><span class="arrow">→</span><span class="seg">Trim</span>
+      </div>
+      <p style="font-size:.9rem">Row 13's <code>"Swati Chatterjee   "</code> looks identical to a clean name at a glance — but three trailing spaces make it a <i>different string</i> to Power BI, which is exactly the kind of bug that silently breaks a Group By or a relationship later, with no error message anywhere to catch it.</p>
+
+      <h2 style="margin-top:30px">Step 8 — Standardize Loan Status: one blanket fix, one manual fix</h2>
+      <p style="font-size:.9rem">Three different breaks, two different repairs — worth noticing they're not the same kind of problem:</p>
+      <ol class="steps">
+        <li>Select <b>Loan Status</b> → Transform → Format → <b>Capitalize Each Word</b> — this alone fixes <code>rejected</code> → <code>Rejected</code> and <code>CLOSED</code> → <code>Closed</code></li>
+        <li>Capitalize Each Word turns <code>Aproved</code> into… still <code>Aproved</code> — it fixes case, not spelling. Right-click <b>Loan Status</b> → <b>Replace Values</b> → Value To Find: <code>Aproved</code> · Replace With: <code>Approved</code> → OK</li>
+      </ol>
+      <p style="font-size:.9rem"><b>Why this is worth slowing down for:</b> a blanket capitalization fix is tempting to reach for on every inconsistency, but it only solves formatting problems. A genuine misspelling needs a targeted Replace Values every time — no transform button "fixes typos" for you.</p>
+
+      <h2 style="margin-top:30px">Step 9 — Remove the duplicate, now that it's safe to</h2>
+      <div class="clickpath">
+        <span class="seg">Select all columns (Ctrl+A on the column headers)</span><span class="arrow">→</span><span class="seg">Right-click</span><span class="arrow">→</span><span class="seg">Remove Duplicates</span>
+      </div>
+      <p style="font-size:.9rem">Rows 2 and 12 are Suresh Gupta's exact same loan, twice. Removing duplicates is deliberately one of the <i>last</i> steps here, not the first — do it before cleaning the values and a near-duplicate that's only different because of a currency symbol or a trailing space won't get caught as a duplicate at all. Now that Loan Amount is a clean number and Customer is trimmed, an exact-row-match actually means what it looks like it means.</p>
+
+      <h2 style="margin-top:30px">Step 10 — Review Applied Steps, then Close &amp; Apply</h2>
+      <p style="font-size:.9rem">Scroll the <b>Applied Steps</b> pane top to bottom — every single fix above should be sitting there as its own named, reorderable, deletable step: Promoted Headers, two Replaced Value steps on Loan Amount, a Changed Type, Removed Errors, a Replaced Value on Credit Score, a Trim, two more Replaced Value steps on Loan Status, Removed Duplicates. <b>Each one of those is one line of M</b> — <a href="23-m-language-etl.html">M Language &amp; End-to-End ETL</a> shows you exactly what that code looks like. When it all reads the way you expect, <b>Home → Close &amp; Apply</b>.</p>
+
+      <h2 style="margin-top:30px">Before / after</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Column</th><th>Before</th><th>After</th></tr>
+          <tr><td>Loan Amount</td><td>Text, one value carrying a ₹ symbol and commas</td><td>Whole Number, aggregates correctly</td></tr>
+          <tr><td>EMI</td><td>Text, one non-numeric value</td><td>Decimal Number, offending row resolved on purpose</td></tr>
+          <tr><td>Income / Credit Score</td><td>Text-ish, one fake "NULL" string</td><td>Whole Number, real nulls where data is genuinely missing</td></tr>
+          <tr><td>Customer</td><td>One row with trailing spaces</td><td>Trimmed throughout</td></tr>
+          <tr><td>Loan Status</td><td>7 rows breaking a 4-value pattern</td><td>Exactly 4 consistent values</td></tr>
+          <tr><td>Row count</td><td>100 rows, 1 exact duplicate</td><td>98–99 rows (duplicate removed, one EMI-error row resolved)</td></tr>
+        </table>
+      </div>
+
+      <div class="callout"><b>Take it yourself:</b> pick one of the other four Dirty files from the <a href="datasets.html">Datasets</a> page and clean it completely, the same way — <a href="datasets/HR_Dirty.csv" download>HR_Dirty.csv</a> (a malformed email and a misspelled department are waiting), <a href="datasets/Retail_Dirty.csv" download>Retail_Dirty.csv</a>, <a href="datasets/Sales_Dirty.csv" download>Sales_Dirty.csv</a>, or <a href="datasets/Hospital_Dirty.csv" download>Hospital_Dirty.csv</a>. Don't take this page's word for what's wrong with any of them — open the CSV first, the way this walkthrough did, and find the problems yourself before you start fixing them.</div>
+
+      <footer class="pagefoot"><span>Module 4 · Dirty → Clean Walkthrough</span><a href="23-m-language-etl.html">Next: M Language &amp; End-to-End ETL →</a></footer>
     </main>
   </div>
 </div>

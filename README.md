@@ -69,4 +69,10 @@ page for the pattern.
   files there. Match on-disk filenames exactly.
 - **Root-relative paths only.** Every generated page lives flat at the repo
   root, so links are always `some-file.html` or `datasets/Some_File.csv` —
-  never `../`. Keep new pages at the root too.
+  never `../`, never a leading `/`. Keep new pages at the root too.
+
+`build.mjs` checks both of these automatically and fails the build with a
+printed list if either slips through — see its output before assuming a
+link is safe. `.gitattributes` also keeps every generated file on LF line
+endings, so `git status` after a rebuild should only ever show pages whose
+content you actually changed.

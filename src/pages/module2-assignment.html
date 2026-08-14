@@ -1,0 +1,60 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 2 · Assignment</span>
+        <h1>Make it interactive — five features, one AdventureWorksDW report</h1>
+        <p class="lede">Same database as the rest of Module 1–2, one small report page — but now it has to respond when someone clicks on it. This is the assignment that separates "I can build a chart" from "I can build a report."</p>
+      </div>
+
+      <div class="callout"><b>Worth 10 marks.</b> Individual submission, through the LMS portal. Builds on AdventureWorksDW (the same database from the SQL Server &amp; AdventureWorks page) — no DAX measures required anywhere in this assignment, that's Module 3. Every task below is achievable with drag-and-drop field wells and built-in aggregations (Sum/Average/Count) only.</div>
+
+      <h2 style="margin-top:30px">The brief</h2>
+      <p>Using your restored <b>AdventureWorksDW</b> database, build a single report page in Power BI Desktop that completes all five tasks below. Unlike the Visualizations page's worked examples, tasks in this assignment are free to pull from <b>both</b> <code>DimProduct</code> and <code>FactInternetSales</code> together — that's the whole point of a star schema, and exactly what Module 2's Interactivity and cross-filtering lessons are testing.</p>
+      <div class="callout warn"><b>If a visual mixing the two tables shows blank or wrong numbers:</b> open <b>Model view</b> (left-hand rail in Power BI Desktop) and confirm a relationship line connects <code>DimProduct[ProductKey]</code> to <code>FactInternetSales[ProductKey]</code>. Power BI usually autodetects it on load; if it didn't, drag one <code>ProductKey</code> column onto the other to create the relationship manually.</div>
+
+      <h2 style="margin-top:24px">The five tasks</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>#</th><th>Task</th><th>Skills from</th></tr>
+          <tr><td class="num">1</td><td>Build a report page with a <b>Bar Chart</b> (Sum of <code>FactInternetSales[SalesAmount]</code> by <code>DimProduct[ProductLine]</code>) and a <b>KPI Card</b> (Sum of <code>FactInternetSales[SalesAmount]</code>), plus a <b>Slicer</b> on <code>DimProduct[Color]</code>. Click a color in the slicer and confirm both other visuals cross-filter.</td><td>Interactivity, Slicers</td></tr>
+          <tr><td class="num">2</td><td>Build a <b>Matrix</b>: Rows = <code>DimProduct[ProductLine]</code>, Values = Count of <code>ProductKey</code>, Average of <code>ListPrice</code>, Average of <code>StandardCost</code>. Apply <b>conditional formatting</b> (a background color scale) to the Average List Price column.</td><td>Tables &amp; Matrix, Conditional Formatting</td></tr>
+          <tr><td class="num">3</td><td>Build a <b>Bar Chart</b> of <code>DimProduct[EnglishProductName]</code> by <code>ListPrice</code>, then apply a <b>Top N filter</b> (Filters pane → Top N → 5, ranked by List Price) so only the 5 most expensive products show.</td><td>Filters</td></tr>
+          <tr><td class="num">4</td><td>Add <b>one custom visual</b> from AppSource (Get more visuals) and build it against any AdventureWorksDW field(s) of your choice — a Word Cloud of product names is an easy safe choice, but pick whichever one actually fits what you're showing.</td><td>Custom Visuals</td></tr>
+          <tr><td class="num">5</td><td>Choose <b>one</b>: Group <code>DimProduct[Color]</code>'s individual colors into 3–4 broader buckets of your own naming (e.g. Neutral / Bright / Other) and chart the grouped field — <b>or</b> build a <b>Histogram</b> of <code>DimProduct[ListPrice]</code> with a bin size you choose and justify.</td><td>Groups &amp; Histograms</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">All five can live on one page, or be spread across a couple of pages — your call, as long as every task is present and working somewhere in the file.</p>
+
+      <h2 style="margin-top:30px">Deliverable checklist</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">✓</span><div>Connected live to your restored AdventureWorksDW database (not a CSV export of it)</div></li>
+        <li><span class="ico">✓</span><div>All <b>5 tasks</b> present and functioning</div></li>
+        <li><span class="ico">✓</span><div>Slicer cross-filtering demonstrably works — click it and the other visuals visibly react</div></li>
+        <li><span class="ico">✓</span><div>Conditional formatting rule is visible in the Matrix, not just configured and invisible</div></li>
+        <li><span class="ico">✓</span><div>Real chart titles throughout — no default "Sum of SalesAmount by ProductLine" left on screen</div></li>
+        <li><span class="ico">✓</span><div>One consistent Theme applied across the whole page</div></li>
+      </ul>
+
+      <h2 style="margin-top:30px">Grading rubric</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Criterion</th><th class="num">Marks</th></tr>
+          <tr><td>Task 1 — Slicer + cross-filtering, demonstrably working</td><td class="num">2</td></tr>
+          <tr><td>Task 2 — Matrix with correct aggregations + visible conditional formatting</td><td class="num">2</td></tr>
+          <tr><td>Task 3 — Top N filter correctly applied and ranked</td><td class="num">2</td></tr>
+          <tr><td>Task 4 — Custom visual added and mapped to a sensible field</td><td class="num">1</td></tr>
+          <tr><td>Task 5 — Grouping or Histogram, correctly built either way</td><td class="num">1</td></tr>
+          <tr><td><b>Design judgment</b> — real titles, consistent theme, readable labels, sensible layout (this is graded separately from "did it technically work")</td><td class="num">1</td></tr>
+          <tr><td>Submission format followed exactly (see below)</td><td class="num">1</td></tr>
+          <tr><td><b>Total</b></td><td class="num"><b>10</b></td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">How to submit</h2>
+      <div class="callout warn"><b>Two files, exact naming, both to the LMS portal:</b>
+        <ol class="steps" style="margin-top:10px">
+          <li>Your Power BI file, saved and submitted as <code>YourFullName_Module2.pbix</code> — e.g. <code>Anjali_Kumar_Module2.pbix</code></li>
+          <li>A single PDF containing a full-page screenshot of every visual, plus one screenshot showing the slicer <i>mid-click</i> (a color selected, other visuals visibly filtered), submitted as <code>YourFullName_Module2_Screenshots.pdf</code></li>
+        </ol>
+      </div>
+      <p style="font-size:.92rem"><b>Capturing the "mid-click" screenshot:</b> click a color in your slicer, then screenshot before clicking anywhere else — this is the one piece of evidence a static file can't show any other way, so don't skip it.</p>
+
+      <footer class="pagefoot"><span>Module 2 · Assignment</span><a href="19-dax-basics.html">Next: DAX Basics &amp; Measures →</a></footer>

@@ -1,0 +1,110 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 4 · 2</span>
+        <h1>One dirty file, start to finish — every technique from the last page, in the order you'd actually use them.</h1>
+        <p class="lede">The Power Query page taught Trim, Replace Values, Remove Duplicates, and the rest as isolated moves. This page is the opposite: <b>one real file, cleaned completely</b>, so you can see how those moves chain together — and where the order you do them in actually matters.</p>
+      </div>
+
+      <div class="callout"><b>File for this walkthrough:</b> <a href="datasets/Banking_Dirty.csv" download>Banking_Dirty.csv</a> — a 100-row loan portfolio, and (not by accident) the messiest small file on the <a href="datasets.html">Datasets</a> page. Ten distinct problems are packed into just its first 14 rows, which is exactly why it was picked: everything below is checkable by opening the file yourself, side by side with Power BI.</div>
+
+      <h2>Before you touch anything: what's actually wrong with it</h2>
+      <p style="font-size:.92rem">Don't take this table on faith — open the CSV and check row numbers 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 yourself. Every issue below lives in that first block of rows.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Row(s)</th><th>Column</th><th>The actual problem</th></tr>
+          <tr><td class="num">2, 12</td><td>Loan Amount</td><td>Stored as text: <code>"₹10,00,000"</code> — currency symbol + Indian-style comma grouping, and this exact row appears <b>twice</b></td></tr>
+          <tr><td class="num">3</td><td>EMI</td><td>The word <code>Nine Thousand</code> sitting in a column that's otherwise all numbers</td></tr>
+          <tr><td class="num">4, 5</td><td>Credit Score</td><td><code>9999</code> and <code>50</code> — real credit scores run roughly 300–900, so both are impossible</td></tr>
+          <tr><td class="num">6</td><td>Income</td><td>Blank</td></tr>
+          <tr><td class="num">7</td><td>Income</td><td><code>-5000</code> — a negative income</td></tr>
+          <tr><td class="num">8, 9, 10</td><td>Loan Status</td><td><code>rejected</code>, <code>Aproved</code>, <code>CLOSED</code> — three different ways of breaking the pattern set by the other 97 rows</td></tr>
+          <tr><td class="num">11</td><td>Credit Score</td><td>The literal text <code>NULL</code> — not an actual blank cell, just the word</td></tr>
+          <tr><td class="num">13</td><td>Customer</td><td><code>"Swati Chatterjee   "</code> — three trailing spaces</td></tr>
+          <tr><td class="num">14</td><td>Loan Amount</td><td>Blank</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">Step 1 — Load, and turn on the quality indicators before doing anything else</h2>
+      <div class="clickpath">
+        <span class="seg">Home</span><span class="arrow">→</span><span class="seg">Get Data</span><span class="arrow">→</span><span class="seg">Text/CSV</span><span class="arrow">→</span><span class="seg">select Banking_Dirty.csv</span><span class="arrow">→</span><span class="seg">Transform Data</span>
+      </div>
+      <ol class="steps">
+        <li>In the Power Query Editor, open the <b>View</b> ribbon</li>
+        <li>Turn on all three: <b>Column quality</b>, <b>Column distribution</b>, <b>Column profile</b></li>
+        <li>Look at the thin bar that appears under every column header — green (Valid), red (Error), grey (Empty)</li>
+      </ol>
+      <p style="font-size:.9rem"><b>What you should see right now:</b> Loan Amount and Income each show a sliver of grey (the two blanks). Nothing is red yet — <code>"Nine Thousand"</code> is still perfectly valid <i>text</i> at this point. It only turns into a red Error a few steps from now, the moment EMI gets converted to a number. Watch that bar change live — that's the whole point of turning it on first.</p>
+
+      <h2 style="margin-top:30px">Step 2 — Confirm the headers, don't assume them</h2>
+      <p style="font-size:.9rem">Check the <b>Applied Steps</b> pane (right-hand side) — a step called <code>Promoted Headers</code> should already be sitting there. Power Query's CSV import usually gets this right automatically, which is exactly why it's worth a five-second glance instead of a blind assumption: on a messier real-world file, this is the step that's occasionally missing or wrong.</p>
+
+      <h2 style="margin-top:30px">Step 3 — Loan Amount: clean the text before you can type the column</h2>
+      <p style="font-size:.9rem">Try changing Loan Amount straight to a number and Power Query will choke on <code>"₹10,00,000"</code> — you can't type-convert currency-formatted text, you have to de-format it first. This is the one place in this walkthrough where the order genuinely isn't optional.</p>
+      <ol class="steps">
+        <li>Right-click the <b>Loan Amount</b> column → <b>Replace Values</b></li>
+        <li>Value To Find: <code>₹</code> · Replace With: <i>(leave blank)</i> → OK</li>
+        <li>Right-click <b>Loan Amount</b> again → <b>Replace Values</b> → Value To Find: <code>,</code> · Replace With: <i>(leave blank)</i> → OK</li>
+        <li>Now click the column's type icon (currently <code>ABC</code>) → <b>Whole Number</b></li>
+      </ol>
+      <p style="font-size:.9rem"><b>What just happened:</b> <code>"₹10,00,000"</code> is now the plain number <code>1000000</code>, and the column can finally aggregate correctly — before this fix, a Sum of Loan Amount would have silently under-counted, because text doesn't sum.</p>
+
+      <h2 style="margin-top:30px">Step 4 — EMI: type it, let it error, then decide what an error actually means</h2>
+      <ol class="steps">
+        <li>Click EMI's type icon → <b>Decimal Number</b></li>
+        <li>Row 3 (Nisha Nair) now shows <code>Error</code> instead of a value — <code>"Nine Thousand"</code> can't become a number automatically</li>
+        <li>Click that <code>Error</code> cell once to preview exactly what Power Query tried and failed to do</li>
+        <li>Home ribbon → Remove Rows → <b>Remove Errors</b> (or: manually replace it with the number <code>9000</code> if you'd rather keep the row — either is defensible, but make the choice on purpose)</li>
+      </ol>
+      <div class="callout warn"><b>This is a judgment call, not a mechanical step.</b> Remove Errors deletes the whole row — fine for a 100-row practice file, much less fine if that row represents a real customer's real loan in production. A business analyst's actual job here is deciding <i>which</i> is correct, not just knowing which button does it.</div>
+
+      <h2 style="margin-top:30px">Step 5 — Income and Credit Score: type them, then flag what looks wrong instead of deleting it</h2>
+      <ol class="steps">
+        <li>Type <b>Income</b> and <b>Credit Score</b> as <b>Whole Number</b> — both convert cleanly, no errors, because nothing text-shaped is blocking them</li>
+      </ol>
+      <p style="font-size:.9rem">Typing cleanly isn't the same as being correct. Two things now visible in plain numeric form still don't make business sense: row 4's Credit Score of <code>9999</code> and row 5's <code>50</code> (real scores run roughly 300–900), and row 7's Income of <code>-5000</code> (negative income). <b>Leave these as-is for now</b> — the honest move with implausible-but-technically-valid data is to flag it for whoever owns the source system, not to silently delete or guess-correct it inside a query. Power BI can't tell you which one it is; only asking can.</p>
+
+      <h2 style="margin-top:30px">Step 6 — The fake blank: turn the text "NULL" into an actual blank</h2>
+      <ol class="steps">
+        <li>Right-click <b>Credit Score</b> → <b>Replace Values</b></li>
+        <li>Value To Find: <code>NULL</code> · Replace With: <i>(leave blank)</i> → OK</li>
+      </ol>
+      <p style="font-size:.9rem">Before this step, row 11's Credit Score was the four-character string <code>"NULL"</code> — visually looks like a missing value, but Power BI would have happily averaged it as data or, worse, errored inconsistently depending on the column's type. Now it's a genuine null, and every aggregation treats it correctly as "we don't know," not as "the answer is null."</p>
+
+      <h2 style="margin-top:30px">Step 7 — Trim the whitespace hiding in Customer</h2>
+      <div class="clickpath">
+        <span class="seg">Select the Customer column</span><span class="arrow">→</span><span class="seg">Transform</span><span class="arrow">→</span><span class="seg">Format</span><span class="arrow">→</span><span class="seg">Trim</span>
+      </div>
+      <p style="font-size:.9rem">Row 13's <code>"Swati Chatterjee   "</code> looks identical to a clean name at a glance — but three trailing spaces make it a <i>different string</i> to Power BI, which is exactly the kind of bug that silently breaks a Group By or a relationship later, with no error message anywhere to catch it.</p>
+
+      <h2 style="margin-top:30px">Step 8 — Standardize Loan Status: one blanket fix, one manual fix</h2>
+      <p style="font-size:.9rem">Three different breaks, two different repairs — worth noticing they're not the same kind of problem:</p>
+      <ol class="steps">
+        <li>Select <b>Loan Status</b> → Transform → Format → <b>Capitalize Each Word</b> — this alone fixes <code>rejected</code> → <code>Rejected</code> and <code>CLOSED</code> → <code>Closed</code></li>
+        <li>Capitalize Each Word turns <code>Aproved</code> into… still <code>Aproved</code> — it fixes case, not spelling. Right-click <b>Loan Status</b> → <b>Replace Values</b> → Value To Find: <code>Aproved</code> · Replace With: <code>Approved</code> → OK</li>
+      </ol>
+      <p style="font-size:.9rem"><b>Why this is worth slowing down for:</b> a blanket capitalization fix is tempting to reach for on every inconsistency, but it only solves formatting problems. A genuine misspelling needs a targeted Replace Values every time — no transform button "fixes typos" for you.</p>
+
+      <h2 style="margin-top:30px">Step 9 — Remove the duplicate, now that it's safe to</h2>
+      <div class="clickpath">
+        <span class="seg">Select all columns (Ctrl+A on the column headers)</span><span class="arrow">→</span><span class="seg">Right-click</span><span class="arrow">→</span><span class="seg">Remove Duplicates</span>
+      </div>
+      <p style="font-size:.9rem">Rows 2 and 12 are Suresh Gupta's exact same loan, twice. Removing duplicates is deliberately one of the <i>last</i> steps here, not the first — do it before cleaning the values and a near-duplicate that's only different because of a currency symbol or a trailing space won't get caught as a duplicate at all. Now that Loan Amount is a clean number and Customer is trimmed, an exact-row-match actually means what it looks like it means.</p>
+
+      <h2 style="margin-top:30px">Step 10 — Review Applied Steps, then Close &amp; Apply</h2>
+      <p style="font-size:.9rem">Scroll the <b>Applied Steps</b> pane top to bottom — every single fix above should be sitting there as its own named, reorderable, deletable step: Promoted Headers, two Replaced Value steps on Loan Amount, a Changed Type, Removed Errors, a Replaced Value on Credit Score, a Trim, two more Replaced Value steps on Loan Status, Removed Duplicates. <b>Each one of those is one line of M</b> — <a href="23-m-language-etl.html">M Language &amp; End-to-End ETL</a> shows you exactly what that code looks like. When it all reads the way you expect, <b>Home → Close &amp; Apply</b>.</p>
+
+      <h2 style="margin-top:30px">Before / after</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Column</th><th>Before</th><th>After</th></tr>
+          <tr><td>Loan Amount</td><td>Text, one value carrying a ₹ symbol and commas</td><td>Whole Number, aggregates correctly</td></tr>
+          <tr><td>EMI</td><td>Text, one non-numeric value</td><td>Decimal Number, offending row resolved on purpose</td></tr>
+          <tr><td>Income / Credit Score</td><td>Text-ish, one fake "NULL" string</td><td>Whole Number, real nulls where data is genuinely missing</td></tr>
+          <tr><td>Customer</td><td>One row with trailing spaces</td><td>Trimmed throughout</td></tr>
+          <tr><td>Loan Status</td><td>7 rows breaking a 4-value pattern</td><td>Exactly 4 consistent values</td></tr>
+          <tr><td>Row count</td><td>100 rows, 1 exact duplicate</td><td>98–99 rows (duplicate removed, one EMI-error row resolved)</td></tr>
+        </table>
+      </div>
+
+      <div class="callout"><b>Take it yourself:</b> pick one of the other four Dirty files from the <a href="datasets.html">Datasets</a> page and clean it completely, the same way — <a href="datasets/HR_Dirty.csv" download>HR_Dirty.csv</a> (a malformed email and a misspelled department are waiting), <a href="datasets/Retail_Dirty.csv" download>Retail_Dirty.csv</a>, <a href="datasets/Sales_Dirty.csv" download>Sales_Dirty.csv</a>, or <a href="datasets/Hospital_Dirty.csv" download>Hospital_Dirty.csv</a>. Don't take this page's word for what's wrong with any of them — open the CSV first, the way this walkthrough did, and find the problems yourself before you start fixing them.</div>
+
+      <footer class="pagefoot"><span>Module 4 · Dirty → Clean Walkthrough</span><a href="23-m-language-etl.html">Next: M Language &amp; End-to-End ETL →</a></footer>

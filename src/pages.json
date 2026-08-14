@@ -170,6 +170,16 @@
     "title": "Slicers &amp; Synced Slicers — Power BI for MBA Analytics"
   },
   {
+    "id": "module2assignment",
+    "file": "30-module2-assignment.html",
+    "fragment": "module2-assignment.html",
+    "group": "Module 2: Advanced Visualizations",
+    "num": "★",
+    "label": "Assignment (10 marks)",
+    "crumb": "Module 2 Assignment",
+    "title": "Module 2 Assignment — Power BI for MBA Analytics"
+  },
+  {
     "id": "daxbasics",
     "file": "19-dax-basics.html",
     "fragment": "dax-basics.html",
@@ -220,11 +230,21 @@
     "title": "Power Query Editor — Power BI for MBA Analytics"
   },
   {
+    "id": "pqwalkthrough",
+    "file": "31-power-query-walkthrough.html",
+    "fragment": "power-query-walkthrough.html",
+    "group": "Module 4: Power Query Editor",
+    "num": "2",
+    "label": "Dirty → Clean Walkthrough",
+    "crumb": "Dirty → Clean Walkthrough",
+    "title": "Dirty to Clean: A Full Power Query Walkthrough — Power BI for MBA Analytics"
+  },
+  {
     "id": "mlanguageetl",
     "file": "23-m-language-etl.html",
     "fragment": "m-language-etl.html",
     "group": "Module 4: Power Query Editor",
-    "num": "2",
+    "num": "3",
     "label": "M Language &amp; End-to-End ETL",
     "crumb": "M Language &amp; End-to-End ETL",
     "title": "M Language &amp; End-to-End ETL — Power BI for MBA Analytics"
@@ -234,7 +254,7 @@
     "file": "24-kpis-dashboard-build.html",
     "fragment": "kpis-dashboard-build.html",
     "group": "Module 4: Power Query Editor",
-    "num": "3",
+    "num": "4",
     "label": "KPIs &amp; Single-Page Dashboard",
     "crumb": "KPIs &amp; Single-Page Dashboard",
     "title": "KPIs &amp; Single-Page Dashboard — Power BI for MBA Analytics"
