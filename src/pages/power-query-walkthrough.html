@@ -93,6 +93,10 @@
       <p style="font-size:.9rem">Scroll the <b>Applied Steps</b> pane top to bottom — every single fix above should be sitting there as its own named, reorderable, deletable step: Promoted Headers, two Replaced Value steps on Loan Amount, a Changed Type, Removed Errors, a Replaced Value on Credit Score, a Trim, two more Replaced Value steps on Loan Status, Removed Duplicates. <b>Each one of those is one line of M</b> — <a href="23-m-language-etl.html">M Language &amp; End-to-End ETL</a> shows you exactly what that code looks like. When it all reads the way you expect, <b>Home → Close &amp; Apply</b>.</p>
 
       <h2 style="margin-top:30px">Before / after</h2>
+      <figure>
+        <img src="images/power-query-before-after.svg" alt="Before: a small Banking table with a currency-formatted Loan Amount, trailing spaces on a Customer name, inconsistent Loan Status casing, and a duplicate row, each highlighted. After: the same rows cleaned in Power Query — plain numbers, trimmed text, consistent status values, and the duplicate row removed.">
+        <figcaption>The same 5 rows from the top of the file — every highlighted problem above is one of the fixes from Steps 3–9.</figcaption>
+      </figure>
       <div class="table-wrap">
         <table>
           <tr><th>Column</th><th>Before</th><th>After</th></tr>

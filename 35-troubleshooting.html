@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DAX Basics &amp; Measures — Power BI for MBA Analytics</title>
+<title>Troubleshooting — 10 Errors Every Student Hits — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -259,7 +259,7 @@
     </div>
     <div class="navgroup" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment">
       <div class="label"><span>Module 3: Introduction to DAX</span><span class="progress-count" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment"></span></div>
-      <div class="navitem"><a class="navbtn active" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
+      <div class="navitem"><a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a><input type="checkbox" class="navcheck" data-page="daxtimeintelligence" title="Mark &quot;Time Intelligence & Aggregations&quot; as done" aria-label="Mark Time Intelligence & Aggregations as done"></div>
       <div class="navitem"><a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a><input type="checkbox" class="navcheck" data-page="daxcontext" title="Mark &quot;Context & Dynamic Measures&quot; as done" aria-label="Mark Context & Dynamic Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
@@ -289,7 +289,7 @@
     </div>
     <div class="navgroup" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets">
       <div class="label"><span>Reference</span><span class="progress-count" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets"></span></div>
-      <div class="navitem"><a class="navbtn" href="35-troubleshooting.html"><span class="num">⚠</span> Troubleshooting</a><input type="checkbox" class="navcheck" data-page="troubleshooting" title="Mark &quot;Troubleshooting&quot; as done" aria-label="Mark Troubleshooting as done"></div>
+      <div class="navitem"><a class="navbtn active" href="35-troubleshooting.html"><span class="num">⚠</span> Troubleshooting</a><input type="checkbox" class="navcheck" data-page="troubleshooting" title="Mark &quot;Troubleshooting&quot; as done" aria-label="Mark Troubleshooting as done"></div>
       <div class="navitem"><a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a><input type="checkbox" class="navcheck" data-page="cheatsheet" title="Mark &quot;Cheat Sheet&quot; as done" aria-label="Mark Cheat Sheet as done"></div>
       <div class="navitem"><a class="navbtn" href="36-career-pl300.html"><span class="num">🎓</span> Career &amp; PL-300</a><input type="checkbox" class="navcheck" data-page="careerpl300" title="Mark &quot;Career & PL-300&quot; as done" aria-label="Mark Career & PL-300 as done"></div>
       <div class="navitem"><a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a><input type="checkbox" class="navcheck" data-page="datasets" title="Mark &quot;Datasets&quot; as done" aria-label="Mark Datasets as done"></div>
@@ -305,42 +305,75 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">DAX Basics &amp; Measures</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Troubleshooting</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 3 · 1</span>
-        <h1>DAX: Excel formulas' cousin, built for whole tables</h1>
-        <p class="lede"><button class="term" data-term="dax">DAX</button> is how you create numbers that don't already exist as a column — everything from a simple sum to a full year-over-year comparison.</p>
+        <span class="eyebrow">⚠ Reference</span>
+        <h1>Ten errors every student hits — solved once, here, instead of ten times in office hours</h1>
+        <p class="lede">None of these mean you did something uniquely wrong. They're the predictable failure points of this exact course, in the exact order students tend to hit them. Find the message closest to what you're seeing, read the plain-English cause, and follow the fix.</p>
       </div>
 
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
+      <div id="troubleAccordion"></div>
 
-      <h2 style="margin-top:30px">Calculated Column vs. Measure — the first fork in the road</h2>
-      <div class="grid grid-2">
-        <div class="card">
-          <h4><button class="term" data-term="calculatedcolumn">Calculated Column</button></h4>
-          <p style="font-size:.9rem">Computed once, row by row, and physically stored in the table — like adding a new column in Excel with a formula dragged down every row.</p>
-          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Full Name = [First Name] &amp; " " &amp; [Last Name]</code> — one fixed value per row, doesn't change based on what's filtered on screen.</p>
-        </div>
-        <div class="card">
-          <h4><button class="term" data-term="measure">Measure</button></h4>
-          <p style="font-size:.9rem">Computed on the fly, only when a visual asks for it — recalculates instantly based on whatever's currently filtered/sliced.</p>
-          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Total Sales = SUM(Sales[Sales])</code> — the same measure returns a different number for "2025" than for "2024," automatically.</p>
-        </div>
-      </div>
-      <div class="callout warn" style="margin-top:14px"><b>The rule of thumb this module will build toward:</b> if the number should change when someone clicks a slicer, it's almost always a measure, not a calculated column.</div>
+      <footer class="pagefoot"><span>⚠ Troubleshooting</span><a href="cheatsheet.html">Next: Cheat Sheet →</a></footer>
 
-      <h2 style="margin-top:30px">What this page will cover</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>DAX syntax basics.</strong> Functions, operators, referencing a column with <code>Table[Column]</code> vs. a measure with <code>[Measure Name]</code>.</div></li>
-        <li><span class="ico">2</span><div><strong>Writing your first measure.</strong> Step-by-step in the Modeling ribbon, from <code>New Measure</code> to seeing it work on a Card visual.</div></li>
-        <li><span class="ico">3</span><div><strong>Common early mistakes.</strong> Using a calculated column where a measure was needed (and the performance cost of getting that backwards at scale).</div></li>
-      </ul>
+<script>
+const TROUBLE = [
+{symptom:'"Unable to connect: We encountered an error while trying to connect."', where:'Connecting to SQL Server (Module 1)',
+  cause:'Either SQL Server isn\'t actually running, the server name you typed is wrong, or a firewall is blocking the connection port.',
+  fix:['Open SQL Server Configuration Manager and confirm the SQL Server service shows as Running','Double-check the server name — commonly just <code>localhost</code> or <code>.\\SQLEXPRESS</code> for a local install, not a made-up name','Confirm TCP/IP is enabled for the instance (SQL Server Configuration Manager → Protocols)']},
 
-      <footer class="pagefoot"><span>Module 3 · DAX Basics &amp; Measures</span><a href="20-dax-time-intelligence.html">Next: Time Intelligence &amp; Aggregations →</a></footer>
+{symptom:'DimProduct and FactInternetSales exist, but everything about the site\'s worked examples looks wrong or missing.', where:'Right after restoring AdventureWorks (Module 1)',
+  cause:'The wrong AdventureWorks variant got restored — <code>AdventureWorks20XX.bak</code> (OLTP) and <code>AdventureWorksDW20XX.bak</code> (the data warehouse this whole course is built on) sit right next to each other on the releases page, one letter apart.',
+  fix:['Check Databases in SQL Server Management Studio — the name must contain "DW"','If it doesn\'t, re-download specifically <code>AdventureWorksDW20XX.bak</code> and restore that one instead','Full instructions: <a href="08-sql-server-adventureworks.html">SQL Server &amp; AdventureWorks</a>']},
+
+{symptom:'A Matrix or chart mixing two tables shows blank, or a "Couldn\'t auto-create a relationship" note.', where:'Building any visual that spans two tables (Module 2+)',
+  cause:'Power BI\'s autodetect only catches obviously-matching key names on load — a real data warehouse schema with several date-role tables often needs the relationship created by hand.',
+  fix:['Open Model view (left-hand rail)','Confirm a line connects the matching key columns (e.g. <code>DimProduct[ProductKey]</code> to <code>FactInternetSales[ProductKey]</code>)','If there\'s no line, drag one column onto the other to create the relationship manually']},
+
+{symptom:'"A single value for column \'X\' in table \'Y\' cannot be determined."', where:'Writing a DAX measure (Module 3)',
+  cause:'The formula references a raw column directly instead of aggregating it — DAX has more than one row to choose from at that point and refuses to just guess.',
+  fix:['Wrap the column reference in an aggregation — <code>SUM(...)</code>, <code>AVERAGE(...)</code>, <code>MAX(...)</code> — instead of using the column bare','If the intent was genuinely "one value, filtered down to exactly one row," use CALCULATE with a filter that guarantees that']},
+
+{symptom:'A map is blank, or a dot lands somewhere clearly wrong.', where:'Building a Map visual (Module 1, Module 2)',
+  cause:'Power BI\'s geocoding can\'t resolve an ambiguous place name on its own — "Georgia" the country vs. the US state, or a city name that exists in more than one state.',
+  fix:['Add more context into the same Location well — Country + State + City together, not City alone','Right-click the column → Data Category, and set it explicitly (City, State/Province, Country) so geocoding isn\'t guessing the field\'s meaning too']},
+
+{symptom:'A Line Chart\'s X-axis reads in a nonsensical zig-zag instead of a smooth trend.', where:'Any Line Chart over time (Module 1, Module 3)',
+  cause:'The date column is still typed as Text, not Date — Power BI sorts text alphabetically ("1 April" before "2 January"), not chronologically.',
+  fix:['In Power Query, check the column\'s type icon in the header — it should show a calendar icon, not <code>ABC</code>','If it\'s Text, change the type to Date (or Date/Time) before it ever reaches a chart']},
+
+{symptom:'"Please enter valid credentials for this data source" — refresh is stuck or failing.', where:'Scheduled Refresh in the Power BI Service (Module 5)',
+  cause:'The credentials Power BI has on file for that source have expired, changed, or were never saved — common when the source is a local file with no Gateway path back to it at all.',
+  fix:['In the Service: Dataset → Settings → Data source credentials → Edit credentials, and re-enter them','For a local file specifically: move it to OneDrive/SharePoint (so the cloud can reach it directly), or install an On-premises Data Gateway if it has to stay local']},
+
+{symptom:'"A circular dependency was detected" when saving a measure.', where:'Writing DAX (Module 3)',
+  cause:'A chain of measures loops back on itself — Measure A uses Measure B, B uses Measure C, and C uses Measure A again.',
+  fix:['Trace the chain one measure at a time and find where it loops','Break the loop by having one of the measures reference the raw column/table directly instead of another measure in the same chain']},
+
+{symptom:'A number is way too big — visibly multiplied — right after adding a second table to a report.', where:'Modeling with more than one table (Module 3+)',
+  cause:'A relationship\'s cardinality is wrong — often defaulted to many-to-many instead of the correct many-to-one — silently duplicating rows during aggregation.',
+  fix:['Model view → click the relationship line connecting the two tables','Check Cardinality and Cross-filter direction in the panel that opens','Correct it so the fact table (many rows) points at the dimension table (one row per entity), not the other way around']},
+
+{symptom:'"This visual has exceeded the available resources" or a chart just won\'t render.', where:'Any chart plotting a high-cardinality field (Module 1, Module 2)',
+  cause:'The chart is trying to plot more distinct values on one axis than Power BI\'s rendering limit allows — commonly a raw ID column (thousands of unique Order IDs) dropped straight onto a Bar or Scatter axis.',
+  fix:['Swap the raw ID field for a coarser category (Product Category instead of individual Order ID)','Or apply a Top N filter (Filters pane) so the visual only has to render a manageable slice']},
+];
+
+document.getElementById('troubleAccordion').innerHTML = TROUBLE.map((t,i) => `
+  <details class="card" style="margin-bottom:10px;padding:14px 18px"${i===0?' open':''}>
+    <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">${t.symptom}</summary>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+      <p style="font-size:.8rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.05em">Where this shows up: ${t.where}</p>
+      <p style="font-size:.9rem;margin-top:8px"><b>What's actually happening:</b> ${t.cause}</p>
+      <p style="font-size:.85rem;font-weight:700;margin-top:12px;margin-bottom:4px">Fix</p>
+      <ol class="steps">${t.fix.map(f=>`<li>${f}</li>`).join('')}</ol>
+    </div>
+  </details>`).join('');
+</script>
     </main>
   </div>
 </div>

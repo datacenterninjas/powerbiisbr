@@ -86,6 +86,7 @@ const CHARTS = [
   best:'Always sort the X-axis chronologically — needs a real Date type, not text. Limit to 1–3 lines max.',
   mistake:'A Date column still typed as Text sorts alphabetically, not chronologically, producing a nonsensical zig-zag.',
   interpret:'Look at direction and bumps, not just height. A sawtooth pattern usually means a weekly cycle.',
+  visual:{src:'images/line-chart-anatomy.svg', alt:'An annotated line chart showing three things at once: an overall upward trend shown as a dashed reference line, a regular up-down seasonality cycle in the data itself, and one sharp one-off spike near the end of the series, called out for investigation before presenting.', caption:'Three things live in every trend line at once — learn to separate them before you say anything about "the trend."'},
   aw:{table:'FactInternetSales', fields:[['FactInternetSales[OrderDate]  (by Month)','Axis (X)'],['FactInternetSales[SalesAmount]  (Sum)','Values (Y)']],
     note:'FactInternetSales carries its own OrderDate column — Power BI builds a Year/Quarter/Month hierarchy straight from it, no separate date table required.'}},
 
@@ -117,8 +118,9 @@ const CHARTS = [
 {tier:'Advanced Charts', name:'Map', use:'Sales by State', purpose:'Shows geographic distribution of a number — instantly answers "where" questions.', biz:'A Blinkit ops head asking "which cities should we open more dark stores in?"', avoid:'When precise value comparison matters more than location, or fewer than ~4–5 locations.',
   steps:['Visualizations pane → Filled Map (or Map for bubbles)','Drag DimGeography[StateProvinceName] into Location','Drag DimGeography[GeographyKey] into Color saturation (Filled, set to Count) or Size (Bubble)'],
   best:'Pair a map with a bar chart of the same data — map for "where," bar for "how much exactly."',
-  mistake:'Relying on a map as the ONLY way to show regional performance — circle/shade size is hard to compare precisely.',
+  mistake:'Relying on a map as the ONLY way to show regional performance — circle/shade size is hard to compare precisely. Two more traps worth knowing by name: bubble maps that scale by radius instead of area exaggerate differences, and place names that exist in more than one country/state can geocode to the wrong spot entirely.',
   interpret:'Use to show WHERE something is happening; use a bar chart to know precisely HOW MUCH more one place has.',
+  visual:{src:'images/map-pitfalls.svg', alt:'Left: bubble-size distortion — doubling a bubble\'s radius for a 2x value makes its area look 4x bigger, misleading; scaling by area instead correctly shows a 2x-looking difference. Right: ambiguous place names — a pin labeled Georgia could mean the US state or the country, and geocoding has to guess without more context.', caption:'Two ways a map quietly lies even when the data behind it is correct — a distorted bubble scale, and a geocoder guessing wrong on an ambiguous name.'},
   aw:{table:'DimGeography', fields:[['DimGeography[StateProvinceName]','Location'],['DimGeography[GeographyKey]  (Count)','Values']],
     note:'This counts cities on file per state, not sales — geography is a dimension-only table by design, so a real sales-by-state map needs a join through DimCustomer to FactInternetSales. This single-table version is the honest stand-in until joins are covered.'}},
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DAX Basics &amp; Measures — Power BI for MBA Analytics</title>
+<title>Module 5 Assignment — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -259,7 +259,7 @@
     </div>
     <div class="navgroup" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment">
       <div class="label"><span>Module 3: Introduction to DAX</span><span class="progress-count" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment"></span></div>
-      <div class="navitem"><a class="navbtn active" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
+      <div class="navitem"><a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a><input type="checkbox" class="navcheck" data-page="daxtimeintelligence" title="Mark &quot;Time Intelligence & Aggregations&quot; as done" aria-label="Mark Time Intelligence & Aggregations as done"></div>
       <div class="navitem"><a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a><input type="checkbox" class="navcheck" data-page="daxcontext" title="Mark &quot;Context & Dynamic Measures&quot; as done" aria-label="Mark Context & Dynamic Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
@@ -279,7 +279,7 @@
       <div class="navitem"><a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a><input type="checkbox" class="navcheck" data-page="qascenariomanager" title="Mark &quot;Q&A and Scenario Manager&quot; as done" aria-label="Mark Q&A and Scenario Manager as done"></div>
       <div class="navitem"><a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a><input type="checkbox" class="navcheck" data-page="practicalapplications" title="Mark &quot;Practical Applications & Pivots&quot; as done" aria-label="Mark Practical Applications & Pivots as done"></div>
       <div class="navitem"><a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a><input type="checkbox" class="navcheck" data-page="serviceslicers" title="Mark &quot;Slicers at Scale & Interactivity&quot; as done" aria-label="Mark Slicers at Scale & Interactivity as done"></div>
-      <div class="navitem"><a class="navbtn" href="34-module5-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module5assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
+      <div class="navitem"><a class="navbtn active" href="34-module5-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module5assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
     <div class="navgroup" data-group-ids="exercises,finalproject,quiz">
       <div class="label"><span>Practice</span><span class="progress-count" data-group-ids="exercises,finalproject,quiz"></span></div>
@@ -305,42 +305,67 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">DAX Basics &amp; Measures</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Module 5 Assignment</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 3 · 1</span>
-        <h1>DAX: Excel formulas' cousin, built for whole tables</h1>
-        <p class="lede"><button class="term" data-term="dax">DAX</button> is how you create numbers that don't already exist as a column — everything from a simple sum to a full year-over-year comparison.</p>
+        <span class="eyebrow">Module 5 · Assignment</span>
+        <h1>Take it off your laptop — the step every other assignment skipped</h1>
+        <p class="lede">Every assignment so far ended in a <code>.pbix</code> file nobody but you could open. This one doesn't count until it's live in the Power BI Service, shared the way a real workspace actually gets shared.</p>
       </div>
 
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
+      <div class="callout"><b>Worth 10 marks.</b> Individual submission, through the LMS portal. Reuse any report you've already built this course — Module 2's assignment or the Final Project both work well — this assignment is about what happens to it <i>after</i> Desktop, not about building something new.</div>
 
-      <h2 style="margin-top:30px">Calculated Column vs. Measure — the first fork in the road</h2>
-      <div class="grid grid-2">
-        <div class="card">
-          <h4><button class="term" data-term="calculatedcolumn">Calculated Column</button></h4>
-          <p style="font-size:.9rem">Computed once, row by row, and physically stored in the table — like adding a new column in Excel with a formula dragged down every row.</p>
-          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Full Name = [First Name] &amp; " " &amp; [Last Name]</code> — one fixed value per row, doesn't change based on what's filtered on screen.</p>
-        </div>
-        <div class="card">
-          <h4><button class="term" data-term="measure">Measure</button></h4>
-          <p style="font-size:.9rem">Computed on the fly, only when a visual asks for it — recalculates instantly based on whatever's currently filtered/sliced.</p>
-          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Total Sales = SUM(Sales[Sales])</code> — the same measure returns a different number for "2025" than for "2024," automatically.</p>
-        </div>
+      <div class="callout warn"><b>Account note:</b> a free Power BI account publishes to your own <b>My Workspace</b> with no cost — enough for Tasks 1, 2, and 4. Task 3 (sharing to another person) needs either a Pro license or a Premium-capacity workspace, which your institution may or may not provide. If sharing genuinely isn't available on your account, screenshot the attempt and the message Power BI gives you instead — that's still evidence you know where the feature lives, which is what's actually being graded.</div>
+
+      <h2 style="margin-top:24px">The four tasks</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>#</th><th>Task</th></tr>
+          <tr><td class="num">1</td><td>Publish a report from Desktop to a workspace in the Service (Home ribbon → Publish). Not "My Workspace" by default if you can help it — create a small named workspace first, so you practice the step a real team project would need.</td></tr>
+          <tr><td class="num">2</td><td>From the published report, pin at least 2 visuals to build a <b>Dashboard</b> — a single-page pinboard, distinct from the multi-page Report it was pinned from.</td></tr>
+          <tr><td class="num">3</td><td>Share the report (Share button → add a person by email, or generate a link) — or, if your account can't share, screenshot the attempt per the account note above.</td></tr>
+          <tr><td class="num">4</td><td>Open the dataset's <b>Settings → Scheduled refresh</b> screen and either configure a refresh schedule (if your data source supports it from the cloud) or screenshot the screen and explain in one sentence why this dataset can't be scheduled from where it's hosted (e.g. a local file with no gateway).</td></tr>
+        </table>
       </div>
-      <div class="callout warn" style="margin-top:14px"><b>The rule of thumb this module will build toward:</b> if the number should change when someone clicks a slicer, it's almost always a measure, not a calculated column.</div>
 
-      <h2 style="margin-top:30px">What this page will cover</h2>
+      <h2 style="margin-top:30px">Short-answer questions (answer in the PDF, 2–3 sentences each)</h2>
+      <ol class="steps">
+        <li>You want a teammate to help build the report further, and a manager to only ever view it, never edit it. Which two different workspace roles do you give them, and why does the distinction matter?</li>
+        <li>Your report was built with <b>Import</b> mode. Explain in your own words why it needs a Scheduled Refresh at all, when a Live Connection or DirectQuery report wouldn't.</li>
+        <li>Your manager asks for "the dashboard," and hands you a report file. Politely, what's actually wrong with that sentence, and what would you build instead if they truly wanted a Dashboard?</li>
+      </ol>
+
+      <h2 style="margin-top:30px">Deliverable checklist</h2>
       <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>DAX syntax basics.</strong> Functions, operators, referencing a column with <code>Table[Column]</code> vs. a measure with <code>[Measure Name]</code>.</div></li>
-        <li><span class="ico">2</span><div><strong>Writing your first measure.</strong> Step-by-step in the Modeling ribbon, from <code>New Measure</code> to seeing it work on a Card visual.</div></li>
-        <li><span class="ico">3</span><div><strong>Common early mistakes.</strong> Using a calculated column where a measure was needed (and the performance cost of getting that backwards at scale).</div></li>
+        <li><span class="ico">✓</span><div>Report published to a named workspace (not left in default My Workspace)</div></li>
+        <li><span class="ico">✓</span><div>A working Dashboard, pinned from at least 2 visuals</div></li>
+        <li><span class="ico">✓</span><div>Sharing attempted and documented, whichever way it went</div></li>
+        <li><span class="ico">✓</span><div>Scheduled Refresh configured or explained</div></li>
+        <li><span class="ico">✓</span><div>All 3 short-answer questions answered in your own words</div></li>
       </ul>
 
-      <footer class="pagefoot"><span>Module 3 · DAX Basics &amp; Measures</span><a href="20-dax-time-intelligence.html">Next: Time Intelligence &amp; Aggregations →</a></footer>
+      <h2 style="margin-top:30px">Grading rubric</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Criterion</th><th class="num">Marks</th></tr>
+          <tr><td>Task 1 — published to a named workspace</td><td class="num">2</td></tr>
+          <tr><td>Task 2 — Dashboard correctly built from pinned visuals</td><td class="num">2</td></tr>
+          <tr><td>Task 3 — sharing attempted/documented correctly</td><td class="num">2</td></tr>
+          <tr><td>Task 4 — refresh configured or correctly explained</td><td class="num">1</td></tr>
+          <tr><td>Short-answer questions — all 3, correct and in your own words</td><td class="num">3</td></tr>
+          <tr><td><b>Total</b></td><td class="num"><b>10</b></td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">How to submit</h2>
+      <div class="callout warn"><b>One PDF, exact naming, to the LMS portal:</b>
+        <p style="margin-top:10px;font-size:.9rem">Submit <code>YourFullName_Module5.pdf</code> containing: a screenshot of the workspace showing your published report, a screenshot of the Dashboard, a screenshot from Task 3 (share dialog or the fallback message), a screenshot from Task 4, and your 3 written answers. No <code>.pbix</code> needed this time — the Service screenshots ARE the evidence.</p>
+      </div>
+
+      <footer class="pagefoot"><span>Module 5 · Assignment</span><a href="06-exercises.html">Next: 5 Exercises →</a></footer>
     </main>
   </div>
 </div>

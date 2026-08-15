@@ -1,0 +1,57 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 3 · Assignment</span>
+        <h1>Five measures, each one number harder than the last</h1>
+        <p class="lede">DAX is a skill you build by writing formulas that break, then fixing them — not by reading about them. All five measures below use only functions this module covers: SUM, DIVIDE, TOTALYTD, CALCULATE, and SAMEPERIODLASTYEAR.</p>
+      </div>
+
+      <div class="callout"><b>Worth 10 marks.</b> Individual submission, through the LMS portal. Built on AdventureWorksDW, same database as every module so far.</div>
+
+      <h2 style="margin-top:30px">Before you write a single measure</h2>
+      <div class="callout warn"><b>Mark DimDate as a Date Table first.</b> <code>TOTALYTD</code> and <code>SAMEPERIODLASTYEAR</code> (Tasks 3 and 5) silently assume this — without it they either error or quietly return wrong numbers. In Model view: select <code>DimDate</code> → Table tools ribbon → <b>Mark as Date Table</b> → point it at <code>DimDate[FullDateAlternateKey]</code>. Confirm a relationship line already connects <code>FactInternetSales[OrderDateKey]</code> to <code>DimDate[DateKey]</code> — if it's missing, create it in Model view before continuing.</div>
+
+      <h2 style="margin-top:24px">The five measures</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>#</th><th>Measure</th><th>Business question it answers</th></tr>
+          <tr><td class="num">1</td><td>A plain aggregation: <code>Total Sales</code>, summing <code>FactInternetSales[SalesAmount]</code></td><td>"How much have we sold, total?"</td></tr>
+          <tr><td class="num">2</td><td>A ratio using <code>DIVIDE</code>: <code>Profit Margin %</code>, from <code>SalesAmount</code> and <code>TotalProductCost</code></td><td>"Of every rupee of sales, how much is actually profit?"</td></tr>
+          <tr><td class="num">3</td><td>A time-intelligence measure using <code>TOTALYTD</code>: <code>Sales YTD</code></td><td>"How are we doing so far this year?"</td></tr>
+          <tr><td class="num">4</td><td>A <code>CALCULATE</code> + column-filter measure: <code>Road Bike Sales</code>, filtered to <code>DimProduct[ProductLine] = "R"</code></td><td>"How much of our total is from Road bikes specifically, regardless of what's sliced on screen?"</td></tr>
+          <tr><td class="num">5</td><td>A <code>CALCULATE</code> + <code>SAMEPERIODLASTYEAR</code> measure: <code>Sales Same Period Last Year</code></td><td>"Is this actually growth, or does last year look the same?"</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">What actually gets graded</h2>
+      <p style="font-size:.92rem">For <b>every</b> measure, submit two things, not one: the formula itself, and a single plain-English sentence explaining what its <button class="term" data-term="fact">filter context</button> is doing at the moment it calculates. That sentence is the actual MBA-level skill here — anyone can copy a DIVIDE formula off a table; explaining <i>why</i> Measure 4 ignores whatever Category slicer is on the page, in your own words, is what the marks are for.</p>
+      <div class="callout"><b>Example of the explanation we want</b> (this one won't earn marks — it's for Measure 4, already given away above): "Road Bike Sales always filters to ProductLine = R first, then sums SalesAmount within that — so it shows the same number whether or not a viewer has clicked a different ProductLine in a slicer elsewhere on the page." Five sentences like that, one per measure, are worth as much as the formulas themselves.</div>
+
+      <h2 style="margin-top:30px">Deliverable checklist</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">✓</span><div><code>DimDate</code> correctly marked as a Date Table, relationship to <code>FactInternetSales</code> confirmed</div></li>
+        <li><span class="ico">✓</span><div>All 5 measures written and showing correct, sensible values on a Card or Table visual</div></li>
+        <li><span class="ico">✓</span><div>One written sentence per measure explaining its filter context, in your own words</div></li>
+        <li><span class="ico">✓</span><div>No calculated columns used where a measure was the right call — this module's whole point</div></li>
+      </ul>
+
+      <h2 style="margin-top:30px">Grading rubric</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Criterion</th><th class="num">Marks</th></tr>
+          <tr><td>Measures 1–2 (aggregation, ratio) — correct and sensible</td><td class="num">2</td></tr>
+          <tr><td>Measure 3 (TOTALYTD) — Date table marked correctly, formula works</td><td class="num">2</td></tr>
+          <tr><td>Measure 4 (CALCULATE + filter) — correct, ignores page-level slicers as intended</td><td class="num">2</td></tr>
+          <tr><td>Measure 5 (CALCULATE + SAMEPERIODLASTYEAR) — correct</td><td class="num">2</td></tr>
+          <tr><td>Five filter-context explanations — accurate, in your own words, not copy-pasted</td><td class="num">2</td></tr>
+          <tr><td><b>Total</b></td><td class="num"><b>10</b></td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">How to submit</h2>
+      <div class="callout warn"><b>Two files, exact naming, both to the LMS portal:</b>
+        <ol class="steps" style="margin-top:10px">
+          <li>Your Power BI file, saved and submitted as <code>YourFullName_Module3.pbix</code></li>
+          <li>A single PDF with a screenshot of all 5 measures' DAX formulas (Modeling → the measure → formula bar, or the Measure list) plus your 5 written explanations, submitted as <code>YourFullName_Module3_Writeup.pdf</code></li>
+        </ol>
+      </div>
+
+      <footer class="pagefoot"><span>Module 3 · Assignment</span><a href="04-power-query.html">Next: Power Query Editor →</a></footer>

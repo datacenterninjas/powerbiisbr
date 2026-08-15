@@ -1,0 +1,91 @@
+      <div class="section-head">
+        <span class="eyebrow">🎓 Reference</span>
+        <h1>Where this course actually gets you — and where it honestly doesn't</h1>
+        <p class="lede">Three things: how this course maps onto Microsoft's own Power BI certification, how to turn your Final Project into something a recruiter can actually click on, and a handful of case-interview-style questions to practice the "so what" out loud before someone asks you in person.</p>
+      </div>
+
+      <h2>PL-300: Microsoft Certified — Power BI Data Analyst Associate</h2>
+      <p style="font-size:.92rem">PL-300 is the industry-recognized credential this course substantially overlaps with. It's a 100-minute proctored exam, 700/1000 to pass, renewed free every 12 months via an online reassessment — Microsoft, not this course, is the authority on what's in it, so treat the table below as a map, not a substitute for reading the real thing.</p>
+      <div class="callout warn"><b>Last verified against Microsoft Learn:</b> skills outline dated April 20, 2026 — <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/pl-300" target="_blank" rel="noopener">official study guide</a>. Exam outlines change; if you're reading this more than a few months after that date, re-check the live page before trusting the percentages below.</div>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>PL-300 domain (official weight)</th><th>Where this course covers it</th><th>Honest gap</th></tr>
+          <tr><td><b>Prepare the data</b><br><span style="font-size:.78rem;color:var(--text-muted)">25–30%</span></td><td>Module 4 (Power Query, M Language) — profiling, cleaning, typing, the full dirty→clean walkthrough</td><td>DirectQuery/DirectLake vs. Import trade-offs, and merge/append across multiple queries, go deeper on the exam than in this course</td></tr>
+          <tr><td><b>Model the data</b><br><span style="font-size:.78rem;color:var(--text-muted)">25–30%</span></td><td>Module 3 (DAX) — measures, CALCULATE, time intelligence, relationships &amp; star schema</td><td>Calculation groups, DAX query view, and Performance Analyzer–based optimization aren't covered here</td></tr>
+          <tr><td><b>Visualize and analyze the data</b><br><span style="font-size:.78rem;color:var(--text-muted)">25–30%</span></td><td>Module 1 + Module 2 — chart selection, conditional formatting, filtering/slicing, custom visuals, interactions</td><td>AI visuals, forecasting/reference lines, anomaly detection, and Copilot-assisted authoring aren't covered here</td></tr>
+          <tr><td><b>Manage and secure Power BI</b><br><span style="font-size:.78rem;color:var(--text-muted)">15–20%</span></td><td>Module 5 — publishing, workspaces, sharing, scheduled refresh</td><td><b>Row-Level Security, sensitivity labels, and item-level access are not taught anywhere in this course</b> — read up on these specifically before the exam</td></tr>
+        </table>
+      </div>
+      <div class="callout"><b>Net assessment:</b> this course gets you genuinely exam-relevant depth on three of the four domains. Security/governance (RLS especially) is the one domain you'd need to self-study from scratch — it's a real, examinable gap, not a minor one.</div>
+
+      <h2 style="margin-top:30px">Turning the Final Project into a portfolio piece</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Step</th><th>What to actually do</th></tr>
+          <tr><td class="num">1</td><td>Publish your <a href="07-final-project.html">Final Project</a> report to a named workspace in the Service — the same step from the <a href="34-module5-assignment.html">Module 5 Assignment</a></td></tr>
+          <tr><td class="num">2</td><td>Choose how to share it (next section — this decision matters more than it looks)</td></tr>
+          <tr><td class="num">3</td><td>Write one LinkedIn/CV line, not a paragraph — see the template below</td></tr>
+          <tr><td class="num">4</td><td>Test it yourself: open the link cold, time how long it takes you to find the headline number</td></tr>
+        </table>
+      </div>
+
+      <div class="callout warn"><b>Publish to Web vs. a sharing link — read this before either one:</b> <b>Publish to Web</b> makes a report visible to literally anyone on the internet with the link, embeddable anywhere, no login required — genuinely public, no access control of any kind. A <b>sharing link</b> or workspace app keeps it restricted to people you actually grant access to. Never Publish to Web a report built on this course's Banking, HR, or Hospital practice data — those datasets are fictional, but they're shaped exactly like real PII (names, salaries, credit scores, diagnoses), and the habit of checking before publishing is the actual skill, not the specific file. For a portfolio piece, build it on the Sales or Retail dataset, or on public data of your own choosing, and only then consider Publish to Web.</div>
+
+      <p style="font-size:.9rem"><b>CV/LinkedIn line template:</b></p>
+      <div class="callout">"Built an interactive Power BI dashboard analyzing [dataset/business area] to surface [N] actionable insights, including [the single most interesting finding] — [link]."</div>
+      <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> "Built an interactive Power BI dashboard analyzing 100 days of e-commerce sales to surface 3 actionable insights, including that Electronics drives nearly a third of revenue despite being only the third-largest category by order count — [link]."</p>
+
+      <p style="font-size:.9rem;margin-top:16px"><b>What a recruiter actually checks in the first 30 seconds</b> — before reading a single insight:</p>
+      <ul class="kicker-list">
+        <li><span class="ico">1</span><div>Does it load fast and look intentional — a real title, a consistent theme, not the default blue Power BI ships with?</div></li>
+        <li><span class="ico">2</span><div>Is there one number they can find in under 3 seconds — a KPI card doing its actual job?</div></li>
+        <li><span class="ico">3</span><div>Does clicking something (a slicer, a bar) visibly do something — proof it's a real interactive report, not a static screenshot pretending to be one?</div></li>
+      </ul>
+
+      <h2 style="margin-top:30px">Case-interview practice</h2>
+      <p style="font-size:.92rem">Six questions in the style a business-analyst interview actually asks — not "what does DAX stand for," but "here's a situation, what do you do." Attempt an answer out loud before revealing the model one.</p>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"Sales dropped 12% last quarter — using this dashboard, where do you look first and why?"</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> Start broad, then narrow — check the trend line first (was it a cliff in one month, or a slow slide all quarter?), then slice by the biggest dimension (Region or Category) to find where the drop concentrated, rather than assuming it's uniform. A single region collapsing points to something local (a competitor, a stockout); a uniform drop across everything points to something systemic (pricing, seasonality, the whole market). Only after locating WHERE does "why" become answerable.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"A regional manager says their region's numbers 'feel wrong.' How do you investigate?"</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> Don't defend the dashboard — investigate it. Check Model view first for a relationship or cardinality issue silently duplicating or dropping rows (the exact class of bug the <a href="35-troubleshooting.html">Troubleshooting</a> page covers). Then check whether a Report- or Page-level filter is scoping the data more narrowly than the manager expects. Only after ruling out both does "the manager's expectation is wrong, not the number" become the honest conclusion — and even then, ask what they expected and why before asserting it.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"24 hours, one raw CSV, a board-ready dashboard by morning. Your first 3 moves?"</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> (1) Load it and immediately turn on Column quality/distribution/profile — know what's broken before touching anything. (2) Clean in Power Query, not by hand in Excel — reproducible steps matter even under deadline pressure, maybe more so, since there's no time to redo a hand-fix that turns out wrong. (3) Build the 1–2 KPI cards and 1 chart that answer the single question the board actually asked, and stop — a board meeting rewards one clear number over four half-finished ones.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"Total Sales is up 8% year over year, but Profit Margin is down 3 points. What story does that tell?"</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> Growth funded by margin — revenue is up but it's costing more to generate each rupee of it, which usually means discounting, a shift toward lower-margin products/channels, or rising input costs. The follow-up question, not the answer, is what actually matters here: which of those three is it? That's a CALCULATE-filtered measure by Category or Channel away from being answerable, not a guess.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"Explain the difference between a Report and a Dashboard to a non-technical stakeholder, in one sentence."</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> "A Report is the full multi-page workbook you can dig into; a Dashboard is the one-page highlight reel pinned from it for someone who just wants the headline numbers." Precision matters less here than not making the stakeholder feel talked down to — one plain sentence beats a technically-perfect paragraph in this exact scenario.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"A stakeholder wants 15 KPIs on one page. How do you push back, and what do you offer instead?"</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> Don't just say no — ask which 3–4 numbers they'd check first thing every single morning, and build a page around those; the KPI Card lesson's own rule of thumb (4–6 cards max, "beyond that, nothing feels important anymore") is the actual argument, not a personal preference. Offer the other 11 metrics as a second page, or a Matrix/Table someone can dig into on demand — the stakeholder's real need (comprehensive access) and their stated request (one page) usually aren't actually the same thing once you ask.</p>
+        </div>
+      </details>
+
+      <footer class="pagefoot"><span>🎓 Career &amp; PL-300</span><a href="datasets.html">Next: Datasets →</a></footer>

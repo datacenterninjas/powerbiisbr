@@ -1,0 +1,64 @@
+      <div class="section-head">
+        <span class="eyebrow">⚠ Reference</span>
+        <h1>Ten errors every student hits — solved once, here, instead of ten times in office hours</h1>
+        <p class="lede">None of these mean you did something uniquely wrong. They're the predictable failure points of this exact course, in the exact order students tend to hit them. Find the message closest to what you're seeing, read the plain-English cause, and follow the fix.</p>
+      </div>
+
+      <div id="troubleAccordion"></div>
+
+      <footer class="pagefoot"><span>⚠ Troubleshooting</span><a href="cheatsheet.html">Next: Cheat Sheet →</a></footer>
+
+<script>
+const TROUBLE = [
+{symptom:'"Unable to connect: We encountered an error while trying to connect."', where:'Connecting to SQL Server (Module 1)',
+  cause:'Either SQL Server isn\'t actually running, the server name you typed is wrong, or a firewall is blocking the connection port.',
+  fix:['Open SQL Server Configuration Manager and confirm the SQL Server service shows as Running','Double-check the server name — commonly just <code>localhost</code> or <code>.\\SQLEXPRESS</code> for a local install, not a made-up name','Confirm TCP/IP is enabled for the instance (SQL Server Configuration Manager → Protocols)']},
+
+{symptom:'DimProduct and FactInternetSales exist, but everything about the site\'s worked examples looks wrong or missing.', where:'Right after restoring AdventureWorks (Module 1)',
+  cause:'The wrong AdventureWorks variant got restored — <code>AdventureWorks20XX.bak</code> (OLTP) and <code>AdventureWorksDW20XX.bak</code> (the data warehouse this whole course is built on) sit right next to each other on the releases page, one letter apart.',
+  fix:['Check Databases in SQL Server Management Studio — the name must contain "DW"','If it doesn\'t, re-download specifically <code>AdventureWorksDW20XX.bak</code> and restore that one instead','Full instructions: <a href="08-sql-server-adventureworks.html">SQL Server &amp; AdventureWorks</a>']},
+
+{symptom:'A Matrix or chart mixing two tables shows blank, or a "Couldn\'t auto-create a relationship" note.', where:'Building any visual that spans two tables (Module 2+)',
+  cause:'Power BI\'s autodetect only catches obviously-matching key names on load — a real data warehouse schema with several date-role tables often needs the relationship created by hand.',
+  fix:['Open Model view (left-hand rail)','Confirm a line connects the matching key columns (e.g. <code>DimProduct[ProductKey]</code> to <code>FactInternetSales[ProductKey]</code>)','If there\'s no line, drag one column onto the other to create the relationship manually']},
+
+{symptom:'"A single value for column \'X\' in table \'Y\' cannot be determined."', where:'Writing a DAX measure (Module 3)',
+  cause:'The formula references a raw column directly instead of aggregating it — DAX has more than one row to choose from at that point and refuses to just guess.',
+  fix:['Wrap the column reference in an aggregation — <code>SUM(...)</code>, <code>AVERAGE(...)</code>, <code>MAX(...)</code> — instead of using the column bare','If the intent was genuinely "one value, filtered down to exactly one row," use CALCULATE with a filter that guarantees that']},
+
+{symptom:'A map is blank, or a dot lands somewhere clearly wrong.', where:'Building a Map visual (Module 1, Module 2)',
+  cause:'Power BI\'s geocoding can\'t resolve an ambiguous place name on its own — "Georgia" the country vs. the US state, or a city name that exists in more than one state.',
+  fix:['Add more context into the same Location well — Country + State + City together, not City alone','Right-click the column → Data Category, and set it explicitly (City, State/Province, Country) so geocoding isn\'t guessing the field\'s meaning too']},
+
+{symptom:'A Line Chart\'s X-axis reads in a nonsensical zig-zag instead of a smooth trend.', where:'Any Line Chart over time (Module 1, Module 3)',
+  cause:'The date column is still typed as Text, not Date — Power BI sorts text alphabetically ("1 April" before "2 January"), not chronologically.',
+  fix:['In Power Query, check the column\'s type icon in the header — it should show a calendar icon, not <code>ABC</code>','If it\'s Text, change the type to Date (or Date/Time) before it ever reaches a chart']},
+
+{symptom:'"Please enter valid credentials for this data source" — refresh is stuck or failing.', where:'Scheduled Refresh in the Power BI Service (Module 5)',
+  cause:'The credentials Power BI has on file for that source have expired, changed, or were never saved — common when the source is a local file with no Gateway path back to it at all.',
+  fix:['In the Service: Dataset → Settings → Data source credentials → Edit credentials, and re-enter them','For a local file specifically: move it to OneDrive/SharePoint (so the cloud can reach it directly), or install an On-premises Data Gateway if it has to stay local']},
+
+{symptom:'"A circular dependency was detected" when saving a measure.', where:'Writing DAX (Module 3)',
+  cause:'A chain of measures loops back on itself — Measure A uses Measure B, B uses Measure C, and C uses Measure A again.',
+  fix:['Trace the chain one measure at a time and find where it loops','Break the loop by having one of the measures reference the raw column/table directly instead of another measure in the same chain']},
+
+{symptom:'A number is way too big — visibly multiplied — right after adding a second table to a report.', where:'Modeling with more than one table (Module 3+)',
+  cause:'A relationship\'s cardinality is wrong — often defaulted to many-to-many instead of the correct many-to-one — silently duplicating rows during aggregation.',
+  fix:['Model view → click the relationship line connecting the two tables','Check Cardinality and Cross-filter direction in the panel that opens','Correct it so the fact table (many rows) points at the dimension table (one row per entity), not the other way around']},
+
+{symptom:'"This visual has exceeded the available resources" or a chart just won\'t render.', where:'Any chart plotting a high-cardinality field (Module 1, Module 2)',
+  cause:'The chart is trying to plot more distinct values on one axis than Power BI\'s rendering limit allows — commonly a raw ID column (thousands of unique Order IDs) dropped straight onto a Bar or Scatter axis.',
+  fix:['Swap the raw ID field for a coarser category (Product Category instead of individual Order ID)','Or apply a Top N filter (Filters pane) so the visual only has to render a manageable slice']},
+];
+
+document.getElementById('troubleAccordion').innerHTML = TROUBLE.map((t,i) => `
+  <details class="card" style="margin-bottom:10px;padding:14px 18px"${i===0?' open':''}>
+    <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">${t.symptom}</summary>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+      <p style="font-size:.8rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.05em">Where this shows up: ${t.where}</p>
+      <p style="font-size:.9rem;margin-top:8px"><b>What's actually happening:</b> ${t.cause}</p>
+      <p style="font-size:.85rem;font-weight:700;margin-top:12px;margin-bottom:4px">Fix</p>
+      <ol class="steps">${t.fix.map(f=>`<li>${f}</li>`).join('')}</ol>
+    </div>
+  </details>`).join('');
+</script>

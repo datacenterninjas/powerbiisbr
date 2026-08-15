@@ -78,7 +78,11 @@
   .brand .sub{ font-size:.78rem; color:var(--text-muted); margin-top:3px; font-family:var(--font-mono); }
 
   .navgroup{ padding:14px 12px; }
-  .navgroup .label{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
+  .navgroup .label{ display:flex; align-items:center; justify-content:space-between; gap:8px; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
+  .navgroup .label .progress-count{ font-weight:400; letter-spacing:0; text-transform:none; flex:none; }
+  .navitem{ display:flex; align-items:center; gap:2px; }
+  .navitem .navbtn{ flex:1; min-width:0; }
+  .navcheck{ flex:none; width:15px; height:15px; margin-right:9px; cursor:pointer; accent-color:var(--accent); }
   .navbtn{
     display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:none; border:none;
     color:var(--text); font-family:var(--font-body); font-size:.88rem; padding:8px 10px; border-radius:8px; cursor:pointer;
@@ -89,8 +93,11 @@
   .navbtn.active{ background:var(--accent); color:var(--accent-ink); font-weight:700; }
   .navbtn.active .num{ color:var(--accent-ink); opacity:.7; }
 
-  .themebar{ margin-top:auto; padding:14px 20px 20px; border-top:1px solid var(--border); display:flex; gap:8px; }
+  .themebar{ margin-top:auto; padding:14px 20px 8px; border-top:1px solid var(--border); display:flex; gap:8px; }
   .themebtn{ flex:1; font-family:var(--font-mono); font-size:.72rem; padding:7px 4px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text-muted); cursor:pointer; }
+  .progressreset{ padding:0 20px 16px; }
+  .progressreset button{ font-family:var(--font-mono); font-size:.7rem; color:var(--text-muted); background:none; border:none; cursor:pointer; padding:2px 0; text-decoration:underline; text-underline-offset:2px; }
+  .progressreset button:hover{ color:var(--accent); }
   .themebtn.active{ border-color:var(--accent); color:var(--accent); }
 
   .main-col{ flex:1; min-width:0; display:flex; flex-direction:column; }
@@ -229,6 +236,7 @@
       <button class="themebtn" data-theme-choice="dark">☾ Dark</button>
       <button class="themebtn" data-theme-choice="auto">Auto</button>
     </div>
+    <div class="progressreset"><button id="resetProgress" type="button">↺ Reset my progress</button></div>
   </aside>
 
   <div class="main-col">

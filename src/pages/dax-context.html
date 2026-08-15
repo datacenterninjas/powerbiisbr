@@ -19,6 +19,11 @@
       </div>
       <div class="callout">This is exactly why a <code>Total Sales</code> measure shows a different number on every row of a Region-by-Category Matrix, and yet is written only ONCE — the formula never changes, only the filter context around it does.</div>
 
+      <figure>
+        <img src="images/dax-filter-context-flow.svg" alt="Two scenarios: a Region=West slicer plus a Category=Furniture visual axis combine into Filter Context A; a Region=East slicer plus a Category=Technology visual axis combine into Filter Context B. Both feed into the exact same measure, Total Sales = SUM(Sales[Sales]), written only once. The same formula then produces two different results.">
+        <figcaption>The single hardest thing to internalize about DAX: the formula is constant, the context around it isn't — so the answer isn't either.</figcaption>
+      </figure>
+
       <h2 style="margin-top:30px">Dynamic measures with IF</h2>
       <p>Wrapping a measure in <code>IF</code> lets it change WHAT it calculates based on a condition, not just format the same number differently.</p>
       <div class="codeblock">Status Flag = <span class="c-fn">IF</span>([Total Sales] &gt; [Target], <span class="c-str">"On Track"</span>, <span class="c-str">"Behind"</span>)</div>

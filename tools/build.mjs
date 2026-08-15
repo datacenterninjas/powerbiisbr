@@ -114,11 +114,12 @@ function buildNav(currentId) {
     groups[groupIndex.get(p.group)].items.push(p);
   }
   return groups.map(g => {
+    const groupIds = g.items.map(p => p.id).join(',');
     const buttons = g.items.map(p => {
       const active = p.id === currentId ? ' active' : '';
-      return `      <a class="navbtn${active}" href="${p.file}"><span class="num">${p.num}</span> ${p.label}</a>`;
+      return `      <div class="navitem"><a class="navbtn${active}" href="${p.file}"><span class="num">${p.num}</span> ${p.label}</a><input type="checkbox" class="navcheck" data-page="${p.id}" title="Mark &quot;${p.label.replace(/&amp;/g, '&')}&quot; as done" aria-label="Mark ${p.label.replace(/&amp;/g, '&')} as done"></div>`;
     }).join('\n');
-    return `    <div class="navgroup">\n      <div class="label">${g.name}</div>\n${buttons}\n    </div>`;
+    return `    <div class="navgroup" data-group-ids="${groupIds}">\n      <div class="label"><span>${g.name}</span><span class="progress-count" data-group-ids="${groupIds}"></span></div>\n${buttons}\n    </div>`;
   }).join('\n');
 }
 

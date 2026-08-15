@@ -220,6 +220,16 @@
     "title": "CALCULATE, FILTER &amp; Data Modeling — Power BI for MBA Analytics"
   },
   {
+    "id": "module3assignment",
+    "file": "32-module3-assignment.html",
+    "fragment": "module3-assignment.html",
+    "group": "Module 3: Introduction to DAX",
+    "num": "★",
+    "label": "Assignment (10 marks)",
+    "crumb": "Module 3 Assignment",
+    "title": "Module 3 Assignment — Power BI for MBA Analytics"
+  },
+  {
     "id": "powerquery",
     "file": "04-power-query.html",
     "fragment": "power-query.html",
@@ -258,6 +268,16 @@
     "label": "KPIs &amp; Single-Page Dashboard",
     "crumb": "KPIs &amp; Single-Page Dashboard",
     "title": "KPIs &amp; Single-Page Dashboard — Power BI for MBA Analytics"
+  },
+  {
+    "id": "module4assignment",
+    "file": "33-module4-assignment.html",
+    "fragment": "module4-assignment.html",
+    "group": "Module 4: Power Query Editor",
+    "num": "★",
+    "label": "Assignment (10 marks)",
+    "crumb": "Module 4 Assignment",
+    "title": "Module 4 Assignment — Power BI for MBA Analytics"
   },
   {
     "id": "publishingsharing",
@@ -300,6 +320,16 @@
     "title": "Slicers at Scale &amp; Interactivity — Power BI for MBA Analytics"
   },
   {
+    "id": "module5assignment",
+    "file": "34-module5-assignment.html",
+    "fragment": "module5-assignment.html",
+    "group": "Module 5: Power BI Service",
+    "num": "★",
+    "label": "Assignment (10 marks)",
+    "crumb": "Module 5 Assignment",
+    "title": "Module 5 Assignment — Power BI for MBA Analytics"
+  },
+  {
     "id": "exercises",
     "file": "06-exercises.html",
     "fragment": "exercises.html",
@@ -330,6 +360,16 @@
     "title": "Self-Test Quiz — Power BI for MBA Analytics"
   },
   {
+    "id": "troubleshooting",
+    "file": "35-troubleshooting.html",
+    "fragment": "troubleshooting.html",
+    "group": "Reference",
+    "num": "⚠",
+    "label": "Troubleshooting",
+    "crumb": "Troubleshooting",
+    "title": "Troubleshooting — 10 Errors Every Student Hits — Power BI for MBA Analytics"
+  },
+  {
     "id": "cheatsheet",
     "file": "cheatsheet.html",
     "fragment": "cheatsheet.html",
@@ -338,6 +378,16 @@
     "label": "Cheat Sheet",
     "crumb": "Cheat Sheet",
     "title": "Cheat Sheet — Power BI for MBA Analytics"
+  },
+  {
+    "id": "careerpl300",
+    "file": "36-career-pl300.html",
+    "fragment": "career-pl300.html",
+    "group": "Reference",
+    "num": "🎓",
+    "label": "Career &amp; PL-300",
+    "crumb": "Career &amp; PL-300",
+    "title": "Career &amp; PL-300 — Power BI for MBA Analytics"
   },
   {
     "id": "datasets",

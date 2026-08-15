@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DAX Basics &amp; Measures — Power BI for MBA Analytics</title>
+<title>Module 4 Assignment — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -259,7 +259,7 @@
     </div>
     <div class="navgroup" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment">
       <div class="label"><span>Module 3: Introduction to DAX</span><span class="progress-count" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment"></span></div>
-      <div class="navitem"><a class="navbtn active" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
+      <div class="navitem"><a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a><input type="checkbox" class="navcheck" data-page="daxtimeintelligence" title="Mark &quot;Time Intelligence & Aggregations&quot; as done" aria-label="Mark Time Intelligence & Aggregations as done"></div>
       <div class="navitem"><a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a><input type="checkbox" class="navcheck" data-page="daxcontext" title="Mark &quot;Context & Dynamic Measures&quot; as done" aria-label="Mark Context & Dynamic Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
@@ -271,7 +271,7 @@
       <div class="navitem"><a class="navbtn" href="31-power-query-walkthrough.html"><span class="num">2</span> Dirty → Clean Walkthrough</a><input type="checkbox" class="navcheck" data-page="pqwalkthrough" title="Mark &quot;Dirty → Clean Walkthrough&quot; as done" aria-label="Mark Dirty → Clean Walkthrough as done"></div>
       <div class="navitem"><a class="navbtn" href="23-m-language-etl.html"><span class="num">3</span> M Language &amp; End-to-End ETL</a><input type="checkbox" class="navcheck" data-page="mlanguageetl" title="Mark &quot;M Language & End-to-End ETL&quot; as done" aria-label="Mark M Language & End-to-End ETL as done"></div>
       <div class="navitem"><a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">4</span> KPIs &amp; Single-Page Dashboard</a><input type="checkbox" class="navcheck" data-page="kpisdashboard" title="Mark &quot;KPIs & Single-Page Dashboard&quot; as done" aria-label="Mark KPIs & Single-Page Dashboard as done"></div>
-      <div class="navitem"><a class="navbtn" href="33-module4-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module4assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
+      <div class="navitem"><a class="navbtn active" href="33-module4-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module4assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
     <div class="navgroup" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment">
       <div class="label"><span>Module 5: Power BI Service</span><span class="progress-count" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment"></span></div>
@@ -305,42 +305,69 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">DAX Basics &amp; Measures</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Module 4 Assignment</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 3 · 1</span>
-        <h1>DAX: Excel formulas' cousin, built for whole tables</h1>
-        <p class="lede"><button class="term" data-term="dax">DAX</button> is how you create numbers that don't already exist as a column — everything from a simple sum to a full year-over-year comparison.</p>
+        <span class="eyebrow">Module 4 · Assignment</span>
+        <h1>A different file, the same discipline, nobody walking you through it this time</h1>
+        <p class="lede">The Dirty → Clean Walkthrough cleaned <code>Banking_Dirty.csv</code> for you, step by step. This assignment is the same job, on a messier file, with no walkthrough — <code>Sales_Dirty.csv</code>, 100 rows, and at least nine distinct problems nobody is going to point out for you this time.</p>
       </div>
 
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
+      <div class="callout"><b>Worth 10 marks.</b> Individual submission, through the LMS portal. Download <a href="datasets/Sales_Dirty.csv" download>Sales_Dirty.csv</a> from the <a href="datasets.html">Datasets</a> page and find its problems the same way the walkthrough did: open the raw CSV first, before touching Power Query.</div>
 
-      <h2 style="margin-top:30px">Calculated Column vs. Measure — the first fork in the road</h2>
-      <div class="grid grid-2">
-        <div class="card">
-          <h4><button class="term" data-term="calculatedcolumn">Calculated Column</button></h4>
-          <p style="font-size:.9rem">Computed once, row by row, and physically stored in the table — like adding a new column in Excel with a formula dragged down every row.</p>
-          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Full Name = [First Name] &amp; " " &amp; [Last Name]</code> — one fixed value per row, doesn't change based on what's filtered on screen.</p>
-        </div>
-        <div class="card">
-          <h4><button class="term" data-term="measure">Measure</button></h4>
-          <p style="font-size:.9rem">Computed on the fly, only when a visual asks for it — recalculates instantly based on whatever's currently filtered/sliced.</p>
-          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Total Sales = SUM(Sales[Sales])</code> — the same measure returns a different number for "2025" than for "2024," automatically.</p>
-        </div>
+      <h2 style="margin-top:30px">The brief</h2>
+      <p>Clean <code>Sales_Dirty.csv</code> completely in Power Query, entirely through the graphical interface — no hand-editing the CSV in Excel first, and no manually retyping values in Power BI. Every fix has to be a <b>reproducible query step</b>, because that's the actual point of Power Query: run it again next month on a new export and it cleans itself the same way, automatically.</p>
+      <div class="callout warn"><b>What will cost you marks:</b> opening the CSV in Excel, fixing a few cells by hand, re-saving it, and loading the "clean" version into Power BI. That produces a clean-looking file but zero reproducible steps — it has to be redone by hand every single month. Grading checks the <b>Applied Steps</b> pane, not just the final numbers.</div>
+
+      <h2 style="margin-top:24px">Categories of problems in this file (not an exhaustive list — find the rest yourself)</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Category</th><th>What to look for</th></tr>
+          <tr><td>Inconsistent text</td><td>At least one category value spelled two different ways</td></tr>
+          <tr><td>Currency-formatted numbers</td><td>At least one numeric column carrying a currency symbol as text</td></tr>
+          <tr><td>Wrong data type</td><td>At least one numeric column with a spelled-out number as text somewhere in it</td></tr>
+          <tr><td>Inconsistent dates</td><td>More than one date format mixed in the same column — and at least one date that plain isn't valid on any calendar</td></tr>
+          <tr><td>Duplicates</td><td>More than one exact duplicate row</td></tr>
+          <tr><td>Stray characters</td><td>At least one category value with punctuation that doesn't belong</td></tr>
+          <tr><td>Negative values</td><td>At least one number that's negative where negative doesn't make business sense</td></tr>
+          <tr><td>Blanks</td><td>At least one genuinely empty cell in a numeric column</td></tr>
+        </table>
       </div>
-      <div class="callout warn" style="margin-top:14px"><b>The rule of thumb this module will build toward:</b> if the number should change when someone clicks a slicer, it's almost always a measure, not a calculated column.</div>
 
-      <h2 style="margin-top:30px">What this page will cover</h2>
+      <h2 style="margin-top:30px">Deliverable checklist</h2>
       <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>DAX syntax basics.</strong> Functions, operators, referencing a column with <code>Table[Column]</code> vs. a measure with <code>[Measure Name]</code>.</div></li>
-        <li><span class="ico">2</span><div><strong>Writing your first measure.</strong> Step-by-step in the Modeling ribbon, from <code>New Measure</code> to seeing it work on a Card visual.</div></li>
-        <li><span class="ico">3</span><div><strong>Common early mistakes.</strong> Using a calculated column where a measure was needed (and the performance cost of getting that backwards at scale).</div></li>
+        <li><span class="ico">✓</span><div>Every numeric column typed correctly (Whole Number / Decimal Number), no column left as Text or "Any"</div></li>
+        <li><span class="ico">✓</span><div>Date column typed as an actual Date, sorting chronologically — not alphabetically</div></li>
+        <li><span class="ico">✓</span><div>All category-text inconsistencies standardized to one spelling each</div></li>
+        <li><span class="ico">✓</span><div>All exact duplicate rows removed</div></li>
+        <li><span class="ico">✓</span><div>A one-paragraph note (in the submitted PDF) on what you did with the invalid date and any values you judged implausible-but-not-technically-wrong — deleted, flagged, or left as-is, and why</div></li>
       </ul>
 
-      <footer class="pagefoot"><span>Module 3 · DAX Basics &amp; Measures</span><a href="20-dax-time-intelligence.html">Next: Time Intelligence &amp; Aggregations →</a></footer>
+      <h2 style="margin-top:30px">Grading rubric</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Criterion</th><th class="num">Marks</th></tr>
+          <tr><td>Every column correctly typed (numbers as numbers, dates as dates)</td><td class="num">3</td></tr>
+          <tr><td>Category text standardized correctly, no remaining inconsistencies</td><td class="num">2</td></tr>
+          <tr><td>Duplicates correctly identified and removed</td><td class="num">2</td></tr>
+          <tr><td>Applied Steps pane shows reproducible, sensibly-ordered query steps — not a hand-fixed file reloaded</td><td class="num">2</td></tr>
+          <tr><td>Written judgment-call note on the invalid date / implausible values</td><td class="num">1</td></tr>
+          <tr><td><b>Total</b></td><td class="num"><b>10</b></td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">How to submit</h2>
+      <div class="callout warn"><b>Two files, exact naming, both to the LMS portal:</b>
+        <ol class="steps" style="margin-top:10px">
+          <li>Your Power BI file, submitted as <code>YourFullName_Module4.pbix</code></li>
+          <li>A single PDF: a full screenshot of your Applied Steps pane, plus the judgment-call paragraph from the checklist above, submitted as <code>YourFullName_Module4_Writeup.pdf</code></li>
+        </ol>
+      </div>
+
+      <footer class="pagefoot"><span>Module 4 · Assignment</span><a href="25-publishing-sharing.html">Next: Publishing &amp; Sharing →</a></footer>
     </main>
   </div>
 </div>

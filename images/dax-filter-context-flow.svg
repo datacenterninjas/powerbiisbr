@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 340" role="img" aria-label="Two scenarios: a Region=West slicer plus a Category=Furniture visual axis combine into Filter Context A; a Region=East slicer plus a Category=Technology visual axis combine into Filter Context B. Both feed into the exact same measure, Total Sales = SUM(Sales[Sales]), written only once. The same formula then produces two different results: ₹21,300 for West/Furniture and ₹19,950 for East/Technology.">
+  <rect width="820" height="340" fill="#FFFFFF"/>
+  <defs>
+    <marker id="daxArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#565B6B"/>
+    </marker>
+  </defs>
+  <g font-family="ui-monospace,Consolas,monospace">
+    <!-- Scenario A inputs -->
+    <rect x="40" y="22" width="300" height="28" rx="6" fill="#F2F1EB" stroke="#DEDACE"/>
+    <text x="190" y="40" text-anchor="middle" font-size="11" fill="#14171F">Slicer: Region = West</text>
+    <rect x="40" y="58" width="300" height="28" rx="6" fill="#F2F1EB" stroke="#DEDACE"/>
+    <text x="190" y="76" text-anchor="middle" font-size="11" fill="#14171F">Visual axis: Category = Furniture</text>
+
+    <!-- Scenario B inputs -->
+    <rect x="480" y="22" width="300" height="28" rx="6" fill="#F2F1EB" stroke="#DEDACE"/>
+    <text x="630" y="40" text-anchor="middle" font-size="11" fill="#14171F">Slicer: Region = East</text>
+    <rect x="480" y="58" width="300" height="28" rx="6" fill="#F2F1EB" stroke="#DEDACE"/>
+    <text x="630" y="76" text-anchor="middle" font-size="11" fill="#14171F">Visual axis: Category = Technology</text>
+
+    <line x1="190" y1="86" x2="190" y2="118" stroke="#565B6B" stroke-width="1.5" marker-end="url(#daxArrow)"/>
+    <line x1="630" y1="86" x2="630" y2="118" stroke="#565B6B" stroke-width="1.5" marker-end="url(#daxArrow)"/>
+
+    <!-- Filter context boxes -->
+    <rect x="60" y="120" width="260" height="38" rx="6" fill="#DCEBE8" stroke="#2A6560"/>
+    <text x="190" y="144" text-anchor="middle" font-size="11" font-weight="700" fill="#2A6560">FILTER CONTEXT A</text>
+    <rect x="500" y="120" width="260" height="38" rx="6" fill="#DCEBE8" stroke="#2A6560"/>
+    <text x="630" y="144" text-anchor="middle" font-size="11" font-weight="700" fill="#2A6560">FILTER CONTEXT B</text>
+
+    <line x1="220" y1="158" x2="360" y2="205" stroke="#565B6B" stroke-width="1.5" marker-end="url(#daxArrow)"/>
+    <line x1="600" y1="158" x2="460" y2="205" stroke="#565B6B" stroke-width="1.5" marker-end="url(#daxArrow)"/>
+
+    <!-- The one measure -->
+    <text x="410" y="196" text-anchor="middle" font-size="10" letter-spacing="1" fill="#565B6B">SAME MEASURE — WRITTEN ONLY ONCE</text>
+    <rect x="210" y="205" width="400" height="46" rx="8" fill="#F3E1C4" stroke="#C97A1E" stroke-width="1.5"/>
+    <text x="410" y="233" text-anchor="middle" font-size="12" font-weight="700" fill="#1B1300">Total Sales = SUM(Sales[Sales])</text>
+
+    <line x1="360" y1="251" x2="220" y2="288" stroke="#565B6B" stroke-width="1.5" marker-end="url(#daxArrow)"/>
+    <line x1="460" y1="251" x2="600" y2="288" stroke="#565B6B" stroke-width="1.5" marker-end="url(#daxArrow)"/>
+
+    <!-- Results -->
+    <rect x="60" y="290" width="260" height="42" rx="6" fill="#E3F1E7" stroke="#2E7D4F"/>
+    <text x="190" y="309" text-anchor="middle" font-size="9" fill="#565B6B">West + Furniture</text>
+    <text x="190" y="324" text-anchor="middle" font-size="14" font-weight="700" fill="#2E7D4F">₹21,300</text>
+
+    <rect x="500" y="290" width="260" height="42" rx="6" fill="#E3F1E7" stroke="#2E7D4F"/>
+    <text x="630" y="309" text-anchor="middle" font-size="9" fill="#565B6B">East + Technology</text>
+    <text x="630" y="324" text-anchor="middle" font-size="14" font-weight="700" fill="#2E7D4F">₹19,950</text>
+  </g>
+</svg>

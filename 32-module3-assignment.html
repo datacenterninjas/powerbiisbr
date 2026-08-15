@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DAX Basics &amp; Measures — Power BI for MBA Analytics</title>
+<title>Module 3 Assignment — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -259,11 +259,11 @@
     </div>
     <div class="navgroup" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment">
       <div class="label"><span>Module 3: Introduction to DAX</span><span class="progress-count" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment"></span></div>
-      <div class="navitem"><a class="navbtn active" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
+      <div class="navitem"><a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a><input type="checkbox" class="navcheck" data-page="daxtimeintelligence" title="Mark &quot;Time Intelligence & Aggregations&quot; as done" aria-label="Mark Time Intelligence & Aggregations as done"></div>
       <div class="navitem"><a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a><input type="checkbox" class="navcheck" data-page="daxcontext" title="Mark &quot;Context & Dynamic Measures&quot; as done" aria-label="Mark Context & Dynamic Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
-      <div class="navitem"><a class="navbtn" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
+      <div class="navitem"><a class="navbtn active" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
     <div class="navgroup" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment">
       <div class="label"><span>Module 4: Power Query Editor</span><span class="progress-count" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment"></span></div>
@@ -305,42 +305,68 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">DAX Basics &amp; Measures</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Module 3 Assignment</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 3 · 1</span>
-        <h1>DAX: Excel formulas' cousin, built for whole tables</h1>
-        <p class="lede"><button class="term" data-term="dax">DAX</button> is how you create numbers that don't already exist as a column — everything from a simple sum to a full year-over-year comparison.</p>
+        <span class="eyebrow">Module 3 · Assignment</span>
+        <h1>Five measures, each one number harder than the last</h1>
+        <p class="lede">DAX is a skill you build by writing formulas that break, then fixing them — not by reading about them. All five measures below use only functions this module covers: SUM, DIVIDE, TOTALYTD, CALCULATE, and SAMEPERIODLASTYEAR.</p>
       </div>
 
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
+      <div class="callout"><b>Worth 10 marks.</b> Individual submission, through the LMS portal. Built on AdventureWorksDW, same database as every module so far.</div>
 
-      <h2 style="margin-top:30px">Calculated Column vs. Measure — the first fork in the road</h2>
-      <div class="grid grid-2">
-        <div class="card">
-          <h4><button class="term" data-term="calculatedcolumn">Calculated Column</button></h4>
-          <p style="font-size:.9rem">Computed once, row by row, and physically stored in the table — like adding a new column in Excel with a formula dragged down every row.</p>
-          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Full Name = [First Name] &amp; " " &amp; [Last Name]</code> — one fixed value per row, doesn't change based on what's filtered on screen.</p>
-        </div>
-        <div class="card">
-          <h4><button class="term" data-term="measure">Measure</button></h4>
-          <p style="font-size:.9rem">Computed on the fly, only when a visual asks for it — recalculates instantly based on whatever's currently filtered/sliced.</p>
-          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Total Sales = SUM(Sales[Sales])</code> — the same measure returns a different number for "2025" than for "2024," automatically.</p>
-        </div>
+      <h2 style="margin-top:30px">Before you write a single measure</h2>
+      <div class="callout warn"><b>Mark DimDate as a Date Table first.</b> <code>TOTALYTD</code> and <code>SAMEPERIODLASTYEAR</code> (Tasks 3 and 5) silently assume this — without it they either error or quietly return wrong numbers. In Model view: select <code>DimDate</code> → Table tools ribbon → <b>Mark as Date Table</b> → point it at <code>DimDate[FullDateAlternateKey]</code>. Confirm a relationship line already connects <code>FactInternetSales[OrderDateKey]</code> to <code>DimDate[DateKey]</code> — if it's missing, create it in Model view before continuing.</div>
+
+      <h2 style="margin-top:24px">The five measures</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>#</th><th>Measure</th><th>Business question it answers</th></tr>
+          <tr><td class="num">1</td><td>A plain aggregation: <code>Total Sales</code>, summing <code>FactInternetSales[SalesAmount]</code></td><td>"How much have we sold, total?"</td></tr>
+          <tr><td class="num">2</td><td>A ratio using <code>DIVIDE</code>: <code>Profit Margin %</code>, from <code>SalesAmount</code> and <code>TotalProductCost</code></td><td>"Of every rupee of sales, how much is actually profit?"</td></tr>
+          <tr><td class="num">3</td><td>A time-intelligence measure using <code>TOTALYTD</code>: <code>Sales YTD</code></td><td>"How are we doing so far this year?"</td></tr>
+          <tr><td class="num">4</td><td>A <code>CALCULATE</code> + column-filter measure: <code>Road Bike Sales</code>, filtered to <code>DimProduct[ProductLine] = "R"</code></td><td>"How much of our total is from Road bikes specifically, regardless of what's sliced on screen?"</td></tr>
+          <tr><td class="num">5</td><td>A <code>CALCULATE</code> + <code>SAMEPERIODLASTYEAR</code> measure: <code>Sales Same Period Last Year</code></td><td>"Is this actually growth, or does last year look the same?"</td></tr>
+        </table>
       </div>
-      <div class="callout warn" style="margin-top:14px"><b>The rule of thumb this module will build toward:</b> if the number should change when someone clicks a slicer, it's almost always a measure, not a calculated column.</div>
 
-      <h2 style="margin-top:30px">What this page will cover</h2>
+      <h2 style="margin-top:30px">What actually gets graded</h2>
+      <p style="font-size:.92rem">For <b>every</b> measure, submit two things, not one: the formula itself, and a single plain-English sentence explaining what its <button class="term" data-term="fact">filter context</button> is doing at the moment it calculates. That sentence is the actual MBA-level skill here — anyone can copy a DIVIDE formula off a table; explaining <i>why</i> Measure 4 ignores whatever Category slicer is on the page, in your own words, is what the marks are for.</p>
+      <div class="callout"><b>Example of the explanation we want</b> (this one won't earn marks — it's for Measure 4, already given away above): "Road Bike Sales always filters to ProductLine = R first, then sums SalesAmount within that — so it shows the same number whether or not a viewer has clicked a different ProductLine in a slicer elsewhere on the page." Five sentences like that, one per measure, are worth as much as the formulas themselves.</div>
+
+      <h2 style="margin-top:30px">Deliverable checklist</h2>
       <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>DAX syntax basics.</strong> Functions, operators, referencing a column with <code>Table[Column]</code> vs. a measure with <code>[Measure Name]</code>.</div></li>
-        <li><span class="ico">2</span><div><strong>Writing your first measure.</strong> Step-by-step in the Modeling ribbon, from <code>New Measure</code> to seeing it work on a Card visual.</div></li>
-        <li><span class="ico">3</span><div><strong>Common early mistakes.</strong> Using a calculated column where a measure was needed (and the performance cost of getting that backwards at scale).</div></li>
+        <li><span class="ico">✓</span><div><code>DimDate</code> correctly marked as a Date Table, relationship to <code>FactInternetSales</code> confirmed</div></li>
+        <li><span class="ico">✓</span><div>All 5 measures written and showing correct, sensible values on a Card or Table visual</div></li>
+        <li><span class="ico">✓</span><div>One written sentence per measure explaining its filter context, in your own words</div></li>
+        <li><span class="ico">✓</span><div>No calculated columns used where a measure was the right call — this module's whole point</div></li>
       </ul>
 
-      <footer class="pagefoot"><span>Module 3 · DAX Basics &amp; Measures</span><a href="20-dax-time-intelligence.html">Next: Time Intelligence &amp; Aggregations →</a></footer>
+      <h2 style="margin-top:30px">Grading rubric</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Criterion</th><th class="num">Marks</th></tr>
+          <tr><td>Measures 1–2 (aggregation, ratio) — correct and sensible</td><td class="num">2</td></tr>
+          <tr><td>Measure 3 (TOTALYTD) — Date table marked correctly, formula works</td><td class="num">2</td></tr>
+          <tr><td>Measure 4 (CALCULATE + filter) — correct, ignores page-level slicers as intended</td><td class="num">2</td></tr>
+          <tr><td>Measure 5 (CALCULATE + SAMEPERIODLASTYEAR) — correct</td><td class="num">2</td></tr>
+          <tr><td>Five filter-context explanations — accurate, in your own words, not copy-pasted</td><td class="num">2</td></tr>
+          <tr><td><b>Total</b></td><td class="num"><b>10</b></td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">How to submit</h2>
+      <div class="callout warn"><b>Two files, exact naming, both to the LMS portal:</b>
+        <ol class="steps" style="margin-top:10px">
+          <li>Your Power BI file, saved and submitted as <code>YourFullName_Module3.pbix</code></li>
+          <li>A single PDF with a screenshot of all 5 measures' DAX formulas (Modeling → the measure → formula bar, or the Measure list) plus your 5 written explanations, submitted as <code>YourFullName_Module3_Writeup.pdf</code></li>
+        </ol>
+      </div>
+
+      <footer class="pagefoot"><span>Module 3 · Assignment</span><a href="04-power-query.html">Next: Power Query Editor →</a></footer>
     </main>
   </div>
 </div>

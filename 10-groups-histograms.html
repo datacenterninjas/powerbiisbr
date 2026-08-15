@@ -78,7 +78,11 @@
   .brand .sub{ font-size:.78rem; color:var(--text-muted); margin-top:3px; font-family:var(--font-mono); }
 
   .navgroup{ padding:14px 12px; }
-  .navgroup .label{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
+  .navgroup .label{ display:flex; align-items:center; justify-content:space-between; gap:8px; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
+  .navgroup .label .progress-count{ font-weight:400; letter-spacing:0; text-transform:none; flex:none; }
+  .navitem{ display:flex; align-items:center; gap:2px; }
+  .navitem .navbtn{ flex:1; min-width:0; }
+  .navcheck{ flex:none; width:15px; height:15px; margin-right:9px; cursor:pointer; accent-color:var(--accent); }
   .navbtn{
     display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:none; border:none;
     color:var(--text); font-family:var(--font-body); font-size:.88rem; padding:8px 10px; border-radius:8px; cursor:pointer;
@@ -89,8 +93,11 @@
   .navbtn.active{ background:var(--accent); color:var(--accent-ink); font-weight:700; }
   .navbtn.active .num{ color:var(--accent-ink); opacity:.7; }
 
-  .themebar{ margin-top:auto; padding:14px 20px 20px; border-top:1px solid var(--border); display:flex; gap:8px; }
+  .themebar{ margin-top:auto; padding:14px 20px 8px; border-top:1px solid var(--border); display:flex; gap:8px; }
   .themebtn{ flex:1; font-family:var(--font-mono); font-size:.72rem; padding:7px 4px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text-muted); cursor:pointer; }
+  .progressreset{ padding:0 20px 16px; }
+  .progressreset button{ font-family:var(--font-mono); font-size:.7rem; color:var(--text-muted); background:none; border:none; cursor:pointer; padding:2px 0; text-decoration:underline; text-underline-offset:2px; }
+  .progressreset button:hover{ color:var(--accent); }
   .themebtn.active{ border-color:var(--accent); color:var(--accent); }
 
   .main-col{ flex:1; min-width:0; display:flex; flex-direction:column; }
@@ -223,70 +230,76 @@
         </div>
       </div>
     </div>
-        <div class="navgroup">
-      <div class="label">Overview</div>
-      <a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
+        <div class="navgroup" data-group-ids="home">
+      <div class="label"><span>Overview</span><span class="progress-count" data-group-ids="home"></span></div>
+      <div class="navitem"><a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a><input type="checkbox" class="navcheck" data-page="home" title="Mark &quot;Home & Roadmap&quot; as done" aria-label="Mark Home & Roadmap as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Module 1: Introduction to BI &amp; BI Tools</div>
-      <a class="navbtn" href="17-understanding-bi.html"><span class="num">1</span> Understanding Business Intelligence</a>
-      <a class="navbtn" href="18-bi-tools-overview.html"><span class="num">2</span> Overview of BI Tools</a>
-      <a class="navbtn" href="01-architecture.html"><span class="num">3</span> Power BI Architecture</a>
-      <a class="navbtn" href="03-connecting-data.html"><span class="num">4</span> Connecting to Data Sources</a>
-      <a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">+</span> SQL Server &amp; AdventureWorks</a>
-      <a class="navbtn" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a>
-      <a class="navbtn" href="05-visualizations.html"><span class="num">6</span> Basic Visualizations</a>
-      <a class="navbtn" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a>
+    <div class="navgroup" data-group-ids="understandingbi,bitoolsoverview,architecture,connecting,sqlserver,interface,visuals,module1assignment">
+      <div class="label"><span>Module 1: Introduction to BI &amp; BI Tools</span><span class="progress-count" data-group-ids="understandingbi,bitoolsoverview,architecture,connecting,sqlserver,interface,visuals,module1assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="17-understanding-bi.html"><span class="num">1</span> Understanding Business Intelligence</a><input type="checkbox" class="navcheck" data-page="understandingbi" title="Mark &quot;Understanding Business Intelligence&quot; as done" aria-label="Mark Understanding Business Intelligence as done"></div>
+      <div class="navitem"><a class="navbtn" href="18-bi-tools-overview.html"><span class="num">2</span> Overview of BI Tools</a><input type="checkbox" class="navcheck" data-page="bitoolsoverview" title="Mark &quot;Overview of BI Tools&quot; as done" aria-label="Mark Overview of BI Tools as done"></div>
+      <div class="navitem"><a class="navbtn" href="01-architecture.html"><span class="num">3</span> Power BI Architecture</a><input type="checkbox" class="navcheck" data-page="architecture" title="Mark &quot;Power BI Architecture&quot; as done" aria-label="Mark Power BI Architecture as done"></div>
+      <div class="navitem"><a class="navbtn" href="03-connecting-data.html"><span class="num">4</span> Connecting to Data Sources</a><input type="checkbox" class="navcheck" data-page="connecting" title="Mark &quot;Connecting to Data Sources&quot; as done" aria-label="Mark Connecting to Data Sources as done"></div>
+      <div class="navitem"><a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">+</span> SQL Server &amp; AdventureWorks</a><input type="checkbox" class="navcheck" data-page="sqlserver" title="Mark &quot;SQL Server & AdventureWorks&quot; as done" aria-label="Mark SQL Server & AdventureWorks as done"></div>
+      <div class="navitem"><a class="navbtn" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a><input type="checkbox" class="navcheck" data-page="interface" title="Mark &quot;Navigating the Interface&quot; as done" aria-label="Mark Navigating the Interface as done"></div>
+      <div class="navitem"><a class="navbtn" href="05-visualizations.html"><span class="num">6</span> Basic Visualizations</a><input type="checkbox" class="navcheck" data-page="visuals" title="Mark &quot;Basic Visualizations&quot; as done" aria-label="Mark Basic Visualizations as done"></div>
+      <div class="navitem"><a class="navbtn" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module1assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Module 2: Advanced Visualizations</div>
-      <a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a>
-      <a class="navbtn active" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a>
-      <a class="navbtn" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a>
-      <a class="navbtn" href="12-interactivity.html"><span class="num">4</span> Interactivity</a>
-      <a class="navbtn" href="13-tables-matrix.html"><span class="num">5</span> Tables &amp; Matrix</a>
-      <a class="navbtn" href="14-conditional-formatting.html"><span class="num">6</span> Conditional Formatting</a>
-      <a class="navbtn" href="15-filters.html"><span class="num">7</span> Filters</a>
-      <a class="navbtn" href="16-slicers.html"><span class="num">8</span> Slicers</a>
-      <a class="navbtn" href="30-module2-assignment.html"><span class="num">★</span> Assignment (10 marks)</a>
+    <div class="navgroup" data-group-ids="customvisuals,groupshistograms,bestpractices,interactivity,tablesmatrix,conditionalformatting,filters,slicers,module2assignment">
+      <div class="label"><span>Module 2: Advanced Visualizations</span><span class="progress-count" data-group-ids="customvisuals,groupshistograms,bestpractices,interactivity,tablesmatrix,conditionalformatting,filters,slicers,module2assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a><input type="checkbox" class="navcheck" data-page="customvisuals" title="Mark &quot;Custom Visuals&quot; as done" aria-label="Mark Custom Visuals as done"></div>
+      <div class="navitem"><a class="navbtn active" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a><input type="checkbox" class="navcheck" data-page="groupshistograms" title="Mark &quot;Groups & Histograms&quot; as done" aria-label="Mark Groups & Histograms as done"></div>
+      <div class="navitem"><a class="navbtn" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a><input type="checkbox" class="navcheck" data-page="bestpractices" title="Mark &quot;Best Practices&quot; as done" aria-label="Mark Best Practices as done"></div>
+      <div class="navitem"><a class="navbtn" href="12-interactivity.html"><span class="num">4</span> Interactivity</a><input type="checkbox" class="navcheck" data-page="interactivity" title="Mark &quot;Interactivity&quot; as done" aria-label="Mark Interactivity as done"></div>
+      <div class="navitem"><a class="navbtn" href="13-tables-matrix.html"><span class="num">5</span> Tables &amp; Matrix</a><input type="checkbox" class="navcheck" data-page="tablesmatrix" title="Mark &quot;Tables & Matrix&quot; as done" aria-label="Mark Tables & Matrix as done"></div>
+      <div class="navitem"><a class="navbtn" href="14-conditional-formatting.html"><span class="num">6</span> Conditional Formatting</a><input type="checkbox" class="navcheck" data-page="conditionalformatting" title="Mark &quot;Conditional Formatting&quot; as done" aria-label="Mark Conditional Formatting as done"></div>
+      <div class="navitem"><a class="navbtn" href="15-filters.html"><span class="num">7</span> Filters</a><input type="checkbox" class="navcheck" data-page="filters" title="Mark &quot;Filters&quot; as done" aria-label="Mark Filters as done"></div>
+      <div class="navitem"><a class="navbtn" href="16-slicers.html"><span class="num">8</span> Slicers</a><input type="checkbox" class="navcheck" data-page="slicers" title="Mark &quot;Slicers&quot; as done" aria-label="Mark Slicers as done"></div>
+      <div class="navitem"><a class="navbtn" href="30-module2-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module2assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Module 3: Introduction to DAX</div>
-      <a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a>
-      <a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a>
-      <a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a>
-      <a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a>
+    <div class="navgroup" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment">
+      <div class="label"><span>Module 3: Introduction to DAX</span><span class="progress-count" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
+      <div class="navitem"><a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a><input type="checkbox" class="navcheck" data-page="daxtimeintelligence" title="Mark &quot;Time Intelligence & Aggregations&quot; as done" aria-label="Mark Time Intelligence & Aggregations as done"></div>
+      <div class="navitem"><a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a><input type="checkbox" class="navcheck" data-page="daxcontext" title="Mark &quot;Context & Dynamic Measures&quot; as done" aria-label="Mark Context & Dynamic Measures as done"></div>
+      <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
+      <div class="navitem"><a class="navbtn" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Module 4: Power Query Editor</div>
-      <a class="navbtn" href="04-power-query.html"><span class="num">1</span> Power Query Editor</a>
-      <a class="navbtn" href="31-power-query-walkthrough.html"><span class="num">2</span> Dirty → Clean Walkthrough</a>
-      <a class="navbtn" href="23-m-language-etl.html"><span class="num">3</span> M Language &amp; End-to-End ETL</a>
-      <a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">4</span> KPIs &amp; Single-Page Dashboard</a>
+    <div class="navgroup" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment">
+      <div class="label"><span>Module 4: Power Query Editor</span><span class="progress-count" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="04-power-query.html"><span class="num">1</span> Power Query Editor</a><input type="checkbox" class="navcheck" data-page="powerquery" title="Mark &quot;Power Query Editor&quot; as done" aria-label="Mark Power Query Editor as done"></div>
+      <div class="navitem"><a class="navbtn" href="31-power-query-walkthrough.html"><span class="num">2</span> Dirty → Clean Walkthrough</a><input type="checkbox" class="navcheck" data-page="pqwalkthrough" title="Mark &quot;Dirty → Clean Walkthrough&quot; as done" aria-label="Mark Dirty → Clean Walkthrough as done"></div>
+      <div class="navitem"><a class="navbtn" href="23-m-language-etl.html"><span class="num">3</span> M Language &amp; End-to-End ETL</a><input type="checkbox" class="navcheck" data-page="mlanguageetl" title="Mark &quot;M Language & End-to-End ETL&quot; as done" aria-label="Mark M Language & End-to-End ETL as done"></div>
+      <div class="navitem"><a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">4</span> KPIs &amp; Single-Page Dashboard</a><input type="checkbox" class="navcheck" data-page="kpisdashboard" title="Mark &quot;KPIs & Single-Page Dashboard&quot; as done" aria-label="Mark KPIs & Single-Page Dashboard as done"></div>
+      <div class="navitem"><a class="navbtn" href="33-module4-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module4assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Module 5: Power BI Service</div>
-      <a class="navbtn" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a>
-      <a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a>
-      <a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a>
-      <a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a>
+    <div class="navgroup" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment">
+      <div class="label"><span>Module 5: Power BI Service</span><span class="progress-count" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a><input type="checkbox" class="navcheck" data-page="publishingsharing" title="Mark &quot;Publishing & Sharing&quot; as done" aria-label="Mark Publishing & Sharing as done"></div>
+      <div class="navitem"><a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a><input type="checkbox" class="navcheck" data-page="qascenariomanager" title="Mark &quot;Q&A and Scenario Manager&quot; as done" aria-label="Mark Q&A and Scenario Manager as done"></div>
+      <div class="navitem"><a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a><input type="checkbox" class="navcheck" data-page="practicalapplications" title="Mark &quot;Practical Applications & Pivots&quot; as done" aria-label="Mark Practical Applications & Pivots as done"></div>
+      <div class="navitem"><a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a><input type="checkbox" class="navcheck" data-page="serviceslicers" title="Mark &quot;Slicers at Scale & Interactivity&quot; as done" aria-label="Mark Slicers at Scale & Interactivity as done"></div>
+      <div class="navitem"><a class="navbtn" href="34-module5-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module5assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Practice</div>
-      <a class="navbtn" href="06-exercises.html"><span class="num">★</span> 5 Exercises</a>
-      <a class="navbtn" href="07-final-project.html"><span class="num">★</span> Final Project</a>
-      <a class="navbtn" href="quiz.html"><span class="num">★</span> Self-Test Quiz</a>
+    <div class="navgroup" data-group-ids="exercises,finalproject,quiz">
+      <div class="label"><span>Practice</span><span class="progress-count" data-group-ids="exercises,finalproject,quiz"></span></div>
+      <div class="navitem"><a class="navbtn" href="06-exercises.html"><span class="num">★</span> 5 Exercises</a><input type="checkbox" class="navcheck" data-page="exercises" title="Mark &quot;5 Exercises&quot; as done" aria-label="Mark 5 Exercises as done"></div>
+      <div class="navitem"><a class="navbtn" href="07-final-project.html"><span class="num">★</span> Final Project</a><input type="checkbox" class="navcheck" data-page="finalproject" title="Mark &quot;Final Project&quot; as done" aria-label="Mark Final Project as done"></div>
+      <div class="navitem"><a class="navbtn" href="quiz.html"><span class="num">★</span> Self-Test Quiz</a><input type="checkbox" class="navcheck" data-page="quiz" title="Mark &quot;Self-Test Quiz&quot; as done" aria-label="Mark Self-Test Quiz as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Reference</div>
-      <a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a>
-      <a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a>
+    <div class="navgroup" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets">
+      <div class="label"><span>Reference</span><span class="progress-count" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets"></span></div>
+      <div class="navitem"><a class="navbtn" href="35-troubleshooting.html"><span class="num">⚠</span> Troubleshooting</a><input type="checkbox" class="navcheck" data-page="troubleshooting" title="Mark &quot;Troubleshooting&quot; as done" aria-label="Mark Troubleshooting as done"></div>
+      <div class="navitem"><a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a><input type="checkbox" class="navcheck" data-page="cheatsheet" title="Mark &quot;Cheat Sheet&quot; as done" aria-label="Mark Cheat Sheet as done"></div>
+      <div class="navitem"><a class="navbtn" href="36-career-pl300.html"><span class="num">🎓</span> Career &amp; PL-300</a><input type="checkbox" class="navcheck" data-page="careerpl300" title="Mark &quot;Career & PL-300&quot; as done" aria-label="Mark Career & PL-300 as done"></div>
+      <div class="navitem"><a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a><input type="checkbox" class="navcheck" data-page="datasets" title="Mark &quot;Datasets&quot; as done" aria-label="Mark Datasets as done"></div>
     </div>
     <div class="themebar">
       <button class="themebtn" data-theme-choice="light">☀ Light</button>
       <button class="themebtn" data-theme-choice="dark">☾ Dark</button>
       <button class="themebtn" data-theme-choice="auto">Auto</button>
     </div>
+    <div class="progressreset"><button id="resetProgress" type="button">↺ Reset my progress</button></div>
   </aside>
 
   <div class="main-col">
@@ -583,6 +596,40 @@ themebtns.forEach(b => b.addEventListener('click', ()=> setTheme(b.dataset.theme
 let savedTheme = 'auto';
 try{ savedTheme = localStorage.getItem('pbi-theme') || 'auto'; }catch(e){}
 setTheme(savedTheme);
+
+/* ============= per-page progress tracking (purely local, no analytics) ============= */
+function loadProgress(){
+  try{ return JSON.parse(localStorage.getItem('pbi-progress') || '{}'); }catch(e){ return {}; }
+}
+function saveProgress(state){
+  try{ localStorage.setItem('pbi-progress', JSON.stringify(state)); }catch(e){}
+}
+function updateGroupCounts(state){
+  document.querySelectorAll('.progress-count').forEach(el=>{
+    const ids = el.dataset.groupIds.split(',').filter(Boolean);
+    const done = ids.filter(id => state[id]).length;
+    el.textContent = `${done}/${ids.length}`;
+  });
+}
+let progressState = loadProgress();
+document.querySelectorAll('.navcheck').forEach(cb=>{
+  cb.checked = !!progressState[cb.dataset.page];
+  cb.addEventListener('click', (e)=> e.stopPropagation());
+  cb.addEventListener('change', ()=>{
+    progressState[cb.dataset.page] = cb.checked;
+    saveProgress(progressState);
+    updateGroupCounts(progressState);
+  });
+});
+updateGroupCounts(progressState);
+const resetBtn = document.getElementById('resetProgress');
+if(resetBtn) resetBtn.addEventListener('click', ()=>{
+  if(!confirm('Clear all progress checkmarks? This only affects this browser and can\'t be undone.')) return;
+  progressState = {};
+  saveProgress(progressState);
+  document.querySelectorAll('.navcheck').forEach(cb => cb.checked = false);
+  updateGroupCounts(progressState);
+});
 
 /* ============= terminology hints ============= */
 const GLOSSARY = {

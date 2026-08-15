@@ -1,0 +1,58 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 4 · Assignment</span>
+        <h1>A different file, the same discipline, nobody walking you through it this time</h1>
+        <p class="lede">The Dirty → Clean Walkthrough cleaned <code>Banking_Dirty.csv</code> for you, step by step. This assignment is the same job, on a messier file, with no walkthrough — <code>Sales_Dirty.csv</code>, 100 rows, and at least nine distinct problems nobody is going to point out for you this time.</p>
+      </div>
+
+      <div class="callout"><b>Worth 10 marks.</b> Individual submission, through the LMS portal. Download <a href="datasets/Sales_Dirty.csv" download>Sales_Dirty.csv</a> from the <a href="datasets.html">Datasets</a> page and find its problems the same way the walkthrough did: open the raw CSV first, before touching Power Query.</div>
+
+      <h2 style="margin-top:30px">The brief</h2>
+      <p>Clean <code>Sales_Dirty.csv</code> completely in Power Query, entirely through the graphical interface — no hand-editing the CSV in Excel first, and no manually retyping values in Power BI. Every fix has to be a <b>reproducible query step</b>, because that's the actual point of Power Query: run it again next month on a new export and it cleans itself the same way, automatically.</p>
+      <div class="callout warn"><b>What will cost you marks:</b> opening the CSV in Excel, fixing a few cells by hand, re-saving it, and loading the "clean" version into Power BI. That produces a clean-looking file but zero reproducible steps — it has to be redone by hand every single month. Grading checks the <b>Applied Steps</b> pane, not just the final numbers.</div>
+
+      <h2 style="margin-top:24px">Categories of problems in this file (not an exhaustive list — find the rest yourself)</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Category</th><th>What to look for</th></tr>
+          <tr><td>Inconsistent text</td><td>At least one category value spelled two different ways</td></tr>
+          <tr><td>Currency-formatted numbers</td><td>At least one numeric column carrying a currency symbol as text</td></tr>
+          <tr><td>Wrong data type</td><td>At least one numeric column with a spelled-out number as text somewhere in it</td></tr>
+          <tr><td>Inconsistent dates</td><td>More than one date format mixed in the same column — and at least one date that plain isn't valid on any calendar</td></tr>
+          <tr><td>Duplicates</td><td>More than one exact duplicate row</td></tr>
+          <tr><td>Stray characters</td><td>At least one category value with punctuation that doesn't belong</td></tr>
+          <tr><td>Negative values</td><td>At least one number that's negative where negative doesn't make business sense</td></tr>
+          <tr><td>Blanks</td><td>At least one genuinely empty cell in a numeric column</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">Deliverable checklist</h2>
+      <ul class="kicker-list">
+        <li><span class="ico">✓</span><div>Every numeric column typed correctly (Whole Number / Decimal Number), no column left as Text or "Any"</div></li>
+        <li><span class="ico">✓</span><div>Date column typed as an actual Date, sorting chronologically — not alphabetically</div></li>
+        <li><span class="ico">✓</span><div>All category-text inconsistencies standardized to one spelling each</div></li>
+        <li><span class="ico">✓</span><div>All exact duplicate rows removed</div></li>
+        <li><span class="ico">✓</span><div>A one-paragraph note (in the submitted PDF) on what you did with the invalid date and any values you judged implausible-but-not-technically-wrong — deleted, flagged, or left as-is, and why</div></li>
+      </ul>
+
+      <h2 style="margin-top:30px">Grading rubric</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Criterion</th><th class="num">Marks</th></tr>
+          <tr><td>Every column correctly typed (numbers as numbers, dates as dates)</td><td class="num">3</td></tr>
+          <tr><td>Category text standardized correctly, no remaining inconsistencies</td><td class="num">2</td></tr>
+          <tr><td>Duplicates correctly identified and removed</td><td class="num">2</td></tr>
+          <tr><td>Applied Steps pane shows reproducible, sensibly-ordered query steps — not a hand-fixed file reloaded</td><td class="num">2</td></tr>
+          <tr><td>Written judgment-call note on the invalid date / implausible values</td><td class="num">1</td></tr>
+          <tr><td><b>Total</b></td><td class="num"><b>10</b></td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">How to submit</h2>
+      <div class="callout warn"><b>Two files, exact naming, both to the LMS portal:</b>
+        <ol class="steps" style="margin-top:10px">
+          <li>Your Power BI file, submitted as <code>YourFullName_Module4.pbix</code></li>
+          <li>A single PDF: a full screenshot of your Applied Steps pane, plus the judgment-call paragraph from the checklist above, submitted as <code>YourFullName_Module4_Writeup.pdf</code></li>
+        </ol>
+      </div>
+
+      <footer class="pagefoot"><span>Module 4 · Assignment</span><a href="25-publishing-sharing.html">Next: Publishing &amp; Sharing →</a></footer>

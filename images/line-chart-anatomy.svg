@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 300" role="img" aria-label="An annotated line chart showing three things at once: an overall upward trend shown as a dashed reference line, a regular up-down seasonality cycle in the data itself, and one sharp one-off spike near the end of the series, called out for investigation before presenting.">
+  <rect width="820" height="300" fill="#FFFFFF"/>
+  <defs>
+    <marker id="lcArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#B3402D"/>
+    </marker>
+  </defs>
+  <g font-family="ui-monospace,Consolas,monospace">
+    <line x1="40" y1="20" x2="40" y2="230" stroke="#DEDACE"/>
+    <line x1="40" y1="230" x2="790" y2="230" stroke="#DEDACE"/>
+
+    <!-- trend reference line -->
+    <line x1="40" y1="195" x2="770" y2="80" stroke="#C97A1E" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <text x="470" y="120" font-size="10" fill="#C97A1E" transform="rotate(-15 470 120)">TREND — overall direction, ignoring the wiggles</text>
+
+    <!-- data line -->
+    <polyline points="40,195 100,175 160,190 220,160 280,175 340,145 400,160 460,130 520,145 580,115 640,50 700,105 760,85"
+      fill="none" stroke="#2A6560" stroke-width="2.5"/>
+    <g fill="#2A6560">
+      <circle cx="40" cy="195" r="3"/><circle cx="100" cy="175" r="3"/><circle cx="160" cy="190" r="3"/><circle cx="220" cy="160" r="3"/>
+      <circle cx="280" cy="175" r="3"/><circle cx="340" cy="145" r="3"/><circle cx="400" cy="160" r="3"/><circle cx="460" cy="130" r="3"/>
+      <circle cx="520" cy="145" r="3"/><circle cx="580" cy="115" r="3"/><circle cx="700" cy="105" r="3"/><circle cx="760" cy="85" r="3"/>
+    </g>
+
+    <!-- seasonality bracket -->
+    <path d="M160,250 Q250,265 340,250" fill="none" stroke="#565B6B" stroke-width="1.3"/>
+    <text x="250" y="280" text-anchor="middle" font-size="10" fill="#565B6B">SEASONALITY — a regular up-down cycle, repeating</text>
+
+    <!-- one-off spike -->
+    <circle cx="640" cy="50" r="6" fill="#B3402D"/>
+    <circle cx="640" cy="50" r="11" fill="none" stroke="#B3402D" stroke-width="1.3" stroke-dasharray="2,2"/>
+    <line x1="660" y1="30" x2="644" y2="46" stroke="#B3402D" stroke-width="1.3" marker-end="url(#lcArrow)"/>
+    <text x="662" y="26" font-size="10" fill="#B3402D">ONE-OFF SPIKE — investigate before presenting,</text>
+    <text x="662" y="40" font-size="10" fill="#B3402D">don't fold it into "the trend"</text>
+  </g>
+</svg>

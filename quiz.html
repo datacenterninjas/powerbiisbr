@@ -78,7 +78,11 @@
   .brand .sub{ font-size:.78rem; color:var(--text-muted); margin-top:3px; font-family:var(--font-mono); }
 
   .navgroup{ padding:14px 12px; }
-  .navgroup .label{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
+  .navgroup .label{ display:flex; align-items:center; justify-content:space-between; gap:8px; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
+  .navgroup .label .progress-count{ font-weight:400; letter-spacing:0; text-transform:none; flex:none; }
+  .navitem{ display:flex; align-items:center; gap:2px; }
+  .navitem .navbtn{ flex:1; min-width:0; }
+  .navcheck{ flex:none; width:15px; height:15px; margin-right:9px; cursor:pointer; accent-color:var(--accent); }
   .navbtn{
     display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:none; border:none;
     color:var(--text); font-family:var(--font-body); font-size:.88rem; padding:8px 10px; border-radius:8px; cursor:pointer;
@@ -89,8 +93,11 @@
   .navbtn.active{ background:var(--accent); color:var(--accent-ink); font-weight:700; }
   .navbtn.active .num{ color:var(--accent-ink); opacity:.7; }
 
-  .themebar{ margin-top:auto; padding:14px 20px 20px; border-top:1px solid var(--border); display:flex; gap:8px; }
+  .themebar{ margin-top:auto; padding:14px 20px 8px; border-top:1px solid var(--border); display:flex; gap:8px; }
   .themebtn{ flex:1; font-family:var(--font-mono); font-size:.72rem; padding:7px 4px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text-muted); cursor:pointer; }
+  .progressreset{ padding:0 20px 16px; }
+  .progressreset button{ font-family:var(--font-mono); font-size:.7rem; color:var(--text-muted); background:none; border:none; cursor:pointer; padding:2px 0; text-decoration:underline; text-underline-offset:2px; }
+  .progressreset button:hover{ color:var(--accent); }
   .themebtn.active{ border-color:var(--accent); color:var(--accent); }
 
   .main-col{ flex:1; min-width:0; display:flex; flex-direction:column; }
@@ -223,70 +230,76 @@
         </div>
       </div>
     </div>
-        <div class="navgroup">
-      <div class="label">Overview</div>
-      <a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a>
+        <div class="navgroup" data-group-ids="home">
+      <div class="label"><span>Overview</span><span class="progress-count" data-group-ids="home"></span></div>
+      <div class="navitem"><a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a><input type="checkbox" class="navcheck" data-page="home" title="Mark &quot;Home & Roadmap&quot; as done" aria-label="Mark Home & Roadmap as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Module 1: Introduction to BI &amp; BI Tools</div>
-      <a class="navbtn" href="17-understanding-bi.html"><span class="num">1</span> Understanding Business Intelligence</a>
-      <a class="navbtn" href="18-bi-tools-overview.html"><span class="num">2</span> Overview of BI Tools</a>
-      <a class="navbtn" href="01-architecture.html"><span class="num">3</span> Power BI Architecture</a>
-      <a class="navbtn" href="03-connecting-data.html"><span class="num">4</span> Connecting to Data Sources</a>
-      <a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">+</span> SQL Server &amp; AdventureWorks</a>
-      <a class="navbtn" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a>
-      <a class="navbtn" href="05-visualizations.html"><span class="num">6</span> Basic Visualizations</a>
-      <a class="navbtn" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a>
+    <div class="navgroup" data-group-ids="understandingbi,bitoolsoverview,architecture,connecting,sqlserver,interface,visuals,module1assignment">
+      <div class="label"><span>Module 1: Introduction to BI &amp; BI Tools</span><span class="progress-count" data-group-ids="understandingbi,bitoolsoverview,architecture,connecting,sqlserver,interface,visuals,module1assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="17-understanding-bi.html"><span class="num">1</span> Understanding Business Intelligence</a><input type="checkbox" class="navcheck" data-page="understandingbi" title="Mark &quot;Understanding Business Intelligence&quot; as done" aria-label="Mark Understanding Business Intelligence as done"></div>
+      <div class="navitem"><a class="navbtn" href="18-bi-tools-overview.html"><span class="num">2</span> Overview of BI Tools</a><input type="checkbox" class="navcheck" data-page="bitoolsoverview" title="Mark &quot;Overview of BI Tools&quot; as done" aria-label="Mark Overview of BI Tools as done"></div>
+      <div class="navitem"><a class="navbtn" href="01-architecture.html"><span class="num">3</span> Power BI Architecture</a><input type="checkbox" class="navcheck" data-page="architecture" title="Mark &quot;Power BI Architecture&quot; as done" aria-label="Mark Power BI Architecture as done"></div>
+      <div class="navitem"><a class="navbtn" href="03-connecting-data.html"><span class="num">4</span> Connecting to Data Sources</a><input type="checkbox" class="navcheck" data-page="connecting" title="Mark &quot;Connecting to Data Sources&quot; as done" aria-label="Mark Connecting to Data Sources as done"></div>
+      <div class="navitem"><a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">+</span> SQL Server &amp; AdventureWorks</a><input type="checkbox" class="navcheck" data-page="sqlserver" title="Mark &quot;SQL Server & AdventureWorks&quot; as done" aria-label="Mark SQL Server & AdventureWorks as done"></div>
+      <div class="navitem"><a class="navbtn" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a><input type="checkbox" class="navcheck" data-page="interface" title="Mark &quot;Navigating the Interface&quot; as done" aria-label="Mark Navigating the Interface as done"></div>
+      <div class="navitem"><a class="navbtn" href="05-visualizations.html"><span class="num">6</span> Basic Visualizations</a><input type="checkbox" class="navcheck" data-page="visuals" title="Mark &quot;Basic Visualizations&quot; as done" aria-label="Mark Basic Visualizations as done"></div>
+      <div class="navitem"><a class="navbtn" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module1assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Module 2: Advanced Visualizations</div>
-      <a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a>
-      <a class="navbtn" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a>
-      <a class="navbtn" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a>
-      <a class="navbtn" href="12-interactivity.html"><span class="num">4</span> Interactivity</a>
-      <a class="navbtn" href="13-tables-matrix.html"><span class="num">5</span> Tables &amp; Matrix</a>
-      <a class="navbtn" href="14-conditional-formatting.html"><span class="num">6</span> Conditional Formatting</a>
-      <a class="navbtn" href="15-filters.html"><span class="num">7</span> Filters</a>
-      <a class="navbtn" href="16-slicers.html"><span class="num">8</span> Slicers</a>
-      <a class="navbtn" href="30-module2-assignment.html"><span class="num">★</span> Assignment (10 marks)</a>
+    <div class="navgroup" data-group-ids="customvisuals,groupshistograms,bestpractices,interactivity,tablesmatrix,conditionalformatting,filters,slicers,module2assignment">
+      <div class="label"><span>Module 2: Advanced Visualizations</span><span class="progress-count" data-group-ids="customvisuals,groupshistograms,bestpractices,interactivity,tablesmatrix,conditionalformatting,filters,slicers,module2assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a><input type="checkbox" class="navcheck" data-page="customvisuals" title="Mark &quot;Custom Visuals&quot; as done" aria-label="Mark Custom Visuals as done"></div>
+      <div class="navitem"><a class="navbtn" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a><input type="checkbox" class="navcheck" data-page="groupshistograms" title="Mark &quot;Groups & Histograms&quot; as done" aria-label="Mark Groups & Histograms as done"></div>
+      <div class="navitem"><a class="navbtn" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a><input type="checkbox" class="navcheck" data-page="bestpractices" title="Mark &quot;Best Practices&quot; as done" aria-label="Mark Best Practices as done"></div>
+      <div class="navitem"><a class="navbtn" href="12-interactivity.html"><span class="num">4</span> Interactivity</a><input type="checkbox" class="navcheck" data-page="interactivity" title="Mark &quot;Interactivity&quot; as done" aria-label="Mark Interactivity as done"></div>
+      <div class="navitem"><a class="navbtn" href="13-tables-matrix.html"><span class="num">5</span> Tables &amp; Matrix</a><input type="checkbox" class="navcheck" data-page="tablesmatrix" title="Mark &quot;Tables & Matrix&quot; as done" aria-label="Mark Tables & Matrix as done"></div>
+      <div class="navitem"><a class="navbtn" href="14-conditional-formatting.html"><span class="num">6</span> Conditional Formatting</a><input type="checkbox" class="navcheck" data-page="conditionalformatting" title="Mark &quot;Conditional Formatting&quot; as done" aria-label="Mark Conditional Formatting as done"></div>
+      <div class="navitem"><a class="navbtn" href="15-filters.html"><span class="num">7</span> Filters</a><input type="checkbox" class="navcheck" data-page="filters" title="Mark &quot;Filters&quot; as done" aria-label="Mark Filters as done"></div>
+      <div class="navitem"><a class="navbtn" href="16-slicers.html"><span class="num">8</span> Slicers</a><input type="checkbox" class="navcheck" data-page="slicers" title="Mark &quot;Slicers&quot; as done" aria-label="Mark Slicers as done"></div>
+      <div class="navitem"><a class="navbtn" href="30-module2-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module2assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Module 3: Introduction to DAX</div>
-      <a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a>
-      <a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a>
-      <a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a>
-      <a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a>
+    <div class="navgroup" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment">
+      <div class="label"><span>Module 3: Introduction to DAX</span><span class="progress-count" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
+      <div class="navitem"><a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a><input type="checkbox" class="navcheck" data-page="daxtimeintelligence" title="Mark &quot;Time Intelligence & Aggregations&quot; as done" aria-label="Mark Time Intelligence & Aggregations as done"></div>
+      <div class="navitem"><a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a><input type="checkbox" class="navcheck" data-page="daxcontext" title="Mark &quot;Context & Dynamic Measures&quot; as done" aria-label="Mark Context & Dynamic Measures as done"></div>
+      <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
+      <div class="navitem"><a class="navbtn" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Module 4: Power Query Editor</div>
-      <a class="navbtn" href="04-power-query.html"><span class="num">1</span> Power Query Editor</a>
-      <a class="navbtn" href="31-power-query-walkthrough.html"><span class="num">2</span> Dirty → Clean Walkthrough</a>
-      <a class="navbtn" href="23-m-language-etl.html"><span class="num">3</span> M Language &amp; End-to-End ETL</a>
-      <a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">4</span> KPIs &amp; Single-Page Dashboard</a>
+    <div class="navgroup" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment">
+      <div class="label"><span>Module 4: Power Query Editor</span><span class="progress-count" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="04-power-query.html"><span class="num">1</span> Power Query Editor</a><input type="checkbox" class="navcheck" data-page="powerquery" title="Mark &quot;Power Query Editor&quot; as done" aria-label="Mark Power Query Editor as done"></div>
+      <div class="navitem"><a class="navbtn" href="31-power-query-walkthrough.html"><span class="num">2</span> Dirty → Clean Walkthrough</a><input type="checkbox" class="navcheck" data-page="pqwalkthrough" title="Mark &quot;Dirty → Clean Walkthrough&quot; as done" aria-label="Mark Dirty → Clean Walkthrough as done"></div>
+      <div class="navitem"><a class="navbtn" href="23-m-language-etl.html"><span class="num">3</span> M Language &amp; End-to-End ETL</a><input type="checkbox" class="navcheck" data-page="mlanguageetl" title="Mark &quot;M Language & End-to-End ETL&quot; as done" aria-label="Mark M Language & End-to-End ETL as done"></div>
+      <div class="navitem"><a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">4</span> KPIs &amp; Single-Page Dashboard</a><input type="checkbox" class="navcheck" data-page="kpisdashboard" title="Mark &quot;KPIs & Single-Page Dashboard&quot; as done" aria-label="Mark KPIs & Single-Page Dashboard as done"></div>
+      <div class="navitem"><a class="navbtn" href="33-module4-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module4assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Module 5: Power BI Service</div>
-      <a class="navbtn" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a>
-      <a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a>
-      <a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a>
-      <a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a>
+    <div class="navgroup" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment">
+      <div class="label"><span>Module 5: Power BI Service</span><span class="progress-count" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a><input type="checkbox" class="navcheck" data-page="publishingsharing" title="Mark &quot;Publishing & Sharing&quot; as done" aria-label="Mark Publishing & Sharing as done"></div>
+      <div class="navitem"><a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a><input type="checkbox" class="navcheck" data-page="qascenariomanager" title="Mark &quot;Q&A and Scenario Manager&quot; as done" aria-label="Mark Q&A and Scenario Manager as done"></div>
+      <div class="navitem"><a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a><input type="checkbox" class="navcheck" data-page="practicalapplications" title="Mark &quot;Practical Applications & Pivots&quot; as done" aria-label="Mark Practical Applications & Pivots as done"></div>
+      <div class="navitem"><a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a><input type="checkbox" class="navcheck" data-page="serviceslicers" title="Mark &quot;Slicers at Scale & Interactivity&quot; as done" aria-label="Mark Slicers at Scale & Interactivity as done"></div>
+      <div class="navitem"><a class="navbtn" href="34-module5-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module5assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Practice</div>
-      <a class="navbtn" href="06-exercises.html"><span class="num">★</span> 5 Exercises</a>
-      <a class="navbtn" href="07-final-project.html"><span class="num">★</span> Final Project</a>
-      <a class="navbtn active" href="quiz.html"><span class="num">★</span> Self-Test Quiz</a>
+    <div class="navgroup" data-group-ids="exercises,finalproject,quiz">
+      <div class="label"><span>Practice</span><span class="progress-count" data-group-ids="exercises,finalproject,quiz"></span></div>
+      <div class="navitem"><a class="navbtn" href="06-exercises.html"><span class="num">★</span> 5 Exercises</a><input type="checkbox" class="navcheck" data-page="exercises" title="Mark &quot;5 Exercises&quot; as done" aria-label="Mark 5 Exercises as done"></div>
+      <div class="navitem"><a class="navbtn" href="07-final-project.html"><span class="num">★</span> Final Project</a><input type="checkbox" class="navcheck" data-page="finalproject" title="Mark &quot;Final Project&quot; as done" aria-label="Mark Final Project as done"></div>
+      <div class="navitem"><a class="navbtn active" href="quiz.html"><span class="num">★</span> Self-Test Quiz</a><input type="checkbox" class="navcheck" data-page="quiz" title="Mark &quot;Self-Test Quiz&quot; as done" aria-label="Mark Self-Test Quiz as done"></div>
     </div>
-    <div class="navgroup">
-      <div class="label">Reference</div>
-      <a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a>
-      <a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a>
+    <div class="navgroup" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets">
+      <div class="label"><span>Reference</span><span class="progress-count" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets"></span></div>
+      <div class="navitem"><a class="navbtn" href="35-troubleshooting.html"><span class="num">⚠</span> Troubleshooting</a><input type="checkbox" class="navcheck" data-page="troubleshooting" title="Mark &quot;Troubleshooting&quot; as done" aria-label="Mark Troubleshooting as done"></div>
+      <div class="navitem"><a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a><input type="checkbox" class="navcheck" data-page="cheatsheet" title="Mark &quot;Cheat Sheet&quot; as done" aria-label="Mark Cheat Sheet as done"></div>
+      <div class="navitem"><a class="navbtn" href="36-career-pl300.html"><span class="num">🎓</span> Career &amp; PL-300</a><input type="checkbox" class="navcheck" data-page="careerpl300" title="Mark &quot;Career & PL-300&quot; as done" aria-label="Mark Career & PL-300 as done"></div>
+      <div class="navitem"><a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a><input type="checkbox" class="navcheck" data-page="datasets" title="Mark &quot;Datasets&quot; as done" aria-label="Mark Datasets as done"></div>
     </div>
     <div class="themebar">
       <button class="themebtn" data-theme-choice="light">☀ Light</button>
       <button class="themebtn" data-theme-choice="dark">☾ Dark</button>
       <button class="themebtn" data-theme-choice="auto">Auto</button>
     </div>
+    <div class="progressreset"><button id="resetProgress" type="button">↺ Reset my progress</button></div>
   </aside>
 
   <div class="main-col">
@@ -299,8 +312,8 @@
     <main class="content">
       <div class="section-head">
         <span class="eyebrow">★ Self-Test</span>
-        <h1>21 questions. Instant feedback.</h1>
-        <p class="lede">Same questions from class, fully interactive. Click an answer to see if you're right — and why.</p>
+        <h1>52 questions. Instant feedback.</h1>
+        <p class="lede">Same questions from class, fully interactive, now covering all five modules. Click an answer to see if you're right — and why.</p>
       </div>
 
       <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px">
@@ -313,7 +326,7 @@
 
       <div id="quizList"></div>
 
-      <footer class="pagefoot"><span>★ Self-Test Quiz</span><a href="cheatsheet.html">Next: Cheat Sheet →</a></footer>
+      <footer class="pagefoot"><span>★ Self-Test Quiz</span><a href="35-troubleshooting.html">Next: Troubleshooting →</a></footer>
 
 <script>
 /* ============= quiz data (15 MCQ + 6 scenario) ============= */
@@ -339,6 +352,41 @@ const QUIZ = [
 {t:'mcq', mod:'Visualizations', q:'What does "Edit Interactions" control?', opts:['Which colors a chart uses','How clicking one visual filters or highlights other visuals on the page','How to rename a chart\'s title','Where a visual is positioned on the page'], correct:1, explain:'Edit Interactions controls the filter/highlight/none behavior between visuals sharing a page.'},
 {t:'scenario', mod:'Visualizations', q:'Your manager wants "top 3 products by revenue" shown in a board meeting where people glance at the slide for 5 seconds. Bar chart, pie chart, or scatter plot — and why?', explain:'Bar chart — it enables instant, accurate comparison of magnitude. A pie chart needs slower angle comparison, and a scatter needs two numeric variables, not a ranking.'},
 {t:'scenario', mod:'Visualizations', q:'You built a Sales-vs-Profit scatter plot and one dot sits far from every other dot (high Sales, very low/negative Profit). What should you do next?', explain:'Investigate before presenting — could be a real event (a heavily discounted bulk order) or a data error. Never silently delete or ignore an outlier; it\'s often the most important point on the chart, not the most disposable.'},
+
+{t:'mcq', mod:'Advanced Visualizations', q:'What\'s the key difference between a Table and a Matrix visual?', opts:['They are functionally identical','A Table shows one row per record; a Matrix groups rows into a hierarchy with subtotals','A Matrix can only show text, not numbers','A Table always has fewer columns'], correct:1, explain:'A Table lists records flat, one row each. A Matrix groups rows into a hierarchy and subtotals automatically, like an Excel PivotTable.'},
+{t:'mcq', mod:'Advanced Visualizations', q:'You want Credit Score below 600 shown as a hard red cell, not a smooth gradient. Which conditional formatting Format style do you pick?', opts:['Gradient','Rules','Icons only','Data bars only'], correct:1, explain:'Rules-based formatting draws explicit if/then bands (a hard cutoff); Gradient shades continuously across the range instead.'},
+{t:'mcq', mod:'Advanced Visualizations', q:'A KPI card shows raw Total Sales but should turn red or green based on performance vs. a target. What do you point "Based on field" at?', opts:['The same Sales field being displayed','A separate Sales vs Target % measure','Nothing — this requires a custom visual','The Values well cannot use a different field'], correct:1, explain:'Conditional formatting can be driven by a different, hidden measure than the one displayed — the visible number never changes, only what decides its color does.'},
+{t:'mcq', mod:'Advanced Visualizations', q:'Which filter scope affects every visual on every page of the report, including pages added later?', opts:['Visual-level','Page-level','Report-level','Filters never apply to future pages'], correct:2, explain:'Report-level is the broadest scope — every visual on every page, present and future, inherits it automatically.'},
+{t:'mcq', mod:'Advanced Visualizations', q:'You drop Region into a Matrix\'s Rows well, then drop Category into Rows underneath it. What did you just build?', opts:['Two separate matrices','A hierarchy — Category nested inside Region','An error — Rows can only hold one field','A Columns cross-tab'], correct:1, explain:'Stacking fields in Rows builds a hierarchy, nested in the order they were dropped in, complete with expand/collapse and subtotals per level.'},
+{t:'mcq', mod:'Advanced Visualizations', q:'When should you reach for a custom visual from AppSource instead of a built-in chart?', opts:['Whenever it looks more advanced','Only when a built-in chart structurally cannot answer the business question','Every time a report is for senior management','Custom visuals should never be used'], correct:1, explain:'Default bias is built-in visuals — reach into AppSource only when you can name the specific thing a built-in chart genuinely can\'t show, like a real date-range Gantt bar.'},
+{t:'mcq', mod:'Advanced Visualizations', q:'A Table visual has its built-in header Search icon turned on. How is this different from a report-level slicer?', opts:['They are exactly the same feature','Table search only filters that one Table visual and isn\'t saved as report state; a slicer can affect other visuals and its selection persists','Search is only available on a Matrix, not a Table','Slicers cannot filter text fields'], correct:1, explain:'Table search is scoped to that single visual and resets — a slicer\'s selection is part of the report\'s state and can drive cross-filtering elsewhere.'},
+{t:'scenario', mod:'Advanced Visualizations', q:'Your Matrix\'s Region subtotals look right, but after a colleague turns off "Row subtotals" for the Category level, they claim the Grand Total changed too. What\'s the correct expectation, and what would you actually check?', explain:'Turning off subtotals at one row level should NOT touch the Grand Total — it\'s controlled separately in the same Subtotals panel. If it really changed, check whether the Grand Total toggle or a filter was also changed at the same time, not the row-level subtotal itself.'},
+{t:'scenario', mod:'Advanced Visualizations', q:'A slicer works fine when clicked, but a report viewer complains none of the OTHER visuals on the page react to it. What\'s the first thing to check?', explain:'Edit Interactions (Format ribbon) — one or more visuals may have been explicitly set to "None" for that slicer, deliberately or by accident, disabling the cross-filter response.'},
+
+{t:'mcq', mod:'DAX', q:'Which should Total Sales = SUM(FactInternetSales[SalesAmount]) be — a calculated column or a measure?', opts:['Calculated column, because it involves a table field','Measure, because the number should recalculate based on whatever is filtered','Either works identically','Neither — this needs a Power Query step'], correct:1, explain:'If a number should change when someone clicks a slicer, it\'s a measure — calculated columns compute once and are stored, unresponsive to filter context.'},
+{t:'mcq', mod:'DAX', q:'What does DIVIDE do that a plain "/" division operator doesn\'t handle safely?', opts:['Nothing, they are identical','Returns blank (or a specified alternate) instead of an error when the denominator is 0','Only works on whole numbers','It\'s faster but functionally identical'], correct:1, explain:'DIVIDE has built-in divide-by-zero protection — a plain "/" throws an error the moment any row has a zero denominator.'},
+{t:'mcq', mod:'DAX', q:'TOTALYTD and SAMEPERIODLASTYEAR both silently assume what exists in the model?', opts:['A calculated column on every table','A properly marked Date table with a continuous date column','A relationship to a geography table','Nothing — they work on any date-like text column'], correct:1, explain:'Time intelligence functions need a real, continuous Date column marked as the model\'s official Date table — a text column that merely looks like a date will not work.'},
+{t:'mcq', mod:'DAX', q:'What is the core job of CALCULATE?', opts:['It only sums numbers, nothing else','It lets a measure override its own filter context on purpose','It removes all filters permanently from the report','It converts a measure into a calculated column'], correct:1, explain:'CALCULATE computes an expression under a deliberately different filter condition than whatever a slicer or visual currently has selected.'},
+{t:'mcq', mod:'DAX', q:'In CALCULATE(SUM(FactInternetSales[SalesAmount]), DimProduct[ProductLine] = "R"), what happens if a report viewer has separately selected ProductLine = "M" in a slicer?', opts:['The measure returns blank because the filters conflict','CALCULATE\'s explicit filter argument overrides the slicer, so it still shows ProductLine R sales','The slicer wins and shows ProductLine M sales instead','Power BI throws an error'], correct:1, explain:'That\'s the entire trick of CALCULATE — the explicit filter argument overrides whatever filter context the report would otherwise apply.'},
+{t:'mcq', mod:'DAX', q:'In a star schema, which direction should a relationship run for correct totals?', opts:['Direction makes no difference','From the fact table (many rows) to the dimension table (one row per entity)','Dimension tables should never relate to fact tables directly','Relationships are always bidirectional in Power BI, so direction is irrelevant'], correct:1, explain:'Many-to-one, fact-to-dimension. Get the cardinality backwards and totals can silently multiply.'},
+{t:'scenario', mod:'DAX', q:'A teammate builds Total Sales as a calculated column instead of a measure. What will a report viewer notice once they click a Region slicer?', explain:'Nothing changes — a calculated column stores one fixed value per row/table that doesn\'t respond to filter context. It needs to be a measure using SUM(), which recalculates live for whatever\'s currently filtered.'},
+{t:'scenario', mod:'DAX', q:'DimProduct and FactInternetSales aren\'t related in the model yet. A Matrix mixing fields from both shows blank or wrong totals. What\'s the fix, and where do you apply it?', explain:'Open Model view and create a relationship between the matching key columns (ProductKey on both tables) — Power BI can\'t correctly combine fields from two unrelated tables until that relationship exists.'},
+
+{t:'mcq', mod:'Power Query Deep Dive', q:'Every step in the Applied Steps pane corresponds to what, under the hood?', opts:['A saved screenshot','One line of M code, viewable in the Advanced Editor','A DAX measure','A SQL query'], correct:1, explain:'Applied Steps is just a friendly view onto the query\'s M code — View → Advanced Editor shows the exact same logic as readable M.'},
+{t:'mcq', mod:'Power Query Deep Dive', q:'A Loan Amount column shows "₹10,00,000" and won\'t convert to a number. What\'s the correct order of fixes?', opts:['Change Data Type first, then Replace Values','Replace Values to strip the ₹ symbol and commas first, then Change Data Type','Delete the row — it can\'t be fixed','Rename the column'], correct:1, explain:'Currency-formatted text has to be de-formatted before it can be type-converted — trying to type-convert first just errors.'},
+{t:'mcq', mod:'Power Query Deep Dive', q:'A numeric column has one row containing the text "Nine Thousand." What happens when you convert that column\'s type to Decimal Number?', opts:['Power BI silently converts it to 9000','That row shows an Error, which you then have to decide how to handle','The whole query fails to load with no explanation','Text values are automatically skipped'], correct:1, explain:'Power Query flags the un-parseable row as an Error rather than guessing — deciding what to do with it (Remove Errors, or manually fix it) is a judgment call, not automatic.'},
+{t:'mcq', mod:'Power Query Deep Dive', q:'Why does Remove Duplicates usually belong near the END of a cleaning sequence, not the start?', opts:['Order is irrelevant','Cleaning values first (trimming spaces, fixing currency text) means near-duplicates that only differ by formatting get correctly recognized as true duplicates','Remove Duplicates only works on already-typed columns','It\'s a performance optimization only, not a correctness issue'], correct:1, explain:'Doing it early risks missing duplicates that are only "different" because of an uncleaned trailing space or an unformatted currency symbol.'},
+{t:'mcq', mod:'Power Query Deep Dive', q:'What\'s the honest, correct move when a column contains implausible-but-technically-valid values, like a Credit Score of 9999?', opts:['Always delete the row immediately','Flag it and consider asking the data owner — implausible isn\'t the same as definitely wrong','Silently cap it at 900','Ignore it, aggregations will average it out anyway'], correct:1, explain:'Power Query can\'t judge business plausibility for you — flagging and asking is the defensible move, not silently deleting or guessing a correction.'},
+{t:'scenario', mod:'Power Query Deep Dive', q:'You load a CSV and Applied Steps shows "Promoted Headers" at the top. What did that step actually do, and why does Power Query usually do it automatically?', explain:'It took the first row of raw data and used its values as column names instead of treating them as a data row. CSV/Excel exports almost always have real headers in row 1, so the default import assumes and applies this — worth a quick confirm, not a blind assumption, on messier files.'},
+{t:'scenario', mod:'Power Query Deep Dive', q:'A colleague hand-fixed a few bad cells directly in Excel before loading the file, instead of using query steps. Why does this cost marks even if the final numbers look correct?', explain:'It\'s not reproducible — next month\'s fresh export has the same problems all over again, and the fix has to be redone by hand every time. A proper query step re-cleans automatically on every refresh; a hand-edited file doesn\'t.'},
+
+{t:'mcq', mod:'Power BI Service', q:'What\'s the actual difference between a Report and a Dashboard in the Power BI Service?', opts:['They\'re the same thing with different names','A Report is the multi-page file from Desktop; a Dashboard is a single-page pinboard built by pinning visuals, existing only in the Service','A Dashboard can only be built in Desktop','A Report can only ever have one page'], correct:1, explain:'Report = multi-page file, built in Desktop. Dashboard = single-page cloud pinboard, built by pinning visuals once a report is published.'},
+{t:'mcq', mod:'Power BI Service', q:'Which workspace role should a stakeholder get if they should only ever view a report, never edit it?', opts:['Admin','Member','Contributor','Viewer'], correct:3, explain:'Viewer is read-only by design — Admin/Member/Contributor all carry some level of edit or management access.'},
+{t:'mcq', mod:'Power BI Service', q:'A report was built in Import mode. What does it need to stay current with the source data?', opts:['Nothing, it updates live automatically','A Scheduled Refresh, since Import mode copies data into Power BI\'s own memory at load time','DirectQuery must be enabled separately','It can never be updated once published'], correct:1, explain:'Import copies a snapshot into memory — it only reflects new source data after a refresh actually runs, scheduled or manual.'},
+{t:'mcq', mod:'Power BI Service', q:'What does a Gateway actually do?', opts:['Deletes stale reports automatically','Securely bridges the cloud Power BI Service to a data source inside a private company network','It\'s another name for a workspace','It converts DAX to M code'], correct:1, explain:'A Gateway is the secure connector letting the cloud Service reach an on-premises or private-network data source it otherwise couldn\'t see.'},
+{t:'mcq', mod:'Power BI Service', q:'Why does the Q&A visual answer "total sales by region" better when a column is named Sales than when it\'s still called Col_7?', opts:['Q&A doesn\'t use column names at all','Q&A matches plain-English questions against the model\'s actual field names','Column names never affect Q&A, only data types do','Col_7 would cause a hard error'], correct:1, explain:'Q&A parses natural language against real field names — a meaningful name like Sales is something it can match; a placeholder like Col_7 gives it nothing to work with.'},
+{t:'scenario', mod:'Power BI Service', q:'Your manager asks you to "just send them the dashboard" but hands you a .pbix file. What\'s actually being conflated here, and what would satisfy the literal request?', explain:'A .pbix file is a Report, built in Desktop — not a Dashboard, which only exists after publishing to the Service and pinning visuals to a single-page board there. Satisfying the literal request means publishing first, then building an actual Dashboard, not just emailing the file.'},
+{t:'scenario', mod:'Power BI Service', q:'A published report\'s data hasn\'t updated in two weeks, even though the source Excel file changes daily. Sharing permissions are fine and nobody touched the report itself. What\'s the most likely cause?', explain:'No Scheduled Refresh is configured, or it\'s failing silently (e.g. a missing Gateway connection for an on-premises file) — Import-mode data only updates when a refresh actually runs, not automatically just because the source changed.'},
 ];
 
 function renderQuiz(){
@@ -420,6 +468,40 @@ themebtns.forEach(b => b.addEventListener('click', ()=> setTheme(b.dataset.theme
 let savedTheme = 'auto';
 try{ savedTheme = localStorage.getItem('pbi-theme') || 'auto'; }catch(e){}
 setTheme(savedTheme);
+
+/* ============= per-page progress tracking (purely local, no analytics) ============= */
+function loadProgress(){
+  try{ return JSON.parse(localStorage.getItem('pbi-progress') || '{}'); }catch(e){ return {}; }
+}
+function saveProgress(state){
+  try{ localStorage.setItem('pbi-progress', JSON.stringify(state)); }catch(e){}
+}
+function updateGroupCounts(state){
+  document.querySelectorAll('.progress-count').forEach(el=>{
+    const ids = el.dataset.groupIds.split(',').filter(Boolean);
+    const done = ids.filter(id => state[id]).length;
+    el.textContent = `${done}/${ids.length}`;
+  });
+}
+let progressState = loadProgress();
+document.querySelectorAll('.navcheck').forEach(cb=>{
+  cb.checked = !!progressState[cb.dataset.page];
+  cb.addEventListener('click', (e)=> e.stopPropagation());
+  cb.addEventListener('change', ()=>{
+    progressState[cb.dataset.page] = cb.checked;
+    saveProgress(progressState);
+    updateGroupCounts(progressState);
+  });
+});
+updateGroupCounts(progressState);
+const resetBtn = document.getElementById('resetProgress');
+if(resetBtn) resetBtn.addEventListener('click', ()=>{
+  if(!confirm('Clear all progress checkmarks? This only affects this browser and can\'t be undone.')) return;
+  progressState = {};
+  saveProgress(progressState);
+  document.querySelectorAll('.navcheck').forEach(cb => cb.checked = false);
+  updateGroupCounts(progressState);
+});
 
 /* ============= terminology hints ============= */
 const GLOSSARY = {

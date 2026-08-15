@@ -125,17 +125,32 @@ Full authoritative list is `src/pages.json`. Summary by nav group:
   Assignment (10 marks).
 - **Module 2 — Advanced Visualizations**: Custom Visuals → Groups &
   Histograms → Best Practices → Interactivity → Tables & Matrix →
-  Conditional Formatting → Filters → Slicers.
+  Conditional Formatting → Filters → Slicers → Module 2 Assignment
+  (10 marks, spans DimProduct + FactInternetSales via their built-in
+  relationship — unlike Module 1's single-table constraint).
 - **Module 3 — Introduction to DAX**: DAX Basics & Measures → Time
   Intelligence & Aggregations → Context & Dynamic Measures → CALCULATE,
-  FILTER & Modeling.
-- **Module 4 — Power Query Editor**: Power Query Editor → M Language &
-  End-to-End ETL → KPIs & Single-Page Dashboard.
+  FILTER & Modeling → Module 3 Assignment (10 marks). **The three lesson
+  pages are placeholders as of 2026-08-15** ("full lesson content lands
+  here as the class reaches this module") — real framing and worked
+  formula examples exist, the full guided walkthrough doesn't yet.
+- **Module 4 — Power Query Editor**: Power Query Editor → **Dirty → Clean
+  Walkthrough** (`31-power-query-walkthrough.html` — one file,
+  `Banking_Dirty.csv`, cleaned completely end to end) → M Language &
+  End-to-End ETL → KPIs & Single-Page Dashboard → Module 4 Assignment
+  (10 marks, uses `Sales_Dirty.csv` — deliberately not the file already
+  used in the walkthrough).
 - **Module 5 — Power BI Service**: Publishing & Sharing → Q&A and Scenario
   Manager → Practical Applications & Pivots → Slicers at Scale &
-  Interactivity.
-- **Practice**: 5 Exercises, Final Project, Self-Test Quiz.
-- **Reference**: Cheat Sheet, Datasets.
+  Interactivity → Module 5 Assignment (10 marks, Service-based —
+  screenshots of a live publish/share/refresh, not a `.pbix`). **All four
+  lesson pages are placeholders as of 2026-08-15**, same caveat as Module 3.
+- **Practice**: 5 Exercises, Final Project (rubric rebalanced 2026-08-15 —
+  Business Insight & Narrative now ties for the highest weight), Self-Test
+  Quiz (52 questions across all 5 modules as of 2026-08-15).
+- **Reference**: Troubleshooting (10 common errors), Cheat Sheet, Career &
+  PL-300 (Microsoft certification mapping — has an external freshness
+  dependency, see its own "last verified" line), Datasets.
 
 ## The two datasets, and which pages use which
 
@@ -230,6 +245,17 @@ your system context, not a guess.
 ---
 
 ## Changelog
+
+### 2026-08-15 — Implemented NEXT-ITERATION.md Phase 2 in full (assignments, quizzes, troubleshooting page, career/PL-300 page, SVG diagram pass, progress checklist)
+- **Why:** direct continuation of the same session that shipped Phase 1 — maintainer said "commit and start phase 2" (Phase 1 committed as a standalone commit first), then later "do the auto commit and keep moving to next phases, im going to sleep," which shifted this session from asking-before-each-commit to committing autonomously at phase boundaries while working unattended. All 7 Phase 2 items were completed in one continuous pass.
+- **2.1 — Graded assignments for Modules 3, 4, 5** (`32-module3-assignment.html`, `33-module4-assignment.html`, `34-module5-assignment.html`). Discovered along the way: Module 3's three DAX lesson pages and all four of Module 5's lesson pages are explicitly marked as placeholders ("full lesson content lands here as the class reaches this module") — these assignments were still written, using the specific formulas/concepts/UI paths those placeholder pages already commit to teaching (SUM, DIVIDE, TOTALYTD, CALCULATE, SAMEPERIODLASTYEAR for Module 3; publish/share/workspace/refresh mechanics for Module 5), consistent with the plan's own instruction that these should land *before* the class reaches each module. Module 4's assignment deliberately uses `Sales_Dirty.csv`, not `Banking_Dirty.csv` (already used in the Phase 1 walkthrough) — verified its issue-variety first (two exact duplicates, a typo region, mixed date formats, an invalid calendar date, a text-in-number value) via direct `awk`/CSV inspection before writing the brief.
+- **2.2 — Final Project rubric upgrade** (`src/pages/final-project.html`). Added a named-stakeholder scenario framing (Ananya Rao, VP of Sales, a fictional "Meridian Retail" — deliberately not a real company/person), three milestone checkpoints aligned to module boundaries, and a submission checklist matching the site's established exact-file-naming convention. Rebalanced the grading rubric from a mechanics-heavy split (cleaning 25% / KPIs 20% / charts 25% / formatting 15% / insights 15%) to five categories where Business Insight & Narrative ties for the highest weight (25%), per the plan's explicit instruction that insight should carry real weight on an MBA course's capstone. Also fixed a real pre-existing bug found while editing this page: both `final-project.html` and `power-query.html` referenced a `Sales_Dirty.xlsx` file that doesn't exist in `datasets/` (only `Sales_Dirty.csv` does) — corrected both references.
+- **2.3 — Per-module quizzes.** Extended the existing `quiz.html` (chosen over building a parallel per-page quiz engine, to reuse its already-working render/score logic) from 21 to 52 questions, adding four new module categories — Advanced Visualizations, DAX, Power Query Deep Dive, Power BI Service — grounded in facts actually already established on this site's own pages (not invented). Verified the final MCQ+scenario counts programmatically before updating the page's own "N questions" headline, and syntax-checked the inline script.
+- **2.4 — Troubleshooting page** (`35-troubleshooting.html`). Ten real, common Power BI errors (wrong AdventureWorks variant, SQL connection refused, ambiguous relationships, the DAX "cannot determine a single value" error, blank/wrong maps, text-typed date columns, refresh credential prompts, circular DAX dependencies, cardinality-caused row duplication, visual rendering limits) as a data-array-driven accordion, matching the plan's note that future additions should be "a one-object append."
+- **2.5 — Career & PL-300 page** (`36-career-pl300.html`). Per the plan's explicit instruction not to write this from memory, fetched the current official skills outline directly from Microsoft Learn (`learn.microsoft.com/.../certifications/resources/study-guides/pl-300`, skills measured as of **April 20, 2026** at time of writing) rather than trusting third-party summaries — one third-party aggregator's "120 minutes" exam duration turned out to disagree with Microsoft's own page ("100 minutes"), confirming the plan's caution was warranted. Mapped this course's 5 modules honestly against the 4 official PL-300 domains, explicitly naming the real gap: Row-Level Security, sensitivity labels, and item-level access aren't taught anywhere in this course. Added the Publish-to-Web-vs-sharing-link data-sensitivity caveat the plan asked for, and 6 case-interview-style practice questions with model answers.
+- **2.6 — SVG diagram pass.** Four new diagrams in `images/`: `dax-filter-context-flow.svg` (wired into `dax-context.html`, whose entire existing framing — row vs. filter context — made it the obvious home, not a page named in the plan itself), `line-chart-anatomy.svg` and `map-pitfalls.svg` (both wired into `05-visualizations.html` via the `visual` field mechanism built in the prior session for the Scatter Plot card — zero template changes needed, exactly as that mechanism was designed for), and `power-query-before-after.svg` (added to the Phase 1 walkthrough page, item 2.6(d), not done in Phase 1 as the plan anticipated).
+- **2.7 — Per-module progress checklist.** Touches shared chrome (`src/partials/header.html`, `footer.html`, and `tools/build.mjs`'s `buildNav()`) — the one Phase 2 item affecting every generated page at once, so it got a dedicated headless-browser test pass across two pages and both themes before being trusted. That test caught one real bug: the new "n/m" progress-count text combined `--text-muted` with `opacity:.75`, which failed WCAG AA contrast (3.28:1 light / 4.27:1 dark, need 4.5:1) — fixed by dropping the opacity dimming. Progress state persists per-browser in `localStorage['pbi-progress']`, purely client-side, consistent with the site's no-analytics stance.
+- Rebuilt via `node tools/build.mjs` after every item in this list (40 pages now); link-verification pass stayed clean throughout.
 
 ### 2026-08-15 — Added NEXT-ITERATION.md roadmap; implemented its Phase 1 (build tooling hardening, Module 2 assignment, Power Query dirty→clean walkthrough)
 - **Why:** the maintainer had `NEXT-ITERATION.md` — a phased improvement roadmap written after an instructor-perspective review, scope pre-agreed with the maintainer — open in the IDE and asked to implement it phase by phase. Phase 1 was chosen because its own ordering rationale ("tooling fix lands first, everything after is cheaper to ship") made sense to follow literally; Phases 2–3 were deliberately left untouched for a separate pass.

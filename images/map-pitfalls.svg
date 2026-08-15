@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 300" role="img" aria-label="Left: bubble-size distortion — doubling a bubble's radius for a 2x value makes its area look 4x bigger, misleading; scaling by area instead correctly shows a 2x-looking difference. Right: ambiguous place names — a pin labeled Georgia could mean the US state or the country, and geocoding has to guess without more context.">
+  <rect width="820" height="300" fill="#FFFFFF"/>
+  <line x1="410" y1="20" x2="410" y2="280" stroke="#DEDACE"/>
+  <g font-family="ui-monospace,Consolas,monospace">
+    <text x="205" y="26" text-anchor="middle" font-size="11" letter-spacing="1" fill="#565B6B">BUBBLE SIZE — SCALE BY AREA, NOT RADIUS</text>
+    <text x="615" y="26" text-anchor="middle" font-size="11" letter-spacing="1" fill="#565B6B">AMBIGUOUS PLACE NAMES</text>
+
+    <!-- Left panel: wrong (radius-scaled) -->
+    <text x="30" y="70" font-size="10" fill="#B3402D" font-weight="700">Wrong — radius doubled for a 2× value</text>
+    <circle cx="90" cy="130" r="15" fill="#2A6560" opacity=".75"/>
+    <text x="90" y="160" text-anchor="middle" font-size="9" fill="#565B6B">Value: 10</text>
+    <circle cx="260" cy="115" r="30" fill="#B3402D" opacity=".6"/>
+    <text x="260" y="160" text-anchor="middle" font-size="9" fill="#565B6B">Value: 20</text>
+    <text x="175" y="100" text-anchor="middle" font-size="9" fill="#B3402D">area looks ~4× bigger — misleads</text>
+
+    <!-- Left panel: right (area-scaled) -->
+    <text x="30" y="210" font-size="10" fill="#2E7D4F" font-weight="700">Right — area scaled to the true 2× ratio</text>
+    <circle cx="90" cy="255" r="15" fill="#2A6560" opacity=".75"/>
+    <text x="90" y="280" text-anchor="middle" font-size="9" fill="#565B6B">Value: 10</text>
+    <circle cx="230" cy="248" r="21" fill="#2E7D4F" opacity=".7"/>
+    <text x="230" y="280" text-anchor="middle" font-size="9" fill="#565B6B">Value: 20</text>
+    <text x="330" y="255" text-anchor="middle" font-size="9" fill="#2E7D4F">reads honestly ✓</text>
+
+    <!-- Right panel: ambiguous place names -->
+    <path d="M470,90 q20,-25 55,-15 q30,8 25,35 q-5,25 -35,28 q-35,3 -45,-25 q-5,-15 0,-23 z" fill="#DCEBE8" stroke="#2A6560"/>
+    <text x="512" y="115" text-anchor="middle" font-size="9" fill="#565B6B">USA</text>
+    <circle cx="512" cy="100" r="4" fill="#B3402D"/>
+    <text x="512" y="75" text-anchor="middle" font-size="9" font-weight="700" fill="#B3402D">"Georgia" ?</text>
+
+    <path d="M660,150 q15,-18 40,-10 q22,7 15,28 q-6,18 -28,18 q-25,0 -30,-18 q-3,-10 3,-18 z" fill="#DCEBE8" stroke="#2A6560"/>
+    <text x="690" y="172" text-anchor="middle" font-size="9" fill="#565B6B">Caucasus region</text>
+    <circle cx="690" cy="158" r="4" fill="#B3402D"/>
+    <text x="690" y="135" text-anchor="middle" font-size="9" font-weight="700" fill="#B3402D">"Georgia" ?</text>
+
+    <text x="615" y="230" text-anchor="middle" font-size="9" fill="#565B6B">Same name, two real places on the map —</text>
+    <text x="615" y="245" text-anchor="middle" font-size="9" fill="#565B6B">geocoding has to guess without more context</text>
+    <text x="615" y="260" text-anchor="middle" font-size="9" fill="#565B6B">(add Country/State alongside the name to fix it)</text>
+  </g>
+</svg>

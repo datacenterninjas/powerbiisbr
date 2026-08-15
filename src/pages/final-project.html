@@ -4,9 +4,22 @@
         <p class="lede">"Attached is our raw sales data. Board meeting is tomorrow morning. I need a one-page dashboard, and I need YOU to walk me through 3 insights before I present." — that's the whole brief. That's also almost word-for-word what a real first assignment looks like.</p>
       </div>
 
-      <h2>Deliverable checklist</h2>
+      <div class="callout"><b>The email, in full:</b> "Hi — I'm Ananya Rao, VP of Sales here at Meridian Retail. Attached is our raw sales export, straight out of the source system — nobody's touched it. Board meeting is 9am tomorrow. I need a one-page dashboard on my laptop by end of day, and I need YOU to walk me through 3 insights before I present them as mine. Don't send me a data dump — send me the 3 things I should actually say out loud." That's the whole brief, and every deliverable below exists because Ananya asked for it, not because a rubric did.</div>
+
+      <h2>Milestones (don't leave this to the last night)</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Checkpoint</th><th>Due by</th><th>You should be able to show</th></tr>
+          <tr><td><b>1 — Clean &amp; loaded</b></td><td>End of Module 2</td><td>Data imported, fully cleaned in Power Query, zero errors/blanks/duplicates left unexplained</td></tr>
+          <tr><td><b>2 — Modeled &amp; measured</b></td><td>End of Module 3</td><td>All 4 KPI measures written in DAX (not hardcoded numbers), correctly aggregating</td></tr>
+          <tr><td><b>3 — Built &amp; presentable</b></td><td>End of Module 5</td><td>All 4+ charts, formatting, interactions, and all 3 insights drafted — ready to publish and present</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">Nobody checks these three dates for you — they exist so "I'll start the week it's due" doesn't collide with a board meeting.</p>
+
+      <h2 style="margin-top:26px">Deliverable checklist</h2>
       <ul class="kicker-list">
-        <li><span class="ico">✓</span><div>Data imported from <code>Sales_Dirty.xlsx</code></div></li>
+        <li><span class="ico">✓</span><div>Data imported from <code>Sales_Dirty.csv</code></div></li>
         <li><span class="ico">✓</span><div>All data-quality issues cleaned in Power Query — zero errors, zero unexplained blanks, zero duplicate rows</div></li>
         <li><span class="ico">✓</span><div>At least 4 KPI Cards: Total Sales, Total Profit, Total Orders, Average Order Value</div></li>
         <li><span class="ico">✓</span><div>At least 4 chart types, each answering a clear business question</div></li>
@@ -24,15 +37,25 @@
       <div class="callout warn"><b>Before writing any DAX:</b> rename your table to <code>Sales</code> right after loading (right-click the query name → Rename). Every formula on this site assumes that name — a table still called "Sheet1" will show a red error, not because the formula is wrong, but because the name doesn't match.</div>
 
       <h2 style="margin-top:26px">Grading rubric</h2>
+      <p style="font-size:.9rem;color:var(--text-muted)">Five categories, not the usual "mechanics first" split — <b>Business Insight &amp; Narrative ties for the highest weight on this rubric, on purpose.</b> A perfectly clean model with nothing to say about it is not what Ananya asked for.</p>
       <div class="table-wrap">
         <table>
           <tr><th>Criterion</th><th class="num">Weight</th></tr>
-          <tr><td>Data cleaned correctly</td><td class="num">25%</td></tr>
-          <tr><td>All 4 KPIs, correctly aggregated</td><td class="num">20%</td></tr>
-          <tr><td>4+ chart types, each answering a real question</td><td class="num">25%</td></tr>
-          <tr><td>Formatting: theme, titles, readable labels</td><td class="num">15%</td></tr>
-          <tr><td>3 insights, each backed by a number</td><td class="num">15%</td></tr>
+          <tr><td>Data preparation — cleaned correctly in Power Query, reproducible steps</td><td class="num">15%</td></tr>
+          <tr><td>Model &amp; measures — all 4 KPIs written as real DAX measures, correctly aggregating</td><td class="num">20%</td></tr>
+          <tr><td>Visualization &amp; design — 4+ chart types, consistent theme, real titles, readable labels</td><td class="num">25%</td></tr>
+          <tr><td><b>Business insight &amp; narrative</b> — 3 insights, each backed by a specific number, each one Ananya could say out loud unedited</td><td class="num">25%</td></tr>
+          <tr><td>Delivery — milestones met, submission format followed exactly, presentation-ready</td><td class="num">15%</td></tr>
         </table>
       </div>
+
+      <h2 style="margin-top:26px">How to submit</h2>
+      <div class="callout warn"><b>Two files, exact naming, both to the LMS portal:</b>
+        <ol class="steps" style="margin-top:10px">
+          <li>Your Power BI file, submitted as <code>YourFullName_FinalProject.pbix</code></li>
+          <li>A single PDF containing a full-page screenshot of your dashboard, plus your 3 insights written out in full using the template above (not just bullet points — the exact sentences Ananya would say), submitted as <code>YourFullName_FinalProject_Insights.pdf</code></li>
+        </ol>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">The "spoken" insights need a written record somewhere, or there's nothing to grade after the fact — the PDF is that record. If your course also includes a live presentation, this PDF is what you'd be presenting from, not a replacement for it.</p>
 
       <footer class="pagefoot"><span>07 · Final Project</span><a href="quiz.html">Next: Self-Test Quiz →</a></footer>

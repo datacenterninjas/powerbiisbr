@@ -21,6 +21,40 @@ let savedTheme = 'auto';
 try{ savedTheme = localStorage.getItem('pbi-theme') || 'auto'; }catch(e){}
 setTheme(savedTheme);
 
+/* ============= per-page progress tracking (purely local, no analytics) ============= */
+function loadProgress(){
+  try{ return JSON.parse(localStorage.getItem('pbi-progress') || '{}'); }catch(e){ return {}; }
+}
+function saveProgress(state){
+  try{ localStorage.setItem('pbi-progress', JSON.stringify(state)); }catch(e){}
+}
+function updateGroupCounts(state){
+  document.querySelectorAll('.progress-count').forEach(el=>{
+    const ids = el.dataset.groupIds.split(',').filter(Boolean);
+    const done = ids.filter(id => state[id]).length;
+    el.textContent = `${done}/${ids.length}`;
+  });
+}
+let progressState = loadProgress();
+document.querySelectorAll('.navcheck').forEach(cb=>{
+  cb.checked = !!progressState[cb.dataset.page];
+  cb.addEventListener('click', (e)=> e.stopPropagation());
+  cb.addEventListener('change', ()=>{
+    progressState[cb.dataset.page] = cb.checked;
+    saveProgress(progressState);
+    updateGroupCounts(progressState);
+  });
+});
+updateGroupCounts(progressState);
+const resetBtn = document.getElementById('resetProgress');
+if(resetBtn) resetBtn.addEventListener('click', ()=>{
+  if(!confirm('Clear all progress checkmarks? This only affects this browser and can\'t be undone.')) return;
+  progressState = {};
+  saveProgress(progressState);
+  document.querySelectorAll('.navcheck').forEach(cb => cb.checked = false);
+  updateGroupCounts(progressState);
+});
+
 /* ============= terminology hints ============= */
 const GLOSSARY = {
   dimension: 'A descriptive field used to categorize or slice data — e.g. Product, Region, Customer, or Date.',
