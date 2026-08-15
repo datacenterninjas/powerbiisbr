@@ -42,7 +42,8 @@ tools/
   build.mjs                 stitches header + fragment + footer → root-level output file
 datasets/                   real downloadable CSVs (Sales/HR/Retail/Banking/Hospital, clean+dirty pairs)
 images/                     hand-built inline-style SVG diagrams referenced by <figure><img> in pages
-<33 root-level .html files> GENERATED OUTPUT — index.html, 01-architecture.html, 05-visualizations.html, etc.
+<41 root-level .html files> GENERATED OUTPUT — index.html, 01-architecture.html, 05-visualizations.html, etc.
+search-index.json           GENERATED OUTPUT — build-time search index, see "Client-side search" below
 README.md                   human-facing contributor guide (how to add a page, editing workflow)
 PROJECT.md                  this file — LLM-facing project map + changelog
 ```
@@ -56,7 +57,7 @@ then rebuild:
 node tools/build.mjs
 ```
 
-This regenerates **all 33 pages** every run (it's cheap and idempotent — no
+This regenerates **all 41 pages** every run (it's cheap and idempotent — no
 incremental build). A `.gitattributes` (`* text=auto eol=lf`, added
 2026-08-15) forces LF checkouts repo-wide, so a rebuild of an untouched page
 now produces a byte-identical file — **the old "revert line-ending-only
@@ -79,6 +80,35 @@ output before assuming a link change is safe.
 If `node` isn't on PATH in the current environment, it can be installed via
 `winget install --id OpenJS.NodeJS.LTS -e` (this is what was done in this
 project's environment on 2026-08-14 — see changelog).
+
+**Auto-generated glossary (added 2026-08-15).** `src/pages/glossary.html`
+contains a `<!--GLOSSARY-->` placeholder; `build.mjs` extracts the `const
+GLOSSARY = {...}` object literal straight out of `src/partials/footer.html`
+(the single object every `.term` popover on every page already reads from),
+evaluates it, and injects the rendered definition list at that placeholder.
+**Definitions can never drift out of sync** — edit a definition once, in
+`footer.html`, and both the inline popovers and the glossary page update
+together on the next build. Display labels (`"smallmultiples"` →
+`"Small Multiples"`) live in a small `GLOSSARY_LABELS` map inside
+`build.mjs` itself, since they aren't reliably derivable from the camelCase
+keys — **the build throws a clear error if a new `GLOSSARY` term is added
+without a matching label**, rather than silently shipping an unlabeled entry.
+
+**Client-side search (added 2026-08-15).** `build.mjs` also writes
+`search-index.json` at the repo root after building every page — one entry
+per page (`file`, `title`, `group`, `headings`, up to 20,000 chars of
+extracted body text). Most of this site's richest content (chart
+descriptions, quiz questions, troubleshooting entries) lives inside
+`<script>` blocks as JS data-array string literals, not static markup, since
+those pages render client-side — the extractor pulls quoted-string contents
+out of `<script>` blocks specifically (rather than dropping them or indexing
+raw JS syntax) so that content stays searchable too. The sidebar search box
+(`#siteSearch` / `#searchResults`, wired in `footer.html`) `fetch()`es this
+JSON on first focus and filters client-side, no library, no server. **This
+only works over real HTTP — `fetch()` on `file://` is blocked by browser
+CORS, so testing it locally requires a static file server** (e.g.
+`python -m http.server` from the repo root), not just opening an HTML file
+directly. It works normally once deployed to GitHub Pages.
 
 ## Design system
 
@@ -150,7 +180,9 @@ Full authoritative list is `src/pages.json`. Summary by nav group:
   Quiz (52 questions across all 5 modules as of 2026-08-15).
 - **Reference**: Troubleshooting (10 common errors), Cheat Sheet, Career &
   PL-300 (Microsoft certification mapping — has an external freshness
-  dependency, see its own "last verified" line), Datasets.
+  dependency, see its own "last verified" line), Datasets, Glossary
+  (auto-generated from `footer.html`'s `GLOSSARY` object — see "Tech stack"
+  above, don't hand-edit its definitions on this page's own fragment).
 
 ## The two datasets, and which pages use which
 
@@ -245,6 +277,13 @@ your system context, not a guess.
 ---
 
 ## Changelog
+
+### 2026-08-15 — Implemented NEXT-ITERATION.md Phase 3 in full (auto-generated glossary, client-side search); 3.3 assessed and deliberately left as architecture-only
+- **Why:** direct continuation of the same autonomous session that shipped Phases 1 and 2, per the maintainer's "keep moving to next phases" instruction.
+- **3.1 — Consolidated Glossary page** (`37-glossary.html`). Implemented the plan's "ideally" version, not the "acceptable v1" — discovered that all 24 `.term` popover definitions already live in exactly ONE place (`footer.html`'s `GLOSSARY` object, shared by every page's click-to-define buttons), not scattered across fragments as the plan anticipated, which made true build-time extraction simpler than expected rather than harder. `build.mjs` now extracts and evaluates that object directly and injects an alphabetized definition list at a `<!--GLOSSARY-->` placeholder — definitions can't drift out of sync by construction. Added a `GLOSSARY_LABELS` map for the 24 current terms' display names (not programmatically derivable from keys like `"smallmultiples"`) and a build-time error if a new term is ever added without a matching label.
+- **3.2 — Client-side search.** `build.mjs` now also emits `search-index.json` (title/group/headings/body text per page, 41 entries, ~250KB) after every build. Body text extraction specifically pulls quoted-string contents out of `<script>` blocks (most of this site's richest content — chart descriptions, quiz questions, troubleshooting entries — lives there as JS data-array literals, not static markup) rather than dropping script content or indexing raw JS syntax. Sidebar search box fetches the index on first focus and filters client-side, no library. Verified functionally end-to-end (cross-page term search, no-match state, dismiss-on-click-outside, Escape key, 2-char minimum, both themes, zero console errors) via a **local HTTP server** — `fetch()` on `file://` is blocked by browser CORS, so the usual "just open the HTML file" testing approach used throughout this session doesn't work for this one feature; it functions normally once actually served over HTTP (GitHub Pages).
+- **3.3 — Quiz/troubleshooting content growth: assessed, not filled with invented content.** The plan frames this item as "add questions students got wrong in class, and errors that actually occurred" — inherently dependent on a real teaching cycle that hasn't happened yet in this repo's timeline (Modules 3 and 5's lesson pages are still placeholders, so no class has reached that content yet either). Both `quiz.html` and `troubleshooting.html` are already correctly architected for this as cheap one-object-per-entry appends to a JS data array (confirmed while building both in Phase 2). Deliberately did **not** fabricate plausible-sounding "student mistakes" or "errors that occurred" to make this item look done — inventing them would defeat the entire reason this item exists (real signal from a real classroom), so it's recorded here as ready-but-empty rather than falsely populated.
+- Rebuilt via `node tools/build.mjs` after every change (41 pages + `search-index.json`); link-verification pass stayed clean throughout. Updated `PROJECT.md`'s "Tech stack" section with both new build-time mechanisms and corrected the stale "33 pages" references accumulated since Phase 1.
 
 ### 2026-08-15 — Implemented NEXT-ITERATION.md Phase 2 in full (assignments, quizzes, troubleshooting page, career/PL-300 page, SVG diagram pass, progress checklist)
 - **Why:** direct continuation of the same session that shipped Phase 1 — maintainer said "commit and start phase 2" (Phase 1 committed as a standalone commit first), then later "do the auto commit and keep moving to next phases, im going to sleep," which shifted this session from asking-before-each-commit to committing autonomously at phase boundaries while working unattended. All 7 Phase 2 items were completed in one continuous pass.

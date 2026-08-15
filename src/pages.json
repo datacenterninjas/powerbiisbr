@@ -398,5 +398,15 @@
     "label": "Datasets",
     "crumb": "Datasets",
     "title": "Datasets — Power BI for MBA Analytics"
+  },
+  {
+    "id": "glossary",
+    "file": "37-glossary.html",
+    "fragment": "glossary.html",
+    "group": "Reference",
+    "num": "📖",
+    "label": "Glossary",
+    "crumb": "Glossary",
+    "title": "Glossary — Power BI for MBA Analytics"
   }
 ]

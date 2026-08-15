@@ -55,6 +55,53 @@ if(resetBtn) resetBtn.addEventListener('click', ()=>{
   updateGroupCounts(progressState);
 });
 
+/* ============= client-side search ============= */
+(function(){
+  const input = document.getElementById('siteSearch');
+  const resultsBox = document.getElementById('searchResults');
+  if(!input || !resultsBox) return;
+  let index = null;
+  let indexPromise = null;
+  function loadIndex(){
+    if(!indexPromise){
+      indexPromise = fetch('search-index.json').then(r => r.json()).then(data => { index = data; return data; })
+        .catch(() => { index = []; return []; });
+    }
+    return indexPromise;
+  }
+  function snippetAround(text, q){
+    const i = text.toLowerCase().indexOf(q);
+    if(i === -1) return text.slice(0, 90) + '…';
+    const start = Math.max(0, i - 40);
+    return (start > 0 ? '…' : '') + text.slice(start, i + q.length + 50) + '…';
+  }
+  function render(query){
+    const q = query.trim().toLowerCase();
+    if(q.length < 2){ resultsBox.classList.remove('open'); resultsBox.innerHTML = ''; return; }
+    const matches = (index || []).map(page => {
+      const inTitle = page.title.toLowerCase().includes(q);
+      const headingHit = (page.headings || []).find(h => h.toLowerCase().includes(q));
+      const textIdx = page.text.toLowerCase().indexOf(q);
+      if(!inTitle && !headingHit && textIdx === -1) return null;
+      const score = (inTitle ? 3 : 0) + (headingHit ? 2 : 0) + (textIdx !== -1 ? 1 : 0);
+      return { page, score, snippet: headingHit || (textIdx !== -1 ? snippetAround(page.text, q) : '') };
+    }).filter(Boolean).sort((a, b) => b.score - a.score).slice(0, 8);
+
+    if(!matches.length){ resultsBox.innerHTML = '<div class="sr-empty">No matches.</div>'; resultsBox.classList.add('open'); return; }
+    resultsBox.innerHTML = matches.map(m => `
+      <a href="${m.page.file}">
+        <div class="sr-title">${m.page.title}</div>
+        <div class="sr-group">${m.page.group}</div>
+        ${m.snippet ? `<div class="sr-snippet">${m.snippet}</div>` : ''}
+      </a>`).join('');
+    resultsBox.classList.add('open');
+  }
+  input.addEventListener('focus', loadIndex);
+  input.addEventListener('input', () => { loadIndex().then(() => render(input.value)); });
+  document.addEventListener('click', (e) => { if(!e.target.closest('.sidebarsearch')) resultsBox.classList.remove('open'); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ resultsBox.classList.remove('open'); input.blur(); } });
+})();
+
 /* ============= terminology hints ============= */
 const GLOSSARY = {
   dimension: 'A descriptive field used to categorize or slice data — e.g. Product, Region, Customer, or Date.',

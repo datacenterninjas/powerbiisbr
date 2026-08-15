@@ -77,6 +77,19 @@
   .brand h1{ font-size:1.05rem; margin:0; line-height:1.25; }
   .brand .sub{ font-size:.78rem; color:var(--text-muted); margin-top:3px; font-family:var(--font-mono); }
 
+  .sidebarsearch{ padding:12px 16px; border-bottom:1px solid var(--border); position:relative; }
+  .sidebarsearch input{ width:100%; box-sizing:border-box; padding:7px 10px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:var(--font-body); font-size:.85rem; }
+  .sidebarsearch input:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+  .search-results{ position:absolute; left:16px; right:16px; top:calc(100% + 4px); background:var(--surface); border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); max-height:360px; overflow-y:auto; z-index:30; display:none; }
+  .search-results.open{ display:block; }
+  .search-results a{ display:block; padding:9px 12px; text-decoration:none; color:var(--text); border-bottom:1px solid var(--border); }
+  .search-results a:last-child{ border-bottom:none; }
+  .search-results a:hover, .search-results a:focus-visible{ background:var(--surface-3); }
+  .search-results .sr-title{ font-weight:700; font-size:.85rem; }
+  .search-results .sr-group{ font-family:var(--font-mono); font-size:.68rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:.05em; margin-top:2px; }
+  .search-results .sr-snippet{ font-size:.78rem; color:var(--text-muted); margin-top:4px; }
+  .search-results .sr-empty{ padding:12px; font-size:.82rem; color:var(--text-muted); }
+
   .navgroup{ padding:14px 12px; }
   .navgroup .label{ display:flex; align-items:center; justify-content:space-between; gap:8px; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
   .navgroup .label .progress-count{ font-weight:400; letter-spacing:0; text-transform:none; flex:none; }
@@ -229,6 +242,10 @@
           <div class="sub">MBA Analytics · Beginner Track</div>
         </div>
       </div>
+    </div>
+    <div class="sidebarsearch">
+      <input type="search" id="siteSearch" placeholder="Search this site…" autocomplete="off" aria-label="Search this site">
+      <div id="searchResults" class="search-results"></div>
     </div>
     <!--NAV-->
     <div class="themebar">

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Navigating the Interface — Power BI for MBA Analytics</title>
+<title>Glossary — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -258,7 +258,7 @@
       <div class="navitem"><a class="navbtn" href="01-architecture.html"><span class="num">3</span> Power BI Architecture</a><input type="checkbox" class="navcheck" data-page="architecture" title="Mark &quot;Power BI Architecture&quot; as done" aria-label="Mark Power BI Architecture as done"></div>
       <div class="navitem"><a class="navbtn" href="03-connecting-data.html"><span class="num">4</span> Connecting to Data Sources</a><input type="checkbox" class="navcheck" data-page="connecting" title="Mark &quot;Connecting to Data Sources&quot; as done" aria-label="Mark Connecting to Data Sources as done"></div>
       <div class="navitem"><a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">+</span> SQL Server &amp; AdventureWorks</a><input type="checkbox" class="navcheck" data-page="sqlserver" title="Mark &quot;SQL Server & AdventureWorks&quot; as done" aria-label="Mark SQL Server & AdventureWorks as done"></div>
-      <div class="navitem"><a class="navbtn active" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a><input type="checkbox" class="navcheck" data-page="interface" title="Mark &quot;Navigating the Interface&quot; as done" aria-label="Mark Navigating the Interface as done"></div>
+      <div class="navitem"><a class="navbtn" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a><input type="checkbox" class="navcheck" data-page="interface" title="Mark &quot;Navigating the Interface&quot; as done" aria-label="Mark Navigating the Interface as done"></div>
       <div class="navitem"><a class="navbtn" href="05-visualizations.html"><span class="num">6</span> Basic Visualizations</a><input type="checkbox" class="navcheck" data-page="visuals" title="Mark &quot;Basic Visualizations&quot; as done" aria-label="Mark Basic Visualizations as done"></div>
       <div class="navitem"><a class="navbtn" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module1assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
@@ -310,7 +310,7 @@
       <div class="navitem"><a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a><input type="checkbox" class="navcheck" data-page="cheatsheet" title="Mark &quot;Cheat Sheet&quot; as done" aria-label="Mark Cheat Sheet as done"></div>
       <div class="navitem"><a class="navbtn" href="36-career-pl300.html"><span class="num">🎓</span> Career &amp; PL-300</a><input type="checkbox" class="navcheck" data-page="careerpl300" title="Mark &quot;Career & PL-300&quot; as done" aria-label="Mark Career & PL-300 as done"></div>
       <div class="navitem"><a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a><input type="checkbox" class="navcheck" data-page="datasets" title="Mark &quot;Datasets&quot; as done" aria-label="Mark Datasets as done"></div>
-      <div class="navitem"><a class="navbtn" href="37-glossary.html"><span class="num">📖</span> Glossary</a><input type="checkbox" class="navcheck" data-page="glossary" title="Mark &quot;Glossary&quot; as done" aria-label="Mark Glossary as done"></div>
+      <div class="navitem"><a class="navbtn active" href="37-glossary.html"><span class="num">📖</span> Glossary</a><input type="checkbox" class="navcheck" data-page="glossary" title="Mark &quot;Glossary&quot; as done" aria-label="Mark Glossary as done"></div>
     </div>
     <div class="themebar">
       <button class="themebtn" data-theme-choice="light">☀ Light</button>
@@ -323,90 +323,116 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Navigating the Interface</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Glossary</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 1 · 5</span>
-        <h1>Six zones. Once you can name them, you can navigate them.</h1>
-        <p class="lede">Power BI Desktop looks intimidating for about twenty minutes. Every screen you'll ever see is built from the same six zones below — learn the map once.</p>
+        <span class="eyebrow">📖 Reference</span>
+        <h1>Every term this site defines, in one place</h1>
+        <p class="lede">Every <button class="term" data-term="dax">click-to-define</button> word scattered across the other 40 pages, collected and alphabetized. This page is generated automatically from the exact same definitions those inline popovers use — edit one place, and both stay in sync.</p>
       </div>
 
-      <figure>
-        <svg viewBox="0 0 1040 640" role="img" aria-label="Power BI Desktop screen wireframe: a ribbon strip across the top, a report canvas with sample chart bars on the left, three stacked panes (Visualizations, Fields, Filters) on the right, and a view-switcher strip along the bottom.">
-          <rect x="20" y="20" width="1000" height="600" rx="12" fill="none" stroke="currentColor" stroke-width="1.3"/>
-          <!-- ribbon -->
-          <rect x="20" y="20" width="1000" height="50" rx="12" fill="var(--surface-3)"/>
-          <rect x="20" y="46" width="1000" height="24" fill="var(--surface-3)"/>
-          <text x="42" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" font-weight="700">Home</text>
-          <text x="104" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".65">Insert</text>
-          <text x="168" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".65">Modeling</text>
-          <text x="252" y="50" font-size="12.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".65">View</text>
-          <text x="960" y="50" font-size="11" font-family="ui-monospace,Consolas,monospace" fill="var(--accent)" text-anchor="end">① Ribbon</text>
-
-          <!-- canvas -->
-          <rect x="20" y="70" width="680" height="520" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4"/>
-          <text x="360" y="100" text-anchor="middle" font-size="13" fill="currentColor" opacity=".7" font-family="Georgia,serif">Report Canvas</text>
-          <text x="360" y="118" text-anchor="middle" font-size="10.5" fill="var(--accent)" font-family="ui-monospace,Consolas,monospace">② your visuals live here</text>
-          <!-- mini bar chart hint -->
-          <g transform="translate(140,300)">
-            <rect x="0" y="120" width="46" height="60" fill="var(--teal)" opacity=".55"/>
-            <rect x="60" y="80" width="46" height="100" fill="var(--teal)" opacity=".75"/>
-            <rect x="120" y="40" width="46" height="140" fill="var(--accent)"/>
-            <rect x="180" y="100" width="46" height="80" fill="var(--teal)" opacity=".65"/>
-            <rect x="240" y="150" width="46" height="30" fill="var(--teal)" opacity=".45"/>
-            <line x1="-10" y1="180" x2="300" y2="180" stroke="currentColor" stroke-width="1" opacity=".4"/>
-          </g>
-          <text x="360" y="560" text-anchor="middle" font-size="10" fill="currentColor" opacity=".5" font-family="ui-monospace,Consolas,monospace">e.g. "Sales by Category"</text>
-
-          <!-- right panes -->
-          <rect x="700" y="70" width="320" height="167" rx="8" fill="none" stroke="currentColor" stroke-width="1"/>
-          <text x="716" y="93" font-size="12" fill="currentColor" font-weight="700" font-family="Georgia,serif">Visualizations</text>
-          <text x="716" y="110" font-size="10" fill="currentColor" opacity=".6">③ click a chart icon to add it</text>
-          <g transform="translate(716,122)" opacity=".55">
-            <rect width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
-            <rect x="34" width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
-            <rect x="68" width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
-            <rect x="102" width="26" height="20" rx="3" fill="none" stroke="currentColor"/>
-          </g>
-
-          <rect x="700" y="247" width="320" height="167" rx="8" fill="none" stroke="currentColor" stroke-width="1"/>
-          <text x="716" y="270" font-size="12" fill="currentColor" font-weight="700" font-family="Georgia,serif">Fields</text>
-          <text x="716" y="287" font-size="10" fill="currentColor" opacity=".6">④ drag columns onto visuals</text>
-          <text x="716" y="306" font-size="10.5" fill="currentColor" opacity=".7" font-family="ui-monospace,Consolas,monospace">▸ Sales</text>
-          <text x="716" y="322" font-size="10.5" fill="currentColor" opacity=".7" font-family="ui-monospace,Consolas,monospace">▸ HR</text>
-
-          <rect x="700" y="424" width="320" height="166" rx="8" fill="none" stroke="currentColor" stroke-width="1"/>
-          <text x="716" y="447" font-size="12" fill="currentColor" font-weight="700" font-family="Georgia,serif">Filters</text>
-          <text x="716" y="464" font-size="10" fill="currentColor" opacity=".6">⑤ restrict what a visual shows</text>
-
-          <!-- bottom strip -->
-          <rect x="20" y="590" width="1000" height="30" fill="var(--surface-3)"/>
-          <text x="42" y="609" font-size="10.5" font-family="ui-monospace,Consolas,monospace" fill="var(--accent)" font-weight="700">● Report</text>
-          <text x="110" y="609" font-size="10.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".55">○ Data</text>
-          <text x="168" y="609" font-size="10.5" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".55">○ Model</text>
-          <text x="960" y="609" text-anchor="end" font-size="10" font-family="ui-monospace,Consolas,monospace" fill="currentColor" opacity=".6">⑥ Page Navigation</text>
-        </svg>
-        <figcaption>The six zones of Power BI Desktop — every screen you'll use today is a variation of this layout.</figcaption>
-      </figure>
-
-      <div class="table-wrap">
-        <table>
-          <tr><th>Zone</th><th>Purpose</th><th>When you use it</th></tr>
-          <tr><td><b>① Ribbon</b><br><span class="pill">Home · Insert · Modeling · View</span></td><td>Home = Get Data, Refresh, Publish. Insert = logos, text, buttons. Modeling = relationships &amp; DAX measures.</td><td>Home starts every session; Modeling whenever tables need linking or a calculation is needed.</td></tr>
-          <tr><td><b>② Report Canvas</b></td><td>The blank page where visuals are placed and arranged.</td><td>Every time you design what the dashboard looks like.</td></tr>
-          <tr><td><b>③ Visualizations Pane</b></td><td>The palette of chart types — bar, pie, line, map, and 30+ others.</td><td>Anytime you want to add a new chart.</td></tr>
-          <tr><td><b>④ Fields Pane</b></td><td>Every table and column available — your ingredient list.</td><td>Constantly — you drag from here onto every chart you build.</td></tr>
-          <tr><td><b>⑤ Filters Pane</b></td><td>Restricts what data shows, on one visual, the page, or the whole report — without deleting anything.</td><td>To focus a view, e.g. "2025 only" or "exclude cancelled orders."</td></tr>
-          <tr><td><b>⑥ Page Navigation</b></td><td>Tabs at the bottom to switch between report pages, plus the Report / Data / Model view switcher.</td><td>Multi-page dashboards; switching to Data View to sanity-check a column, or Model View to check relationships.</td></tr>
-        </table>
+      <div id="glossaryList">
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Aggregation</h3>
+        <p style="font-size:.9rem;margin:0">Combining many rows into one number — Sum, Average, Count, Min, Max are all aggregations.</p>
       </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Axis</h3>
+        <p style="font-size:.9rem;margin:0">The field well that places a column along the horizontal (or categorical) edge of a chart.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Binning</h3>
+        <p style="font-size:.9rem;margin:0">Splitting a continuous number into equal-sized ranges ("bins") so it can be treated like a category.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Bookmark</h3>
+        <p style="font-size:.9rem;margin:0">A saved snapshot of a report's current state — filters, visibility, selections — that a button can jump back to.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Calculated Column</h3>
+        <p style="font-size:.9rem;margin:0">A new column computed with DAX and stored row-by-row in the table — unlike a measure, which computes on the fly.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Cardinality</h3>
+        <p style="font-size:.9rem;margin:0">How many distinct values a column has — "high cardinality" means many unique values, like an ID column.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Conditional Formatting</h3>
+        <p style="font-size:.9rem;margin:0">Rules that change a visual's color or icon based on the value itself, so exceptions are visible at a glance.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Custom Visual</h3>
+        <p style="font-size:.9rem;margin:0">A visual type from Microsoft AppSource, beyond Power BI's built-in chart types.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">DAX</h3>
+        <p style="font-size:.9rem;margin:0">"Data Analysis Expressions" — the formula language Power BI uses for measures and calculated columns.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Dimension</h3>
+        <p style="font-size:.9rem;margin:0">A descriptive field used to categorize or slice data — e.g. Product, Region, Customer, or Date.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Drill Down</h3>
+        <p style="font-size:.9rem;margin:0">Clicking deeper into the SAME hierarchy on the SAME visual — e.g. Year → Quarter → Month on one chart.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Drill Through</h3>
+        <p style="font-size:.9rem;margin:0">Right-clicking a data point to jump to a separate, filtered detail page built specifically for that context.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Fact</h3>
+        <p style="font-size:.9rem;margin:0">A table of measurable events — one row per transaction, order, or occurrence — that measures are built from.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Filter</h3>
+        <p style="font-size:.9rem;margin:0">A rule that restricts which rows are included — at the visual, page, or report level.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Group</h3>
+        <p style="font-size:.9rem;margin:0">Combining several existing category values into one broader bucket, without changing the source data.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Hierarchy</h3>
+        <p style="font-size:.9rem;margin:0">A set of fields nested in a fixed order for drill-down, e.g. Category → Sub-Category → Product.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Legend</h3>
+        <p style="font-size:.9rem;margin:0">The field well that splits a visual into color-coded groups, one color per category.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Measure</h3>
+        <p style="font-size:.9rem;margin:0">A calculation defined in DAX that recalculates based on whatever filters are currently applied — e.g. Total Sales, Profit Margin %.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Relationship</h3>
+        <p style="font-size:.9rem;margin:0">A link between two tables through a shared key column, letting Power BI treat them as one connected model.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Slicer</h3>
+        <p style="font-size:.9rem;margin:0">An on-canvas control that lets the report viewer filter interactively by clicking, without opening a menu.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Small Multiples</h3>
+        <p style="font-size:.9rem;margin:0">A grid of small copies of the same chart, one per category, so you can compare shapes side by side instead of overlapping lines/bars.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Star Schema</h3>
+        <p style="font-size:.9rem;margin:0">A modeling shape with one central fact table and several dimension tables branching off it, like a star.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Tooltip</h3>
+        <p style="font-size:.9rem;margin:0">The small popup that appears on hover over a data point, showing extra detail without cluttering the visual.</p>
+      </div>
+      <div class="card" style="margin-bottom:10px;padding:16px 20px">
+        <h3 style="margin:0 0 6px;font-size:1rem">Values</h3>
+        <p style="font-size:.9rem;margin:0">The field well that supplies the number(s) a visual actually plots or displays.</p>
+      </div></div>
 
-      <div class="callout warn"><b>Common mix-up:</b> Model View is only for relationships — it is not where you build charts. That's Report View. Students confuse these two constantly in week one.</div>
-
-      <footer class="pagefoot"><span>Module 1 · Navigating the Interface</span><a href="05-visualizations.html">Next: Basic Visualizations →</a></footer>
+      <footer class="pagefoot"><span>📖 Glossary</span><a href="index.html">Back to Home ↺</a></footer>
     </main>
   </div>
 </div>

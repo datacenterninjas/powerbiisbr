@@ -77,6 +77,19 @@
   .brand h1{ font-size:1.05rem; margin:0; line-height:1.25; }
   .brand .sub{ font-size:.78rem; color:var(--text-muted); margin-top:3px; font-family:var(--font-mono); }
 
+  .sidebarsearch{ padding:12px 16px; border-bottom:1px solid var(--border); position:relative; }
+  .sidebarsearch input{ width:100%; box-sizing:border-box; padding:7px 10px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:var(--font-body); font-size:.85rem; }
+  .sidebarsearch input:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+  .search-results{ position:absolute; left:16px; right:16px; top:calc(100% + 4px); background:var(--surface); border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); max-height:360px; overflow-y:auto; z-index:30; display:none; }
+  .search-results.open{ display:block; }
+  .search-results a{ display:block; padding:9px 12px; text-decoration:none; color:var(--text); border-bottom:1px solid var(--border); }
+  .search-results a:last-child{ border-bottom:none; }
+  .search-results a:hover, .search-results a:focus-visible{ background:var(--surface-3); }
+  .search-results .sr-title{ font-weight:700; font-size:.85rem; }
+  .search-results .sr-group{ font-family:var(--font-mono); font-size:.68rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:.05em; margin-top:2px; }
+  .search-results .sr-snippet{ font-size:.78rem; color:var(--text-muted); margin-top:4px; }
+  .search-results .sr-empty{ padding:12px; font-size:.82rem; color:var(--text-muted); }
+
   .navgroup{ padding:14px 12px; }
   .navgroup .label{ display:flex; align-items:center; justify-content:space-between; gap:8px; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
   .navgroup .label .progress-count{ font-weight:400; letter-spacing:0; text-transform:none; flex:none; }
@@ -230,6 +243,10 @@
         </div>
       </div>
     </div>
+    <div class="sidebarsearch">
+      <input type="search" id="siteSearch" placeholder="Search this site…" autocomplete="off" aria-label="Search this site">
+      <div id="searchResults" class="search-results"></div>
+    </div>
         <div class="navgroup" data-group-ids="home">
       <div class="label"><span>Overview</span><span class="progress-count" data-group-ids="home"></span></div>
       <div class="navitem"><a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a><input type="checkbox" class="navcheck" data-page="home" title="Mark &quot;Home & Roadmap&quot; as done" aria-label="Mark Home & Roadmap as done"></div>
@@ -287,12 +304,13 @@
       <div class="navitem"><a class="navbtn" href="07-final-project.html"><span class="num">★</span> Final Project</a><input type="checkbox" class="navcheck" data-page="finalproject" title="Mark &quot;Final Project&quot; as done" aria-label="Mark Final Project as done"></div>
       <div class="navitem"><a class="navbtn" href="quiz.html"><span class="num">★</span> Self-Test Quiz</a><input type="checkbox" class="navcheck" data-page="quiz" title="Mark &quot;Self-Test Quiz&quot; as done" aria-label="Mark Self-Test Quiz as done"></div>
     </div>
-    <div class="navgroup" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets">
-      <div class="label"><span>Reference</span><span class="progress-count" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets"></span></div>
+    <div class="navgroup" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets,glossary">
+      <div class="label"><span>Reference</span><span class="progress-count" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets,glossary"></span></div>
       <div class="navitem"><a class="navbtn" href="35-troubleshooting.html"><span class="num">⚠</span> Troubleshooting</a><input type="checkbox" class="navcheck" data-page="troubleshooting" title="Mark &quot;Troubleshooting&quot; as done" aria-label="Mark Troubleshooting as done"></div>
       <div class="navitem"><a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a><input type="checkbox" class="navcheck" data-page="cheatsheet" title="Mark &quot;Cheat Sheet&quot; as done" aria-label="Mark Cheat Sheet as done"></div>
       <div class="navitem"><a class="navbtn" href="36-career-pl300.html"><span class="num">🎓</span> Career &amp; PL-300</a><input type="checkbox" class="navcheck" data-page="careerpl300" title="Mark &quot;Career & PL-300&quot; as done" aria-label="Mark Career & PL-300 as done"></div>
       <div class="navitem"><a class="navbtn active" href="datasets.html"><span class="num">⇩</span> Datasets</a><input type="checkbox" class="navcheck" data-page="datasets" title="Mark &quot;Datasets&quot; as done" aria-label="Mark Datasets as done"></div>
+      <div class="navitem"><a class="navbtn" href="37-glossary.html"><span class="num">📖</span> Glossary</a><input type="checkbox" class="navcheck" data-page="glossary" title="Mark &quot;Glossary&quot; as done" aria-label="Mark Glossary as done"></div>
     </div>
     <div class="themebar">
       <button class="themebtn" data-theme-choice="light">☀ Light</button>
@@ -354,7 +372,7 @@
 
       <div class="callout" style="margin-top:18px"><b>Tip:</b> Right after loading any file into Power BI, rename the table (right-click in the Fields pane → Rename) to match the dataset name above — <code>Sales</code>, <code>HR</code>, <code>Retail</code>, <code>Banking</code>, <code>Hospital</code>. Every DAX formula on this site assumes those exact names.</div>
 
-      <footer class="pagefoot"><span>⇩ Datasets</span><a href="index.html">Back to Home ↺</a></footer>
+      <footer class="pagefoot"><span>⇩ Datasets</span><a href="37-glossary.html">Next: Glossary →</a></footer>
     </main>
   </div>
 </div>
@@ -411,6 +429,53 @@ if(resetBtn) resetBtn.addEventListener('click', ()=>{
   document.querySelectorAll('.navcheck').forEach(cb => cb.checked = false);
   updateGroupCounts(progressState);
 });
+
+/* ============= client-side search ============= */
+(function(){
+  const input = document.getElementById('siteSearch');
+  const resultsBox = document.getElementById('searchResults');
+  if(!input || !resultsBox) return;
+  let index = null;
+  let indexPromise = null;
+  function loadIndex(){
+    if(!indexPromise){
+      indexPromise = fetch('search-index.json').then(r => r.json()).then(data => { index = data; return data; })
+        .catch(() => { index = []; return []; });
+    }
+    return indexPromise;
+  }
+  function snippetAround(text, q){
+    const i = text.toLowerCase().indexOf(q);
+    if(i === -1) return text.slice(0, 90) + '…';
+    const start = Math.max(0, i - 40);
+    return (start > 0 ? '…' : '') + text.slice(start, i + q.length + 50) + '…';
+  }
+  function render(query){
+    const q = query.trim().toLowerCase();
+    if(q.length < 2){ resultsBox.classList.remove('open'); resultsBox.innerHTML = ''; return; }
+    const matches = (index || []).map(page => {
+      const inTitle = page.title.toLowerCase().includes(q);
+      const headingHit = (page.headings || []).find(h => h.toLowerCase().includes(q));
+      const textIdx = page.text.toLowerCase().indexOf(q);
+      if(!inTitle && !headingHit && textIdx === -1) return null;
+      const score = (inTitle ? 3 : 0) + (headingHit ? 2 : 0) + (textIdx !== -1 ? 1 : 0);
+      return { page, score, snippet: headingHit || (textIdx !== -1 ? snippetAround(page.text, q) : '') };
+    }).filter(Boolean).sort((a, b) => b.score - a.score).slice(0, 8);
+
+    if(!matches.length){ resultsBox.innerHTML = '<div class="sr-empty">No matches.</div>'; resultsBox.classList.add('open'); return; }
+    resultsBox.innerHTML = matches.map(m => `
+      <a href="${m.page.file}">
+        <div class="sr-title">${m.page.title}</div>
+        <div class="sr-group">${m.page.group}</div>
+        ${m.snippet ? `<div class="sr-snippet">${m.snippet}</div>` : ''}
+      </a>`).join('');
+    resultsBox.classList.add('open');
+  }
+  input.addEventListener('focus', loadIndex);
+  input.addEventListener('input', () => { loadIndex().then(() => render(input.value)); });
+  document.addEventListener('click', (e) => { if(!e.target.closest('.sidebarsearch')) resultsBox.classList.remove('open'); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ resultsBox.classList.remove('open'); input.blur(); } });
+})();
 
 /* ============= terminology hints ============= */
 const GLOSSARY = {
