@@ -4,28 +4,67 @@
         <p class="lede"><button class="term" data-term="dax">DAX</button> is how you create numbers that don't already exist as a column — everything from a simple sum to a full year-over-year comparison.</p>
       </div>
 
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
-
-      <h2 style="margin-top:30px">Calculated Column vs. Measure — the first fork in the road</h2>
+      <h2 style="margin-top:30px">Calculated Column vs. Measure — the first fork in the road, and the single most-asked beginner question</h2>
       <div class="grid grid-2">
         <div class="card">
           <h4><button class="term" data-term="calculatedcolumn">Calculated Column</button></h4>
-          <p style="font-size:.9rem">Computed once, row by row, and physically stored in the table — like adding a new column in Excel with a formula dragged down every row.</p>
+          <p style="font-size:.9rem">Computed once per row, at data refresh, and physically stored in the table — like adding a new column in Excel with a formula dragged down every row.</p>
           <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Full Name = [First Name] &amp; " " &amp; [Last Name]</code> — one fixed value per row, doesn't change based on what's filtered on screen.</p>
         </div>
         <div class="card">
           <h4><button class="term" data-term="measure">Measure</button></h4>
-          <p style="font-size:.9rem">Computed on the fly, only when a visual asks for it — recalculates instantly based on whatever's currently filtered/sliced.</p>
-          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Total Sales = SUM(Sales[Sales])</code> — the same measure returns a different number for "2025" than for "2024," automatically.</p>
+          <p style="font-size:.9rem">Computed at query time — the instant a visual asks for it — under whatever <button class="term" data-term="filtercontext">filter context</button> currently surrounds it.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><b>Example:</b> <code>Total Sales = SUM(FactInternetSales[SalesAmount])</code> — the same measure returns a different number for "2025" than for "2024," automatically, with no formula change.</p>
         </div>
       </div>
-      <div class="callout warn" style="margin-top:14px"><b>The rule of thumb this module will build toward:</b> if the number should change when someone clicks a slicer, it's almost always a measure, not a calculated column.</div>
+      <div class="callout warn" style="margin-top:14px"><b>The rule of thumb:</b> if the number should change when someone clicks a slicer, it's almost always a measure, not a calculated column. Answer this question on day one — nearly every early DAX mistake on this site's <a href="35-troubleshooting.html">Troubleshooting</a> page traces back to getting it backwards.</div>
 
-      <h2 style="margin-top:30px">What this page will cover</h2>
+      <h2 style="margin-top:30px">Implicit vs. explicit measures</h2>
+      <p style="font-size:.92rem">Drag <code>FactInternetSales[SalesAmount]</code> straight into a Card's Values well and Power BI silently creates an <button class="term" data-term="implicitmeasure">implicit measure</button> for you — it sums by default, with no DAX written anywhere. It works, right up until it doesn't: implicit measures can't be reused across visuals by name, can't be reformatted once and have that stick everywhere, and don't show up cleanly in a Measures table for someone else to find. This course always writes explicit measures instead — Modeling ribbon → New Measure — for exactly those reasons.</p>
+
+      <h2 style="margin-top:30px">The four formulas you'll reuse for the rest of this track</h2>
+      <p style="font-size:.92rem">Same small set of measures, reused deliberately through every level that follows — watch <code>[Total Sales]</code> reappear inside <code>[Sales YTD]</code>, then inside <code>[YoY Growth %]</code>, rather than meeting 40 unrelated functions.</p>
+      <div class="codeblock">Total Sales = <span class="c-fn">SUM</span> ( FactInternetSales[SalesAmount] )
+
+Total Quantity = <span class="c-fn">SUM</span> ( FactInternetSales[OrderQuantity] )
+
+Order Count = <span class="c-fn">DISTINCTCOUNT</span> ( FactInternetSales[SalesOrderNumber] )
+
+Average Order Value = <span class="c-fn">DIVIDE</span> ( [Total Sales], [Order Count] )</div>
+      <div class="callout"><b>Why <code>DIVIDE</code>, never <code>/</code>:</b> a plain <code>/</code> throws a hard divide-by-zero error the instant any row in context has a zero denominator — one empty slicer selection and the whole visual breaks. <code>DIVIDE(numerator, denominator)</code> returns blank instead (or a value you specify as a third argument) — a habit worth installing on your very first ratio, before the bad habit of reaching for <code>/</code> ever forms.</p></div>
+      <p style="font-size:.9rem">Also worth the aggregation family beyond <code>SUM</code>: <code>AVERAGE</code>, <code>MIN</code>, <code>MAX</code>, <code>COUNT</code> (counts non-blank values in a column), and <code>COUNTROWS</code> (counts rows in a table, no column needed) — all one-line, all filter-context-aware exactly like <code>SUM</code>.</p>
+
+      <h2 style="margin-top:30px">Naming, formatting, and a home for your measures</h2>
       <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>DAX syntax basics.</strong> Functions, operators, referencing a column with <code>Table[Column]</code> vs. a measure with <code>[Measure Name]</code>.</div></li>
-        <li><span class="ico">2</span><div><strong>Writing your first measure.</strong> Step-by-step in the Modeling ribbon, from <code>New Measure</code> to seeing it work on a Card visual.</div></li>
-        <li><span class="ico">3</span><div><strong>Common early mistakes.</strong> Using a calculated column where a measure was needed (and the performance cost of getting that backwards at scale).</div></li>
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Business-readable names.</b> <code>Average Order Value</code>, never <code>Measure 1</code> or <code>AOV_calc2</code> — a name a stakeholder can read on a tooltip without translation.</div></li>
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>Format every measure once.</b> Currency, thousands separators, percentage — set in the Modeling ribbon the moment a measure is created. An unformatted <code>0.183947</code> where a viewer expects "18.4%" reads as unfinished, even when the math is right.</div></li>
+        <li><span class="ico">✓</span><div style="font-size:.9rem"><b>One dedicated measures table.</b> Create an empty table (Enter Data, no columns) named something like <code>_Measures</code> and keep every measure there instead of scattered across whichever table felt convenient — one obvious place to look, every time.</div></li>
+      </ul>
+
+      <h2 style="margin-top:30px">Iterators and row context — when summing a column isn't enough</h2>
+      <p style="font-size:.92rem">Some numbers can't come from aggregating a column that already exists — they have to be computed <b>row by row, then aggregated</b>. That's an <button class="term" data-term="iterator">iterator</button>, and "row by row" is the first real meeting with <button class="term" data-term="rowcontext">row context</button> — formalized further on <a href="21-dax-context.html">Context &amp; Dynamic Measures</a>, but it starts here.</p>
+      <div class="codeblock">Total Margin =
+<span class="c-fn">SUMX</span> (
+    FactInternetSales,
+    FactInternetSales[SalesAmount] - FactInternetSales[TotalProductCost]
+)
+
+Margin % = <span class="c-fn">DIVIDE</span> ( [Total Margin], [Total Sales] )</div>
+      <p style="font-size:.9rem"><code>SUMX</code> walks <code>FactInternetSales</code> one row at a time, computes <code>SalesAmount − TotalProductCost</code> fresh on each row, and only then adds all those per-row results together.</p>
+      <div class="callout warn"><b>Why not just <code>SUM(SalesAmount) − SUM(TotalProductCost)</code>?</b> For a straight total, that actually gives the same answer — subtraction distributes over a sum either way. It stops working the moment the question changes shape: <i>average margin per order</i> needs each order's margin computed first, then averaged — <code>AVERAGE(SalesAmount) − AVERAGE(TotalProductCost)</code> silently produces a different, wrong number, because averaging first and subtracting first are not the same arithmetic. An iterator is required precisely when the calculation itself, not just the final aggregation, has to happen per row.</div>
+
+      <p style="font-size:.9rem">Close the loop from the top of this page: <code>Total Margin</code> and <code>Margin %</code> are exactly the kind of thing a student is tempted to build as a calculated column ("just add a Margin column to the table"). Don't — a calculated-column Margin can't respond to a Region slicer or a Date filter the way <code>SUMX</code>-built <code>[Total Margin]</code> does. If it should change when someone clicks something, it's a measure, full stop, even when the formula reaches into row context to get there.</p>
+
+      <div class="callout"><b>Practice:</b> the <a href="39-dax-practice.html">DAX Practice</a> page's Tier A problems are built entirely from this page — attempt them before moving on to Time Intelligence.</div>
+
+      <h2 style="margin-top:30px">Learn more</h2>
+      <p style="font-size:.85rem;color:var(--text-muted)">Verified live 2026-08-15 — Microsoft's own references, plus the two free resources practitioners actually use daily. Start with the first one.</p>
+      <ul class="kicker-list">
+        <li><span class="ico">1</span><div style="font-size:.9rem"><a href="https://learn.microsoft.com/en-us/training/paths/dax-power-bi/" target="_blank" rel="noopener">Use DAX in semantic models</a> — Microsoft Learn's free, hands-on training path (4 modules). The best structured follow-on after this course. Note: Microsoft now calls what you know as a "dataset" a <b>semantic model</b> — same thing, newer name.</div></li>
+        <li><span class="ico">2</span><div style="font-size:.9rem"><a href="https://dax.guide/" target="_blank" rel="noopener">DAX Guide</a> — SQLBI's function-by-function reference, syntax and examples. The lookup tool practitioners actually keep open in a tab.</div></li>
+        <li><span class="ico">3</span><div style="font-size:.9rem"><a href="https://learn.microsoft.com/en-us/dax/dax-function-reference" target="_blank" rel="noopener">DAX function reference</a> — Microsoft's authoritative list of every function, including everything past this course's CALCULATE-mastery ceiling.</div></li>
+        <li><span class="ico">4</span><div style="font-size:.9rem"><a href="https://www.sqlbi.com/p/dax-patterns/" target="_blank" rel="noopener">DAX Patterns</a> (SQLBI) — the canonical pattern collection this site's own <a href="38-dax-patterns.html">Pattern Library</a> borrows its idea from. Go here once you outgrow ours.</div></li>
+        <li><span class="ico">5</span><div style="font-size:.9rem"><i>The Definitive Guide to DAX</i> (Russo &amp; Ferrari, SQLBI) — the expert-level book, flagged honestly: not required for this course, worth it if DAX turns out to be your thing.</div></li>
       </ul>
 
       <footer class="pagefoot"><span>Module 3 · DAX Basics &amp; Measures</span><a href="20-dax-time-intelligence.html">Next: Time Intelligence &amp; Aggregations →</a></footer>

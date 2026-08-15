@@ -220,6 +220,26 @@
     "title": "CALCULATE, FILTER &amp; Data Modeling — Power BI for MBA Analytics"
   },
   {
+    "id": "daxpatterns",
+    "file": "38-dax-patterns.html",
+    "fragment": "dax-patterns.html",
+    "group": "Module 3: Introduction to DAX",
+    "num": "5",
+    "label": "Pattern Library",
+    "crumb": "DAX Pattern Library",
+    "title": "DAX Pattern Library — Power BI for MBA Analytics"
+  },
+  {
+    "id": "daxpractice",
+    "file": "39-dax-practice.html",
+    "fragment": "dax-practice.html",
+    "group": "Module 3: Introduction to DAX",
+    "num": "6",
+    "label": "Practice: Problems &amp; Solutions",
+    "crumb": "DAX Practice",
+    "title": "DAX Practice: Problems &amp; Solutions — Power BI for MBA Analytics"
+  },
+  {
     "id": "module3assignment",
     "file": "32-module3-assignment.html",
     "fragment": "module3-assignment.html",

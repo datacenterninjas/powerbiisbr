@@ -88,4 +88,49 @@
         </div>
       </details>
 
+      <h2 style="margin-top:30px">DAX interview questions</h2>
+      <p style="font-size:.92rem">Six more, specifically on DAX — the topic most likely to actually get asked in a Power BI analyst interview, and the one this course spends a whole track on for exactly that reason.</p>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"Explain the difference between a measure and a calculated column — to a manager who's never opened Power BI."</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> "A calculated column is like a formula you drag down an Excel column once — it's baked in, the same for every row, forever. A measure is more like a calculator that re-does the math every time you ask it a new question, using whatever's currently in front of it." No DAX syntax, no "filter context" jargon — the manager needs the mental model, not the implementation.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"Your dashboard's Total row doesn't equal what you get from adding up the visible rows by hand. Walk me through how you'd investigate."</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> First question: is the measure a plain SUM, or a ratio/average? A Total row recomputes the measure fresh in its own filter context — it doesn't literally sum the rows above it. For a plain SUM that happens to agree with manual addition; for a margin % or average, it almost never does, and that's expected behavior, not a bug. Only after ruling that out would I actually suspect the DAX formula itself.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"Revenue is up 8%, but the CEO asks: is that real growth, or just a price increase? Which measures do you build?"</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> Revenue alone can't answer this — I'd build Total Quantity alongside Total Sales (SUM of OrderQuantity vs. SUM of SalesAmount) and a derived Average Selling Price = DIVIDE(Total Sales, Total Quantity). If Quantity is flat or down while Sales is up 8%, that's price-driven, not demand-driven — two very different stories the CEO needs to hear apart, not blended into one revenue number.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"When would you reach for CALCULATE with ALL — in plain business terms, not DAX syntax?"</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> Any time the business question is "what share of the WHOLE is this," not "what's this slice's own number." A regional manager's dashboard showing each region's % of total company revenue needs every row to divide by the SAME grand total, regardless of which region that row happens to be — that's ALL removing the region filter just for the denominator, while the numerator still respects it.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"A colleague says their DAX measure is 'too slow.' What are the first two things you'd check?"</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> First, whether it's actually a measure or a calculated column doing a measure's job — a calculated column recomputes across the whole table on every refresh, not just when queried. Second, whether an iterator (SUMX, AVERAGEX) is running row-by-row over an entire large fact table where a plain SUM or AVERAGE would have worked just as well — iterators are for when the calculation genuinely varies row by row, not a default habit.</p>
+        </div>
+      </details>
+
+      <details class="card" style="margin-bottom:10px;padding:14px 18px">
+        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">"Explain 'filter context' to a non-technical stakeholder — without using the words 'filter' or 'context.'"</summary>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+          <p style="font-size:.9rem"><b>Model answer:</b> "Every number on this dashboard is really the same question, answered fresh depending on what you've clicked. Click 'West,' and every card recalculates for West. Click a bar in a chart, same thing happens for that bar's category. Nothing is precomputed and stored per click — it's all recalculated live, every time, for whatever you're currently looking at." Explaining the effect a stakeholder can SEE beats naming the mechanism they can't.</p>
+        </div>
+      </details>
+
       <footer class="pagefoot"><span>🎓 Career &amp; PL-300</span><a href="datasets.html">Next: Datasets →</a></footer>

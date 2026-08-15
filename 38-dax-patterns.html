@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Publishing &amp; Sharing — Power BI for MBA Analytics</title>
+<title>DAX Pattern Library — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -280,7 +280,7 @@
       <div class="navitem"><a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a><input type="checkbox" class="navcheck" data-page="daxtimeintelligence" title="Mark &quot;Time Intelligence & Aggregations&quot; as done" aria-label="Mark Time Intelligence & Aggregations as done"></div>
       <div class="navitem"><a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a><input type="checkbox" class="navcheck" data-page="daxcontext" title="Mark &quot;Context & Dynamic Measures&quot; as done" aria-label="Mark Context & Dynamic Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
-      <div class="navitem"><a class="navbtn" href="38-dax-patterns.html"><span class="num">5</span> Pattern Library</a><input type="checkbox" class="navcheck" data-page="daxpatterns" title="Mark &quot;Pattern Library&quot; as done" aria-label="Mark Pattern Library as done"></div>
+      <div class="navitem"><a class="navbtn active" href="38-dax-patterns.html"><span class="num">5</span> Pattern Library</a><input type="checkbox" class="navcheck" data-page="daxpatterns" title="Mark &quot;Pattern Library&quot; as done" aria-label="Mark Pattern Library as done"></div>
       <div class="navitem"><a class="navbtn" href="39-dax-practice.html"><span class="num">6</span> Practice: Problems &amp; Solutions</a><input type="checkbox" class="navcheck" data-page="daxpractice" title="Mark &quot;Practice: Problems & Solutions&quot; as done" aria-label="Mark Practice: Problems & Solutions as done"></div>
       <div class="navitem"><a class="navbtn" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
@@ -294,7 +294,7 @@
     </div>
     <div class="navgroup" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment">
       <div class="label"><span>Module 5: Power BI Service</span><span class="progress-count" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment"></span></div>
-      <div class="navitem"><a class="navbtn active" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a><input type="checkbox" class="navcheck" data-page="publishingsharing" title="Mark &quot;Publishing & Sharing&quot; as done" aria-label="Mark Publishing & Sharing as done"></div>
+      <div class="navitem"><a class="navbtn" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a><input type="checkbox" class="navcheck" data-page="publishingsharing" title="Mark &quot;Publishing & Sharing&quot; as done" aria-label="Mark Publishing & Sharing as done"></div>
       <div class="navitem"><a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a><input type="checkbox" class="navcheck" data-page="qascenariomanager" title="Mark &quot;Q&A and Scenario Manager&quot; as done" aria-label="Mark Q&A and Scenario Manager as done"></div>
       <div class="navitem"><a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a><input type="checkbox" class="navcheck" data-page="practicalapplications" title="Mark &quot;Practical Applications & Pivots&quot; as done" aria-label="Mark Practical Applications & Pivots as done"></div>
       <div class="navitem"><a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a><input type="checkbox" class="navcheck" data-page="serviceslicers" title="Mark &quot;Slicers at Scale & Interactivity&quot; as done" aria-label="Mark Slicers at Scale & Interactivity as done"></div>
@@ -325,40 +325,126 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Publishing &amp; Sharing</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">DAX Pattern Library</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 5 · 1</span>
-        <h1>A report on your laptop helps nobody but you</h1>
-        <p class="lede">The Power BI Service is where Desktop work becomes something a team can actually see and use — the "Service" half of the Desktop-vs-Service split from Module 1.</p>
+        <span class="eyebrow">Module 3 · Pattern Library</span>
+        <h1>Ten business questions. Ten DAX patterns. Nothing here beyond CALCULATE mastery.</h1>
+        <p class="lede">Every pattern below is built entirely from functions covered on the four Level pages before this one — this page is where they get reused as ready-made answers to the questions that come up in almost every real report.</p>
       </div>
 
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
+      <div class="callout">Worked formulas use AdventureWorksDW, same as every Level page. Most patterns also get a take-away variant on one of the inbuilt CSVs — a few honestly don't (noted where that's the case, and why).</div>
 
-      <h2 style="margin-top:30px">Publishing, in one click-path</h2>
-      <div class="clickpath">
-        <span class="seg">Power BI Desktop</span><span class="arrow">→</span><span class="seg">Home ribbon</span><span class="arrow">→</span><span class="seg">Publish</span><span class="arrow">→</span><span class="seg">choose a workspace</span><span class="arrow">→</span><span class="seg">Publish</span><span class="arrow">→</span><span class="seg">"Open in Power BI"</span>
+      <div id="patternAccordion"></div>
+
+      <footer class="pagefoot"><span>Module 3 · Pattern Library</span><a href="39-dax-practice.html">Next: DAX Practice →</a></footer>
+
+<script>
+const PATTERNS = [
+{name:'YoY growth %', question:'Are we growing, or does this year just look the same as last year?', machinery:'SAMEPERIODLASTYEAR + DIVIDE',
+  formula:`Sales LY =
+CALCULATE( [Total Sales], SAMEPERIODLASTYEAR( DimDate[FullDateAlternateKey] ) )
+
+YoY Growth % = DIVIDE( [Total Sales] - [Sales LY], [Sales LY] )`,
+  when:'Any board-meeting framing of "are we growing" — the single most requested comparison in a real business.',
+  avoid:'Less than a full year of history in the model — there\'s no prior year to compare against, and the measure just returns blank.',
+  takeaway:'AdventureWorksDW-only. None of the inbuilt CSVs span more than one calendar year, so there\'s no genuine "last year" to compare against on a take-away — see the Time Intelligence page for the full reasoning.'},
+
+{name:'YTD / QTD', question:'How are we doing so far this year (or quarter)?', machinery:'TOTALYTD / TOTALQTD',
+  formula:`Sales YTD = TOTALYTD( [Total Sales], DimDate[FullDateAlternateKey] )
+Sales QTD = TOTALQTD( [Total Sales], DimDate[FullDateAlternateKey] )`,
+  when:'A running "so far this period" card that never needs manual updating as the calendar turns over.',
+  avoid:'Comparing a YTD number straight against a prior FULL YEAR total — March YTD will always look small next to last year\'s December total; that\'s not a real comparison.',
+  takeaway:'Download <a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a>, mark its Date column as a Date table, and build a YTD card — no prior year needed, since YTD only needs a running total within the one year the file already has.'},
+
+{name:'Rolling 3-month average', question:'What\'s the underlying trend, once day-to-day noise is smoothed out?', machinery:'DATESINPERIOD + AVERAGEX',
+  formula:`Sales Rolling 3M Avg =
+AVERAGEX(
+    DATESINPERIOD( DimDate[FullDateAlternateKey], MAX( DimDate[FullDateAlternateKey] ), -3, MONTH ),
+    [Total Sales]
+)`,
+  when:'A noisy daily line where the day-to-day zigzag is drowning out the actual direction.',
+  avoid:'Fewer than 3 months of history before the evaluation point — the window has nothing to average over yet, and the line starts blank or misleadingly low.',
+  takeaway:'Download <a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a> (spans most of a year) and build the same rolling average on its Date + Sales columns — plot it next to the raw daily line to see the smoothing effect directly.'},
+
+{name:'% of total / market share', question:'How big a slice of the whole is this row?', machinery:'CALCULATE + ALL',
+  formula:`All Product Sales = CALCULATE( [Total Sales], ALL( DimProduct ) )
+% of All Products = DIVIDE( [Total Sales], [All Product Sales] )`,
+  when:'Any "share of total" framing — market share, category share, region share — on a Matrix or Bar Chart broken out by that same dimension.',
+  avoid:'When the audience actually wants absolute numbers, not shares — a 40% share of a shrinking market is still bad news a percentage alone hides.',
+  takeaway:'Download <a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a> and build "% of all Sales" by Category — same ALL(...) trick, one table instead of two.'},
+
+{name:'% of selection', question:'Of what the viewer has already filtered to, what share is THIS row?', machinery:'ALLSELECTED',
+  formula:`% of Selection =
+DIVIDE( [Total Sales], CALCULATE( [Total Sales], ALLSELECTED( DimProduct ) ) )`,
+  when:'A viewer has already narrowed a page with a slicer, and the % should reflect their narrowed view, not the entire unfiltered database.',
+  avoid:'Confusing this with pattern #4 — ALL ignores every filter including a viewer\'s own slicer choice; ALLSELECTED respects the slicer and only strips the visual\'s own row/column filters. Picking the wrong one gives a technically-correct but contextually-wrong percentage.',
+  takeaway:'Download <a href="datasets/HR_Clean.csv" download>HR_Clean.csv</a>, add a Department slicer, and build "% of selected Departments" by Location — watch the percentages recalculate as the slicer changes, unlike pattern #4\'s version.'},
+
+{name:'Filtered KPI', question:'What\'s the number for [one specific slice], always, regardless of what else is clicked?', machinery:'CALCULATE + boolean filter (or FILTER)',
+  formula:`Road Bike Sales = CALCULATE( [Total Sales], DimProduct[ProductLine] = "R" )`,
+  when:'A KPI that should stay fixed on one business line even while the rest of the page reacts to slicers — "Road Bike Sales" sitting next to a Region slicer that only affects the other cards.',
+  avoid:'When the "always this slice" behavior surprises a viewer who expected every card to respond to the slicer the same way — label it clearly so the fixed card doesn\'t read as a bug.',
+  takeaway:'Download <a href="datasets/Banking_Clean.csv" download>Banking_Clean.csv</a> and build "Approved Loan Amount" — CALCULATE(SUM(Loan Amount), Loan Status = "Approved") — fixed to Approved regardless of any Loan Status slicer elsewhere on the page.'},
+
+{name:'Margin & margin %', question:'Are we actually making money on this, not just generating revenue?', machinery:'SUMX + DIVIDE',
+  formula:`Total Margin =
+SUMX( FactInternetSales, FactInternetSales[SalesAmount] - FactInternetSales[TotalProductCost] )
+
+Margin % = DIVIDE( [Total Margin], [Total Sales] )`,
+  when:'Whenever revenue alone would tell a misleadingly rosy story — a best-selling product can still be a thin-margin trap.',
+  avoid:'Using AVERAGE-then-subtract instead of SUMX for anything other than a straight grand total — see the worked wrong-answer example on DAX Basics.',
+  takeaway:'Download <a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a> and build <code>Profit % = DIVIDE(SUM(Profit), SUM(Sales))</code> — notice this take-away doesn\'t need SUMX at all, because the CSV already hands you Profit as its own column. Real source data won\'t always be this convenient; AdventureWorksDW\'s version deliberately isn\'t.'},
+
+{name:'Average order value family', question:'What\'s the typical size of one order (or customer, or unit)?', machinery:'DISTINCTCOUNT + DIVIDE',
+  formula:`Order Count = DISTINCTCOUNT( FactInternetSales[SalesOrderNumber] )
+Average Order Value = DIVIDE( [Total Sales], [Order Count] )`,
+  when:'"Per order," "per customer," or "per unit" framing — swap the DISTINCTCOUNT target to change what the average is per.',
+  avoid:'Confusing a straight AVERAGE of a per-row amount column with a true average-per-distinct-entity — they agree only when every entity has exactly one row, which is rarely true once real data has repeat customers or multi-line orders.',
+  takeaway:'Download <a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a> and build Average Order Value from Sales and a distinct count of Order ID.'},
+
+{name:'Count meeting a condition', question:'How many orders were over a certain size?', machinery:'COUNTROWS + FILTER',
+  formula:`Big Orders Count =
+COUNTROWS( FILTER( FactInternetSales, FactInternetSales[SalesAmount] > 50000 ) )`,
+  when:'Any "how many rows meet X" question that isn\'t really about a sum — counting big orders, counting overdue accounts, counting flagged records.',
+  avoid:'Building this as a Table visual with a manual scroll-and-count instead — the whole point is a number that updates itself as the data does.',
+  takeaway:'Download <a href="datasets/Banking_Clean.csv" download>Banking_Clean.csv</a> and build "High-Value Loans" — count of loans where Loan Amount exceeds a threshold you choose.'},
+
+{name:'Dynamic title / label', question:'Can the chart title name whatever the viewer just clicked, instead of a caption that\'s technically true for every possible selection at once?', machinery:'SELECTEDVALUE',
+  formula:`Selected Product Line = SELECTEDVALUE( DimProduct[ProductLine], "All Product Lines" )`,
+  when:'A title/label placed above a chart, wired to display this measure — reads "Sales for R" when one line is selected, "All Product Lines" the rest of the time.',
+  avoid:'Forgetting the second argument — without a fallback, a multi-selection returns a silent blank, which reads as a broken title rather than a working one.',
+  takeaway:'Download <a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a> and build a dynamic title off Store using the same SELECTEDVALUE pattern.'},
+];
+
+const patternsHTML = PATTERNS.map(p => `
+  <details class="card" style="margin-bottom:10px;padding:14px 18px">
+    <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem;display:flex;justify-content:space-between;gap:10px;align-items:center">
+      <span>${p.name}</span>
+    </summary>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+      <p style="font-size:.9rem"><b>Business question:</b> ${p.question}</p>
+      <p style="font-size:.85rem;color:var(--text-muted)"><b>Core machinery:</b> <span class="pill">${p.machinery}</span></p>
+      <p style="font-size:.85rem;font-weight:700;margin:10px 0 4px">AdventureWorksDW example</p>
+      <div class="codeblock">${p.formula.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</div>
+      <div class="grid grid-2" style="margin-top:10px">
+        <div><p style="font-size:.85rem"><b>Use when:</b> ${p.when}</p></div>
+        <div><p style="font-size:.85rem"><b>Avoid when:</b> ${p.avoid}</p></div>
       </div>
-      <p style="font-size:.92rem">Publishing uploads the .pbix file's report and data model to a <b>workspace</b> in the Power BI Service (app.powerbi.com) — a shared cloud space a team works out of, distinct from any one person's personal "My Workspace."</p>
-
-      <h2 style="margin-top:30px">Report vs. Dashboard, revisited</h2>
-      <p>The <a href="01-architecture.html">Architecture</a> page already drew this line: a <b>Report</b> is the multi-page thing built in Desktop; a <b>Dashboard</b> is a single-page pinboard that only exists in the Service, built by <b>pinning</b> individual visuals from one or more reports onto it.</p>
-      <div class="grid grid-2">
-        <div class="card"><h4>Sharing a Report</h4><p style="font-size:.85rem">Share → add people/groups by email, or a workspace's Members list for anyone who needs to build, not just view.</p></div>
-        <div class="card"><h4>Sharing a Dashboard</h4><p style="font-size:.85rem">Same Share mechanism, but a Dashboard can pull tiles from several different reports into one exec-friendly view.</p></div>
-      </div>
-
-      <h2 style="margin-top:30px">What this page will cover</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>Workspaces and roles.</strong> Admin/Member/Contributor/Viewer — who can edit vs. who can only look.</div></li>
-        <li><span class="ico">2</span><div><strong>Publishing a real report end-to-end.</strong> Taking a Final Project–style report from Desktop to a shared workspace.</div></li>
-        <li><span class="ico">3</span><div><strong>Scheduled refresh.</strong> Keeping a published report's data current without manually republishing.</div></li>
-      </ul>
-
-      <footer class="pagefoot"><span>Module 5 · Publishing &amp; Sharing</span><a href="26-qa-scenario-manager.html">Next: Q&amp;A and Scenario Manager →</a></footer>
+      <div class="callout" style="margin-top:10px"><b>Take-away:</b> ${p.takeaway}</div>
+    </div>
+  </details>`).join('');
+document.getElementById('patternAccordion').innerHTML = patternsHTML + `
+  <details class="card" style="margin-bottom:10px;padding:14px 18px">
+    <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Why no Top-N / ranking pattern</summary>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+      <p style="font-size:.9rem">Ranking a table by a measure ("top 5 products by sales") is a genuinely common request, and DAX has a function for it — <code>RANKX</code> — but it's past this course's CALCULATE-mastery ceiling. The in-scope answer for "top N" isn't a DAX pattern at all: it's the <b>visual-level Top N filter</b>, already taught on <a href="15-filters.html">Filters</a> in Module 2. For the vast majority of "show me the top 5" requests, a Filters-pane Top N does the whole job with no formula required — reach for <code>RANKX</code> only once a Top N filter genuinely can't express what's needed (ranking inside a Matrix cell, say), and treat that as a sign to look past this course's ceiling on purpose.</p>
+    </div>
+  </details>`;
+</script>
     </main>
   </div>
 </div>

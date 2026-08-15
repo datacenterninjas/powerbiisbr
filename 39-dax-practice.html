@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Publishing &amp; Sharing — Power BI for MBA Analytics</title>
+<title>DAX Practice: Problems &amp; Solutions — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -281,7 +281,7 @@
       <div class="navitem"><a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a><input type="checkbox" class="navcheck" data-page="daxcontext" title="Mark &quot;Context & Dynamic Measures&quot; as done" aria-label="Mark Context & Dynamic Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
       <div class="navitem"><a class="navbtn" href="38-dax-patterns.html"><span class="num">5</span> Pattern Library</a><input type="checkbox" class="navcheck" data-page="daxpatterns" title="Mark &quot;Pattern Library&quot; as done" aria-label="Mark Pattern Library as done"></div>
-      <div class="navitem"><a class="navbtn" href="39-dax-practice.html"><span class="num">6</span> Practice: Problems &amp; Solutions</a><input type="checkbox" class="navcheck" data-page="daxpractice" title="Mark &quot;Practice: Problems & Solutions&quot; as done" aria-label="Mark Practice: Problems & Solutions as done"></div>
+      <div class="navitem"><a class="navbtn active" href="39-dax-practice.html"><span class="num">6</span> Practice: Problems &amp; Solutions</a><input type="checkbox" class="navcheck" data-page="daxpractice" title="Mark &quot;Practice: Problems & Solutions&quot; as done" aria-label="Mark Practice: Problems & Solutions as done"></div>
       <div class="navitem"><a class="navbtn" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
     <div class="navgroup" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment">
@@ -294,7 +294,7 @@
     </div>
     <div class="navgroup" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment">
       <div class="label"><span>Module 5: Power BI Service</span><span class="progress-count" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment"></span></div>
-      <div class="navitem"><a class="navbtn active" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a><input type="checkbox" class="navcheck" data-page="publishingsharing" title="Mark &quot;Publishing & Sharing&quot; as done" aria-label="Mark Publishing & Sharing as done"></div>
+      <div class="navitem"><a class="navbtn" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a><input type="checkbox" class="navcheck" data-page="publishingsharing" title="Mark &quot;Publishing & Sharing&quot; as done" aria-label="Mark Publishing & Sharing as done"></div>
       <div class="navitem"><a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a><input type="checkbox" class="navcheck" data-page="qascenariomanager" title="Mark &quot;Q&A and Scenario Manager&quot; as done" aria-label="Mark Q&A and Scenario Manager as done"></div>
       <div class="navitem"><a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a><input type="checkbox" class="navcheck" data-page="practicalapplications" title="Mark &quot;Practical Applications & Pivots&quot; as done" aria-label="Mark Practical Applications & Pivots as done"></div>
       <div class="navitem"><a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a><input type="checkbox" class="navcheck" data-page="serviceslicers" title="Mark &quot;Slicers at Scale & Interactivity&quot; as done" aria-label="Mark Slicers at Scale & Interactivity as done"></div>
@@ -325,40 +325,180 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Publishing &amp; Sharing</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">DAX Practice</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 5 · 1</span>
-        <h1>A report on your laptop helps nobody but you</h1>
-        <p class="lede">The Power BI Service is where Desktop work becomes something a team can actually see and use — the "Service" half of the Desktop-vs-Service split from Module 1.</p>
+        <span class="eyebrow">Module 3 · Practice</span>
+        <h1>Fifteen problems. Attempt before you peek.</h1>
+        <p class="lede">Five per tier, tiered to match the four Level pages before this one. Each problem is a <code>&lt;details&gt;</code> — write your own answer first, on paper or in Power BI, before opening it to check.</p>
       </div>
 
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
+      <h2>Tier A — after DAX Basics &amp; Measures</h2>
+      <p class="lede" style="font-size:.95rem">Worked on AdventureWorksDW's <code>FactInternetSales</code> and <code>DimProduct</code>; take-away twins on the inbuilt CSVs.</p>
+      <div id="tierA"></div>
 
-      <h2 style="margin-top:30px">Publishing, in one click-path</h2>
-      <div class="clickpath">
-        <span class="seg">Power BI Desktop</span><span class="arrow">→</span><span class="seg">Home ribbon</span><span class="arrow">→</span><span class="seg">Publish</span><span class="arrow">→</span><span class="seg">choose a workspace</span><span class="arrow">→</span><span class="seg">Publish</span><span class="arrow">→</span><span class="seg">"Open in Power BI"</span>
+      <h2 style="margin-top:30px">Tier B — after Time Intelligence &amp; Aggregations</h2>
+      <p class="lede" style="font-size:.95rem"><b>AdventureWorksDW-only.</b> The inbuilt CSVs each span one calendar year — not enough history for a genuine time-intelligence comparison, so these problems don't get CSV take-away twins; see the Time Intelligence page for the full reasoning.</p>
+      <div id="tierB"></div>
+
+      <h2 style="margin-top:30px">Tier C — after CALCULATE, FILTER &amp; Modeling</h2>
+      <p class="lede" style="font-size:.95rem">The capstone tier — CALCULATE, FILTER, and ALL doing real work, closing with a problem that asks you to re-derive a formula from two pages back.</p>
+      <div id="tierC"></div>
+
+      <footer class="pagefoot"><span>Module 3 · Practice</span><a href="32-module3-assignment.html">Next: Module 3 Assignment →</a></footer>
+
+<script>
+function problemsHTML(items){
+  return items.map((p,i) => `
+    <details class="card" style="margin-bottom:10px;padding:14px 18px">
+      <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.02rem">Problem ${i+1} — ${p.title}</summary>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+        <p style="font-size:.9rem">${p.prompt}</p>
+        <details style="margin-top:10px">
+          <summary style="cursor:pointer;font-weight:700;font-size:.85rem;color:var(--teal)">Reveal solution</summary>
+          <div style="margin-top:10px">
+            <div class="codeblock">${p.solution.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</div>
+            <p style="font-size:.85rem;margin-top:8px"><b>Why:</b> ${p.explain}</p>
+          </div>
+        </details>
+        <div class="callout" style="margin-top:10px"><b>Reflect:</b> ${p.reflect}</div>
+        ${p.takeaway ? `<div class="callout warn" style="margin-top:10px"><b>Take-away:</b> ${p.takeaway}</div>` : ''}
       </div>
-      <p style="font-size:.92rem">Publishing uploads the .pbix file's report and data model to a <b>workspace</b> in the Power BI Service (app.powerbi.com) — a shared cloud space a team works out of, distinct from any one person's personal "My Workspace."</p>
+    </details>`).join('');
+}
 
-      <h2 style="margin-top:30px">Report vs. Dashboard, revisited</h2>
-      <p>The <a href="01-architecture.html">Architecture</a> page already drew this line: a <b>Report</b> is the multi-page thing built in Desktop; a <b>Dashboard</b> is a single-page pinboard that only exists in the Service, built by <b>pinning</b> individual visuals from one or more reports onto it.</p>
-      <div class="grid grid-2">
-        <div class="card"><h4>Sharing a Report</h4><p style="font-size:.85rem">Share → add people/groups by email, or a workspace's Members list for anyone who needs to build, not just view.</p></div>
-        <div class="card"><h4>Sharing a Dashboard</h4><p style="font-size:.85rem">Same Share mechanism, but a Dashboard can pull tiles from several different reports into one exec-friendly view.</p></div>
-      </div>
+const TIER_A = [
+{title:'The average that lies', prompt:'The CFO wants one number: average revenue per order, from FactInternetSales. Build it — then explain why AVERAGE(FactInternetSales[SalesAmount]) is NOT the same measure, even though it sounds like it should be.',
+  solution:`Order Count = DISTINCTCOUNT( FactInternetSales[SalesOrderNumber] )
+Average Order Value = DIVIDE( [Total Sales], [Order Count] )`,
+  explain:'FactInternetSales has one row per ORDER LINE, not one row per order — a single order with 3 products is 3 rows. AVERAGE(SalesAmount) averages per LINE, a systematically different (usually smaller) number than average per ORDER. DISTINCTCOUNT on the order number is what makes the denominator actually mean "orders."',
+  reflect:'If a colleague built this as AVERAGE(SalesAmount) and the number looked plausible on a Card visual, why might nobody notice it was wrong for months?',
+  takeaway:'Download <a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a> and build the same Average Order Value measure — Sum of Sales divided by a distinct count of Order ID.'},
 
-      <h2 style="margin-top:30px">What this page will cover</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>Workspaces and roles.</strong> Admin/Member/Contributor/Viewer — who can edit vs. who can only look.</div></li>
-        <li><span class="ico">2</span><div><strong>Publishing a real report end-to-end.</strong> Taking a Final Project–style report from Desktop to a shared workspace.</div></li>
-        <li><span class="ico">3</span><div><strong>Scheduled refresh.</strong> Keeping a published report's data current without manually republishing.</div></li>
-      </ul>
+{title:'Margin, the right way', prompt:'Build Total Margin and Margin % for FactInternetSales. Then explain in one sentence why a calculated column called "Margin" would be the wrong tool here, even with the exact same formula inside it.',
+  solution:`Total Margin =
+SUMX( FactInternetSales, FactInternetSales[SalesAmount] - FactInternetSales[TotalProductCost] )
 
-      <footer class="pagefoot"><span>Module 5 · Publishing &amp; Sharing</span><a href="26-qa-scenario-manager.html">Next: Q&amp;A and Scenario Manager →</a></footer>
+Margin % = DIVIDE( [Total Margin], [Total Sales] )`,
+  explain:'A calculated column computes once per row at refresh and is stored — it can\'t respond to a Region slicer or a Date filter the way a measure recalculates on the fly. The formula itself isn\'t what makes this a measure; the requirement that it react to filter context is.',
+  reflect:'Is there ANY situation where Margin as a calculated column would be the right call instead? What would have to be true about how it\'s used?',
+  takeaway:'Download <a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a> and build <code>Profit % = DIVIDE(SUM(Profit), SUM(Sales))</code> — no SUMX needed here, since the CSV already hands you Profit as its own column.'},
+
+{title:'Two counts that disagree', prompt:'Build Order Count two different ways — DISTINCTCOUNT(FactInternetSales[SalesOrderNumber]) and COUNTROWS(FactInternetSales) — on a Card each. They return different numbers. Why?',
+  solution:`Distinct Orders = DISTINCTCOUNT( FactInternetSales[SalesOrderNumber] )
+All Rows = COUNTROWS( FactInternetSales )`,
+  explain:'COUNTROWS counts every line-item row; DISTINCTCOUNT collapses multi-line orders down to one count per order. Whenever any order has more than one product line, All Rows > Distinct Orders — the gap between the two numbers IS the count of "extra" line items.',
+  reflect:'Which of the two should feed the denominator of Average Order Value from Problem 1 — and what would happen to that measure if you picked the wrong one?',
+  takeaway:null},
+
+{title:'A name a teammate can find', prompt:'Build a properly named, currency-formatted Average Order Value measure and place it in a dedicated _Measures table. Then write one sentence explaining why "Measure 3," left in the Fields pane with the correct formula inside it, would still fail a code review.',
+  solution:`_Measures[Average Order Value] = DIVIDE( [Total Sales], [Order Count] )
+// formatted: Modeling ribbon → Format → Currency, 0 decimals
+// homed in an empty "_Measures" table, not scattered across FactInternetSales`,
+  explain:'DAX doesn\'t care what a measure is named or where it lives — Power BI will happily compute a correct answer for "Measure 3." A human reusing it six months later does care: an unnamed, unformatted, randomly-homed measure is correct and still unusable by anyone but the person who wrote it.',
+  reflect:'Open any report you\'ve built so far in this course — can you find every measure in under 10 seconds? What would you change if not?',
+  takeaway:null},
+
+{title:'Does weight predict cost?', prompt:'Using only DimProduct, build Average Weight and Average StandardCost as two separate measures, put them on a Scatter Plot (Weight on X, StandardCost on Y), and describe the relationship in one sentence.',
+  solution:`Average Weight = AVERAGE( DimProduct[Weight] )
+Average Standard Cost = AVERAGE( DimProduct[StandardCost] )`,
+  explain:'Both are plain AVERAGE aggregations — no iterator needed, since Weight and StandardCost already exist as columns on the same table being averaged directly, not computed row-by-row from other columns.',
+  reflect:'Does a Scatter Plot answer "does X predict Y" definitively, or just "is there a visible pattern worth investigating further"? What would make you more confident either way?',
+  takeaway:'Download <a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a> and build the same pair of AVERAGE measures for Sales and Inventory — is there a visible relationship between how much stock a store carries and how much it sells?'},
+];
+
+const TIER_B = [
+{title:'Growth, or just December?', prompt:'Build a monthly Sales line with a Sales LY comparison line and a YoY Growth % in the tooltip. In two sentences, tell the marketing director whether a December spike is real growth or ordinary seasonality.',
+  solution:`Sales LY = CALCULATE( [Total Sales], SAMEPERIODLASTYEAR( DimDate[FullDateAlternateKey] ) )
+YoY Growth % = DIVIDE( [Total Sales] - [Sales LY], [Sales LY] )`,
+  explain:'If December also spiked last year by roughly the same margin, YoY Growth % for December will look unremarkable even though the raw Sales number is the year\'s highest — that\'s the tell for seasonality. A genuinely high YoY % specifically in December, above the other months\' YoY trend, is the tell for real growth.',
+  reflect:'What\'s the actual two-sentence answer, using AdventureWorksDW\'s real numbers once you\'ve built this?',
+  takeaway:null},
+
+{title:'The YTD "bug" that isn\'t', prompt:'Build Sales YTD and look at it on January 1st vs. December 31st of the same year. The number is tiny in January and grows all year. Is this a bug?',
+  solution:`Sales YTD = TOTALYTD( [Total Sales], DimDate[FullDateAlternateKey] )`,
+  explain:'Not a bug — that\'s exactly what "year to date" means: the running total from January 1st up to whatever date is currently in context. A small January number and a large December number are the same correct measure at two different points in the year, not two different measures.',
+  reflect:'How would you explain this to a stakeholder who insists "the YTD number looks wrong" every January, every year?',
+  takeaway:null},
+
+{title:'The blank start of a rolling average', prompt:'Build a Rolling 3-Month Average of Sales. The first two months of available data show blank or unreliable values. Why?',
+  solution:`Sales Rolling 3M Avg =
+AVERAGEX(
+    DATESINPERIOD( DimDate[FullDateAlternateKey], MAX( DimDate[FullDateAlternateKey] ), -3, MONTH ),
+    [Total Sales]
+)`,
+  explain:'The rolling window looks 3 months BACKWARD from whatever date is in context. For the very first month or two of the entire dataset, there simply isn\'t 3 months of prior data yet — the window is incomplete, so the average is computed from less data than every later point, and reads as unreliable (or blank if there\'s no data at all before the start).',
+  reflect:'Should a report ship with those first unreliable months visible, hidden, or specially marked? Make the case for your choice.',
+  takeaway:null},
+
+{title:'Break the date table on purpose', prompt:'Mark DimDate as the Date Table, but point it at DimDate[DateKey] (the integer surrogate key) instead of DimDate[FullDateAlternateKey]. See what breaks in Sales YTD. Fix it, and explain in plain English why the integer key doesn\'t work.',
+  solution:`// Broken: Mark as Date Table → DimDate[DateKey]     (an integer like 20250115)
+// Fixed:  Mark as Date Table → DimDate[FullDateAlternateKey]  (a real datetime)`,
+  explain:'Time intelligence functions need a genuine, continuous date/datetime column to reason about calendar math — "one year back," "start of quarter." DateKey merely LOOKS date-shaped to a human (20250115 reads like a date) but is just an integer to DAX, with no calendar meaning attached — TOTALYTD and SAMEPERIODLASTYEAR either error outright or silently return nonsense against it.',
+  reflect:'What\'s the general lesson here that also applies to a plain Line Chart\'s X-axis, from Module 1?',
+  takeaway:null},
+
+{title:'Comparing an apple QTD to an orange QTD', prompt:'Build QTD Sales on a Matrix broken out by Quarter. Explain why comparing Q1\'s QTD value (a full, complete quarter) against Q4\'s QTD value (if today falls mid-quarter) as if they were the same kind of number would mislead a reader.',
+  solution:`Sales QTD = TOTALQTD( [Total Sales], DimDate[FullDateAlternateKey] )`,
+  explain:'QTD is a running total up to "now" within its quarter — a completed quarter\'s QTD equals its full-quarter total, but a quarter still in progress shows a partial total that will keep growing. Placed side by side without that context, a partial Q4 looks like underperformance against a complete Q1, when it may just not be finished yet.',
+  reflect:'What would you add to the visual (a label, an annotation, a different measure entirely) to prevent this misread?',
+  takeaway:null},
+];
+
+const TIER_C = [
+{title:'Share of total, broken on purpose', prompt:'Build each DimProduct[Class]\'s share of total sales, unaffected by any Class slicer on the page. Then swap ALL for ALLSELECTED and add a Class slicer — describe exactly what changes when you actually use the slicer.',
+  solution:`All Class Sales = CALCULATE( [Total Sales], ALL( DimProduct[Class] ) )
+% of All Classes = DIVIDE( [Total Sales], [All Class Sales] )
+
+' -- swapped version:
+Selected Class Sales = CALCULATE( [Total Sales], ALLSELECTED( DimProduct[Class] ) )
+% of Selected Classes = DIVIDE( [Total Sales], [Selected Class Sales] )`,
+  explain:'ALL ignores every filter on Class, including a viewer\'s own slicer choice — percentages always sum against the ENTIRE unfiltered dataset. ALLSELECTED respects what the viewer explicitly picked in the slicer, so percentages sum against just what\'s currently shown. With the slicer untouched, both versions look identical; the difference only appears once the slicer actually narrows the data.',
+  reflect:'Which version would a business stakeholder actually want, most of the time — and is that the same answer for every report, or does it depend on the question being asked?',
+  takeaway:'Download <a href="datasets/HR_Clean.csv" download>HR_Clean.csv</a>, add a Department slicer, and build both the ALL and ALLSELECTED versions of "% of headcount" by Location — compare them with the slicer moved.'},
+
+{title:'Boolean vs. FILTER, on purpose', prompt:'Build "Premium Product Sales" (products over ₹50,000 list price) using FILTER. Then try to rewrite it as a bare boolean condition inside CALCULATE instead. Does it work? Explain when each form is actually required.',
+  solution:`' -- FILTER form (works):
+Premium Product Sales =
+CALCULATE( [Total Sales], FILTER( DimProduct, DimProduct[ListPrice] > 50000 ) )
+
+' -- bare boolean form (also works, for THIS specific condition):
+Premium Product Sales Alt =
+CALCULATE( [Total Sales], DimProduct[ListPrice] > 50000 )`,
+  explain:'A simple single-column comparison can actually be written either way in modern DAX — CALCULATE accepts a bare boolean condition on one column directly. FILTER becomes REQUIRED once the condition needs row-by-row logic a single column comparison can\'t express: comparing two columns to each other, combining conditions with OR across different columns, or referencing a measure inside the condition.',
+  reflect:'Rewrite the condition as "ListPrice is more than double StandardCost" — which form does this force you into, and why?',
+  takeaway:'Download <a href="datasets/Banking_Clean.csv" download>Banking_Clean.csv</a> and build "High-Value Approved Loans" — CALCULATE\'d sum of Loan Amount, filtered to Loan Status = Approved AND Loan Amount over a threshold you choose.'},
+
+{title:'Diagnose the flatlined Matrix', prompt:'A colleague\'s measure returns the exact same number on every single row of a Region-by-ProductLine Matrix — it should vary by ProductLine, but doesn\'t. Their formula uses CALCULATE and ALL. What most likely went wrong, and how would you confirm it?',
+  solution:`' -- likely the bug:
+Suspect Measure = CALCULATE( [Total Sales], ALL( DimProduct ) )
+' ALL(DimProduct) strips filters from EVERY column on DimProduct, including ProductLine —
+' not just the column the colleague meant to widen`,
+  explain:'ALL(TableName) removes filters from every column on that table, not just one. If the intent was "ignore Class, but still respect ProductLine," the fix is scoping it — ALL(DimProduct[Class]) alone, or ALLEXCEPT(DimProduct, DimProduct[ProductLine]) to keep exactly one column\'s filter alive.',
+  reflect:'How would you confirm this diagnosis without asking the colleague what they meant — what would you check in the model or the formula first?',
+  takeaway:null},
+
+{title:'One measure, five visuals, three pages', prompt:'Build Road Bike Sales as a CALCULATE\'d measure (ProductLine = "R"). It needs to appear, always fixed to Road, on 5 different visuals across 3 report pages. Explain why a Filters-pane visual filter set to ProductLine=R on each visual would NOT have been an equally good solution.',
+  solution:`Road Bike Sales = CALCULATE( [Total Sales], DimProduct[ProductLine] = "R" )`,
+  explain:'A visual-level filter has to be set up separately, by hand, on every single visual that needs it — 5 visuals means 5 places the same rule can drift out of sync if one gets missed or edited later. The CALCULATE condition lives inside the measure ONE time and travels with it automatically to every visual it\'s ever dropped onto, on any page, with no per-visual setup at all.',
+  reflect:'What\'s the tradeoff in the other direction — is there a case where 5 separate visual filters would actually be the better choice over one CALCULATE\'d measure?',
+  takeaway:null},
+
+{title:'The payoff: re-derive Sales LY from memory', prompt:'Without looking back at the Time Intelligence page, write Sales LY from scratch using only what you learned in this Level, and explain in one sentence exactly what SAMEPERIODLASTYEAR is handing to CALCULATE.',
+  solution:`Sales LY =
+CALCULATE( [Total Sales], SAMEPERIODLASTYEAR( DimDate[FullDateAlternateKey] ) )`,
+  explain:'SAMEPERIODLASTYEAR(DimDate[FullDateAlternateKey]) produces a table of dates — the same calendar dates, shifted back exactly one year — and hands that table to CALCULATE as its filter, exactly the way FILTER(DimProduct, ListPrice > 50000) handed CALCULATE a filtered table of products back in Problem 7. Every time intelligence function on this site is CALCULATE wearing a costume.',
+  reflect:'Now that you can read this formula properly: what would you change to get "same period, two years back" instead of one?',
+  takeaway:null},
+];
+
+document.getElementById('tierA').innerHTML = problemsHTML(TIER_A);
+document.getElementById('tierB').innerHTML = problemsHTML(TIER_B);
+document.getElementById('tierC').innerHTML = problemsHTML(TIER_C);
+</script>
     </main>
   </div>
 </div>

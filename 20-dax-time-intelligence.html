@@ -274,12 +274,14 @@
       <div class="navitem"><a class="navbtn" href="16-slicers.html"><span class="num">8</span> Slicers</a><input type="checkbox" class="navcheck" data-page="slicers" title="Mark &quot;Slicers&quot; as done" aria-label="Mark Slicers as done"></div>
       <div class="navitem"><a class="navbtn" href="30-module2-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module2assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment">
-      <div class="label"><span>Module 3: Introduction to DAX</span><span class="progress-count" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment"></span></div>
+    <div class="navgroup" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,daxpatterns,daxpractice,module3assignment">
+      <div class="label"><span>Module 3: Introduction to DAX</span><span class="progress-count" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,daxpatterns,daxpractice,module3assignment"></span></div>
       <div class="navitem"><a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
       <div class="navitem"><a class="navbtn active" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a><input type="checkbox" class="navcheck" data-page="daxtimeintelligence" title="Mark &quot;Time Intelligence & Aggregations&quot; as done" aria-label="Mark Time Intelligence & Aggregations as done"></div>
       <div class="navitem"><a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a><input type="checkbox" class="navcheck" data-page="daxcontext" title="Mark &quot;Context & Dynamic Measures&quot; as done" aria-label="Mark Context & Dynamic Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
+      <div class="navitem"><a class="navbtn" href="38-dax-patterns.html"><span class="num">5</span> Pattern Library</a><input type="checkbox" class="navcheck" data-page="daxpatterns" title="Mark &quot;Pattern Library&quot; as done" aria-label="Mark Pattern Library as done"></div>
+      <div class="navitem"><a class="navbtn" href="39-dax-practice.html"><span class="num">6</span> Practice: Problems &amp; Solutions</a><input type="checkbox" class="navcheck" data-page="daxpractice" title="Mark &quot;Practice: Problems & Solutions&quot; as done" aria-label="Mark Practice: Problems & Solutions as done"></div>
       <div class="navitem"><a class="navbtn" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
     <div class="navgroup" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment">
@@ -334,30 +336,49 @@
         <p class="lede">Time intelligence functions and <button class="term" data-term="aggregation">aggregation</button> functions are the two DAX building blocks you'll reach for most often, in almost every real report.</p>
       </div>
 
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
-
       <h2 style="margin-top:30px">Aggregation functions — the basics that show up everywhere</h2>
       <div class="table-wrap">
         <table>
           <tr><th>Function</th><th>Does what</th><th>Example</th></tr>
-          <tr><td><code>SUM</code></td><td>Adds up a numeric column</td><td><code>Total Sales = SUM(Sales[Sales])</code></td></tr>
-          <tr><td><code>AVERAGE</code></td><td>Mean of a numeric column</td><td><code>Avg Order Value = AVERAGE(Sales[Sales])</code></td></tr>
-          <tr><td><code>COUNT</code> / <code>COUNTROWS</code></td><td>Counts rows (with/without a specific column)</td><td><code>Order Count = COUNTROWS(Sales)</code></td></tr>
-          <tr><td><code>DISTINCTCOUNT</code></td><td>Counts unique values only</td><td><code>Unique Customers = DISTINCTCOUNT(Sales[Customer])</code></td></tr>
+          <tr><td><code>SUM</code></td><td>Adds up a numeric column</td><td><code>Total Sales = SUM(FactInternetSales[SalesAmount])</code></td></tr>
+          <tr><td><code>AVERAGE</code></td><td>Mean of a numeric column</td><td><code>Avg List Price = AVERAGE(DimProduct[ListPrice])</code></td></tr>
+          <tr><td><code>COUNT</code> / <code>COUNTROWS</code></td><td>Counts rows (with/without a specific column)</td><td><code>Order Count = COUNTROWS(FactInternetSales)</code></td></tr>
+          <tr><td><code>DISTINCTCOUNT</code></td><td>Counts unique values only</td><td><code>Unique Orders = DISTINCTCOUNT(FactInternetSales[SalesOrderNumber])</code></td></tr>
         </table>
       </div>
 
-      <h2 style="margin-top:30px">Time intelligence — the same measure, a different time window</h2>
-      <p>YTD (Year-to-Date), MTD (Month-to-Date), and QTD (Quarter-to-Date) all answer the same shape of question: "total so far, within the current period" — without hand-typing a date range that goes stale the moment the calendar turns over.</p>
-      <div class="codeblock">Sales YTD = <span class="c-fn">TOTALYTD</span>(<span class="c-fn">SUM</span>(Sales[Sales]), Sales[Date])</div>
-      <div class="callout"><b>Why this needs a real Date table:</b> Time intelligence functions rely on a proper, continuous Date column marked as a Date table in the model — the same "Date column typed as text sorts wrong" trap already covered on the <a href="04-power-query.html">Power Query</a> and <a href="05-visualizations.html">Visualizations</a> pages resurfaces here, with higher stakes.</div>
+      <h2 style="margin-top:30px">Two tables, one line — the single exception to "no joins"</h2>
+      <p style="font-size:.92rem">Every worked example on this site up to now has deliberately stayed on one table. Time intelligence is the one place that rule bends: <code>TOTALYTD</code> and <code>SAMEPERIODLASTYEAR</code> need a proper <button class="term" data-term="datetable">date table</button> — <code>DimDate</code>, related to <code>FactInternetSales</code> — and there's no honest single-table version of that. This is the one relationship this course asks you to build before Module 3 is done, and it's exactly one line.</p>
+      <div class="callout warn">
+        <ol class="steps" style="margin-top:6px">
+          <li>Model view (left rail) → confirm a line connects <code>FactInternetSales[OrderDateKey]</code> to <code>DimDate[DateKey]</code> — Power BI usually autodetects this; if it didn't, drag one column onto the other</li>
+          <li>Click <code>DimDate</code> → Table tools ribbon → <b>Mark as Date Table</b> → point it at <code>DimDate[FullDateAlternateKey]</code> (a real, continuous datetime column — not the integer <code>DateKey</code>)</li>
+        </ol>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">That's the whole exception. Full data modeling — several fact tables, role-playing dimensions, a star schema built from scratch — is deliberately out of scope for this course (it's Extended Module 09, not yet built); this one relationship is as far as Module 3 needs to go.</p>
 
-      <h2 style="margin-top:30px">What this page will cover</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>Building a proper Date table.</strong> The prerequisite every time intelligence function silently assumes exists.</div></li>
-        <li><span class="ico">2</span><div><strong>YTD, MTD, QTD side by side.</strong> One dataset, three formulas, one Line Chart comparing all three.</div></li>
-        <li><span class="ico">3</span><div><strong>Prior-period comparisons.</strong> <code>SAMEPERIODLASTYEAR</code> and the "vs. last year" card every executive dashboard has.</div></li>
-      </ul>
+      <h2 style="margin-top:30px">Time intelligence — the same measure, a different time window</h2>
+      <p>YTD (Year-to-Date) answers "total so far, within the current period" — without hand-typing a date range that goes stale the moment the calendar turns over.</p>
+      <div class="codeblock">Sales YTD =
+<span class="c-fn">TOTALYTD</span> ( [Total Sales], DimDate[FullDateAlternateKey] )</div>
+      <div class="callout"><b>Why this needs a real Date table:</b> the same "Date column typed as text sorts wrong" trap already covered on the <a href="04-power-query.html">Power Query</a> and <a href="05-visualizations.html">Visualizations</a> pages resurfaces here, with higher stakes — <code>TOTALYTD</code> doesn't just sort wrong on an untyped or unmarked date column, it silently returns the wrong total or errors outright.</div>
+
+      <h2 style="margin-top:30px">Prior-period comparisons: the "vs. last year" card every executive dashboard has</h2>
+      <div class="codeblock">Sales LY =
+<span class="c-fn">CALCULATE</span> ( [Total Sales], <span class="c-fn">SAMEPERIODLASTYEAR</span> ( DimDate[FullDateAlternateKey] ) )
+
+YoY Growth % = <span class="c-fn">DIVIDE</span> ( [Total Sales] - [Sales LY], [Sales LY] )</div>
+      <p style="font-size:.9rem"><code>Sales LY</code> is a soft first look at <code>CALCULATE</code> — used here before it's formally explained, as "the function that changes what a measure looks at." <a href="22-dax-calculate-modeling.html">CALCULATE, FILTER &amp; Modeling</a> opens the hood on exactly what it's doing and re-derives this same formula once you can read it properly.</p>
+
+      <h2 style="margin-top:30px">Rolling averages, the same tool doing a third job</h2>
+      <div class="codeblock">Sales Rolling 3M =
+<span class="c-fn">CALCULATE</span> (
+    [Total Sales],
+    <span class="c-fn">DATESINPERIOD</span> ( DimDate[FullDateAlternateKey], <span class="c-fn">MAX</span> ( DimDate[FullDateAlternateKey] ), -3, MONTH )
+)</div>
+      <p style="font-size:.9rem"><code>DATESINPERIOD</code> hands <code>CALCULATE</code> a rolling 3-month date window ending at whatever date is currently in context — smooths a noisy monthly line into a trend without deleting a single row of the underlying detail.</p>
+
+      <div class="callout"><b>Practice:</b> the AdventureWorksDW-only Tier B problems on <a href="39-dax-practice.html">DAX Practice</a> are built entirely from this page — the inbuilt CSV datasets only span one calendar year each, not enough history for a genuine year-over-year comparison, so time-intelligence practice stays on AdventureWorksDW here rather than pretending otherwise with a take-away CSV twin.</div>
 
       <footer class="pagefoot"><span>Module 3 · Time Intelligence &amp; Aggregations</span><a href="21-dax-context.html">Next: Context &amp; Dynamic Measures →</a></footer>
     </main>
@@ -490,6 +511,14 @@ const GLOSSARY = {
   binning: 'Splitting a continuous number into equal-sized ranges ("bins") so it can be treated like a category.',
   conditionalformatting: 'Rules that change a visual\'s color or icon based on the value itself, so exceptions are visible at a glance.',
   customvisual: 'A visual type from Microsoft AppSource, beyond Power BI\'s built-in chart types.',
+  implicitmeasure: 'An aggregation Power BI creates automatically the moment you drag a numeric field into Values, without writing any DAX — convenient, but harder to reuse and format consistently than an explicit measure.',
+  iterator: 'A DAX function (the "X" family — SUMX, AVERAGEX, and others) that walks a table row by row, computing an expression fresh on each row before aggregating — needed whenever the answer can\'t come from summing a column that already exists.',
+  rowcontext: '"Which row am I on right now?" — active inside a calculated column (evaluated once per row) and inside iterator functions like SUMX. A different thing from filter context, even though both get called "context."',
+  filtercontext: '"What\'s currently sliced/filtered?" — the combined effect of every slicer, filter, and visual axis surrounding a measure at the moment it calculates. The same measure formula returns a different number under different filter context, without being rewritten.',
+  contexttransition: 'What happens when row context turns into filter context — specifically, the moment CALCULATE runs inside a row-by-row calculation, and each row\'s own values become a one-row filter for whatever\'s inside CALCULATE. A real, subtle topic — this course only needs you to know it exists.',
+  datetable: 'A table with one row per continuous calendar date, explicitly marked as the model\'s official date table (Modeling → Mark as Date Table) — the prerequisite every time intelligence function (TOTALYTD, SAMEPERIODLASTYEAR) silently assumes exists.',
+  timeintelligence: 'DAX functions that compare a measure across a time window — year-to-date, same period last year, a rolling average — by rewriting the date filter for you instead of you hand-picking a date range.',
+  granularity: 'The level of detail one row of a table represents — one row per order is finer granularity than one row per month. Aggregating from fine to coarse granularity is normal; going the other way isn\'t possible without more information than the table has.',
 };
 function closeTerm(btn){
   btn.classList.remove('term-open');

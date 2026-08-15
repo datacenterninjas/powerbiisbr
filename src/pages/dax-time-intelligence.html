@@ -4,29 +4,48 @@
         <p class="lede">Time intelligence functions and <button class="term" data-term="aggregation">aggregation</button> functions are the two DAX building blocks you'll reach for most often, in almost every real report.</p>
       </div>
 
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
-
       <h2 style="margin-top:30px">Aggregation functions — the basics that show up everywhere</h2>
       <div class="table-wrap">
         <table>
           <tr><th>Function</th><th>Does what</th><th>Example</th></tr>
-          <tr><td><code>SUM</code></td><td>Adds up a numeric column</td><td><code>Total Sales = SUM(Sales[Sales])</code></td></tr>
-          <tr><td><code>AVERAGE</code></td><td>Mean of a numeric column</td><td><code>Avg Order Value = AVERAGE(Sales[Sales])</code></td></tr>
-          <tr><td><code>COUNT</code> / <code>COUNTROWS</code></td><td>Counts rows (with/without a specific column)</td><td><code>Order Count = COUNTROWS(Sales)</code></td></tr>
-          <tr><td><code>DISTINCTCOUNT</code></td><td>Counts unique values only</td><td><code>Unique Customers = DISTINCTCOUNT(Sales[Customer])</code></td></tr>
+          <tr><td><code>SUM</code></td><td>Adds up a numeric column</td><td><code>Total Sales = SUM(FactInternetSales[SalesAmount])</code></td></tr>
+          <tr><td><code>AVERAGE</code></td><td>Mean of a numeric column</td><td><code>Avg List Price = AVERAGE(DimProduct[ListPrice])</code></td></tr>
+          <tr><td><code>COUNT</code> / <code>COUNTROWS</code></td><td>Counts rows (with/without a specific column)</td><td><code>Order Count = COUNTROWS(FactInternetSales)</code></td></tr>
+          <tr><td><code>DISTINCTCOUNT</code></td><td>Counts unique values only</td><td><code>Unique Orders = DISTINCTCOUNT(FactInternetSales[SalesOrderNumber])</code></td></tr>
         </table>
       </div>
 
-      <h2 style="margin-top:30px">Time intelligence — the same measure, a different time window</h2>
-      <p>YTD (Year-to-Date), MTD (Month-to-Date), and QTD (Quarter-to-Date) all answer the same shape of question: "total so far, within the current period" — without hand-typing a date range that goes stale the moment the calendar turns over.</p>
-      <div class="codeblock">Sales YTD = <span class="c-fn">TOTALYTD</span>(<span class="c-fn">SUM</span>(Sales[Sales]), Sales[Date])</div>
-      <div class="callout"><b>Why this needs a real Date table:</b> Time intelligence functions rely on a proper, continuous Date column marked as a Date table in the model — the same "Date column typed as text sorts wrong" trap already covered on the <a href="04-power-query.html">Power Query</a> and <a href="05-visualizations.html">Visualizations</a> pages resurfaces here, with higher stakes.</div>
+      <h2 style="margin-top:30px">Two tables, one line — the single exception to "no joins"</h2>
+      <p style="font-size:.92rem">Every worked example on this site up to now has deliberately stayed on one table. Time intelligence is the one place that rule bends: <code>TOTALYTD</code> and <code>SAMEPERIODLASTYEAR</code> need a proper <button class="term" data-term="datetable">date table</button> — <code>DimDate</code>, related to <code>FactInternetSales</code> — and there's no honest single-table version of that. This is the one relationship this course asks you to build before Module 3 is done, and it's exactly one line.</p>
+      <div class="callout warn">
+        <ol class="steps" style="margin-top:6px">
+          <li>Model view (left rail) → confirm a line connects <code>FactInternetSales[OrderDateKey]</code> to <code>DimDate[DateKey]</code> — Power BI usually autodetects this; if it didn't, drag one column onto the other</li>
+          <li>Click <code>DimDate</code> → Table tools ribbon → <b>Mark as Date Table</b> → point it at <code>DimDate[FullDateAlternateKey]</code> (a real, continuous datetime column — not the integer <code>DateKey</code>)</li>
+        </ol>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">That's the whole exception. Full data modeling — several fact tables, role-playing dimensions, a star schema built from scratch — is deliberately out of scope for this course (it's Extended Module 09, not yet built); this one relationship is as far as Module 3 needs to go.</p>
 
-      <h2 style="margin-top:30px">What this page will cover</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>Building a proper Date table.</strong> The prerequisite every time intelligence function silently assumes exists.</div></li>
-        <li><span class="ico">2</span><div><strong>YTD, MTD, QTD side by side.</strong> One dataset, three formulas, one Line Chart comparing all three.</div></li>
-        <li><span class="ico">3</span><div><strong>Prior-period comparisons.</strong> <code>SAMEPERIODLASTYEAR</code> and the "vs. last year" card every executive dashboard has.</div></li>
-      </ul>
+      <h2 style="margin-top:30px">Time intelligence — the same measure, a different time window</h2>
+      <p>YTD (Year-to-Date) answers "total so far, within the current period" — without hand-typing a date range that goes stale the moment the calendar turns over.</p>
+      <div class="codeblock">Sales YTD =
+<span class="c-fn">TOTALYTD</span> ( [Total Sales], DimDate[FullDateAlternateKey] )</div>
+      <div class="callout"><b>Why this needs a real Date table:</b> the same "Date column typed as text sorts wrong" trap already covered on the <a href="04-power-query.html">Power Query</a> and <a href="05-visualizations.html">Visualizations</a> pages resurfaces here, with higher stakes — <code>TOTALYTD</code> doesn't just sort wrong on an untyped or unmarked date column, it silently returns the wrong total or errors outright.</div>
+
+      <h2 style="margin-top:30px">Prior-period comparisons: the "vs. last year" card every executive dashboard has</h2>
+      <div class="codeblock">Sales LY =
+<span class="c-fn">CALCULATE</span> ( [Total Sales], <span class="c-fn">SAMEPERIODLASTYEAR</span> ( DimDate[FullDateAlternateKey] ) )
+
+YoY Growth % = <span class="c-fn">DIVIDE</span> ( [Total Sales] - [Sales LY], [Sales LY] )</div>
+      <p style="font-size:.9rem"><code>Sales LY</code> is a soft first look at <code>CALCULATE</code> — used here before it's formally explained, as "the function that changes what a measure looks at." <a href="22-dax-calculate-modeling.html">CALCULATE, FILTER &amp; Modeling</a> opens the hood on exactly what it's doing and re-derives this same formula once you can read it properly.</p>
+
+      <h2 style="margin-top:30px">Rolling averages, the same tool doing a third job</h2>
+      <div class="codeblock">Sales Rolling 3M =
+<span class="c-fn">CALCULATE</span> (
+    [Total Sales],
+    <span class="c-fn">DATESINPERIOD</span> ( DimDate[FullDateAlternateKey], <span class="c-fn">MAX</span> ( DimDate[FullDateAlternateKey] ), -3, MONTH )
+)</div>
+      <p style="font-size:.9rem"><code>DATESINPERIOD</code> hands <code>CALCULATE</code> a rolling 3-month date window ending at whatever date is currently in context — smooths a noisy monthly line into a trend without deleting a single row of the underlying detail.</p>
+
+      <div class="callout"><b>Practice:</b> the AdventureWorksDW-only Tier B problems on <a href="39-dax-practice.html">DAX Practice</a> are built entirely from this page — the inbuilt CSV datasets only span one calendar year each, not enough history for a genuine year-over-year comparison, so time-intelligence practice stays on AdventureWorksDW here rather than pretending otherwise with a take-away CSV twin.</div>
 
       <footer class="pagefoot"><span>Module 3 · Time Intelligence &amp; Aggregations</span><a href="21-dax-context.html">Next: Context &amp; Dynamic Measures →</a></footer>

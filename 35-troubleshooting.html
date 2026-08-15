@@ -274,12 +274,14 @@
       <div class="navitem"><a class="navbtn" href="16-slicers.html"><span class="num">8</span> Slicers</a><input type="checkbox" class="navcheck" data-page="slicers" title="Mark &quot;Slicers&quot; as done" aria-label="Mark Slicers as done"></div>
       <div class="navitem"><a class="navbtn" href="30-module2-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module2assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment">
-      <div class="label"><span>Module 3: Introduction to DAX</span><span class="progress-count" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,module3assignment"></span></div>
+    <div class="navgroup" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,daxpatterns,daxpractice,module3assignment">
+      <div class="label"><span>Module 3: Introduction to DAX</span><span class="progress-count" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,daxpatterns,daxpractice,module3assignment"></span></div>
       <div class="navitem"><a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a><input type="checkbox" class="navcheck" data-page="daxtimeintelligence" title="Mark &quot;Time Intelligence & Aggregations&quot; as done" aria-label="Mark Time Intelligence & Aggregations as done"></div>
       <div class="navitem"><a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a><input type="checkbox" class="navcheck" data-page="daxcontext" title="Mark &quot;Context & Dynamic Measures&quot; as done" aria-label="Mark Context & Dynamic Measures as done"></div>
       <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
+      <div class="navitem"><a class="navbtn" href="38-dax-patterns.html"><span class="num">5</span> Pattern Library</a><input type="checkbox" class="navcheck" data-page="daxpatterns" title="Mark &quot;Pattern Library&quot; as done" aria-label="Mark Pattern Library as done"></div>
+      <div class="navitem"><a class="navbtn" href="39-dax-practice.html"><span class="num">6</span> Practice: Problems &amp; Solutions</a><input type="checkbox" class="navcheck" data-page="daxpractice" title="Mark &quot;Practice: Problems & Solutions&quot; as done" aria-label="Mark Practice: Problems & Solutions as done"></div>
       <div class="navitem"><a class="navbtn" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
     <div class="navgroup" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment">
@@ -379,6 +381,38 @@ const TROUBLE = [
 {symptom:'"This visual has exceeded the available resources" or a chart just won\'t render.', where:'Any chart plotting a high-cardinality field (Module 1, Module 2)',
   cause:'The chart is trying to plot more distinct values on one axis than Power BI\'s rendering limit allows — commonly a raw ID column (thousands of unique Order IDs) dropped straight onto a Bar or Scatter axis.',
   fix:['Swap the raw ID field for a coarser category (Product Category instead of individual Order ID)','Or apply a Top N filter (Filters pane) so the visual only has to render a manageable slice']},
+
+{symptom:'A table\'s Total row doesn\'t match what you\'d get from adding up the visible rows by hand.', where:'Any Table or Matrix with a Totals row (Module 2, Module 3)',
+  cause:'This usually isn\'t a bug at all — a Total row recomputes the measure fresh, in the Total row\'s OWN filter context (everything, unfiltered by any single row\'s category), it does not sum the numbers already showing in the rows above it. For a simple SUM this happens to agree with adding the rows; for a ratio like a margin % or an average, it almost never does.',
+  fix:['Before assuming the Total is wrong, ask: is this measure a plain SUM, or a ratio/average?','For a ratio, manually check: the Total should be (sum of numerators) ÷ (sum of denominators) for the WHOLE table, not the average of each row\'s own percentage','If it still looks wrong after that check, then look at the measure\'s DAX for a real bug — but rule out "this is just how ratios total" first']},
+
+{symptom:'A YoY, YTD, or other time-intelligence measure returns blank for every row.', where:'Writing time intelligence DAX (Module 3)',
+  cause:'Almost always one of three things: DimDate isn\'t marked as the model\'s Date Table yet, it\'s marked but pointed at the wrong column (an integer key instead of a real date column), or the relationship between the fact table and DimDate is missing or inactive.',
+  fix:['Model view → confirm a relationship line connects the fact table\'s date-key column to DimDate\'s date-key column','Click DimDate → Table tools ribbon → confirm Mark as Date Table is set, and that it points at a real datetime column (e.g. FullDateAlternateKey), not an integer surrogate key','If the relationship exists but looks greyed out/dashed, it may be inactive — right-click it in Model view to check']},
+
+{symptom:'A ratio measure throws a divide-by-zero error, or the whole visual breaks on one row.', where:'Writing any ratio/percentage measure (Module 3)',
+  cause:'Built with a plain "/" instead of DIVIDE — "/" throws a hard error the instant any row in context has a zero (or blank) denominator, and one bad row can break the entire visual, not just that row.',
+  fix:['Replace numerator / denominator with DIVIDE(numerator, denominator)','Optionally add a third argument to DIVIDE for a specific fallback value instead of blank, e.g. DIVIDE(a, b, 0)']},
+
+{symptom:'A measure shows the exact same number on every single row of a Matrix or Table, when it clearly should vary.', where:'Using CALCULATE + ALL (Module 3, CALCULATE mastery)',
+  cause:'An ALL(TableName) inside CALCULATE removes filters from EVERY column on that table, not just the one column that was meant to be widened — accidentally stripping out the very row/column context the visual needed to show different numbers per row.',
+  fix:['Check exactly what\'s inside ALL(...) — is it ALL of the whole table, when only ALL of one column was intended?','Scope it down: ALL(Table[Column]) affects only that column, or ALLEXCEPT(Table, Table[ColumnToKeep]) removes every filter except the one column named']},
+
+{symptom:'A DAX comparison (IF, FILTER, a boolean condition) behaves strangely — matches nothing, or matches everything.', where:'Writing conditions in DAX (Module 3)',
+  cause:'A type mismatch carried over from Power Query — a column that looks numeric but is still typed as Text (or vice versa) compares unexpectedly against a literal number or date in the DAX formula.',
+  fix:['Go back to Power Query and confirm the column\'s actual type — the small type icon in the column header, not what the values merely look like','Fix the type there, at the source, rather than working around it inside the DAX formula']},
+
+{symptom:'Clicking a slicer visibly filters some visuals on the page but leaves one specific measure completely unchanged.', where:'Interactivity with a specific measure (Module 2, Module 3)',
+  cause:'Two likely causes: the relationship\'s cross-filter direction doesn\'t reach the slicer\'s table from the measure\'s table, or the measure itself contains a CALCULATE with ALL/ALLSELECTED that\'s deliberately (or accidentally) removing exactly that filter.',
+  fix:['Check Model view for the relationship\'s cross-filter direction between the slicer\'s table and the measure\'s table','Read the measure\'s own DAX for an ALL/ALLSELECTED the author may have forgotten was there']},
+
+{symptom:'A report becomes noticeably slow the moment one particular visual or measure is added.', where:'Performance (Module 3+)',
+  cause:'Almost always one of two things: a calculated column doing work that should have been a measure (recomputing on every refresh instead of only when queried), or an iterator (SUMX, AVERAGEX) running row-by-row over an entire large fact table where a simple aggregation would have worked.',
+  fix:['Check whether the slow calculation could be a plain SUM/AVERAGE instead of an iterator — iterators are for when the calculation genuinely varies row by row, not a default habit','Check whether a calculated column is doing work only ever used inside a measure — if so, move that logic into the measure and delete the column']},
+
+{symptom:'"The FILTER function expects a table or a column expression" (or similar) when writing a CALCULATE argument.', where:'CALCULATE mastery (Module 3)',
+  cause:'CALCULATE accepts either a simple boolean condition on one column, or a table expression like FILTER(...) — not an in-between form. This error usually means a condition that needed FILTER (comparing two columns, an OR across columns, referencing a measure) was written as if it were a simple one-column boolean instead.',
+  fix:['If the condition compares two columns, uses OR across different columns, or references another measure, wrap it in FILTER(Table, condition) rather than writing it bare','If it\'s genuinely a single column compared to one value, the bare boolean form is fine — the error means the condition\'s actual complexity doesn\'t match the form it was written in']},
 ];
 
 document.getElementById('troubleAccordion').innerHTML = TROUBLE.map((t,i) => `
@@ -522,6 +556,14 @@ const GLOSSARY = {
   binning: 'Splitting a continuous number into equal-sized ranges ("bins") so it can be treated like a category.',
   conditionalformatting: 'Rules that change a visual\'s color or icon based on the value itself, so exceptions are visible at a glance.',
   customvisual: 'A visual type from Microsoft AppSource, beyond Power BI\'s built-in chart types.',
+  implicitmeasure: 'An aggregation Power BI creates automatically the moment you drag a numeric field into Values, without writing any DAX — convenient, but harder to reuse and format consistently than an explicit measure.',
+  iterator: 'A DAX function (the "X" family — SUMX, AVERAGEX, and others) that walks a table row by row, computing an expression fresh on each row before aggregating — needed whenever the answer can\'t come from summing a column that already exists.',
+  rowcontext: '"Which row am I on right now?" — active inside a calculated column (evaluated once per row) and inside iterator functions like SUMX. A different thing from filter context, even though both get called "context."',
+  filtercontext: '"What\'s currently sliced/filtered?" — the combined effect of every slicer, filter, and visual axis surrounding a measure at the moment it calculates. The same measure formula returns a different number under different filter context, without being rewritten.',
+  contexttransition: 'What happens when row context turns into filter context — specifically, the moment CALCULATE runs inside a row-by-row calculation, and each row\'s own values become a one-row filter for whatever\'s inside CALCULATE. A real, subtle topic — this course only needs you to know it exists.',
+  datetable: 'A table with one row per continuous calendar date, explicitly marked as the model\'s official date table (Modeling → Mark as Date Table) — the prerequisite every time intelligence function (TOTALYTD, SAMEPERIODLASTYEAR) silently assumes exists.',
+  timeintelligence: 'DAX functions that compare a measure across a time window — year-to-date, same period last year, a rolling average — by rewriting the date filter for you instead of you hand-picking a date range.',
+  granularity: 'The level of detail one row of a table represents — one row per order is finer granularity than one row per month. Aggregating from fine to coarse granularity is normal; going the other way isn\'t possible without more information than the table has.',
 };
 function closeTerm(btn){
   btn.classList.remove('term-open');

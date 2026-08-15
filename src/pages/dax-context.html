@@ -4,35 +4,38 @@
         <p class="lede">The single hardest DAX concept to get comfortable with, and the one that makes everything after it click: a measure has no fixed value — its answer depends entirely on what's currently filtering it.</p>
       </div>
 
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
-
-      <h2 style="margin-top:30px">Row context vs. Filter context</h2>
+      <h2 style="margin-top:30px"><button class="term" data-term="rowcontext">Row context</button> vs. <button class="term" data-term="filtercontext">Filter context</button></h2>
       <div class="grid grid-2">
         <div class="card">
           <h4>Row context</h4>
-          <p style="font-size:.9rem">"Which row am I on right now?" — active inside a calculated column (evaluated once per row) and inside iterator functions like <code>SUMX</code>.</p>
+          <p style="font-size:.9rem">"Which row am I on right now?" — active inside a calculated column (evaluated once per row) and inside iterator functions like <code>SUMX</code>. Covered in depth on <a href="19-dax-basics.html">DAX Basics &amp; Measures</a>.</p>
         </div>
         <div class="card">
-          <h4><button class="term" data-term="filter">Filter</button> context</h4>
+          <h4>Filter context</h4>
           <p style="font-size:.9rem">"What's currently sliced/filtered?" — the region clicked on a map, the year picked on a slicer, even the row a Matrix visual happens to be rendering. A measure re-evaluates fresh inside whatever filter context surrounds it.</p>
         </div>
       </div>
       <div class="callout">This is exactly why a <code>Total Sales</code> measure shows a different number on every row of a Region-by-Category Matrix, and yet is written only ONCE — the formula never changes, only the filter context around it does.</div>
+
+      <h2 style="margin-top:30px">Walking one matrix cell, filter by filter</h2>
+      <p style="font-size:.92rem">The fastest way to make filter context concrete: pick one cell, and list out loud every filter that's touching it before looking at the number.</p>
+      <div class="callout">Imagine a Matrix — Rows = <code>DimProduct[ProductLine]</code>, Columns = <code>DimProduct[Class]</code>, Values = <code>[Total Sales]</code> — sitting on a page with a Region slicer set to "West." Click the cell where the <b>M</b> (Mountain) row crosses the <b>H</b> (High) column. That single cell's <code>[Total Sales]</code> is computed by re-running <code>SUM(FactInternetSales[SalesAmount])</code> under a filter context built from <b>three</b> separate sources stacked together: <code>ProductLine = "M"</code> (from the row), <code>Class = "H"</code> (from the column), and <code>Region = "West"</code> (from the slicer, invisible on the Matrix itself but still filtering it). Change any one of those three — click a different cell, move the slicer — and the exact same formula recomputes from scratch under the new stack. Nothing about <code>[Total Sales]</code>'s definition ever changes; only what's stacked on top of it does.</div>
 
       <figure>
         <img src="images/dax-filter-context-flow.svg" alt="Two scenarios: a Region=West slicer plus a Category=Furniture visual axis combine into Filter Context A; a Region=East slicer plus a Category=Technology visual axis combine into Filter Context B. Both feed into the exact same measure, Total Sales = SUM(Sales[Sales]), written only once. The same formula then produces two different results.">
         <figcaption>The single hardest thing to internalize about DAX: the formula is constant, the context around it isn't — so the answer isn't either.</figcaption>
       </figure>
 
+      <h2 style="margin-top:30px">Reading context back: SELECTEDVALUE and HASONEVALUE</h2>
+      <p style="font-size:.92rem">Once a measure can sense its own filter context, it can report on it — the payoff being a chart title or label that names whatever's currently selected, instead of a generic caption that's technically true for every possible slicer state at once.</p>
+      <div class="codeblock">Selected Product Line = <span class="c-fn">SELECTEDVALUE</span>(DimProduct[ProductLine], <span class="c-str">"All Product Lines"</span>)</div>
+      <p style="font-size:.9rem"><code>SELECTEDVALUE</code> returns the one value left in context if exactly one remains (a single row clicked, a single slicer value chosen), and falls back to its second argument — here, <code>"All Product Lines"</code> — the moment more than one value is in play. That fallback is doing real work: without it, a multi-selection returns blank, not an error, and a dynamic title that goes silently blank is worse than a wrong one, because nothing on screen tells you it broke.</p>
+      <div class="callout">Same idea, boolean form: <code>HASONEVALUE(DimProduct[ProductLine])</code> returns TRUE only when filter context has narrowed that column to exactly one value — useful inside an <code>IF</code> when a measure needs to behave differently at a summary level (multiple values in context) than it does drilled all the way down to one.</div>
+
       <h2 style="margin-top:30px">Dynamic measures with IF</h2>
       <p>Wrapping a measure in <code>IF</code> lets it change WHAT it calculates based on a condition, not just format the same number differently.</p>
       <div class="codeblock">Status Flag = <span class="c-fn">IF</span>([Total Sales] &gt; [Target], <span class="c-str">"On Track"</span>, <span class="c-str">"Behind"</span>)</div>
 
-      <h2 style="margin-top:30px">What this page will cover</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>Seeing filter context change live.</strong> The same card, clicking through slicers, watching the number update — before writing a single new formula.</div></li>
-        <li><span class="ico">2</span><div><strong>Row context inside SUMX.</strong> When a plain <code>SUM</code> isn't enough because the calculation itself varies row by row (e.g. <code>Qty × Unit Price</code> before summing).</div></li>
-        <li><span class="ico">3</span><div><strong>Dynamic measure-switching.</strong> Using a field parameter or disconnected table + <code>SWITCH</code> to let a report viewer pick which measure a chart shows.</div></li>
-      </ul>
+      <div class="callout warn"><b>The outcome to check for yourself:</b> can you point at any single number in any visual on a page you've built and say, out loud, every filter responsible for it? If yes, everything from here through <a href="22-dax-calculate-modeling.html">CALCULATE, FILTER &amp; Modeling</a> is just naming and controlling what you can already see.</div>
 
       <footer class="pagefoot"><span>Module 3 · Context &amp; Dynamic Measures</span><a href="22-dax-calculate-modeling.html">Next: CALCULATE, FILTER &amp; Modeling →</a></footer>

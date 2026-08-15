@@ -128,6 +128,14 @@ const GLOSSARY = {
   binning: 'Splitting a continuous number into equal-sized ranges ("bins") so it can be treated like a category.',
   conditionalformatting: 'Rules that change a visual\'s color or icon based on the value itself, so exceptions are visible at a glance.',
   customvisual: 'A visual type from Microsoft AppSource, beyond Power BI\'s built-in chart types.',
+  implicitmeasure: 'An aggregation Power BI creates automatically the moment you drag a numeric field into Values, without writing any DAX — convenient, but harder to reuse and format consistently than an explicit measure.',
+  iterator: 'A DAX function (the "X" family — SUMX, AVERAGEX, and others) that walks a table row by row, computing an expression fresh on each row before aggregating — needed whenever the answer can\'t come from summing a column that already exists.',
+  rowcontext: '"Which row am I on right now?" — active inside a calculated column (evaluated once per row) and inside iterator functions like SUMX. A different thing from filter context, even though both get called "context."',
+  filtercontext: '"What\'s currently sliced/filtered?" — the combined effect of every slicer, filter, and visual axis surrounding a measure at the moment it calculates. The same measure formula returns a different number under different filter context, without being rewritten.',
+  contexttransition: 'What happens when row context turns into filter context — specifically, the moment CALCULATE runs inside a row-by-row calculation, and each row\'s own values become a one-row filter for whatever\'s inside CALCULATE. A real, subtle topic — this course only needs you to know it exists.',
+  datetable: 'A table with one row per continuous calendar date, explicitly marked as the model\'s official date table (Modeling → Mark as Date Table) — the prerequisite every time intelligence function (TOTALYTD, SAMEPERIODLASTYEAR) silently assumes exists.',
+  timeintelligence: 'DAX functions that compare a measure across a time window — year-to-date, same period last year, a rolling average — by rewriting the date filter for you instead of you hand-picking a date range.',
+  granularity: 'The level of detail one row of a table represents — one row per order is finer granularity than one row per month. Aggregating from fine to coarse granularity is normal; going the other way isn\'t possible without more information than the table has.',
 };
 function closeTerm(btn){
   btn.classList.remove('term-open');

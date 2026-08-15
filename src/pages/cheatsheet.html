@@ -28,6 +28,34 @@ Total Loans = <span class="c-fn">COUNTROWS</span>(Banking)
 Approved Loans = <span class="c-fn">CALCULATE</span>(<span class="c-fn">COUNTROWS</span>(Banking), Banking[Loan Status] = <span class="c-str">"Approved"</span>)
 Approval Rate = <span class="c-fn">DIVIDE</span>([Approved Loans], [Total Loans])</div>
 
+      <h2 style="margin-top:26px">DAX function reference — every function this course teaches</h2>
+      <p style="font-size:.85rem;color:var(--text-muted)">In the order introduced across the <a href="19-dax-basics.html">DAX Basics &amp; Measures</a> → <a href="22-dax-calculate-modeling.html">CALCULATE, FILTER &amp; Modeling</a> track. Nothing past CALCULATE mastery is on this list on purpose — see that page's "Where CALCULATE mastery ends" section for what's deliberately out of scope.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Function</th><th>Use when</th><th>Micro example</th><th>Level</th></tr>
+          <tr><td><code>SUM</code></td><td>Adding up a numeric column</td><td><code>SUM(FactInternetSales[SalesAmount])</code></td><td class="num">1</td></tr>
+          <tr><td><code>AVERAGE</code></td><td>Mean of a numeric column</td><td><code>AVERAGE(DimProduct[ListPrice])</code></td><td class="num">1</td></tr>
+          <tr><td><code>MIN</code> / <code>MAX</code></td><td>Smallest/largest value in a column</td><td><code>MAX(DimDate[FullDateAlternateKey])</code></td><td class="num">1</td></tr>
+          <tr><td><code>COUNT</code></td><td>Counts non-blank values in one column</td><td><code>COUNT(FactInternetSales[SalesAmount])</code></td><td class="num">1</td></tr>
+          <tr><td><code>COUNTROWS</code></td><td>Counts rows in a table, no column needed</td><td><code>COUNTROWS(FactInternetSales)</code></td><td class="num">1</td></tr>
+          <tr><td><code>DISTINCTCOUNT</code></td><td>Counting unique values only</td><td><code>DISTINCTCOUNT(FactInternetSales[SalesOrderNumber])</code></td><td class="num">1</td></tr>
+          <tr><td><code>DIVIDE</code></td><td>Any ratio — safe against divide-by-zero</td><td><code>DIVIDE([Total Sales], [Order Count])</code></td><td class="num">1</td></tr>
+          <tr><td><code>SUMX</code> / <code>AVERAGEX</code></td><td>The calculation itself varies row by row before aggregating</td><td><code>SUMX(FactInternetSales, SalesAmount - TotalProductCost)</code></td><td class="num">2</td></tr>
+          <tr><td><code>TOTALYTD</code> / <code>TOTALQTD</code></td><td>Running total so far this year/quarter</td><td><code>TOTALYTD([Total Sales], DimDate[FullDateAlternateKey])</code></td><td class="num">3</td></tr>
+          <tr><td><code>SAMEPERIODLASTYEAR</code></td><td>Same calendar dates, one year back</td><td><code>CALCULATE([Total Sales], SAMEPERIODLASTYEAR(DimDate[FullDateAlternateKey]))</code></td><td class="num">3</td></tr>
+          <tr><td><code>DATESINPERIOD</code></td><td>A rolling N-period date window</td><td><code>DATESINPERIOD(DimDate[FullDateAlternateKey], MAX(...), -3, MONTH)</code></td><td class="num">3</td></tr>
+          <tr><td><code>IF</code></td><td>A measure that changes WHAT it calculates, not just formatting</td><td><code>IF([Total Sales] &gt; [Target], "On Track", "Behind")</code></td><td class="num">4</td></tr>
+          <tr><td><code>SELECTEDVALUE</code></td><td>A dynamic title/label naming whatever's currently selected</td><td><code>SELECTEDVALUE(DimProduct[ProductLine], "All Product Lines")</code></td><td class="num">4</td></tr>
+          <tr><td><code>HASONEVALUE</code></td><td>Testing whether context has narrowed to exactly one value</td><td><code>HASONEVALUE(DimProduct[ProductLine])</code></td><td class="num">4</td></tr>
+          <tr><td><code>CALCULATE</code></td><td>Override a measure's filter context on purpose — the most important function on this list</td><td><code>CALCULATE([Total Sales], DimProduct[ProductLine] = "R")</code></td><td class="num">5</td></tr>
+          <tr><td><code>FILTER</code></td><td>The condition needs an expression, not just column=value</td><td><code>FILTER(DimProduct, DimProduct[ListPrice] &gt; 1000)</code></td><td class="num">5</td></tr>
+          <tr><td><code>ALL</code></td><td>Remove filters — the %-of-total / market-share pattern</td><td><code>CALCULATE([Total Sales], ALL(DimProduct))</code></td><td class="num">5</td></tr>
+          <tr><td><code>ALLEXCEPT</code></td><td>Remove every filter on a table except the columns named</td><td><code>ALLEXCEPT(DimProduct, DimProduct[ProductLine])</code></td><td class="num">5</td></tr>
+          <tr><td><code>ALLSELECTED</code></td><td>"% of what the viewer selected," not "% of everything"</td><td><code>CALCULATE([Total Sales], ALLSELECTED(DimProduct))</code></td><td class="num">5</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.85rem;margin-top:8px">Full worked context for every row above: <a href="19-dax-basics.html">DAX Basics &amp; Measures</a> through <a href="22-dax-calculate-modeling.html">CALCULATE, FILTER &amp; Modeling</a>, plus the <a href="38-dax-patterns.html">Pattern Library</a> and <a href="39-dax-practice.html">Practice</a> pages.</p>
+
       <h2 style="margin-top:26px">10 most common beginner mistakes</h2>
       <ol class="steps">
         <li>Clicking <b>Load</b> instead of <b>Transform Data</b> out of Excel habit</li>

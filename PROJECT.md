@@ -160,10 +160,15 @@ Full authoritative list is `src/pages.json`. Summary by nav group:
   relationship — unlike Module 1's single-table constraint).
 - **Module 3 — Introduction to DAX**: DAX Basics & Measures → Time
   Intelligence & Aggregations → Context & Dynamic Measures → CALCULATE,
-  FILTER & Modeling → Module 3 Assignment (10 marks). **The three lesson
-  pages are placeholders as of 2026-08-15** ("full lesson content lands
-  here as the class reaches this module") — real framing and worked
-  formula examples exist, the full guided walkthrough doesn't yet.
+  FILTER & Modeling → **DAX Pattern Library** (`38-dax-patterns.html`, 10
+  reusable business patterns) → **DAX Practice** (`39-dax-practice.html`,
+  15 tiered problems w/ solutions) → Module 3 Assignment (10 marks). **No
+  longer placeholders as of 2026-08-15** — all four lesson pages now carry
+  real content per `DAX-SCOPE.md`'s five-level basic→CALCULATE-mastery
+  track (see that file's own doc comment and this changelog's matching
+  entry for the full design). Deliberately excluded at the agreed ceiling:
+  `VAR`/`RETURN`, `RANKX`, calculation groups, `USERELATIONSHIP`, and
+  performance tuning — each gets a one-line pointer, not a lesson.
 - **Module 4 — Power Query Editor**: Power Query Editor → **Dirty → Clean
   Walkthrough** (`31-power-query-walkthrough.html` — one file,
   `Banking_Dirty.csv`, cleaned completely end to end) → M Language &
@@ -277,6 +282,15 @@ your system context, not a guess.
 ---
 
 ## Changelog
+
+### 2026-08-15 — Implemented DAX-SCOPE.md in full: Module 3's four lesson pages rewritten, two new pages, quiz/troubleshooting/cheat-sheet/career page all extended with DAX content
+- **Why:** maintainer added `DAX-SCOPE.md` — a detailed five-level (basic → CALCULATE mastery) DAX curriculum scope, explicitly a companion/deepening of `NEXT-ITERATION.md` items 2.1/2.3/2.4/2.6a for Module 3 specifically — and asked to implement it. Followed the doc's own suggested build order (Level 4 → 5 → 1–2 → 3 → pattern library → problems → extras).
+- **Verified before writing anything** (per the doc's own flagged caveats): the inbuilt CSVs (`Sales_Clean.csv`, `Retail_Clean.csv`) span only single calendar years each via direct CSV parse — confirmed Tier B / YoY-style problems must stay AdventureWorksDW-only, no CSV take-away twin, exactly as the doc's contingency anticipated. Also confirmed `DimProduct[EnglishProductCategoryName]` doesn't exist directly on `DimProduct` in the standard AdventureWorksDW schema (it's two hops away via `DimProductSubcategory`→`DimProductCategory`) — the doc's own suggested "Accessories" CALCULATE example was replaced with `DimProduct[ProductLine] = "R"` (Road bikes), a real single-hop column already established elsewhere on this site, reused consistently across the Module 3 assignment, the Pattern Library, and DAX Practice.
+- **Levels 1–5** rewritten in place on the four existing (previously placeholder) lesson pages — `dax-basics.html`, `dax-time-intelligence.html`, `dax-context.html`, `dax-calculate-modeling.html` — each closing with a pointer into the two new pages below. Level 3 adds a "Two tables, one line" callout: the single explicit exception to the site's single-table teaching constraint, needed because real time intelligence requires `DimDate` related to `FactInternetSales` — framed as the one relationship this course asks students to build, with full data modeling still deferred to Extended Module 09.
+- **Two new pages**: `38-dax-patterns.html` (10 reusable business patterns — YoY%, YTD/QTD, rolling average, %-of-total, %-of-selection, filtered KPI, margin%, AOV family, conditional count, dynamic title — each with an AdventureWorksDW formula, use/avoid guidance, and a CSV take-away where the data honestly supports one) and `39-dax-practice.html` (15 problems in 3 tiers of 5, each a nested-`<details>` "attempt before you peek," closing with a problem that asks students to re-derive Time Intelligence's `Sales LY` from memory using what CALCULATE mastery just taught them).
+- **Extended existing shared systems** rather than building new ones: 8 new `.term` glossary definitions (`rowcontext`, `filtercontext`, `contexttransition`, `datetable`, `timeintelligence`, `iterator`, `implicitmeasure`, `granularity`) added to `footer.html`'s `GLOSSARY` object plus matching `GLOSSARY_LABELS` in `build.mjs` (the Phase-3 auto-extraction glossary page picked these up with zero page-specific work); 8 new DAX-specific entries added to `35-troubleshooting.html` (skipped 2 the site already had from Phase 2 — "single value cannot be determined" and "circular dependency" — rather than duplicating); a 19-row DAX function reference table added to `cheatsheet.html`; 13 net new quiz questions added to `quiz.html` (21 new, 8 old ones removed/relabeled into 4 proper per-level sub-groups instead of one flat "DAX" bucket — 65 questions total, up from 52); 6 DAX-specific case-interview questions added to `36-career-pl300.html` alongside the existing general 6.
+- Rebuilt via `node tools/build.mjs` (43 pages); syntax-checked every touched `<script>` block; verified rendering and interactivity (nested `<details>` reveals, quiz click-to-answer feedback, the reused filter-context SVG) across all 10 touched pages in both themes via headless-browser testing — all clean, no console errors.
+- Updated this file's Module 3 content-map entry to drop the "still placeholder" note now that real content exists, and to record what's deliberately out of scope at the agreed CALCULATE-mastery ceiling.
 
 ### 2026-08-15 — Implemented NEXT-ITERATION.md Phase 3 in full (auto-generated glossary, client-side search); 3.3 assessed and deliberately left as architecture-only
 - **Why:** direct continuation of the same autonomous session that shipped Phases 1 and 2, per the maintainer's "keep moving to next phases" instruction.

@@ -49,6 +49,38 @@ const TROUBLE = [
 {symptom:'"This visual has exceeded the available resources" or a chart just won\'t render.', where:'Any chart plotting a high-cardinality field (Module 1, Module 2)',
   cause:'The chart is trying to plot more distinct values on one axis than Power BI\'s rendering limit allows — commonly a raw ID column (thousands of unique Order IDs) dropped straight onto a Bar or Scatter axis.',
   fix:['Swap the raw ID field for a coarser category (Product Category instead of individual Order ID)','Or apply a Top N filter (Filters pane) so the visual only has to render a manageable slice']},
+
+{symptom:'A table\'s Total row doesn\'t match what you\'d get from adding up the visible rows by hand.', where:'Any Table or Matrix with a Totals row (Module 2, Module 3)',
+  cause:'This usually isn\'t a bug at all — a Total row recomputes the measure fresh, in the Total row\'s OWN filter context (everything, unfiltered by any single row\'s category), it does not sum the numbers already showing in the rows above it. For a simple SUM this happens to agree with adding the rows; for a ratio like a margin % or an average, it almost never does.',
+  fix:['Before assuming the Total is wrong, ask: is this measure a plain SUM, or a ratio/average?','For a ratio, manually check: the Total should be (sum of numerators) ÷ (sum of denominators) for the WHOLE table, not the average of each row\'s own percentage','If it still looks wrong after that check, then look at the measure\'s DAX for a real bug — but rule out "this is just how ratios total" first']},
+
+{symptom:'A YoY, YTD, or other time-intelligence measure returns blank for every row.', where:'Writing time intelligence DAX (Module 3)',
+  cause:'Almost always one of three things: DimDate isn\'t marked as the model\'s Date Table yet, it\'s marked but pointed at the wrong column (an integer key instead of a real date column), or the relationship between the fact table and DimDate is missing or inactive.',
+  fix:['Model view → confirm a relationship line connects the fact table\'s date-key column to DimDate\'s date-key column','Click DimDate → Table tools ribbon → confirm Mark as Date Table is set, and that it points at a real datetime column (e.g. FullDateAlternateKey), not an integer surrogate key','If the relationship exists but looks greyed out/dashed, it may be inactive — right-click it in Model view to check']},
+
+{symptom:'A ratio measure throws a divide-by-zero error, or the whole visual breaks on one row.', where:'Writing any ratio/percentage measure (Module 3)',
+  cause:'Built with a plain "/" instead of DIVIDE — "/" throws a hard error the instant any row in context has a zero (or blank) denominator, and one bad row can break the entire visual, not just that row.',
+  fix:['Replace numerator / denominator with DIVIDE(numerator, denominator)','Optionally add a third argument to DIVIDE for a specific fallback value instead of blank, e.g. DIVIDE(a, b, 0)']},
+
+{symptom:'A measure shows the exact same number on every single row of a Matrix or Table, when it clearly should vary.', where:'Using CALCULATE + ALL (Module 3, CALCULATE mastery)',
+  cause:'An ALL(TableName) inside CALCULATE removes filters from EVERY column on that table, not just the one column that was meant to be widened — accidentally stripping out the very row/column context the visual needed to show different numbers per row.',
+  fix:['Check exactly what\'s inside ALL(...) — is it ALL of the whole table, when only ALL of one column was intended?','Scope it down: ALL(Table[Column]) affects only that column, or ALLEXCEPT(Table, Table[ColumnToKeep]) removes every filter except the one column named']},
+
+{symptom:'A DAX comparison (IF, FILTER, a boolean condition) behaves strangely — matches nothing, or matches everything.', where:'Writing conditions in DAX (Module 3)',
+  cause:'A type mismatch carried over from Power Query — a column that looks numeric but is still typed as Text (or vice versa) compares unexpectedly against a literal number or date in the DAX formula.',
+  fix:['Go back to Power Query and confirm the column\'s actual type — the small type icon in the column header, not what the values merely look like','Fix the type there, at the source, rather than working around it inside the DAX formula']},
+
+{symptom:'Clicking a slicer visibly filters some visuals on the page but leaves one specific measure completely unchanged.', where:'Interactivity with a specific measure (Module 2, Module 3)',
+  cause:'Two likely causes: the relationship\'s cross-filter direction doesn\'t reach the slicer\'s table from the measure\'s table, or the measure itself contains a CALCULATE with ALL/ALLSELECTED that\'s deliberately (or accidentally) removing exactly that filter.',
+  fix:['Check Model view for the relationship\'s cross-filter direction between the slicer\'s table and the measure\'s table','Read the measure\'s own DAX for an ALL/ALLSELECTED the author may have forgotten was there']},
+
+{symptom:'A report becomes noticeably slow the moment one particular visual or measure is added.', where:'Performance (Module 3+)',
+  cause:'Almost always one of two things: a calculated column doing work that should have been a measure (recomputing on every refresh instead of only when queried), or an iterator (SUMX, AVERAGEX) running row-by-row over an entire large fact table where a simple aggregation would have worked.',
+  fix:['Check whether the slow calculation could be a plain SUM/AVERAGE instead of an iterator — iterators are for when the calculation genuinely varies row by row, not a default habit','Check whether a calculated column is doing work only ever used inside a measure — if so, move that logic into the measure and delete the column']},
+
+{symptom:'"The FILTER function expects a table or a column expression" (or similar) when writing a CALCULATE argument.', where:'CALCULATE mastery (Module 3)',
+  cause:'CALCULATE accepts either a simple boolean condition on one column, or a table expression like FILTER(...) — not an in-between form. This error usually means a condition that needed FILTER (comparing two columns, an OR across columns, referencing a measure) was written as if it were a simple one-column boolean instead.',
+  fix:['If the condition compares two columns, uses OR across different columns, or references another measure, wrap it in FILTER(Table, condition) rather than writing it bare','If it\'s genuinely a single column compared to one value, the bare boolean form is fine — the error means the condition\'s actual complexity doesn\'t match the form it was written in']},
 ];
 
 document.getElementById('troubleAccordion').innerHTML = TROUBLE.map((t,i) => `

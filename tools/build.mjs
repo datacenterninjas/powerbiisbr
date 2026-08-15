@@ -118,6 +118,9 @@ const GLOSSARY_LABELS = {
   starschema: 'Star Schema', calculatedcolumn: 'Calculated Column', dax: 'DAX',
   aggregation: 'Aggregation', group: 'Group', binning: 'Binning',
   conditionalformatting: 'Conditional Formatting', customvisual: 'Custom Visual',
+  implicitmeasure: 'Implicit Measure', iterator: 'Iterator', rowcontext: 'Row Context',
+  filtercontext: 'Filter Context', contexttransition: 'Context Transition',
+  datetable: 'Date Table', timeintelligence: 'Time Intelligence', granularity: 'Granularity',
 };
 
 // Extracts the GLOSSARY object literal straight out of footer.html and
