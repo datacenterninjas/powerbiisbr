@@ -1,0 +1,101 @@
+Order ID,Restaurant,City,Cuisine,Order Value,Delivery Time,Rating,Order Date,Payment Mode,Order Status
+FD5001,Noodle Bar,Mumbai,North Indian,1638,32,3.1,05-06-2025,UPI,Delivered
+FD5002,Sushi Point,Mumbai,Desserts,185,16,2.7,08-05-2025,COD,Delivered
+FD5003,Coastal Curry,Kolkata,Italian,1039,52,3.2,28-01-2025,UPI,Delivered
+FD5004,Wok This Way,Hyderabad,Chinese,₹560,63,3.3,03-04-2025,UPI,Delivered
+FD5005,Wok This Way,Hyderabad,North Indian,1614,44,3.8,13-01-2025,COD,Delivered
+FD5006,PUNJABI DHABA,Pune,Italian,1562,19,2.6,08-03-2025,UPI,Cancelled
+FD5007,Street Food Co,Mumbai,Desserts,689,44,4.1,12-02-2025,Card,Delivered
+FD5008,Noodle Bar,Hyderabad,South Indian,1367,55,2.9,24-02-2025,UPI,Delivered
+FD5009,Green Leaf Cafe,Chennai,Fast Food,1693,64 mins,2.6,27-01-2025,Card,Delivered
+FD5010,Spice Route,Chennai,  Chinese,555,56,3.7,21-04-2025,UPI,Delivered
+FD5011,Coastal Curry,Hyderabad,Desserts,1315,40,3.4,05-05-2025,Card,Delivered
+FD5012,Punjabi Dhaba,Mumbai,Chinese,1405,25,,14-05-2025,UPI,Delivered
+FD5013,Burger Barn,Jaipur,Continental,1253,15,,04-06-2025,COD,Delivered
+FD5014,Royal Thali,Pune,South Indian,721,42,2.9,01-06-2025,COD,Delivered
+FD5015,Tandoori Nights,Delhi,South Indian,1400,34,4.6,2025/03/22,UPI,Delivered
+FD5016,Royal Thali,Delhi,North Indian,1346,35,3.7,04-03-2025,Card,Delivered
+FD5017,Coastal Curry,Mumbai,South Indian,1618,46,4.5,25-05-2025,UPI,Delivered
+FD5018,South Indian Express,bengaluru,Continental,1200,53,3.6,07-05-2025,COD,Delivered
+FD5019,Cafe Mocha,Hyderabad,Desserts,1495,56,3.4,17-04-2025,UPI,Delivered
+FD5020,punjabi dhaba  ,Pune,North Indian,1324,50,3.1,08-01-2025,UPI,Delivered
+FD5021,Punjabi Dhaba,Chennai,South Indian,184,36,2.7,08-03-2025,Cash on Delivery,Delivered
+FD5022,Tandoori Nights,Delhi,Beverages,617,65,3.7,14-02-2025,UPI,Delivered
+FD5023,Pizza Junction,Pune,Desserts,961,,4.7,02-06-2025,COD,Refunded
+FD5024,Spice Route,Bengaluru,Desserts,1611,36,4.5,04-02-2025,UPI,Delivered
+FD5025,South Indian Express,Delhi,Desserts,495,32,3.7,28-01-2025,Card,Delivered
+FD5026,Street Food Co,Mumbai,North Indian,1455,49,Not Rated,03-02-2025,UPI,Delivered
+FD5027,South Indian Express,Chennai,Desserts,240,25,3.4,13-03-2025,Card,Delivered
+FD5028,Cafe Mocha,Jaipur,Chinese,508,33,3.0,02-05-2025,COD,Delivered
+FD5029,Cafe Mocha,Pune,North Indian,222,52,3.7,15/04/2025,UPI,Delivered
+FD5030,Tandoori Nights,Mumbai,Chinese,260,53,2.7,28-02-2025,Card,Delivered
+FD5031,Sushi Point,Chennai,North Indian,1388,20,3.5,19-05-2025,COD,Delivered
+FD5032,Green Leaf Cafe,Chennai,Fast Food,608,31,3.5,22-06-2025,Card,Delivered
+FD5033,Sushi Point,Mumbai,North Indian,1058,54,5.0,04-01-2025,COD,Delivered
+FD5034,Green Leaf Cafe,Delhi,Fast Food,260,30,3.4,06-04-2025,upi,Delivered
+FD5035,Burger Barn,Bengaluru,Continental,1478,21,4.8,05-03-2025,UPI,Cancelled
+FD5036,Cafe Mocha,Delhi,Continental,697,N/A,3.0,11-02-2025,COD,Delivered
+FD5037,Green Leaf Cafe,Jaipur,Continental,224,20,4.1,27-03-2025,UPI,Delivered
+FD5038,Royal Thali,Delhi,Continental,450,62,3.6,23-04-2025,COD,Delivered
+FD5039,Spice Route,Delhi,North Indian,-200,52,3.9,14-02-2025,UPI,Delivered
+FD5040,Sushi Point,Bengaluru,Fast Food,550,58,3.1,04-03-2025,COD,Cancelled
+FD5041,Pizza Junction,Delhi,Italian,452,26,4.7,01-02-2025,COD,Cancelled
+FD5042,Royal Thali,Kolkata,Italian,666,25,4.5,31-02-2025,UPI,Cancelled
+FD5043,Coastal Curry,Chennai,Beverages,836,34,4.6,28-02-2025,UPI,Delivered
+FD5044,Coastal Curry,Kolkata,Fast Food,690,19,4.9,09-03-2025,COD,Delivered
+FD5045,Noodle Bar,Bangalore,North Indian,356,31,2.9,09-01-2025,UPI,Delivered
+FD5046,Wok This Way,Pune,Desserts,1361,47,2.8,19-02-2025,Card,Delivered
+FD5047,Pizza Junction,Bengaluru,Italian,865,42,2.7,22-03-2025,cod,Delivered
+FD5048,Street Food Co,Mumbai,Continental,"₹1,158",34,4.2,11-04-2025,COD,Delivered
+FD5049,Delhi Biryani House,Chennai,Desserts,1481,39,4.2,06-05-2025,COD,Delivered
+FD5050,Tandoori Nights,Bengaluru,Continental,707,28,3.6,19-05-2025,COD,Delivered
+FD5051,South Indian Express,Jaipur,Italian,1166,45,4.5,26-06-2025,UPI,Delivered
+FD5052,Green Leaf Cafe,Pune,South Indian,1796,63,3.1,10-02-2025,UPI,Delivered
+FD5053,Punjabi Dhaba,MUMBAI,Beverages,1371,64,2.7,14-06-2025,COD,Delivered
+FD5054,Cafe Mocha,Kolkata,Beverages,938,30,2.9,23-01-2025,UPI,Delivered
+FD5055,Coastal Curry,Delhi,Beverages,222,50,3.1,28-01-2025,Card,Delivered
+FD5056,South Indian Express,Pune,Beverages,1374,61,4.7,14-05-2025,Card,Cancelled
+FD5057,Cafe Mocha,Jaipur,Beverages,650,63,3.1,21-03-2025,COD,Delivered
+FD5058,Coastal Curry,Hyderabad,Beverages,278,60,3.2,09-03-2025,Card,Cancelled
+FD5059,Spice Route,Delhi,Chinese,593,39,4.2,23-02-2025,UPI,Delivered
+FD5060,Wok This Way,Jaipur,Desserts,247,28,4.6,13-05-2025,COD,Delivered
+FD5061,Sushi Point,Kolkata,Beverages,132,37,3.2,13-04-2025,COD,Delivered
+FD5062,Tandoori Nights,Chennai,Beverages,569,32,3.6,01-04-2025,Card,Delivered
+FD5063,Royal Thali,Kolkata,Chinese,1077,23,5.0,18-01-2025,Card,Delivered
+FD5051,South Indian Express,Jaipur,Italian,1166,45,4.5,26-06-2025,UPI,Delivered
+FD5065,Wok This Way,Chennai,Beverages,789,36,4.4,13-03-2025,Card,Delivered
+FD5066,Spice Route,Jaipur,North Indian,1654,49,2.6,12-02-2025,COD,Delivered
+FD5067,Noodle Bar,Bengaluru,North Indian,626,27,4.6,20-02-2025,UPI,Delivered
+FD5068,Noodle Bar,Mumbai,Italian,1072,59,3.1,12-02-2025,COD,Delivered
+FD5069,Cafe Mocha,Mumbai,Chinese,757,21,3.9,10-05-2025,COD,Cancelled
+FD5070,Pizza Junction,Kolkata,Italian,275,52,4.2,21-02-2025,UPI,Delivered
+FD5071,Green Leaf Cafe,Mumbai,North Indian,831,49,3.6,12-01-2025,COD,Delivered
+FD5072,Punjabi Dhaba,Kolkata,Beverages,336,42,4.9,21-04-2025,COD,Delivered
+FD5073,Delhi Biryani House,Hyderabad,Beverages,1072,42,4.6,19-03-2025,Card,Cancelled
+FD5074,Street Food Co,Mumbai,Continental,1043,30,4.4,19-05-2025,COD,Delivered
+FD5075,Punjabi Dhaba,Jaipur,Fast Food,492,46,3.0,26-03-2025,Card,Delivered
+FD5076,Burger Barn,Hyderabad,North Indian,1178,27,2.7,24-04-2025,Card,Delivered
+FD5077,Coastal Curry,Jaipur,Beverages,1037,65,2.5,10-02-2025,Card,Delivered
+FD5078,Green Leaf Cafe,Pune,Beverages,1253,48,3.4,24-05-2025,Card,Delivered
+FD5079,South Indian Express,Hyderabad,Continental,634,29,2.8,07-03-2025,UPI,Delivered
+FD5080,Royal Thali,Delhi,Italian,563,62,3.7,24-05-2025,COD,Delivered
+FD5081,Spice Route,Chennai,Continental,585,38,2.9,01-06-2025,COD,Delivered
+FD5082,Punjabi Dhaba,Bengaluru,Continental,1548,23,4.1,25-04-2025,UPI,Cancelled
+FD5083,Burger Barn,Hyderabad,Beverages,1100,43,3.4,02-03-2025,Card,Delivered
+FD5084,Spice Route,Kolkata,Beverages,271,51,4.1,02-02-2025,UPI,Delivered
+FD5085,Green Leaf Cafe,Mumbai,Italian,362,50,4.4,20-05-2025,COD,Delivered
+FD5086,Tandoori Nights,Kolkata,Beverages,1026,34,4.7,14-03-2025,COD,Delivered
+FD5087,Burger Barn,Mumbai,Italian,1401,28,3.2,03-02-2025,UPI,Delivered
+FD5088,Spice Route,Delhi,North Indian,956,43,4.2,16-03-2025,UPI,Delivered
+FD5089,Cafe Mocha,Hyderabad,Beverages,265,58,3.1,09-06-2025,COD,Delivered
+FD5090,Sushi Point,Chennai,Desserts,355,49,3.1,05-03-2025,UPI,Delivered
+FD5091,Delhi Biryani House,Hyderabad,Continental,1019,22,3.7,10-06-2025,Card,Cancelled
+FD5092,Tandoori Nights,Jaipur,Beverages,284,53,2.6,14-06-2025,Card,Delivered
+FD5093,Punjabi Dhaba,Mumbai,Italian,1500,51,4.0,01-06-2025,Card,Delivered
+FD5094,Royal Thali,Delhi,Beverages,1182,56,3.6,09-02-2025,COD,Delivered
+FD5095,Street Food Co,Jaipur,South Indian,1082,37,3.5,11-06-2025,UPI,Cancelled
+FD5096,Wok This Way,Kolkata,Beverages,710,57,4.9,27-05-2025,UPI,Delivered
+FD5097,Wok This Way,Hyderabad,Fast Food,357,64,3.5,17-01-2025,COD,Cancelled
+FD5098,South Indian Express,Kolkata,North Indian,504,48,3.4,25-04-2025,COD,Delivered
+FD5099,Punjabi Dhaba,Chennai,Continental,1244,23,4.8,15-06-2025,Card,Delivered
+FD5100,Noodle Bar,Chennai,Chinese,756,50,2.5,14-01-2025,UPI,Refunded

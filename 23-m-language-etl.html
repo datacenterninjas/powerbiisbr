@@ -333,10 +333,8 @@
       <div class="section-head">
         <span class="eyebrow">Module 4 · 3</span>
         <h1>Every click in Power Query is secretly writing code</h1>
-        <p class="lede">M is the language behind every transformation on the <a href="04-power-query.html">Power Query</a> page — you've already been generating it by clicking buttons. This module opens that hood.</p>
+        <p class="lede">M is the language behind every transformation on the <a href="04-power-query.html">Power Query</a> page — you've already been generating it by clicking buttons. This page opens that hood, then uses it to build one continuous Extract → Transform → Load pipeline on a single messy file, start to finish.</p>
       </div>
-
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough, exercises, and quiz questions are still to come.</div>
 
       <h2 style="margin-top:30px">Joins, properly named</h2>
       <p>The <a href="04-power-query.html">Power Query page</a>'s "Merge Queries" lesson already teaches a Left Outer join — attaching Returns data onto every Order, keeping every order whether it was returned or not. That's ONE of several join types Power Query supports under the same Merge dialog:</p>
@@ -350,17 +348,137 @@
           <tr><td><b>Anti (Left/Right)</b></td><td>Only the rows that DON'T match — e.g. "orders with no return on file"</td></tr>
         </table>
       </div>
+      <p style="font-size:.92rem">One worked Anti join, using the same two files as the Merge Queries lesson — <code>PQ_Practice_Orders.csv</code> and <code>PQ_Practice_Returns.csv</code> — but asking the opposite question this time: not "which orders have return info," but "which orders were NEVER returned at all."</p>
+      <div class="clickpath">
+        <span class="seg">Home → Merge Queries</span><span class="arrow">→</span><span class="seg">First table: Orders, matching column Order ID</span><span class="arrow">→</span><span class="seg">Second table: Returns, matching column Order ID</span><span class="arrow">→</span><span class="seg">Join Kind: Left Anti</span><span class="arrow">→</span><span class="seg">OK</span>
+      </div>
+      <p style="font-size:.9rem">No expand step needed this time — a Left Anti join doesn't bring in any columns from the second table, because its entire job is different: it keeps only the Orders rows that found <b>zero</b> match in Returns, and drops everything else. The result answers "which orders were clean, start to finish" directly, as a row count, with no further filtering required.</p>
+      <div class="callout warn"><b>Common mix-up:</b> a Left Anti join is NOT "Left Outer, then filter out the matched rows afterward" — though that would give the same final answer, Anti does it as one join step instead of two, which is both faster and leaves a cleaner Applied Steps pane for someone else to read later.</div>
 
       <h2 style="margin-top:30px">Seeing the M code Power Query already wrote</h2>
       <p style="font-size:.92rem">Every step in the Applied Steps pane (right side of Power Query Editor) is one line of M. Click <b>View → Advanced Editor</b> on any query built earlier in this course — the Trim, Split Column, and Group By steps from the Power Query page are all sitting right there as readable M code.</p>
       <div class="codeblock">= <span class="c-fn">Table.TransformColumns</span>(#"Previous Step", {{"Customer", Text.Trim}})</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>UI action</th><th>M function it actually calls</th></tr>
+          <tr><td>Transform → Format → Trim</td><td><code>Table.TransformColumns(..., {{"Column", Text.Trim}})</code></td></tr>
+          <tr><td>Right-click → Replace Values</td><td><code>Table.ReplaceValue(...)</code></td></tr>
+          <tr><td>Change Data Type</td><td><code>Table.TransformColumnTypes(...)</code></td></tr>
+          <tr><td>Remove Duplicates</td><td><code>Table.Distinct(...)</code></td></tr>
+          <tr><td>Filter Rows</td><td><code>Table.SelectRows(..., each [Column] = "Value")</code></td></tr>
+          <tr><td>Merge Queries</td><td><code>Table.NestedJoin(...)</code></td></tr>
+        </table>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">None of this needs memorizing up front — the point is recognition: every UI click has a name, and reading it back builds the vocabulary the rest of this page needs.</p>
 
-      <h2 style="margin-top:30px">What this page will cover</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>Reading the Advanced Editor.</strong> Recognizing what a UI click produced, before writing any M by hand.</div></li>
-        <li><span class="ico">2</span><div><strong>A first hand-written M custom column.</strong> Something the point-and-click UI can't quite express directly.</div></li>
-        <li><span class="ico">3</span><div><strong>End-to-end ETL.</strong> Extract (Get Data) → Transform (everything on the Power Query page) → Load (into the model) — walked as one continuous pipeline on a single messy source file, not as isolated lessons.</div></li>
-      </ul>
+      <h2 style="margin-top:30px">The end-to-end pipeline: one file, no shortcuts</h2>
+      <div class="callout"><b>File for this page:</b> <a href="datasets/FoodDelivery_Raw.csv" download>FoodDelivery_Raw.csv</a> — 100 rows of a food-delivery order log, never used elsewhere on this site. It's the single source for this page AND the next one, <a href="24-kpis-dashboard-build.html">KPIs &amp; Single-Page Dashboard</a> — clean it here, build the dashboard there, on the exact same table.</div>
+
+      <h3 style="margin-top:24px">Extract</h3>
+      <div class="clickpath">
+        <span class="seg">Home</span><span class="arrow">→</span><span class="seg">Get Data</span><span class="arrow">→</span><span class="seg">Text/CSV</span><span class="arrow">→</span><span class="seg">select FoodDelivery_Raw.csv</span><span class="arrow">→</span><span class="seg">Transform Data</span>
+      </div>
+      <p style="font-size:.9rem">Turn on Column quality / distribution / profile (View ribbon) before touching anything, same habit as the <a href="31-power-query-walkthrough.html">Dirty → Clean Walkthrough</a> — it's worth doing every single time, not just when a page tells you to.</p>
+
+      <h3 style="margin-top:24px">Transform: what's actually wrong, verified row by row</h3>
+      <p style="font-size:.9rem">Don't take this table on faith — open the CSV and check the row numbers yourself.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Row(s)</th><th>Column</th><th>The problem</th></tr>
+          <tr><td class="num">5, 49</td><td>Order Value</td><td>Currency-formatted text: <code>"₹560"</code>, <code>"₹1,158"</code></td></tr>
+          <tr><td class="num">40</td><td>Order Value</td><td><code>-200</code> — a negative order value</td></tr>
+          <tr><td class="num">7, 13, 21, 22, 54, 73, 76, 83, 94, 100</td><td>Restaurant</td><td>10 rows are the same restaurant, spelled 3 ways: <code>"Punjabi Dhaba"</code>, <code>"PUNJABI DHABA"</code>, <code>"punjabi dhaba  "</code> (trailing spaces)</td></tr>
+          <tr><td class="num">10</td><td>Delivery Time</td><td><code>"64 mins"</code> — text suffix on an otherwise-numeric column</td></tr>
+          <tr><td class="num">24</td><td>Delivery Time</td><td>Blank</td></tr>
+          <tr><td class="num">37</td><td>Delivery Time</td><td><code>"N/A"</code> — a text placeholder, not a real blank</td></tr>
+          <tr><td class="num">13, 14</td><td>Rating</td><td>Blank</td></tr>
+          <tr><td class="num">27</td><td>Rating</td><td><code>"Not Rated"</code> — explicitly marked, different meaning from a genuine blank</td></tr>
+          <tr><td class="num">16</td><td>Order Date</td><td><code>"2025/03/22"</code> — YYYY/MM/DD, everywhere else is DD-MM-YYYY</td></tr>
+          <tr><td class="num">30</td><td>Order Date</td><td><code>"15/04/2025"</code> — DD/MM/YYYY with slashes instead of dashes</td></tr>
+          <tr><td class="num">43</td><td>Order Date</td><td><code>"31-02-2025"</code> — correctly formatted, but February 31st doesn't exist on any calendar</td></tr>
+          <tr><td class="num">65</td><td>entire row</td><td>Exact duplicate of row 52 (Order ID FD5051)</td></tr>
+          <tr><td class="num">19, 46, 54</td><td>City</td><td>Bengaluru spelled 3 ways: <code>"Bengaluru"</code>, <code>"bengaluru"</code>, and <code>"Bangalore"</code> (the city's official pre-2014 name) · Mumbai also appears once as <code>"MUMBAI"</code></td></tr>
+          <tr><td class="num">22, 35, 48</td><td>Payment Mode</td><td><code>"Cash on Delivery"</code> (should map to COD), <code>"upi"</code>, <code>"cod"</code> — lowercase/longhand variants of UPI/COD</td></tr>
+          <tr><td class="num">11</td><td>Cuisine</td><td><code>"  Chinese"</code> — leading spaces</td></tr>
+        </table>
+      </div>
+
+      <h3 style="margin-top:24px">Steps 1–5: standardize text, the UI way</h3>
+      <p style="font-size:.9rem">Everything in this block is already familiar from the Power Query page — no new M needed yet.</p>
+      <ol class="steps">
+        <li>Select <b>Restaurant</b> → Transform → Format → Trim, then Format → Capitalize Each Word — collapses all 10 "Punjabi Dhaba" rows to one spelling</li>
+        <li>Select <b>Cuisine</b> → Transform → Format → Trim — fixes row 11</li>
+        <li>Right-click <b>City</b> → Replace Values → <code>"bengaluru"</code> → <code>"Bengaluru"</code>, then again → <code>"Bangalore"</code> → <code>"Bengaluru"</code>, then again → <code>"MUMBAI"</code> → <code>"Mumbai"</code></li>
+        <li>Right-click <b>Payment Mode</b> → Replace Values → <code>"Cash on Delivery"</code> → <code>"COD"</code>, then Transform → Format → Uppercase to catch <code>"upi"</code> and <code>"cod"</code> in one pass</li>
+        <li>Right-click <b>Rating</b> → Replace Values → <code>"Not Rated"</code> → leave Replace With blank (null) — now every non-answer is a genuine null, not a mix of blanks and text</li>
+      </ol>
+      <div class="callout warn"><b>Order matters on step 3:</b> replacing <code>"Bangalore"</code> → <code>"Bengaluru"</code> has to happen as its own explicit rule — Capitalize Each Word or a simple case-fix would never catch it, because <code>"Bangalore"</code> isn't a casing problem, it's a completely different word for the same place.</div>
+
+      <h3 style="margin-top:24px">Step 6: Order Value — text-to-number, one column at a time</h3>
+      <ol class="steps">
+        <li>Right-click <b>Order Value</b> → Replace Values → Value To Find: <code>₹</code> → Replace With: <i>(blank)</i></li>
+        <li>Right-click <b>Order Value</b> again → Replace Values → Value To Find: <code>,</code> → Replace With: <i>(blank)</i></li>
+        <li>Click the column's type icon → Whole Number</li>
+      </ol>
+      <p style="font-size:.9rem">Row 40's <code>-200</code> converts cleanly — it's a valid whole number, just an implausible one. Leave it as-is for now and flag it in a review note, the same judgment call the DAX Practice page's Tier A problems make about implausible-but-valid data: not a mechanical fix, a business one.</p>
+
+      <h3 style="margin-top:24px">Step 7: Delivery Time — your first hand-written M column</h3>
+      <p style="font-size:.92rem">The UI can Extract text before/after a delimiter, or Remove Errors after a type change — but neither one cleanly says "strip ' mins' if it's there, treat 'N/A' as nothing, then try converting to a number, all in one step." That's exactly the kind of small, specific logic a custom column earns its keep for.</p>
+      <div class="clickpath">
+        <span class="seg">Add Column</span><span class="arrow">→</span><span class="seg">Custom Column</span><span class="arrow">→</span><span class="seg">Column Name: Delivery Time (Clean)</span>
+      </div>
+      <div class="codeblock">= <span class="c-fn">let</span>
+    raw = [Delivery Time],
+    stripped = <span class="c-fn">Text.Trim</span>(<span class="c-fn">Text.Replace</span>(raw, <span class="c-str">" mins"</span>, <span class="c-str">""</span>)),
+    asNumber = <span class="c-fn">try</span> <span class="c-fn">Number.FromText</span>(stripped) <span class="c-fn">otherwise</span> <span class="c-fn">null</span>
+  <span class="c-fn">in</span>
+    asNumber</div>
+      <p style="font-size:.9rem"><code>Text.Replace</code> only changes the text if <code>" mins"</code> is actually present — safe to run on every row, not just row 10. <code>try ... otherwise null</code> is M's error-handling pattern: attempt the number conversion, and if it fails (row 37's <code>"N/A"</code>, row 24's blank), return <code>null</code> instead of letting the whole column error out. Delete the original Delivery Time column and rename this one in its place once you've checked the result.</p>
+
+      <h3 style="margin-top:24px">Step 8: Order Date — the flagship lesson, a hand-written M function</h3>
+      <p style="font-size:.92rem">This is the one problem on this page the point-and-click UI genuinely cannot solve. Power Query's automatic date type detection applies <b>one</b> format to the <b>entire</b> column — it can fix a column that's consistently DD-MM-YYYY, but Order Date has three different formats mixed together, and no single Change Type click can read all three correctly at once.</p>
+      <div class="callout warn"><b>Why this matters more than it looks:</b> if you just click the type icon and choose Date here, Power Query guesses based on the first few rows, silently misreads every row that doesn't match, and throws no error you'd ever see — the exact "Line Chart is quietly wrong for months, nothing on screen tells you" trap from the Power Query page's date lessons, at full strength.</div>
+      <ol class="steps">
+        <li>Home → New Source → Blank Query (this becomes a reusable function, not a table)</li>
+        <li>View → Advanced Editor, delete the default content, paste the function below, click Done</li>
+        <li>Rename the query <code>fnParseOrderDate</code> in the Queries pane</li>
+      </ol>
+      <div class="codeblock"><span class="c-fn">let</span>
+    ParseOrderDate = (dateText <span class="c-fn">as</span> text) <span class="c-fn">as</span> <span class="c-fn">nullable</span> date =>
+        <span class="c-fn">try</span>
+            <span class="c-fn">if</span> <span class="c-fn">Text.Contains</span>(dateText, <span class="c-str">"/"</span>) <span class="c-fn">and</span> <span class="c-fn">Text.StartsWith</span>(dateText, <span class="c-str">"20"</span>) <span class="c-fn">then</span>
+                <span class="c-fn">Date.FromText</span>(dateText, [Format = <span class="c-str">"yyyy/MM/dd"</span>])
+            <span class="c-fn">else</span> <span class="c-fn">if</span> <span class="c-fn">Text.Contains</span>(dateText, <span class="c-str">"/"</span>) <span class="c-fn">then</span>
+                <span class="c-fn">Date.FromText</span>(dateText, [Format = <span class="c-str">"dd/MM/yyyy"</span>])
+            <span class="c-fn">else</span>
+                <span class="c-fn">Date.FromText</span>(dateText, [Format = <span class="c-str">"dd-MM-yyyy"</span>])
+        <span class="c-fn">otherwise</span>
+            <span class="c-fn">null</span>
+<span class="c-fn">in</span>
+    ParseOrderDate</div>
+      <p style="font-size:.9rem"><b>Read it top to bottom:</b> if the text contains a slash AND starts with "20" (a year), it's row 16's shape — <code>yyyy/MM/dd</code>. If it contains a slash but doesn't start with a year, it's row 30's shape — <code>dd/MM/yyyy</code>. Otherwise it's the standard <code>dd-MM-yyyy</code> shape every other row already uses. The whole thing is wrapped in <code>try ... otherwise null</code> — row 43's <code>"31-02-2025"</code> matches the standard-format branch syntactically, <code>Date.FromText</code> then fails to construct it because February 31st isn't a real date, and the outer <code>try</code> catches that failure and returns <code>null</code> instead of crashing the query.</p>
+      <ol class="steps" style="margin-top:10px">
+        <li>Back in the FoodDelivery query, Add Column → Custom Column → Column Name: <code>Order Date (Clean)</code></li>
+        <li>Formula: <code>= fnParseOrderDate([Order Date])</code></li>
+        <li>Check the column's type icon reads Date automatically (the function's <code>as nullable date</code> return type tells Power Query what it is) — set it explicitly if not</li>
+        <li>Delete the original Order Date column, rename this one in its place</li>
+      </ol>
+      <div class="callout"><b>What just happened, in plain terms:</b> a hand-written function is nothing more than logic you couldn't express as a single button click, given a name, and reused with one line — <code>fnParseOrderDate([Order Date])</code> reads almost like plain English once it exists, even though what's happening underneath (three conditional parse attempts wrapped in error handling) would take five separate UI steps to approximate, badly.</div>
+
+      <h3 style="margin-top:24px">Step 9: the housekeeping that's left</h3>
+      <ol class="steps">
+        <li>Select all columns (Ctrl+A on the headers) → Right-click → Remove Duplicates — collapses row 65 into row 52</li>
+        <li>Confirm Rating's type is Decimal Number (the blanks and former "Not Rated" nulls should pass through cleanly)</li>
+        <li>Leave Order Status (Delivered / Cancelled / Refunded) as-is — don't filter it out here. The <a href="24-kpis-dashboard-build.html">next page</a> needs all three states: a Total Orders KPI counts everything, while a Revenue KPI needs to filter to Delivered only — that's a job for a DAX measure, not a Power Query step that would throw away information a different KPI still needs</li>
+      </ol>
+
+      <h3 style="margin-top:24px">Load</h3>
+      <div class="clickpath">
+        <span class="seg">Right-click the query name</span><span class="arrow">→</span><span class="seg">Rename to "FoodDelivery"</span><span class="arrow">→</span><span class="seg">Home</span><span class="arrow">→</span><span class="seg">Close &amp; Apply</span>
+      </div>
+      <p style="font-size:.9rem">Scroll the Applied Steps pane top to bottom before applying — every fix above should be its own named step, in the order you built them. That list, read straight through, IS the ETL pipeline: Extract (the Source step), Transform (everything from Trim through the two custom columns), Load (Close &amp; Apply writes it into the model as the table <code>FoodDelivery</code>).</p>
+
+      <div class="callout"><b>Continue directly to <a href="24-kpis-dashboard-build.html">KPIs &amp; Single-Page Dashboard</a></b> — it starts exactly where this page ends, building on the <code>FoodDelivery</code> table you just cleaned, not a fresh file.</div>
 
       <footer class="pagefoot"><span>Module 4 · M Language &amp; End-to-End ETL</span><a href="24-kpis-dashboard-build.html">Next: KPIs &amp; Single-Page Dashboard →</a></footer>
     </main>

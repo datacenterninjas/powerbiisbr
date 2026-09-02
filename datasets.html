@@ -374,6 +374,19 @@
 
       <div class="callout" style="margin-top:18px"><b>Tip:</b> Right after loading any file into Power BI, rename the table (right-click in the Fields pane → Rename) to match the dataset name above — <code>Sales</code>, <code>HR</code>, <code>Retail</code>, <code>Banking</code>, <code>Hospital</code>. Every DAX formula on this site assumes those exact names.</div>
 
+      <h2 style="margin-top:30px">Module 4 practice files</h2>
+      <p class="lede" style="font-size:.95rem">Five small, purpose-built files feeding the <a href="04-power-query.html">Power Query</a>, <a href="23-m-language-etl.html">M Language &amp; End-to-End ETL</a>, and <a href="24-kpis-dashboard-build.html">KPIs &amp; Dashboard</a> pages — each one exists to teach a specific technique (merging, appending, unpivoting) rather than as a general practice dataset, so they're documented here on their own instead of in the Clean/Dirty table above.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>File</th><th>What it's for</th><th>Download</th></tr>
+          <tr><td><b>PQ_Practice_Orders.csv</b></td><td>The main file behind the Power Query page's 25 lessons — messy on purpose, one issue per lesson</td><td><a class="btn sm" href="datasets/PQ_Practice_Orders.csv" download>⇩ CSV</a></td></tr>
+          <tr><td><b>PQ_Practice_Orders_Feb.csv</b></td><td>A second month, same columns as above — for the Append Queries lesson (stacking two monthly exports)</td><td><a class="btn sm" href="datasets/PQ_Practice_Orders_Feb.csv" download>⇩ CSV</a></td></tr>
+          <tr><td><b>PQ_Practice_Returns.csv</b></td><td>A small companion table, keyed by Order ID — for the Merge Queries lesson (attaching return info onto orders)</td><td><a class="btn sm" href="datasets/PQ_Practice_Returns.csv" download>⇩ CSV</a></td></tr>
+          <tr><td><b>PQ_Practice_Wide.csv</b></td><td>One column per month (Jan, Feb, Mar, Apr) — for the Unpivot lesson, reshaping wide data into a chartable long format</td><td><a class="btn sm" href="datasets/PQ_Practice_Wide.csv" download>⇩ CSV</a></td></tr>
+          <tr><td><b>FoodDelivery_Raw.csv</b></td><td>100 rows, one continuous food-delivery order log — the single source file for the full Extract → Transform → Load → Dashboard walkthrough spanning the M Language and KPIs &amp; Dashboard pages</td><td><a class="btn sm" href="datasets/FoodDelivery_Raw.csv" download>⇩ CSV</a></td></tr>
+        </table>
+      </div>
+
       <footer class="pagefoot"><span>⇩ Datasets</span><a href="37-glossary.html">Next: Glossary →</a></footer>
     </main>
   </div>

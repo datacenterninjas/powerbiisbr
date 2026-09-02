@@ -171,10 +171,18 @@ Full authoritative list is `src/pages.json`. Summary by nav group:
   performance tuning — each gets a one-line pointer, not a lesson.
 - **Module 4 — Power Query Editor**: Power Query Editor → **Dirty → Clean
   Walkthrough** (`31-power-query-walkthrough.html` — one file,
-  `Banking_Dirty.csv`, cleaned completely end to end) → M Language &
-  End-to-End ETL → KPIs & Single-Page Dashboard → Module 4 Assignment
-  (10 marks, uses `Sales_Dirty.csv` — deliberately not the file already
-  used in the walkthrough).
+  `Banking_Dirty.csv`, cleaned completely end to end) → **M Language &
+  End-to-End ETL** (no longer a placeholder as of 2026-08-15 — a hand-written
+  M custom function parsing 3 mixed date formats via `try...otherwise`, plus
+  a worked Left Anti join, both new content) → **KPIs & Single-Page
+  Dashboard** (no longer a placeholder — continues the exact table the M
+  Language page just cleaned into a full 5-KPI, 5-visual, one-page build) →
+  Module 4 Assignment (10 marks, uses `Sales_Dirty.csv` — deliberately not
+  the file already used in the walkthrough). The M Language/KPIs pair
+  shares its own dedicated dataset, `FoodDelivery_Raw.csv` (100 rows, not
+  used anywhere else on the site) — see "Module 4 practice files" on
+  `datasets.html` for it and the four `PQ_Practice_*` files, which existed
+  before but were never listed there until this same pass.
 - **Module 5 — Power BI Service**: Publishing & Sharing → Q&A and Scenario
   Manager → Practical Applications & Pivots → Slicers at Scale &
   Interactivity → Module 5 Assignment (10 marks, Service-based —
@@ -282,6 +290,15 @@ your system context, not a guess.
 ---
 
 ## Changelog
+
+### 2026-08-15 — Module 4 finished in detail: M Language & ETL and KPIs & Dashboard rewritten from placeholders, one new dataset
+- **Why:** user asked to work on Module 4 "in detail," add any missing datasets, and add full steps for students. Audit found 3 of 5 Module 4 pages already fully built (Power Query Editor, the Dirty→Clean Walkthrough, the Module 4 Assignment) but the last two — M Language & End-to-End ETL and KPIs & Single-Page Dashboard — were still placeholders. The "missing dataset" turned out to be structural: every existing Dirty CSV was already the worked example for another lesson elsewhere on the site, and nothing existed purpose-built for one continuous raw-file → cleaned → modeled → dashboard story, which is exactly what these two pages needed.
+- **New dataset**: `datasets/FoodDelivery_Raw.csv` — 100 rows, generated programmatically with a fixed random seed and 12 categories of deliberately seeded, individually verified issues (currency-symbol values, 3-way restaurant/city naming inconsistency including the real Bengaluru/Bangalore 2014 renaming, mixed date formats plus one invalid calendar date, an exact duplicate row, a negative value, text-in-numeric-column placeholders like "N/A"/"Not Rated"). Every issue's exact row number was re-verified with a real `csv.reader` parse (not naive comma-splitting, which would mis-read the quoted `"₹1,158"` field) before being referenced in the lesson content — same discipline as the Banking walkthrough's precedent.
+- **M Language & End-to-End ETL** rewritten: kept the existing join-kinds table and added one fully worked Left Anti join (reusing the existing `PQ_Practice_Orders.csv`/`PQ_Practice_Returns.csv` pair, no new file needed there); then a complete Extract→Transform→Load pipeline on `FoodDelivery_Raw.csv`, including two genuinely hand-written M lessons — a small custom column (`Text.Replace` + `try...otherwise` to clean "64 mins"/"N/A"/blank into real numbers) and the page's centerpiece, a named custom function (`fnParseOrderDate`) that branches on string shape (`Text.Contains`/`Text.StartsWith`) to call `Date.FromText` with three different format strings, wrapped in `try...otherwise null` so the genuinely-invalid "31-02-2025" fails gracefully instead of crashing the query — a problem the point-and-click UI cannot solve at all, since Power Query's auto-detected date type applies one format to an entire column.
+- **KPIs & Single-Page Dashboard** rewritten: continues the exact `FoodDelivery` table the M Language page just cleaned (no new file) — 5 KPI measures including a `CALCULATE`-filtered `Revenue` (Delivered orders only, distinct from a plain `Total Orders` count) tying Module 3's DAX skills back in with real stakes, 5 supporting visuals (one reusing the Module 2 Top-N-filter skill), full layout and Edit Interactions guidance, and one conditional-formatting touch on the Cancellation Rate card.
+- **Closed a discoverability gap** found along the way: the four `PQ_Practice_*` files powering the Power Query page's 25 lessons existed but were never listed on `datasets.html` — added a new "Module 4 practice files" section there alongside the new `FoodDelivery_Raw.csv`, separate from the 5-dataset Clean/Dirty table since these are single-purpose teaching files, not general practice datasets.
+- Caught and fixed one authoring bug via headless-browser visual verification before shipping: a stray `</p>` with no matching opening tag inside a callout div (harmless to browsers, still real markup debt) — fixed, rebuilt, reverified.
+- Rebuilt via `node tools/build.mjs` (43 pages, link-verification pass green — confirms the new dataset path and both pages' many cross-links all resolve); visually verified both rewritten pages plus the updated Datasets page in light and dark mode.
 
 ### 2026-08-15 — Implemented DAX-SCOPE.md in full: Module 3's four lesson pages rewritten, two new pages, quiz/troubleshooting/cheat-sheet/career page all extended with DAX content
 - **Why:** maintainer added `DAX-SCOPE.md` — a detailed five-level (basic → CALCULATE mastery) DAX curriculum scope, explicitly a companion/deepening of `NEXT-ITERATION.md` items 2.1/2.3/2.4/2.6a for Module 3 specifically — and asked to implement it. Followed the doc's own suggested build order (Level 4 → 5 → 1–2 → 3 → pattern library → problems → extras).

@@ -1,19 +1,82 @@
       <div class="section-head">
         <span class="eyebrow">Module 4 · 4</span>
         <h1>From cleaned data to one finished page</h1>
-        <p class="lede">Closing loop for Module 4 — the same ETL pipeline just covered, but carried all the way through to a real, presentable dashboard.</p>
+        <p class="lede">Closing loop for Module 4 — the exact <code>FoodDelivery</code> table just built on <a href="23-m-language-etl.html">M Language &amp; End-to-End ETL</a>, carried all the way through to a real, presentable single-page dashboard. No new file, no new cleanup — this page is entirely about what comes after the data is already right.</p>
       </div>
 
-      <div class="callout warn"><b>This page is a placeholder — full lesson content lands here as the class reaches this module.</b> The framing below is real; the guided walkthrough is still to come.</div>
+      <div class="callout"><b>Start here only after finishing <a href="23-m-language-etl.html">M Language &amp; End-to-End ETL</a></b> — every measure and visual below assumes the <code>FoodDelivery</code> table already exists, already typed and cleaned, with <code>Order Date</code> and <code>Delivery Time</code> as real Date/Number columns, not the raw text they started as.</div>
 
       <h2 style="margin-top:30px">This overlaps with the Capstone — on purpose</h2>
-      <p style="font-size:.92rem">A lot of what belongs here — KPI cards, chart selection, a one-page layout — is already taught in depth on the <a href="07-final-project.html">Final Project</a> page. This module's version will walk the SAME kind of build, but anchored specifically to the ETL pipeline from <a href="04-power-query.html">Power Query Editor</a> and <a href="23-m-language-etl.html">M Language &amp; ETL</a>, so the dashboard is shown as the natural last step of a data pipeline rather than a separate exercise.</p>
+      <p style="font-size:.92rem">A lot of what belongs here — KPI cards, chart selection, a one-page layout — is already taught in depth on the <a href="07-final-project.html">Final Project</a> page. This page walks the SAME kind of build, but anchored specifically to the ETL pipeline just finished, so the dashboard is shown as the natural last step of a data pipeline rather than a separate exercise starting from a file that's magically already clean.</p>
 
-      <h2 style="margin-top:30px">What this page will cover</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">1</span><div><strong>Choosing the right KPIs.</strong> Picking 3-4 numbers that actually matter for the scenario, not every number the data happens to contain.</div></li>
-        <li><span class="ico">2</span><div><strong>Laying out a single page with intent.</strong> Headline numbers top-left (read first), supporting charts arranged to answer the "why" behind them.</div></li>
-        <li><span class="ico">3</span><div><strong>A full walkthrough on the ETL output.</strong> Starting from the cleaned, modeled data this module just built — not a fresh dataset — to make the pipeline-to-dashboard connection concrete.</div></li>
-      </ul>
+      <h2 style="margin-top:30px">Choosing the right KPIs — 3-4 numbers, not every number available</h2>
+      <p style="font-size:.92rem">The table has ten columns. A dashboard with ten KPI cards communicates nothing — the discipline from the Visualizations page's KPI Card lesson (4–6 cards max) applies here at full strength. Five measures, each with a real business question behind it:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Measure</th><th>Business question</th></tr>
+          <tr><td><code>Total Orders</code></td><td>"How many orders came in, full stop — placed, delivered, cancelled, all of it?"</td></tr>
+          <tr><td><code>Revenue</code></td><td>"How much did we actually earn?" — Cancelled and Refunded orders never became real revenue</td></tr>
+          <tr><td><code>Average Order Value</code></td><td>"What's the typical order actually worth?"</td></tr>
+          <tr><td><code>Cancellation Rate</code></td><td>"What share of orders never completed?" — an operations health signal, not a revenue one</td></tr>
+          <tr><td><code>Average Rating</code></td><td>"Are customers happy with what they got?"</td></tr>
+        </table>
+      </div>
+      <div class="codeblock">Total Orders = <span class="c-fn">COUNTROWS</span>( FoodDelivery )
+
+Revenue =
+<span class="c-fn">CALCULATE</span>( <span class="c-fn">SUM</span>( FoodDelivery[Order Value] ), FoodDelivery[Order Status] = <span class="c-str">"Delivered"</span> )
+
+Delivered Orders =
+<span class="c-fn">CALCULATE</span>( <span class="c-fn">COUNTROWS</span>( FoodDelivery ), FoodDelivery[Order Status] = <span class="c-str">"Delivered"</span> )
+
+Average Order Value = <span class="c-fn">DIVIDE</span>( [Revenue], [Delivered Orders] )
+
+Cancellation Rate =
+<span class="c-fn">DIVIDE</span>(
+    <span class="c-fn">CALCULATE</span>( <span class="c-fn">COUNTROWS</span>( FoodDelivery ), FoodDelivery[Order Status] = <span class="c-str">"Cancelled"</span> ),
+    [Total Orders]
+)
+
+Average Rating = <span class="c-fn">AVERAGE</span>( FoodDelivery[Rating] )</div>
+      <div class="callout warn"><b>Why Revenue and Total Orders deliberately use different row counts:</b> <code>Total Orders</code> counts every row — that's genuinely "how many orders arrived." <code>Revenue</code> and <code>Average Order Value</code> both filter to <code>Order Status = "Delivered"</code> first, because a Cancelled order's Order Value was never actually collected. Building Revenue as a plain <code>SUM(Order Value)</code> with no filter would overstate real revenue by counting money that was never received — exactly the CALCULATE-as-permanent-filter pattern from <a href="22-dax-calculate-modeling.html">CALCULATE, FILTER &amp; Modeling</a>, doing real work here instead of a toy example.</div>
+
+      <h2 style="margin-top:30px">Building the five KPI cards</h2>
+      <ol class="steps">
+        <li>Visualizations pane → Card, drag <code>[Total Orders]</code> into Fields</li>
+        <li>Repeat for <code>[Revenue]</code>, <code>[Average Order Value]</code>, <code>[Cancellation Rate]</code>, <code>[Average Rating]</code> — five separate Card visuals</li>
+        <li>Format each: Revenue and Average Order Value → Currency; Cancellation Rate → Percentage; Average Rating → 1 decimal place</li>
+        <li>Rename each card's title to the plain-English question it answers, not the measure name — "How much did we earn?" reads faster than "Revenue" on a card nobody has time to interpret</li>
+      </ol>
+
+      <h2 style="margin-top:30px">Five supporting visuals, each answering one question the KPIs can't</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Visual</th><th>Fields</th><th>Question it answers</th></tr>
+          <tr><td>Bar Chart</td><td>Axis: <code>City</code> · Values: <code>[Revenue]</code>, sorted descending</td><td>"Which city is actually driving the business?"</td></tr>
+          <tr><td>Pie Chart</td><td>Legend: <code>Cuisine</code> · Values: <code>[Total Orders]</code></td><td>"What are people actually ordering?" (8 cuisines — right at the Rule of 5's edge, worth a second look once real numbers are in)</td></tr>
+          <tr><td>Line Chart</td><td>Axis: <code>Order Date</code> (by day or week) · Values: <code>[Revenue]</code></td><td>"Is revenue trending up, down, or flat?" — only possible because Order Date is a real Date column now, not the three-format text it started as</td></tr>
+          <tr><td>Bar Chart + Top N filter</td><td>Axis: <code>Restaurant</code> · Values: <code>[Revenue]</code> · Filters pane → Top N → 5</td><td>"Who are our 5 best-performing restaurant partners?" — reuses the Top N skill from Module 2's Filters page</td></tr>
+          <tr><td>Donut Chart</td><td>Legend: <code>Order Status</code> · Values: <code>[Total Orders]</code></td><td>"What share of orders don't complete?" — 3 values, comfortably inside the Rule of 5, and the one visual that shows Cancelled/Refunded proportion directly instead of hiding it inside the Cancellation Rate card</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">Laying out one page with intent</h2>
+      <p style="font-size:.92rem">Headline numbers go top-left, because that's where a reader's eye lands first — everything else exists to answer the "why" behind those five numbers, not to compete with them for attention.</p>
+      <div class="grid grid-2">
+        <div class="card"><h4>Top row — the five KPI cards</h4><p style="font-size:.85rem">Left to right, read in under 5 seconds combined: Total Orders, Revenue, Average Order Value, Cancellation Rate, Average Rating.</p></div>
+        <div class="card"><h4>Below — supporting visuals, largest first</h4><p style="font-size:.85rem">The Line Chart (trend) and City Bar Chart (where) get the most canvas space; the Cuisine Pie, Top 5 Restaurants, and Status Donut share a row underneath as detail a reader digs into only if the headline raises a question.</p></div>
+      </div>
+      <ol class="steps">
+        <li>Apply one Theme to the whole page before placing a single visual — View → Themes</li>
+        <li>Place the 5 Cards in a single row across the top, equal width</li>
+        <li>Line Chart and City Bar Chart side by side below, each roughly a third of the remaining height</li>
+        <li>Cuisine Pie, Top 5 Restaurants Bar, and Status Donut in a row beneath those</li>
+        <li>Turn on Edit Interactions (Format ribbon) and confirm clicking the City bar chart cross-filters the KPI cards and the other charts — if a card looks like it should react and doesn't, check Edit Interactions for that visual pair specifically</li>
+      </ol>
+
+      <h2 style="margin-top:30px">One conditional-formatting touch that earns its place</h2>
+      <p style="font-size:.9rem">Cancellation Rate is the one KPI where "higher is worse" — a plain currency-styled card doesn't communicate that. Select the Cancellation Rate card → Format pane → Callout value → Conditional formatting → Font color → a rule where anything over 10% turns the bad-red color, anything under stays the default. One rule, and the single number most likely to need attention now jumps out without anyone reading it as a percentage first.</p>
+
+      <div class="callout"><b>Next: the graded version of this exact build.</b> The <a href="33-module4-assignment.html">Module 4 Assignment</a> asks for the same ETL → dashboard pipeline on a different file, entirely on your own — this page is the worked example to have open while you build it.</div>
 
       <footer class="pagefoot"><span>Module 4 · KPIs &amp; Single-Page Dashboard</span><a href="33-module4-assignment.html">Next: Module 4 Assignment →</a></footer>
