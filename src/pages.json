@@ -240,6 +240,16 @@
     "title": "DAX Practice: Problems &amp; Solutions — Power BI for MBA Analytics"
   },
   {
+    "id": "daxreference",
+    "file": "40-dax-reference.html",
+    "fragment": "dax-reference.html",
+    "group": "Module 3: Introduction to DAX",
+    "num": "◆",
+    "label": "Formula Reference",
+    "crumb": "DAX Formula Reference",
+    "title": "DAX Formula Reference — Power BI for MBA Analytics"
+  },
+  {
     "id": "module3assignment",
     "file": "32-module3-assignment.html",
     "fragment": "module3-assignment.html",

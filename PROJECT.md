@@ -128,6 +128,7 @@ page gets it). Key points for anyone editing:
   `.term` (click-to-define glossary terms, popover via `.term-pop`),
   `.mockreport` / `.mockbars` / `.mocktile` (hand-built, JS-driven mini chart
   demos — no charting library anywhere on the site).
+- **One page-specific styling exception**: `40-dax-reference.html` carries its own `<style>` block, scoped entirely under a `.dax-ref` wrapper class with its own `--dax-*` CSS variables (light/dark pairs following the same three-tier pattern as the shared stylesheet, just namespaced) — a deliberately distinct warm amber/rust/teal identity for that one page, adapted from a Claude.ai Artifact the maintainer liked. Every component class is renamed (`.dax-ref-card`, not `.card`) specifically to avoid colliding with the shared site classes of the same conceptual purpose. If another page ever wants its own distinct look, follow this pattern — scope everything, never redeclare bare `:root` variables or reuse unscoped class names, or it will bleed into the shared sidebar.
 - Diagrams are static hand-authored SVGs in `images/`, referenced via
   `<figure><img src="images/whatever.svg" alt="..."><figcaption>...</figcaption></figure>`.
   Convention: `viewBox="0 0 W H"`, white background rect (`fill="#FFFFFF"` —
@@ -162,7 +163,11 @@ Full authoritative list is `src/pages.json`. Summary by nav group:
   Intelligence & Aggregations → Context & Dynamic Measures → CALCULATE,
   FILTER & Modeling → **DAX Pattern Library** (`38-dax-patterns.html`, 10
   reusable business patterns) → **DAX Practice** (`39-dax-practice.html`,
-  15 tiered problems w/ solutions) → Module 3 Assignment (10 marks). **No
+  15 tiered problems w/ solutions) → **DAX Formula Reference**
+  (`40-dax-reference.html`, added 2026-08-15 from a design the maintainer
+  liked and shared as a Claude.ai Artifact — see this changelog's matching
+  entry for what got adapted vs. kept faithful) → Module 3 Assignment
+  (10 marks). **No
   longer placeholders as of 2026-08-15** — all four lesson pages now carry
   real content per `DAX-SCOPE.md`'s five-level basic→CALCULATE-mastery
   track (see that file's own doc comment and this changelog's matching
@@ -290,6 +295,15 @@ your system context, not a guess.
 ---
 
 ## Changelog
+
+### 2026-08-15 — Added DAX Formula Reference (40-dax-reference.html), integrating a Claude.ai Artifact the maintainer shared
+- **Why:** maintainer said "Module 3 work in detail" and shared a link to a Claude.ai Artifact (a standalone "DAX Formula Reference" one-pager they liked) with "integrate it." Read the artifact's full saved HTML rather than just its head/preview, then decided how much to port faithfully vs. adapt.
+- **What was kept faithful:** the artifact's distinct visual identity — warm amber/rust/teal palette, Fraunces-style serif headings, a TOC of pill links, compare-cards for Measure vs. Column, a two-tone Row/Filter Context panel, function-card grids, a rust "Common Pitfalls" checklist — all 9 of its sections, in the same order.
+- **What was adapted, deliberately:** (1) every code example rewritten from the artifact's generic placeholder schema (`Sales[SalesAmount]`, `Product[Category]`, `'Date'[Date]`) to real, verified AdventureWorksDW columns, reusing the *exact same formulas* already established across the four Module 3 lesson pages and the Pattern Library wherever the concept matched (e.g. `Road Bike Sales`/`ProductLine="R"` for CALCULATE, `DimDate[FullDateAlternateKey]` for time intelligence) — so this page reads as this course's own recap, not a foreign example set; (2) the artifact's own `AVERAGE(Sales[SalesAmount])` example was dropped and replaced, since that exact pattern is the site's own established "average that lies" anti-pattern (DAX Practice Tier A Problem 1) — presenting it uncontested as a correct AVERAGE example would have contradicted already-published content; (3) dropped the Google Fonts import (Fraunces/Public Sans/IBM Plex Mono) in favor of the site's existing font stack — no other page loads an external font, and the visual identity survives fine on the palette/layout alone; (4) the artifact's "DSBA · Data Visualization & Reporting" meta chips (apparently from a different course context) were replaced with this course's own framing; (5) its Relationships/Lookups section (RELATED, RELATEDTABLE, VALUES, LOOKUPVALUE) and Operators table go slightly beyond the four core lesson pages' scope but stay well inside DAX-SCOPE.md's "CALCULATE mastery" ceiling (not expert topics like the explicitly-excluded VAR/RANKX) — kept, with a cross-reference explaining `RELATED` is preferable to `LOOKUPVALUE` here since the DimProduct↔FactInternetSales relationship already exists.
+- **CSS scoping**: the artifact's entire stylesheet was namespaced under a `.dax-ref` wrapper (`--dax-*` custom properties, renamed component classes) specifically so it wouldn't collide with the site's own same-named classes (`.card`, `.callout`, `.grid`) or leak its palette into the shared sidebar/theme-toggle — see the new Design System bullet on this. Hooked into the site's existing 3-tier dark-mode mechanism (`@media prefers-color-scheme` + `:root[data-theme]`), just scoped.
+- **Bug caught by visual verification, fixed before shipping:** `table.op` cells in the Time Intelligence table used `--dax-accent-ink` (a color designed to sit on a light chip background) directly on the dark-mode table surface — near-invisible, ~1:1 contrast. Fixed to `--dax-accent` (the vivid-in-both-themes variable used elsewhere on the same page).
+- Positioned after DAX Practice and before the Module 3 Assignment in both `pages.json` and the footer chain; added cross-links from DAX Basics' "Learn more" section and the global Cheat Sheet's DAX table intro.
+- Rebuilt via `node tools/build.mjs` (44 pages, link check green); visually verified in both themes, confirmed zero CSS leakage in either direction via computed-style comparison against `19-dax-basics.html`, confirmed TOC anchor scrolling works.
 
 ### 2026-08-15 — Module 4 finished in detail: M Language & ETL and KPIs & Dashboard rewritten from placeholders, one new dataset
 - **Why:** user asked to work on Module 4 "in detail," add any missing datasets, and add full steps for students. Audit found 3 of 5 Module 4 pages already fully built (Power Query Editor, the Dirty→Clean Walkthrough, the Module 4 Assignment) but the last two — M Language & End-to-End ETL and KPIs & Single-Page Dashboard — were still placeholders. The "missing dataset" turned out to be structural: every existing Dirty CSV was already the worked example for another lesson elsewhere on the site, and nothing existed purpose-built for one continuous raw-file → cleaned → modeled → dashboard story, which is exactly what these two pages needed.

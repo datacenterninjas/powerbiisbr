@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Module 1 Assignment — Power BI for MBA Analytics</title>
+<title>DAX Formula Reference — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -260,7 +260,7 @@
       <div class="navitem"><a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">+</span> SQL Server &amp; AdventureWorks</a><input type="checkbox" class="navcheck" data-page="sqlserver" title="Mark &quot;SQL Server & AdventureWorks&quot; as done" aria-label="Mark SQL Server & AdventureWorks as done"></div>
       <div class="navitem"><a class="navbtn" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a><input type="checkbox" class="navcheck" data-page="interface" title="Mark &quot;Navigating the Interface&quot; as done" aria-label="Mark Navigating the Interface as done"></div>
       <div class="navitem"><a class="navbtn" href="05-visualizations.html"><span class="num">6</span> Basic Visualizations</a><input type="checkbox" class="navcheck" data-page="visuals" title="Mark &quot;Basic Visualizations&quot; as done" aria-label="Mark Basic Visualizations as done"></div>
-      <div class="navitem"><a class="navbtn active" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module1assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
+      <div class="navitem"><a class="navbtn" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module1assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
     <div class="navgroup" data-group-ids="customvisuals,groupshistograms,bestpractices,interactivity,tablesmatrix,conditionalformatting,filters,slicers,module2assignment">
       <div class="label"><span>Module 2: Advanced Visualizations</span><span class="progress-count" data-group-ids="customvisuals,groupshistograms,bestpractices,interactivity,tablesmatrix,conditionalformatting,filters,slicers,module2assignment"></span></div>
@@ -282,7 +282,7 @@
       <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
       <div class="navitem"><a class="navbtn" href="38-dax-patterns.html"><span class="num">5</span> Pattern Library</a><input type="checkbox" class="navcheck" data-page="daxpatterns" title="Mark &quot;Pattern Library&quot; as done" aria-label="Mark Pattern Library as done"></div>
       <div class="navitem"><a class="navbtn" href="39-dax-practice.html"><span class="num">6</span> Practice: Problems &amp; Solutions</a><input type="checkbox" class="navcheck" data-page="daxpractice" title="Mark &quot;Practice: Problems & Solutions&quot; as done" aria-label="Mark Practice: Problems & Solutions as done"></div>
-      <div class="navitem"><a class="navbtn" href="40-dax-reference.html"><span class="num">◆</span> Formula Reference</a><input type="checkbox" class="navcheck" data-page="daxreference" title="Mark &quot;Formula Reference&quot; as done" aria-label="Mark Formula Reference as done"></div>
+      <div class="navitem"><a class="navbtn active" href="40-dax-reference.html"><span class="num">◆</span> Formula Reference</a><input type="checkbox" class="navcheck" data-page="daxreference" title="Mark &quot;Formula Reference&quot; as done" aria-label="Mark Formula Reference as done"></div>
       <div class="navitem"><a class="navbtn" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
     <div class="navgroup" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment">
@@ -326,69 +326,373 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Module 1 Assignment</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">DAX Formula Reference</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 1 · Assignment</span>
-        <h1>Your first graded dashboard — built on data you picked yourself</h1>
-        <p class="lede">Everything through Basic Visualizations, applied to a real public dataset instead of a practice file — pick a dataset from Kaggle, build it, export it, submit it.</p>
+        <span class="eyebrow">Module 3 · Reference</span>
+        <h1>One page, every formula from this module</h1>
+        <p class="lede">A working reference for the DAX this course actually teaches — syntax, the core function families, and the context rules that trip up most beginners. Every example runs on AdventureWorksDW, the same database as every lesson page. Keep this open while you build the <a href="32-module3-assignment.html">Module 3 Assignment</a>.</p>
       </div>
 
-      <div class="callout"><b>Worth 10 marks.</b> Individual submission, through the LMS portal. Uses only what Module 1 has taught so far — no DAX, no Power Query deep-cleaning required, no Module 2+ features expected.</div>
+      <div class="dax-ref">
 
-      <h2 style="margin-top:30px">The brief</h2>
-      <p>Pick any dataset from <a href="https://www.kaggle.com/datasets" target="_blank" rel="noopener">Kaggle</a> that has at least one text/category column and two or three numeric columns — download it, load it into Power BI, and build a small one-page dashboard using the chart types from this module.</p>
+      <nav class="dax-ref-toc" aria-label="Section index">
+        <a href="#basics"><span class="n">01</span>Basics &amp; Syntax</a>
+        <a href="#aggregation"><span class="n">02</span>Aggregation</a>
+        <a href="#logical"><span class="n">03</span>Logical</a>
+        <a href="#context"><span class="n">04</span>Row vs. Filter Context</a>
+        <a href="#calculate"><span class="n">05</span>CALCULATE &amp; FILTER</a>
+        <a href="#time"><span class="n">06</span>Time Intelligence</a>
+        <a href="#relationships"><span class="n">07</span>Relationships</a>
+        <a href="#operators"><span class="n">08</span>Operators</a>
+        <a href="#pitfalls"><span class="n">09</span>Common Pitfalls</a>
+      </nav>
 
-      <h2 style="margin-top:24px">Suggested datasets (if you don't already have one in mind)</h2>
-      <div class="table-wrap">
-        <table>
-          <tr><th>Dataset</th><th>Why it works</th><th>Try visualizing</th></tr>
-          <tr><td><b>Titanic — Machine Learning from Disaster</b></td><td>Small, clean, famous — categories (Class, Sex, Embarked) and numbers (Age, Fare) side by side</td><td>Survival rate by Class (Bar), Passenger split by Sex (Pie), Age vs Fare (Scatter)</td></tr>
-          <tr><td><b>Netflix Movies and TV Shows</b></td><td>Rich category data — Country, Genre, Type, Release Year</td><td>Titles by Genre (Bar), Movies vs TV Shows (Pie), Titles added per Year (Line)</td></tr>
-          <tr><td><b>World Happiness Report</b></td><td>One row per country, several comparable numeric scores</td><td>Happiness Score by Country (Map), GDP vs Happiness (Scatter), Top 10 Countries (Bar)</td></tr>
-          <tr><td><b>IPL Complete Dataset</b></td><td>Familiar if you follow cricket — teams, venues, seasons, scores</td><td>Matches Won by Team (Bar), Matches by Venue (Tree Map), Runs by Season (Line)</td></tr>
-          <tr><td><b>Video Game Sales</b></td><td>Large, well-known, easy KPI story</td><td>Total Sales (KPI Card), Sales by Platform (Bar), Sales by Genre (Pie)</td></tr>
-        </table>
+      <section class="dax-ref-block" id="basics">
+        <div class="dax-ref-block-head"><span class="dax-ref-block-num">01</span><h2 class="dax-ref-block-title">Basics &amp; Syntax</h2></div>
+        <p class="dax-ref-block-desc">Every DAX formula is an expression that returns a single value or a table. It's used in three places: <b>calculated columns</b>, <b>measures</b>, and <b>calculated tables</b>. The first choice a student makes — column or measure — decides how a value behaves for the rest of the model. Full treatment: <a href="19-dax-basics.html">DAX Basics &amp; Measures</a>.</p>
+
+        <div class="dax-ref-compare">
+          <div class="dax-ref-col dax-ref-col-column">
+            <h3>Calculated Column</h3>
+            <div class="dax-ref-code"><span class="f">Margin</span> = DimProduct[ListPrice] <span class="k">-</span> DimProduct[StandardCost]</div>
+            <ul>
+              <li>Evaluated once per row, in <b>row context</b></li>
+              <li>Result is stored on disk, in every row</li>
+              <li>Can be used as a slicer, axis, or filter</li>
+              <li>Grows file size — use sparingly</li>
+            </ul>
+          </div>
+          <div class="dax-ref-col dax-ref-col-measure">
+            <h3>Measure</h3>
+            <div class="dax-ref-code"><span class="f">Total Sales</span> = <span class="k">SUM</span>(FactInternetSales[SalesAmount])</div>
+            <ul>
+              <li>Evaluated on the fly, in <b>filter context</b></li>
+              <li>Never stored — recalculated per visual</li>
+              <li>Responds to slicers, rows, columns, CALCULATE</li>
+              <li>The right default for anything you aggregate</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="dax-ref-block" id="aggregation">
+        <div class="dax-ref-block-head"><span class="dax-ref-block-num">02</span><h2 class="dax-ref-block-title">Aggregation Functions</h2></div>
+        <p class="dax-ref-block-desc">The workhorses. Plain aggregators collapse a column; <b>iterators</b> (the <span class="mono">X</span>-suffixed forms) walk row by row first, so they can compute something per row before aggregating.</p>
+        <div class="dax-ref-grid">
+          <div class="dax-ref-card">
+            <div class="fname">SUM<span class="paren">(column)</span></div>
+            <div class="fdesc">Adds every value in a column.</div>
+            <div class="dax-ref-code"><span class="f">Total Sales</span> = <span class="k">SUM</span>(FactInternetSales[SalesAmount])</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">AVERAGE<span class="paren">(column)</span></div>
+            <div class="fdesc">Arithmetic mean of a column — careful what it's really averaging (see Pitfall below).</div>
+            <div class="dax-ref-code"><span class="f">Average List Price</span> = <span class="k">AVERAGE</span>(DimProduct[ListPrice])</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">COUNTROWS<span class="paren">(table)</span></div>
+            <div class="fdesc">Counts rows visible in current context. On FactInternetSales this counts order LINES, not orders — see Pitfall #7.</div>
+            <div class="dax-ref-code"><span class="f">Line Item Count</span> = <span class="k">COUNTROWS</span>(FactInternetSales)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">DISTINCTCOUNT<span class="paren">(column)</span></div>
+            <div class="fdesc">Counts unique values — the correct way to count actual orders, not line items.</div>
+            <div class="dax-ref-code"><span class="f">Order Count</span> = <span class="k">DISTINCTCOUNT</span>(FactInternetSales[SalesOrderNumber])</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">MIN / MAX<span class="paren">(column)</span></div>
+            <div class="fdesc">Smallest or largest value in the current context.</div>
+            <div class="dax-ref-code"><span class="f">First Order Date</span> = <span class="k">MIN</span>(FactInternetSales[OrderDate])</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">SUMX<span class="paren">(table, expr)</span></div>
+            <div class="fdesc">Iterator: evaluates <span class="mono">expr</span> per row, then sums. Needed whenever the calculation itself varies row by row.</div>
+            <div class="dax-ref-code"><span class="f">Total Margin</span> = <span class="k">SUMX</span>(<br>&nbsp;&nbsp;FactInternetSales,<br>&nbsp;&nbsp;FactInternetSales[SalesAmount] <span class="k">-</span> FactInternetSales[TotalProductCost]<br>)</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dax-ref-block" id="logical">
+        <div class="dax-ref-block-head"><span class="dax-ref-block-num">03</span><h2 class="dax-ref-block-title">Logical &amp; Dynamic Measures</h2></div>
+        <p class="dax-ref-block-desc">These build conditional logic directly into a measure, so a card or KPI can change its label — or its whole calculation — based on the numbers in view.</p>
+        <div class="dax-ref-grid">
+          <div class="dax-ref-card">
+            <div class="fname">IF<span class="paren">(test, then, else)</span></div>
+            <div class="fdesc">Two-way branch. Nest sparingly — past 2–3 levels, switch to SWITCH.</div>
+            <div class="dax-ref-code"><span class="f">Sales Status</span> = <span class="k">IF</span>(<br>&nbsp;&nbsp;[Total Sales] <span class="k">&gt;</span> <span class="s">10000000</span>,<br>&nbsp;&nbsp;<span class="s">"Target Met"</span>, <span class="s">"Below Target"</span><br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">SWITCH<span class="paren">(expr, val, res, ...)</span></div>
+            <div class="fdesc">Multi-way branch. <span class="mono">SWITCH(TRUE(), ...)</span> lets each branch be its own condition.</div>
+            <div class="dax-ref-code"><span class="f">Season</span> = <span class="k">SWITCH</span>(<span class="k">TRUE</span>(),<br>&nbsp;&nbsp;MONTH(FactInternetSales[OrderDate]) <span class="k">IN</span> {<span class="s">12</span>,<span class="s">1</span>,<span class="s">2</span>}, <span class="s">"Winter"</span>,<br>&nbsp;&nbsp;MONTH(FactInternetSales[OrderDate]) <span class="k">IN</span> {<span class="s">3</span>,<span class="s">4</span>,<span class="s">5</span>}, <span class="s">"Spring"</span>,<br>&nbsp;&nbsp;<span class="s">"Other"</span><br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">AND / OR / NOT</div>
+            <div class="fdesc">Combine conditions. In practice, <span class="mono">&amp;&amp;</span> and <span class="mono">||</span> read more cleanly than nesting <span class="mono">AND()</span>/<span class="mono">OR()</span>.</div>
+            <div class="dax-ref-code"><span class="f">Big Buyer</span> = <span class="k">IF</span>(<br>&nbsp;&nbsp;[Order Count] <span class="k">&gt;</span> <span class="s">5</span> <span class="k">&amp;&amp;</span> [Total Sales] <span class="k">&gt;</span> <span class="s">500000</span>,<br>&nbsp;&nbsp;<span class="s">"VIP"</span>, <span class="s">"Standard"</span><br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">ISBLANK / COALESCE</div>
+            <div class="fdesc">Guard against blanks before displaying — <span class="mono">COALESCE</span> returns the first non-blank argument. <code>DimProduct[Style]</code> is genuinely blank on many real AdventureWorksDW rows, which is exactly why this pattern exists.</div>
+            <div class="dax-ref-code"><span class="f">Style Label</span> = <span class="k">COALESCE</span>(DimProduct[Style], <span class="s">"Unspecified"</span>)</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dax-ref-block" id="context">
+        <div class="dax-ref-block-head"><span class="dax-ref-block-num">04</span><h2 class="dax-ref-block-title">Row Context vs. Filter Context</h2></div>
+        <p class="dax-ref-block-desc">The concept nearly every DAX mistake traces back to. Two different "current position" mechanisms exist, and knowing which one you're in decides whether a formula belongs in a column or a measure. Full treatment, including a worked matrix-cell walkthrough: <a href="21-dax-context.html">Context &amp; Dynamic Measures</a>.</p>
+        <div class="dax-ref-context-panel">
+          <div class="dax-ref-panel dax-ref-panel-row">
+            <span class="tag">calculated columns · iterators (X-functions)</span>
+            <h3>Row Context</h3>
+            <p>DAX evaluates the expression once for the "current row." <span class="mono">DimProduct[ListPrice] - DimProduct[StandardCost]</span> works in a calculated column because each row already knows its own ListPrice and StandardCost.</p>
+          </div>
+          <div class="dax-ref-panel dax-ref-panel-filter">
+            <span class="tag">measures · visuals · slicers</span>
+            <h3>Filter Context</h3>
+            <p>The set of filters narrowing the data before a measure runs — a slicer on ProductLine, a row for each Class in a matrix, a page filter on Year. <span class="mono">SUM()</span> only sees rows that survive this filter set.</p>
+          </div>
+        </div>
+        <div class="dax-ref-card">
+          <div class="fname">Context transition</div>
+          <div class="fdesc"><span class="mono">CALCULATE</span> is the one function that converts row context into filter context — it's what lets a measure be evaluated "as if" a filter had been applied for the current row. This is why CALCULATE sits at the center of almost every non-trivial DAX formula. (One careful sentence is all this course needs — the full topic is past this module's ceiling.)</div>
+        </div>
+      </section>
+
+      <section class="dax-ref-block" id="calculate">
+        <div class="dax-ref-block-head"><span class="dax-ref-block-num">05</span><h2 class="dax-ref-block-title">CALCULATE &amp; FILTER</h2></div>
+        <p class="dax-ref-block-desc"><span class="mono">CALCULATE</span> re-evaluates an expression inside a modified filter context. Everything else in this section is really just different ways of building the filter arguments it takes. Full treatment: <a href="22-dax-calculate-modeling.html">CALCULATE, FILTER &amp; Modeling</a>.</p>
+        <div class="dax-ref-grid">
+          <div class="dax-ref-card">
+            <div class="fname">CALCULATE<span class="paren">(expr, filter...)</span></div>
+            <div class="fdesc">Replaces existing filters on the referenced column(s) with the ones you supply.</div>
+            <div class="dax-ref-code"><span class="f">Road Bike Sales</span> = <span class="k">CALCULATE</span>(<br>&nbsp;&nbsp;[Total Sales],<br>&nbsp;&nbsp;DimProduct[ProductLine] <span class="k">=</span> <span class="s">"R"</span><br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">FILTER<span class="paren">(table, condition)</span></div>
+            <div class="fdesc">Returns a filtered table rather than a boolean — required inside CALCULATE for logic a simple column filter can't express.</div>
+            <div class="dax-ref-code"><span class="f">Premium Product Sales</span> = <span class="k">CALCULATE</span>(<br>&nbsp;&nbsp;[Total Sales],<br>&nbsp;&nbsp;<span class="k">FILTER</span>(DimProduct, DimProduct[ListPrice] <span class="k">&gt;</span> <span class="s">1000</span>)<br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">ALL<span class="paren">(table / column)</span></div>
+            <div class="fdesc">Removes filters — the standard way to compute a "% of total" that ignores the current slice.</div>
+            <div class="dax-ref-code"><span class="f">% of All Products</span> = <span class="k">DIVIDE</span>(<br>&nbsp;&nbsp;[Total Sales],<br>&nbsp;&nbsp;<span class="k">CALCULATE</span>([Total Sales], <span class="k">ALL</span>(DimProduct))<br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">ALLEXCEPT<span class="paren">(table, col...)</span></div>
+            <div class="fdesc">Removes all filters on a table except the columns listed — narrower and often safer than ALL.</div>
+            <div class="dax-ref-code"><span class="f">Sales by Product Line Only</span> = <span class="k">CALCULATE</span>(<br>&nbsp;&nbsp;[Total Sales],<br>&nbsp;&nbsp;<span class="k">ALLEXCEPT</span>(DimProduct, DimProduct[ProductLine])<br>)</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dax-ref-block" id="time">
+        <div class="dax-ref-block-head"><span class="dax-ref-block-num">06</span><h2 class="dax-ref-block-title">Time Intelligence</h2></div>
+        <p class="dax-ref-block-desc">Requires a proper Date table — in this course, <code>DimDate</code>, contiguous and marked as the model's official date table, related to <code>FactInternetSales[OrderDateKey]</code>. Every function below leans on CALCULATE's context-shifting under the hood. Full treatment, including the "two tables, one line" exception: <a href="20-dax-time-intelligence.html">Time Intelligence &amp; Aggregations</a>.</p>
+        <div class="dax-ref-table-wrap">
+          <table class="dax-ref-table">
+            <thead><tr><th>Function</th><th>Returns</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="op">TOTALYTD</td>
+                <td>Running total from the start of the calendar year to the current filter date</td>
+                <td class="mono">TOTALYTD([Total Sales], DimDate[FullDateAlternateKey])</td>
+              </tr>
+              <tr>
+                <td class="op">TOTALQTD</td>
+                <td>Running total from the start of the current quarter</td>
+                <td class="mono">TOTALQTD([Total Sales], DimDate[FullDateAlternateKey])</td>
+              </tr>
+              <tr>
+                <td class="op">TOTALMTD</td>
+                <td>Running total from the start of the current month</td>
+                <td class="mono">TOTALMTD([Total Sales], DimDate[FullDateAlternateKey])</td>
+              </tr>
+              <tr>
+                <td class="op">SAMEPERIODLASTYEAR</td>
+                <td>Shifts the current date filter back exactly one year</td>
+                <td class="mono">CALCULATE([Total Sales], SAMEPERIODLASTYEAR(DimDate[FullDateAlternateKey]))</td>
+              </tr>
+              <tr>
+                <td class="op">DATEADD</td>
+                <td>Shifts the date filter by n intervals (DAY / MONTH / QUARTER / YEAR)</td>
+                <td class="mono">CALCULATE([Total Sales], DATEADD(DimDate[FullDateAlternateKey], -1, MONTH))</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="dax-ref-card" style="margin-top:14px">
+          <div class="fname">Composing a YoY % measure</div>
+          <div class="fdesc">Time intelligence functions are almost always chained: build the comparison period first, then divide. Same formula as the payoff on CALCULATE, FILTER &amp; Modeling.</div>
+          <div class="dax-ref-code"><span class="f">Sales LY</span> = <span class="k">CALCULATE</span>([Total Sales], <span class="k">SAMEPERIODLASTYEAR</span>(DimDate[FullDateAlternateKey]))
+<span class="f">YoY Growth %</span> = <span class="k">DIVIDE</span>([Total Sales] <span class="k">-</span> [Sales LY], [Sales LY])</div>
+        </div>
+      </section>
+
+      <section class="dax-ref-block" id="relationships">
+        <div class="dax-ref-block-head"><span class="dax-ref-block-num">07</span><h2 class="dax-ref-block-title">Relationships &amp; Lookups</h2></div>
+        <p class="dax-ref-block-desc">These reach across the DimProduct↔FactInternetSales relationship built for <a href="30-module2-assignment.html">Module 2's assignment</a> — beyond this course's core four lesson pages, but still well inside the basic-to-CALCULATE-mastery ceiling, not expert territory.</p>
+        <div class="dax-ref-grid">
+          <div class="dax-ref-card">
+            <div class="fname">RELATED<span class="paren">(column)</span></div>
+            <div class="fdesc">Pulls a column from the "one" side of a relationship into a calculated column on the "many" side.</div>
+            <div class="dax-ref-code"><span class="f">Product Line</span> = <span class="k">RELATED</span>(DimProduct[ProductLine])
+<span class="mono">// written on FactInternetSales, the "many" side</span></div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">RELATEDTABLE<span class="paren">(table)</span></div>
+            <div class="fdesc">The reverse direction — returns matching rows from the "many" side, seen from the "one" side.</div>
+            <div class="dax-ref-code"><span class="f">Orders per Product</span> = <span class="k">COUNTROWS</span>(<span class="k">RELATEDTABLE</span>(FactInternetSales))
+<span class="mono">// written on DimProduct, the "one" side</span></div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">VALUES<span class="paren">(column)</span></div>
+            <div class="fdesc">Distinct values of a column under the current filter context — the manual version of what <code>SELECTEDVALUE</code> (Context &amp; Dynamic Measures) does in one call.</div>
+            <div class="dax-ref-code"><span class="f">Selected Product Line</span> = <span class="k">IF</span>(<br>&nbsp;&nbsp;<span class="k">HASONEVALUE</span>(DimProduct[ProductLine]),<br>&nbsp;&nbsp;<span class="k">VALUES</span>(DimProduct[ProductLine]), <span class="s">"Multiple"</span><br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">RELATED vs. LOOKUPVALUE</div>
+            <div class="fdesc">RELATED only works across an existing model relationship. Since DimProduct↔FactInternetSales already has one, RELATED is the better choice there — LOOKUPVALUE is for matching against a table with no relationship built at all.</div>
+            <div class="dax-ref-code"><span class="f">Standard Cost (no relationship needed)</span> = <span class="k">LOOKUPVALUE</span>(<br>&nbsp;&nbsp;DimProduct[StandardCost], DimProduct[ProductKey], FactInternetSales[ProductKey]<br>)</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dax-ref-block" id="operators">
+        <div class="dax-ref-block-head"><span class="dax-ref-block-num">08</span><h2 class="dax-ref-block-title">Operators at a Glance</h2></div>
+        <div class="dax-ref-table-wrap">
+          <table class="dax-ref-table">
+            <thead><tr><th>Type</th><th>Operators</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Arithmetic</td><td class="mono">+  -  *  /  ^</td><td>Standard order of operations; use DIVIDE() instead of <span class="mono">/</span> to handle zero safely</td></tr>
+              <tr><td>Comparison</td><td class="mono">=  &lt;&gt;  &gt;  &lt;  &gt;=  &lt;=</td><td><span class="mono">&lt;&gt;</span> is "not equal," not <span class="mono">!=</span></td></tr>
+              <tr><td>Logical</td><td class="mono">&amp;&amp;  ||  IN</td><td>Equivalent to AND() / OR(); <span class="mono">IN {a,b,c}</span> replaces long OR chains</td></tr>
+              <tr><td>Text concatenation</td><td class="mono">&amp;</td><td><span class="mono">DimProduct[EnglishProductName] &amp; " – " &amp; DimProduct[ProductLine]</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="dax-ref-block" id="pitfalls">
+        <div class="dax-ref-block-head"><span class="dax-ref-block-num">09</span><h2 class="dax-ref-block-title">Common Pitfalls</h2></div>
+        <div class="dax-ref-callout">
+          <h3>Checklist before you submit a model</h3>
+          <ol>
+            <li><b>Divide-by-zero.</b> Never write <span class="mono">a/b</span> in a measure — use <span class="mono">DIVIDE(a, b, 0)</span>, which returns a safe alternate value instead of an error.</li>
+            <li><b>Columns bloat the model; measures don't.</b> If a value only ever appears in a visual, make it a measure — calculated columns are stored per row and slow down large tables.</li>
+            <li><b>Measures can't use bare row context.</b> <span class="mono">DimProduct[ListPrice] - DimProduct[StandardCost]</span> fails inside a measure — wrap it in <span class="mono">SUMX(DimProduct, ...)</span> to give it a row to iterate over.</li>
+            <li><b>CALCULATE filters replace, they don't add.</b> <span class="mono">CALCULATE(expr, DimProduct[ProductLine]="R")</span> overwrites any existing filter on ProductLine rather than intersecting with it.</li>
+            <li><b>Build measures on measures.</b> Write <span class="mono">[Total Sales]</span> inside other formulas instead of repeating <span class="mono">SUM(FactInternetSales[SalesAmount])</span> everywhere — one definition to fix later.</li>
+            <li><b>Time intelligence needs a real date table.</b> A column of dates isn't enough — mark a contiguous table as the official Date table (Model view → Mark as Date Table) before TOTALYTD or SAMEPERIODLASTYEAR will behave.</li>
+            <li><b>FactInternetSales is one row per order LINE, not per order.</b> <span class="mono">AVERAGE(SalesAmount)</span> quietly averages per line item, not per order — use <span class="mono">DIVIDE([Total Sales], DISTINCTCOUNT(SalesOrderNumber))</span> for a true average order value.</li>
+          </ol>
+        </div>
+      </section>
+
       </div>
-      <p style="font-size:.85rem;color:var(--text-muted)">Any dataset works as long as it has the shape described in the brief above — these five are just a safe starting point if you're not sure where to look.</p>
 
-      <h2 style="margin-top:30px">Deliverable checklist</h2>
-      <ul class="kicker-list">
-        <li><span class="ico">✓</span><div>Data imported into Power BI Desktop from your chosen Kaggle file (CSV or Excel)</div></li>
-        <li><span class="ico">✓</span><div>At least <b>1 KPI Card</b> showing one headline number</div></li>
-        <li><span class="ico">✓</span><div>At least <b>1 Bar or Pie Chart</b> comparing a category</div></li>
-        <li><span class="ico">✓</span><div>At least <b>1 Line Chart, Scatter Plot, Map, or Tree Map</b> — whichever fits your data best</div></li>
-        <li><span class="ico">✓</span><div>Real chart titles — no default "Sum of X by Y" left on screen</div></li>
-        <li><span class="ico">✓</span><div>One consistent Theme applied across the whole page</div></li>
-      </ul>
+      <footer class="pagefoot"><span>Module 3 · DAX Formula Reference</span><a href="32-module3-assignment.html">Next: Module 3 Assignment →</a></footer>
 
-      <h2 style="margin-top:30px">Grading rubric</h2>
-      <div class="table-wrap">
-        <table>
-          <tr><th>Criterion</th><th class="num">Marks</th></tr>
-          <tr><td>Dataset imported correctly, appropriate choice for the brief</td><td class="num">2</td></tr>
-          <tr><td>Bar/Pie chart — correctly built, answers a clear question</td><td class="num">2</td></tr>
-          <tr><td>KPI Card — correct aggregation, meaningful headline number</td><td class="num">2</td></tr>
-          <tr><td>Line / Scatter / Map / Tree Map — correctly built, fits the data</td><td class="num">2</td></tr>
-          <tr><td>Formatting — real titles, consistent theme, readable labels</td><td class="num">1</td></tr>
-          <tr><td>Submission format followed exactly (see below)</td><td class="num">1</td></tr>
-          <tr><td><b>Total</b></td><td class="num"><b>10</b></td></tr>
-        </table>
-      </div>
+<style>
+  .dax-ref{
+    --dax-bg:#fbf8f1; --dax-surface:#ffffff; --dax-surface-alt:#f3eddd; --dax-border:#e4d9be;
+    --dax-ink:#262117; --dax-ink-muted:#746a55;
+    --dax-accent:#b9791f; --dax-accent-ink:#4a3210; --dax-accent-soft:#f3dfb0;
+    --dax-teal:#2f6663; --dax-teal-soft:#dcebe9;
+    --dax-rust:#a8472b; --dax-rust-soft:#f5dfd5;
+    --dax-code-bg:#211d14; --dax-code-ink:#f0e6cc; --dax-code-key:#e3b04b; --dax-code-str:#9fc7a0; --dax-code-fn:#7fb8c9; --dax-code-muted:#9a8f74;
+    --dax-shadow: 0 1px 2px rgba(38,33,23,.06), 0 6px 20px -8px rgba(38,33,23,.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .dax-ref{
+      --dax-bg:#1b1811; --dax-surface:#242019; --dax-surface-alt:#2c271c; --dax-border:#423a2b;
+      --dax-ink:#f2ead8; --dax-ink-muted:#b4a98f;
+      --dax-accent:#e3b04b; --dax-accent-ink:#2a1d08; --dax-accent-soft:#4a3a18;
+      --dax-teal:#7bc4bf; --dax-teal-soft:#1e3a38;
+      --dax-rust:#e08a6c; --dax-rust-soft:#3d231a;
+      --dax-code-bg:#14110b; --dax-code-ink:#f0e6cc; --dax-code-key:#f0c264; --dax-code-str:#a8d2a9; --dax-code-fn:#8fc6d6; --dax-code-muted:#8a7f66;
+      --dax-shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px -8px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"] .dax-ref{
+    --dax-bg:#1b1811; --dax-surface:#242019; --dax-surface-alt:#2c271c; --dax-border:#423a2b;
+    --dax-ink:#f2ead8; --dax-ink-muted:#b4a98f;
+    --dax-accent:#e3b04b; --dax-accent-ink:#2a1d08; --dax-accent-soft:#4a3a18;
+    --dax-teal:#7bc4bf; --dax-teal-soft:#1e3a38;
+    --dax-rust:#e08a6c; --dax-rust-soft:#3d231a;
+    --dax-code-bg:#14110b; --dax-code-ink:#f0e6cc; --dax-code-key:#f0c264; --dax-code-str:#a8d2a9; --dax-code-fn:#8fc6d6; --dax-code-muted:#8a7f66;
+    --dax-shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px -8px rgba(0,0,0,.5);
+  }
 
-      <h2 style="margin-top:30px">How to submit</h2>
-      <div class="callout warn"><b>Two files, exact naming, both to the LMS portal:</b>
-        <ol class="steps" style="margin-top:10px">
-          <li>Your Power BI file, saved and submitted as <code>YourFullName.pbix</code> — e.g. <code>Anjali_Kumar.pbix</code></li>
-          <li>A single PDF containing a full-page screenshot of every visual you built, submitted as <code>YourFullName_Screenshots.pdf</code></li>
-        </ol>
-      </div>
-      <p style="font-size:.92rem"><b>Turning screenshots into one PDF:</b> capture each visual (Windows: <code>Win + Shift + S</code> · Mac: <code>Cmd + Shift + 4</code>), paste each one onto its own slide in PowerPoint or page in Word, then <b>File → Export → Create PDF</b>. One PDF, one screenshot per visual, in the order they appear on your dashboard page.</p>
+  .dax-ref{ color:var(--dax-ink); }
+  .dax-ref .mono{ font-family:var(--font-mono); }
 
-      <footer class="pagefoot"><span>Module 1 · Assignment</span><a href="09-custom-visuals.html">Next: Custom Visuals →</a></footer>
+  .dax-ref-toc{ display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 36px; }
+  .dax-ref-toc a{ text-decoration:none; font-size:.83rem; font-weight:600; color:var(--dax-ink); background:var(--dax-surface); border:1px solid var(--dax-border); padding:6px 13px; border-radius:7px; transition:border-color .15s ease, color .15s ease; }
+  .dax-ref-toc a:hover, .dax-ref-toc a:focus-visible{ border-color:var(--dax-accent); color:var(--dax-accent-ink); outline:none; }
+  .dax-ref-toc span.n{ color:var(--dax-accent); margin-right:6px; font-family:var(--font-mono); }
+
+  .dax-ref-block{ margin-bottom:44px; scroll-margin-top:20px; }
+  .dax-ref-block-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:6px; }
+  .dax-ref-block-num{ font-family:var(--font-mono); color:var(--dax-accent); font-size:.95rem; font-weight:600; }
+  h2.dax-ref-block-title{ font-size:1.4rem; font-weight:700; color:var(--dax-ink); margin:0; font-family:var(--font-display); }
+  .dax-ref-block-desc{ color:var(--dax-ink-muted); max-width:68ch; margin:10px 0 20px; font-size:.94rem; }
+  .dax-ref-block-desc a{ color:var(--dax-teal); }
+
+  .dax-ref-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  @media (max-width:680px){ .dax-ref-grid{ grid-template-columns:1fr; } }
+  .dax-ref-card{ background:var(--dax-surface); border:1px solid var(--dax-border); border-radius:10px; padding:16px 18px; box-shadow:var(--dax-shadow); }
+  .dax-ref-card .fname{ font-family:var(--font-mono); font-weight:600; font-size:.9rem; color:var(--dax-ink); }
+  .dax-ref-card .fname .paren{ color:var(--dax-ink-muted); font-weight:400; }
+  .dax-ref-card .fdesc{ margin:6px 0 10px; font-size:.86rem; color:var(--dax-ink-muted); }
+
+  .dax-ref-code{ background:var(--dax-code-bg); color:var(--dax-code-ink); border-radius:7px; padding:10px 13px; font-size:.8rem; overflow-x:auto; white-space:pre; line-height:1.5; font-family:var(--font-mono); }
+  .dax-ref-code .k{ color:var(--dax-code-key); } .dax-ref-code .s{ color:var(--dax-code-str); } .dax-ref-code .f{ color:var(--dax-code-fn); } .dax-ref-code .m{ color:var(--dax-code-muted); }
+  .dax-ref-code .mono{ color:var(--dax-code-muted); }
+
+  .dax-ref-compare{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:680px){ .dax-ref-compare{ grid-template-columns:1fr; } }
+  .dax-ref-compare .dax-ref-col{ background:var(--dax-surface); border:1px solid var(--dax-border); border-radius:10px; overflow:hidden; box-shadow:var(--dax-shadow); }
+  .dax-ref-compare .dax-ref-col-measure{ border-top:3px solid var(--dax-teal); }
+  .dax-ref-compare .dax-ref-col-column{ border-top:3px solid var(--dax-accent); }
+  .dax-ref-compare .dax-ref-col h3{ font-size:1rem; padding:14px 16px 0; font-family:var(--font-display); color:var(--dax-ink); margin:0; }
+  .dax-ref-compare .dax-ref-col .dax-ref-code{ margin:12px 16px 0; }
+  .dax-ref-compare ul{ margin:12px 16px 16px; padding-left:18px; font-size:.86rem; color:var(--dax-ink-muted); }
+  .dax-ref-compare li{ margin-bottom:4px; }
+
+  .dax-ref-table-wrap{ overflow-x:auto; }
+  table.dax-ref-table{ width:100%; border-collapse:collapse; background:var(--dax-surface); border:1px solid var(--dax-border); border-radius:10px; overflow:hidden; box-shadow:var(--dax-shadow); font-size:.86rem; }
+  table.dax-ref-table th{ text-align:left; background:var(--dax-surface-alt); font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; color:var(--dax-ink-muted); padding:10px 14px; border-bottom:1px solid var(--dax-border); }
+  table.dax-ref-table td{ padding:10px 14px; border-bottom:1px solid var(--dax-border); vertical-align:top; color:var(--dax-ink); }
+  table.dax-ref-table tr:last-child td{ border-bottom:none; }
+  table.dax-ref-table td.op{ font-family:var(--font-mono); font-weight:600; color:var(--dax-accent); white-space:nowrap; }
+
+  .dax-ref-context-panel{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+  @media (max-width:680px){ .dax-ref-context-panel{ grid-template-columns:1fr; } }
+  .dax-ref-context-panel .dax-ref-panel{ padding:18px; border-radius:10px; border:1px solid var(--dax-border); }
+  .dax-ref-context-panel .dax-ref-panel-row{ background:var(--dax-accent-soft); }
+  .dax-ref-context-panel .dax-ref-panel-filter{ background:var(--dax-teal-soft); }
+  .dax-ref-context-panel .dax-ref-panel h3{ font-size:1rem; margin-bottom:8px; font-family:var(--font-display); color:var(--dax-ink); }
+  .dax-ref-context-panel .dax-ref-panel p{ font-size:.88rem; color:var(--dax-ink); margin:0 0 8px; }
+  .dax-ref-context-panel .dax-ref-panel .tag{ font-family:var(--font-mono); font-size:.72rem; color:var(--dax-ink-muted); }
+
+  .dax-ref-callout{ background:var(--dax-rust-soft); border:1px solid var(--dax-rust); border-radius:10px; padding:18px 20px; }
+  .dax-ref-callout h3{ font-size:1rem; color:var(--dax-rust); margin:0 0 10px; font-family:var(--font-display); display:flex; align-items:center; gap:8px; }
+  .dax-ref-callout ol{ margin:0; padding-left:20px; display:grid; gap:9px; font-size:.9rem; color:var(--dax-ink); }
+  .dax-ref-callout code{ font-size:.85em; font-family:var(--font-mono); }
+  .dax-ref-callout b{ color:var(--dax-ink); }
+
+  @media print{
+    .dax-ref-toc{ display:none; }
+    .dax-ref-card, table.dax-ref-table, .dax-ref-compare .dax-ref-col, .dax-ref-context-panel .dax-ref-panel, .dax-ref-callout{ box-shadow:none; break-inside:avoid; }
+    .dax-ref-block{ break-inside:avoid-page; }
+  }
+</style>
     </main>
   </div>
 </div>
