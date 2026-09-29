@@ -296,6 +296,13 @@ your system context, not a guess.
 
 ## Changelog
 
+### 2026-09-29 — DAX Formula Reference now carries every DAX formula taught on the site
+- **Why:** maintainer asked to "update all DAX formulas to the page." Audited every DAX formula across `src/pages/` (lesson codeblocks, the Pattern Library and DAX Practice JS data arrays, the KPIs dashboard, the Cheat Sheet, QA & Scenarios, Conditional Formatting) against what `dax-reference.html` already showed.
+- **Added function cards** for everything taught but missing: `AVERAGEX`, `COUNT`, `DIVIDE` (used by every ratio yet never given its own card), `SELECTEDVALUE`, an `IF`-against-a-measure status flag, `ALLSELECTED`, `COUNTROWS + FILTER`, a `DATESINPERIOD` table row, rolling 3-month total *and* average (the Time Intelligence page teaches the CALCULATE total; the Pattern Library/Practice teach the AVERAGEX average — both shown, labeled), and `DATEDIFF`.
+- **New section 10, "Every Measure in the Course":** one table of all 42 named measures on the site, grouped by model (AdventureWorksDW core / time intelligence / CALCULATE &amp; context, FoodDelivery dashboard, practice CSVs &amp; what-if), each with the exact formula as taught and links to the teaching pages. Where two pages use different thresholds for the same measure name (Premium Product Sales: 1,000 on the CALCULATE page vs 50,000 in DAX Practice), the lesson page's version is listed.
+- **Fixed a pre-existing layout bug:** the page overflowed horizontally at every width (168px at 1280, 316px at 390) because `white-space:pre` code blocks set the min-content width of `1fr` grid tracks. Grids now use `minmax(0,1fr)` and cards `min-width:0`; code scrolls inside its own block. Verified 0px page overflow in headless Chromium at 1280 (light) and 390 (dark).
+- Rebuilt via `node tools/build.mjs` (44 pages, link check green).
+
 ### 2026-08-15 — Added DAX Formula Reference (40-dax-reference.html), integrating a Claude.ai Artifact the maintainer shared
 - **Why:** maintainer said "Module 3 work in detail" and shared a link to a Claude.ai Artifact (a standalone "DAX Formula Reference" one-pager they liked) with "integrate it." Read the artifact's full saved HTML rather than just its head/preview, then decided how much to port faithfully vs. adapt.
 - **What was kept faithful:** the artifact's distinct visual identity — warm amber/rust/teal palette, Fraunces-style serif headings, a TOC of pill links, compare-cards for Measure vs. Column, a two-tone Row/Filter Context panel, function-card grids, a rust "Common Pitfalls" checklist — all 9 of its sections, in the same order.
