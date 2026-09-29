@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 470" role="img" aria-label="AdventureWorksDW as a star schema. FactInternetSales sits in the center with one row per order line, holding foreign keys ProductKey, OrderDateKey, DueDateKey, ShipDateKey, CustomerKey, PromotionKey and SalesTerritoryKey, plus numeric columns OrderQuantity, SalesAmount and TotalProductCost. Dimension tables surround it, each joined one-to-many (1 on the dimension side, many on the fact side): DimProduct on ProductKey, DimCustomer on CustomerKey, DimPromotion on PromotionKey, DimSalesTerritory on SalesTerritoryKey, and DimDate three times: OrderDateKey as the solid active relationship, DueDateKey and ShipDateKey as dashed inactive relationships. Two dimensions snowflake outward: DimProduct links to DimProductSubcategory, which links to DimProductCategory; DimCustomer links to DimGeography.">
+  <rect width="860" height="470" fill="#FFFFFF"/>
+  <g font-family="ui-monospace,Consolas,monospace">
+    <!-- relationship lines (drawn first, boxes cover the ends) -->
+    <g stroke="#2A6560" stroke-width="1.6" fill="none">
+      <line x1="220" y1="206" x2="330" y2="206"/>
+      <line x1="220" y1="226" x2="330" y2="226" stroke-dasharray="6 4"/>
+      <line x1="220" y1="246" x2="330" y2="246" stroke-dasharray="6 4"/>
+      <line x1="430" y1="112" x2="430" y2="150"/>
+      <line x1="530" y1="236" x2="630" y2="236"/>
+      <line x1="220" y1="370" x2="330" y2="310"/>
+      <line x1="430" y1="340" x2="430" y2="384"/>
+      <!-- snowflake -->
+      <line x1="530" y1="76" x2="610" y2="76" stroke="#565B6B"/>
+      <line x1="720" y1="98" x2="720" y2="126" stroke="#565B6B"/>
+      <line x1="740" y1="262" x2="740" y2="318" stroke="#565B6B"/>
+    </g>
+    <!-- cardinality labels -->
+    <g font-size="11" font-weight="700" fill="#C97A1E">
+      <text x="226" y="201">1</text><text x="318" y="201">*</text>
+      <text x="438" y="126">1</text><text x="438" y="148">*</text>
+      <text x="616" y="231">1</text><text x="538" y="231">*</text>
+      <text x="224" y="362">1</text><text x="316" y="318">*</text>
+      <text x="438" y="380">1</text><text x="438" y="356">*</text>
+    </g>
+
+    <!-- Fact -->
+    <rect x="330" y="150" width="200" height="190" rx="8" fill="#F6E7CF" stroke="#C97A1E" stroke-width="1.8"/>
+    <text x="430" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="#C97A1E">FactInternetSales</text>
+    <text x="430" y="186" text-anchor="middle" font-size="9.5" fill="#565B6B">one row per order LINE</text>
+    <g font-size="10" fill="#14171F">
+      <text x="344" y="206">ProductKey</text>
+      <text x="344" y="220">OrderDateKey</text>
+      <text x="344" y="234">DueDateKey</text>
+      <text x="344" y="248">ShipDateKey</text>
+      <text x="344" y="262">CustomerKey</text>
+      <text x="344" y="276">PromotionKey</text>
+      <text x="344" y="290">SalesTerritoryKey</text>
+    </g>
+    <line x1="344" y1="298" x2="516" y2="298" stroke="#C97A1E" stroke-opacity=".4"/>
+    <g font-size="10" fill="#565B6B">
+      <text x="344" y="312">OrderQuantity, SalesAmount,</text>
+      <text x="344" y="326">TotalProductCost …</text>
+    </g>
+
+    <!-- DimDate -->
+    <rect x="40" y="176" width="180" height="92" rx="8" fill="#DCEBE8" stroke="#2A6560" stroke-width="1.5"/>
+    <text x="130" y="197" text-anchor="middle" font-size="12" font-weight="700" fill="#2A6560">DimDate</text>
+    <g font-size="10" fill="#14171F"><text x="52" y="216">DateKey</text><text x="52" y="230">FullDateAlternateKey</text><text x="52" y="244">CalendarYear</text><text x="52" y="258">EnglishMonthName</text></g>
+    <g font-size="9" fill="#565B6B">
+      <text x="275" y="200" text-anchor="middle">Order ─ active</text>
+      <text x="275" y="282" text-anchor="middle">Due/Ship: inactive</text>
+    </g>
+
+    <!-- DimProduct -->
+    <rect x="330" y="40" width="200" height="72" rx="8" fill="#DCEBE8" stroke="#2A6560" stroke-width="1.5"/>
+    <text x="430" y="61" text-anchor="middle" font-size="12" font-weight="700" fill="#2A6560">DimProduct</text>
+    <g font-size="10" fill="#14171F"><text x="342" y="80">ProductKey</text><text x="342" y="94">ProductSubcategoryKey</text><text x="342" y="106" fill="#565B6B">ProductLine, Color …</text></g>
+
+    <!-- Snowflake product -->
+    <rect x="610" y="50" width="220" height="48" rx="8" fill="#F2F1EB" stroke="#565B6B" stroke-dasharray="4 3"/>
+    <text x="720" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#14171F">DimProductSubcategory</text>
+    <text x="720" y="88" text-anchor="middle" font-size="10" fill="#565B6B">ProductCategoryKey</text>
+    <rect x="610" y="126" width="220" height="48" rx="8" fill="#F2F1EB" stroke="#565B6B" stroke-dasharray="4 3"/>
+    <text x="720" y="146" text-anchor="middle" font-size="11" font-weight="700" fill="#14171F">DimProductCategory</text>
+    <text x="720" y="164" text-anchor="middle" font-size="10" fill="#565B6B">EnglishProductCategoryName</text>
+
+    <!-- DimCustomer -->
+    <rect x="630" y="210" width="200" height="52" rx="8" fill="#DCEBE8" stroke="#2A6560" stroke-width="1.5"/>
+    <text x="730" y="231" text-anchor="middle" font-size="12" font-weight="700" fill="#2A6560">DimCustomer</text>
+    <text x="730" y="249" text-anchor="middle" font-size="10" fill="#14171F">CustomerKey, GeographyKey</text>
+    <rect x="630" y="318" width="200" height="48" rx="8" fill="#F2F1EB" stroke="#565B6B" stroke-dasharray="4 3"/>
+    <text x="730" y="338" text-anchor="middle" font-size="11" font-weight="700" fill="#14171F">DimGeography</text>
+    <text x="730" y="356" text-anchor="middle" font-size="10" fill="#565B6B">City, StateProvinceName</text>
+
+    <!-- DimPromotion -->
+    <rect x="40" y="346" width="180" height="48" rx="8" fill="#DCEBE8" stroke="#2A6560" stroke-width="1.5"/>
+    <text x="130" y="366" text-anchor="middle" font-size="12" font-weight="700" fill="#2A6560">DimPromotion</text>
+    <text x="130" y="384" text-anchor="middle" font-size="10" fill="#14171F">PromotionKey</text>
+
+    <!-- DimSalesTerritory -->
+    <rect x="330" y="384" width="200" height="48" rx="8" fill="#DCEBE8" stroke="#2A6560" stroke-width="1.5"/>
+    <text x="430" y="404" text-anchor="middle" font-size="12" font-weight="700" fill="#2A6560">DimSalesTerritory</text>
+    <text x="430" y="422" text-anchor="middle" font-size="10" fill="#14171F">SalesTerritoryKey</text>
+
+    <!-- legend -->
+    <g font-size="10" fill="#565B6B">
+      <rect x="590" y="400" width="14" height="10" fill="#DCEBE8" stroke="#2A6560"/><text x="610" y="409">dimension (the "1" side)</text>
+      <rect x="590" y="416" width="14" height="10" fill="#F6E7CF" stroke="#C97A1E"/><text x="610" y="425">fact (the "*" / many side)</text>
+      <rect x="590" y="432" width="14" height="10" fill="#F2F1EB" stroke="#565B6B" stroke-dasharray="3 2"/><text x="610" y="441">snowflake: a dimension of a dimension</text>
+    </g>
+    <text x="430" y="460" text-anchor="middle" font-size="10" fill="#565B6B">Filters flow from the 1 side to the * side: pick a Color on DimProduct → FactInternetSales narrows to those lines.</text>
+  </g>
+</svg>

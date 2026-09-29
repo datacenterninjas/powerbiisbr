@@ -152,7 +152,7 @@
   .table-wrap th,.table-wrap td{ border-bottom:1px solid var(--border); }
   tr:last-child td{ border-bottom:none; }
 
-  .codeblock{ background:#181A20; color:#E9E6DB; font-family:var(--font-mono); font-size:.85rem; border-radius:10px; padding:16px 18px; overflow-x:auto; line-height:1.55; margin:14px 0; }
+  .codeblock{ background:#181A20; color:#E9E6DB; font-family:var(--font-mono); font-size:.85rem; border-radius:10px; padding:16px 18px; overflow-x:auto; white-space:pre; line-height:1.55; margin:14px 0; }
   .codeblock .c-fn{ color:#E8A23D; } .codeblock .c-str{ color:#8FBF9F; } .codeblock .c-com{ color:#7C8194; }
 
   .pill{ display:inline-flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:.72rem; padding:3px 10px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:var(--text-muted); }
@@ -285,12 +285,15 @@
       <div class="navitem"><a class="navbtn" href="40-dax-reference.html"><span class="num">◆</span> Formula Reference</a><input type="checkbox" class="navcheck" data-page="daxreference" title="Mark &quot;Formula Reference&quot; as done" aria-label="Mark Formula Reference as done"></div>
       <div class="navitem"><a class="navbtn" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
-    <div class="navgroup" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment">
-      <div class="label"><span>Module 4: Power Query Editor</span><span class="progress-count" data-group-ids="powerquery,pqwalkthrough,mlanguageetl,kpisdashboard,module4assignment"></span></div>
-      <div class="navitem"><a class="navbtn" href="04-power-query.html"><span class="num">1</span> Power Query Editor</a><input type="checkbox" class="navcheck" data-page="powerquery" title="Mark &quot;Power Query Editor&quot; as done" aria-label="Mark Power Query Editor as done"></div>
-      <div class="navitem"><a class="navbtn active" href="31-power-query-walkthrough.html"><span class="num">2</span> Dirty → Clean Walkthrough</a><input type="checkbox" class="navcheck" data-page="pqwalkthrough" title="Mark &quot;Dirty → Clean Walkthrough&quot; as done" aria-label="Mark Dirty → Clean Walkthrough as done"></div>
-      <div class="navitem"><a class="navbtn" href="23-m-language-etl.html"><span class="num">3</span> M Language &amp; End-to-End ETL</a><input type="checkbox" class="navcheck" data-page="mlanguageetl" title="Mark &quot;M Language & End-to-End ETL&quot; as done" aria-label="Mark M Language & End-to-End ETL as done"></div>
-      <div class="navitem"><a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">4</span> KPIs &amp; Single-Page Dashboard</a><input type="checkbox" class="navcheck" data-page="kpisdashboard" title="Mark &quot;KPIs & Single-Page Dashboard&quot; as done" aria-label="Mark KPIs & Single-Page Dashboard as done"></div>
+    <div class="navgroup" data-group-ids="pqfundamentals,powerquery,pqwalkthrough,joinsmodelling,mquery,mlanguageetl,kpisdashboard,module4assignment">
+      <div class="label"><span>Module 4: Power Query Editor</span><span class="progress-count" data-group-ids="pqfundamentals,powerquery,pqwalkthrough,joinsmodelling,mquery,mlanguageetl,kpisdashboard,module4assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="41-power-query-fundamentals.html"><span class="num">1</span> How Power Query Works</a><input type="checkbox" class="navcheck" data-page="pqfundamentals" title="Mark &quot;How Power Query Works&quot; as done" aria-label="Mark How Power Query Works as done"></div>
+      <div class="navitem"><a class="navbtn" href="04-power-query.html"><span class="num">2</span> Power Query Editor</a><input type="checkbox" class="navcheck" data-page="powerquery" title="Mark &quot;Power Query Editor&quot; as done" aria-label="Mark Power Query Editor as done"></div>
+      <div class="navitem"><a class="navbtn active" href="31-power-query-walkthrough.html"><span class="num">3</span> Dirty → Clean Walkthrough</a><input type="checkbox" class="navcheck" data-page="pqwalkthrough" title="Mark &quot;Dirty → Clean Walkthrough&quot; as done" aria-label="Mark Dirty → Clean Walkthrough as done"></div>
+      <div class="navitem"><a class="navbtn" href="42-joins-data-modelling.html"><span class="num">4</span> Joins &amp; Data Modelling</a><input type="checkbox" class="navcheck" data-page="joinsmodelling" title="Mark &quot;Joins & Data Modelling&quot; as done" aria-label="Mark Joins & Data Modelling as done"></div>
+      <div class="navitem"><a class="navbtn" href="43-m-query.html"><span class="num">5</span> M Query</a><input type="checkbox" class="navcheck" data-page="mquery" title="Mark &quot;M Query&quot; as done" aria-label="Mark M Query as done"></div>
+      <div class="navitem"><a class="navbtn" href="23-m-language-etl.html"><span class="num">6</span> M Language &amp; End-to-End ETL</a><input type="checkbox" class="navcheck" data-page="mlanguageetl" title="Mark &quot;M Language & End-to-End ETL&quot; as done" aria-label="Mark M Language & End-to-End ETL as done"></div>
+      <div class="navitem"><a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">7</span> KPIs &amp; Single-Page Dashboard</a><input type="checkbox" class="navcheck" data-page="kpisdashboard" title="Mark &quot;KPIs & Single-Page Dashboard&quot; as done" aria-label="Mark KPIs & Single-Page Dashboard as done"></div>
       <div class="navitem"><a class="navbtn" href="33-module4-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module4assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
     <div class="navgroup" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment">
@@ -332,7 +335,7 @@
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 4 · 2</span>
+        <span class="eyebrow">Module 4 · 3</span>
         <h1>One dirty file, start to finish — every technique from the last page, in the order you'd actually use them.</h1>
         <p class="lede">The Power Query page taught Trim, Replace Values, Remove Duplicates, and the rest as isolated moves. This page is the opposite: <b>one real file, cleaned completely</b>, so you can see how those moves chain together — and where the order you do them in actually matters.</p>
       </div>
@@ -444,7 +447,7 @@
 
       <div class="callout"><b>Take it yourself:</b> pick one of the other four Dirty files from the <a href="datasets.html">Datasets</a> page and clean it completely, the same way — <a href="datasets/HR_Dirty.csv" download>HR_Dirty.csv</a> (a malformed email and a misspelled department are waiting), <a href="datasets/Retail_Dirty.csv" download>Retail_Dirty.csv</a>, <a href="datasets/Sales_Dirty.csv" download>Sales_Dirty.csv</a>, or <a href="datasets/Hospital_Dirty.csv" download>Hospital_Dirty.csv</a>. Don't take this page's word for what's wrong with any of them — open the CSV first, the way this walkthrough did, and find the problems yourself before you start fixing them.</div>
 
-      <footer class="pagefoot"><span>Module 4 · Dirty → Clean Walkthrough</span><a href="23-m-language-etl.html">Next: M Language &amp; End-to-End ETL →</a></footer>
+      <footer class="pagefoot"><span>Module 4 · Dirty → Clean Walkthrough</span><a href="42-joins-data-modelling.html">Next: Joins &amp; Data Modelling →</a></footer>
     </main>
   </div>
 </div>
@@ -583,6 +586,9 @@ const GLOSSARY = {
   datetable: 'A table with one row per continuous calendar date, explicitly marked as the model\'s official date table (Modeling → Mark as Date Table) — the prerequisite every time intelligence function (TOTALYTD, SAMEPERIODLASTYEAR) silently assumes exists.',
   timeintelligence: 'DAX functions that compare a measure across a time window — year-to-date, same period last year, a rolling average — by rewriting the date filter for you instead of you hand-picking a date range.',
   granularity: 'The level of detail one row of a table represents — one row per order is finer granularity than one row per month. Aggregating from fine to coarse granularity is normal; going the other way isn\'t possible without more information than the table has.',
+  appliedsteps: 'The ordered list of transformations in a Power Query query (right-hand pane). Each step is one line of M that takes the previous step\'s result as input; Power BI replays every step from the source on each refresh, so the original file is never changed.',
+  queryfolding: 'Power Query translating its steps into the source database\'s own query language (e.g. SQL) so the database does the filtering and grouping. Right-click a step → View Native Query to check. Flat files like CSV never fold.',
+  mergequery: 'A Power Query join: matches rows from two tables on a key column and brings the second table\'s columns into the first. The join kind (Left Outer, Inner, Left Anti…) decides which rows survive. Not the same as a model relationship, which keeps the tables separate.',
 };
 function closeTerm(btn){
   btn.classList.remove('term-open');

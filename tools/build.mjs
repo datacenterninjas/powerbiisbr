@@ -121,6 +121,7 @@ const GLOSSARY_LABELS = {
   implicitmeasure: 'Implicit Measure', iterator: 'Iterator', rowcontext: 'Row Context',
   filtercontext: 'Filter Context', contexttransition: 'Context Transition',
   datetable: 'Date Table', timeintelligence: 'Time Intelligence', granularity: 'Granularity',
+  appliedsteps: 'Applied Steps', queryfolding: 'Query Folding', mergequery: 'Merge (Join)',
 };
 
 // Extracts the GLOSSARY object literal straight out of footer.html and

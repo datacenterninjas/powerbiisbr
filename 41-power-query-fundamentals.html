@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactivity — Power BI for MBA Analytics</title>
+<title>How Power Query Works — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -267,7 +267,7 @@
       <div class="navitem"><a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a><input type="checkbox" class="navcheck" data-page="customvisuals" title="Mark &quot;Custom Visuals&quot; as done" aria-label="Mark Custom Visuals as done"></div>
       <div class="navitem"><a class="navbtn" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a><input type="checkbox" class="navcheck" data-page="groupshistograms" title="Mark &quot;Groups & Histograms&quot; as done" aria-label="Mark Groups & Histograms as done"></div>
       <div class="navitem"><a class="navbtn" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a><input type="checkbox" class="navcheck" data-page="bestpractices" title="Mark &quot;Best Practices&quot; as done" aria-label="Mark Best Practices as done"></div>
-      <div class="navitem"><a class="navbtn active" href="12-interactivity.html"><span class="num">4</span> Interactivity</a><input type="checkbox" class="navcheck" data-page="interactivity" title="Mark &quot;Interactivity&quot; as done" aria-label="Mark Interactivity as done"></div>
+      <div class="navitem"><a class="navbtn" href="12-interactivity.html"><span class="num">4</span> Interactivity</a><input type="checkbox" class="navcheck" data-page="interactivity" title="Mark &quot;Interactivity&quot; as done" aria-label="Mark Interactivity as done"></div>
       <div class="navitem"><a class="navbtn" href="13-tables-matrix.html"><span class="num">5</span> Tables &amp; Matrix</a><input type="checkbox" class="navcheck" data-page="tablesmatrix" title="Mark &quot;Tables & Matrix&quot; as done" aria-label="Mark Tables & Matrix as done"></div>
       <div class="navitem"><a class="navbtn" href="14-conditional-formatting.html"><span class="num">6</span> Conditional Formatting</a><input type="checkbox" class="navcheck" data-page="conditionalformatting" title="Mark &quot;Conditional Formatting&quot; as done" aria-label="Mark Conditional Formatting as done"></div>
       <div class="navitem"><a class="navbtn" href="15-filters.html"><span class="num">7</span> Filters</a><input type="checkbox" class="navcheck" data-page="filters" title="Mark &quot;Filters&quot; as done" aria-label="Mark Filters as done"></div>
@@ -287,7 +287,7 @@
     </div>
     <div class="navgroup" data-group-ids="pqfundamentals,powerquery,pqwalkthrough,joinsmodelling,mquery,mlanguageetl,kpisdashboard,module4assignment">
       <div class="label"><span>Module 4: Power Query Editor</span><span class="progress-count" data-group-ids="pqfundamentals,powerquery,pqwalkthrough,joinsmodelling,mquery,mlanguageetl,kpisdashboard,module4assignment"></span></div>
-      <div class="navitem"><a class="navbtn" href="41-power-query-fundamentals.html"><span class="num">1</span> How Power Query Works</a><input type="checkbox" class="navcheck" data-page="pqfundamentals" title="Mark &quot;How Power Query Works&quot; as done" aria-label="Mark How Power Query Works as done"></div>
+      <div class="navitem"><a class="navbtn active" href="41-power-query-fundamentals.html"><span class="num">1</span> How Power Query Works</a><input type="checkbox" class="navcheck" data-page="pqfundamentals" title="Mark &quot;How Power Query Works&quot; as done" aria-label="Mark How Power Query Works as done"></div>
       <div class="navitem"><a class="navbtn" href="04-power-query.html"><span class="num">2</span> Power Query Editor</a><input type="checkbox" class="navcheck" data-page="powerquery" title="Mark &quot;Power Query Editor&quot; as done" aria-label="Mark Power Query Editor as done"></div>
       <div class="navitem"><a class="navbtn" href="31-power-query-walkthrough.html"><span class="num">3</span> Dirty → Clean Walkthrough</a><input type="checkbox" class="navcheck" data-page="pqwalkthrough" title="Mark &quot;Dirty → Clean Walkthrough&quot; as done" aria-label="Mark Dirty → Clean Walkthrough as done"></div>
       <div class="navitem"><a class="navbtn" href="42-joins-data-modelling.html"><span class="num">4</span> Joins &amp; Data Modelling</a><input type="checkbox" class="navcheck" data-page="joinsmodelling" title="Mark &quot;Joins & Data Modelling&quot; as done" aria-label="Mark Joins & Data Modelling as done"></div>
@@ -329,186 +329,170 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Interactivity</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">How Power Query Works</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 2 · Interactivity</span>
-        <h1>A dashboard that responds is worth ten that don't.</h1>
-        <p class="lede">Every feature on this page turns a static picture into something a viewer can actually explore — click deeper, jump to detail, save a view, tell a story across pages. All of it is on-canvas navigation: nothing here requires leaving Power BI or writing DAX.</p>
+        <span class="eyebrow">Module 4 · 1</span>
+        <h1>Power Query is a recipe, not an edit</h1>
+        <p class="lede">Before the 25 hands-on lessons on the next page, this page gives you the mental model underneath them: where Power Query sits in Power BI, what the editor's panes are for, why your source files are never touched, and the habits that decide whether a query still works next month. Everything here uses <a href="datasets/PQ_Practice_Orders.csv" download>PQ_Practice_Orders.csv</a>, the same file the next page's lessons use.</p>
       </div>
 
-      <h2>Exploring one visual</h2>
-
-      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Drill-down</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> Clicking deeper into the SAME <button class="term" data-term="hierarchy">hierarchy</button> on the SAME visual — Category → Sub-Category → Product, one chart, three levels.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> One chart answers "what's the total" and "what's inside that total" without building three separate charts.</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A retail category manager sees Electronics is the top category, drills in, and finds Laptops are carrying nearly all of it — Headphones barely sell.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Build a Bar or Column chart with a multi-level field well: drag Category, then Sub Category, into the same Axis well (Power BI treats this as a hierarchy automatically)</li>
-            <li>Turn on the drill icons in the visual header (the down-arrow and the double-down "expand" icon)</li>
-            <li>Click a bar, then click the single down-arrow to drill into just that category</li>
-            <li>Click the up-arrow to drill back up</li>
-          </ol>
-          <p style="font-size:.9rem;margin-top:8px"><b>Try it below</b> — this is a real, clickable mock of the mechanic, not a screenshot:</p>
-          <div class="mockreport">
-            <div class="mockreport-controls">
-              <button class="btn ghost sm" id="drillBack" style="display:none">← Back to Category</button>
-              <span id="drillCrumb" style="font-family:var(--font-mono);font-size:.78rem;color:var(--text-muted);align-self:center;padding:6px 0">Category</span>
-            </div>
-            <div class="mockgrid" id="drillBars"></div>
-          </div>
-          <p style="font-size:.83rem;color:var(--text-muted);margin-top:6px">Click a bar to drill into it. Click "Back" to drill back up — exactly the same up/down motion as the real drill icons.</p>
-          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Putting unrelated fields in the same Axis well and calling it a hierarchy — Region under Product doesn't mean anything; a hierarchy needs a genuine parent-child relationship.</div>
-          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Keep hierarchies to 2–3 levels. Beyond that, a drill-through page (below) usually communicates better than a fourth drill level.</p>
-        </div>
-      </details>
-
-      <details class="card" style="margin-bottom:10px;padding:14px 18px">
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Tooltips</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> The small popup that appears on hover over a data point, showing extra detail without permanently occupying space on the report.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> A chart can only show so many fields before it turns into clutter — a tooltip carries the "nice to know" fields without carrying their visual weight.</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A Sales-by-Region map shows just Region and Sales at a glance, but hovering a state reveals Profit Margin and Order Count too.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Drag any extra field into the Tooltip well of the Visualizations pane</li>
-            <li>For a richer tooltip, build a separate small report page sized "Tooltip" (Page Information → Tooltip toggle), then reference that page name in another visual's Tooltip well</li>
-          </ol>
-          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Keep default tooltips to 2–4 fields. Reach for a full report-page tooltip only when hover detail genuinely needs its own mini chart.</p>
-          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Relying on a tooltip to convey a number the audience needs to act on — if it's important enough to decide something, it belongs on the visual itself, not hidden behind a hover.</div>
-        </div>
-      </details>
-
-      <div class="callout" style="margin-top:14px"><b>Drill-down vs. Tooltip:</b> Drill-down changes what the chart is SHOWING (fewer, more specific bars). A tooltip changes nothing on the chart — it only reveals extra detail for the one point being hovered, then disappears.</div>
-
-      <h2 style="margin-top:30px">Jumping to another view</h2>
       <figure>
-        <img src="images/drilldown-vs-drillthrough.svg" alt="Two rows comparing drill-down, which goes deeper on the same chart, against drill-through, which jumps to a separate detail page.">
-        <figcaption>Drill-down stays on one visual and goes deeper. Drill-through leaves the page entirely.</figcaption>
+        <img src="images/power-query-pipeline.svg" alt="Where Power Query sits in Power BI. Data sources (CSV and Excel, SQL Server, web and SharePoint) flow into Power Query, where a query is a recipe of Applied Steps written in M. Close and Apply loads the result into the Data Model, where tables are joined by relationships; DAX measures calculate on the model and visuals display them. Every refresh re-reads the source and replays every step; the original files are never modified.">
+        <figcaption>Power Query is stage 2 of 5. Everything it does happens <i>before</i> the data model exists, and it's replayed from scratch on every refresh.</figcaption>
       </figure>
 
-      <details class="card" style="margin-bottom:10px;padding:14px 18px">
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Drill-through</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> Right-clicking a data point to jump to a completely separate, filtered detail page built specifically for that context.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> Some questions need an entirely different LAYOUT to answer — not just fewer bars on the same chart, but different visuals altogether (a customer's full order history, say).</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> Right-click a customer on a Sales Overview page, choose "Drill through → Customer Detail," and land on a page built just for that one customer's order history, complaints, and lifetime value.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Build the detail page (e.g. "Customer Detail")</li>
-            <li>Drag the field it should filter by (e.g. Customer Name) into the Drill Through well in the Format pane of that page</li>
-            <li>A "Back" button appears automatically on the detail page</li>
-            <li>On the source page, right-click any data point → the drill-through page appears under "Drill through"</li>
-          </ol>
-          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Forgetting the detail page still needs its own visuals built — drill-through only handles the filtering and navigation, not the page's content.</div>
-          <p style="font-size:.85rem;margin-top:8px"><b>Try it yourself:</b> Build a one-page "Product Detail" report filtered by Product, drill through to it from a Bar Chart of Sales by Product.</p>
-        </div>
-      </details>
-
-      <details class="card" style="margin-bottom:10px;padding:14px 18px">
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Bookmarks</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> A saved snapshot of a report's current state — filters, visibility, selections, even scroll position — that a button can jump straight back to.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> It turns a single flexible page into several "views" without duplicating the page, and it's the engine behind interactive storytelling (below).</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A dashboard has two bookmarks — "This Year" and "Last Year" — each pre-filtering the same visuals to a different date range, one click apart.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Set up the report exactly how you want it captured (filters applied, visuals shown/hidden)</li>
-            <li>View → Bookmarks pane → Add</li>
-            <li>Name the bookmark clearly (e.g. "This Year")</li>
-            <li>Repeat for each state you want to save</li>
-            <li>Wire each one to a button (next lesson)</li>
-          </ol>
-          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> In the bookmark's options, uncheck "Data" if you only want it to control visibility/selection, not re-apply filters — the two behave very differently and it's a common source of confusion.</p>
-        </div>
-      </details>
-
-      <details class="card" style="margin-bottom:10px;padding:14px 18px">
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Buttons &amp; Navigation (Page and Report level)</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> Buttons are clickable shapes wired to an action — most often jumping to a bookmark or another page. Navigation is the pattern of using several buttons together as a menu.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> A viewer shouldn't need to know Power BI's page tabs exist — a button labeled "Regional Detail" is self-explanatory in a way a small tab strip isn't.</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A left-hand strip of buttons — Overview, Sales, Customers, Products — turns a 4-page report into something that feels like a real app.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Insert → Buttons → Blank (or a built-in style)</li>
-            <li>Format the button → Action → turn On</li>
-            <li>Type: Page navigation (jump to a page) or Bookmark (jump to a saved state)</li>
-            <li>Pick the destination page or bookmark</li>
-            <li>Repeat for every destination, then duplicate the button strip onto every page for consistent navigation</li>
-          </ol>
-          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Hiding the native page tabs (View → Page Navigator off) before every page has its own way back — always leave one path home.</div>
-        </div>
-      </details>
-
-      <div class="callout" style="margin-top:14px"><b>Bookmark vs. Page navigation:</b> Page navigation always jumps to the same fixed page. A bookmark can jump to the SAME page in a different state (different filters, different visuals shown) — or to a different page entirely with a specific state pre-applied. A bookmark is strictly more powerful; a plain page-navigation button is simpler when state doesn't matter.</div>
-
-      <div class="callout" style="margin-top:10px"><b>Tooltip vs. Drill-through:</b> A tooltip stays on the SAME page and disappears the moment the mouse moves away — it's a glance, not a destination. Drill-through actually navigates to a different page that stays put until the viewer clicks Back.</div>
-
-      <h2 style="margin-top:30px">Putting it together</h2>
-      <details class="card" style="margin-bottom:10px;padding:14px 18px">
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Interactive Storytelling</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> Combining bookmarks, buttons, and the Selection pane into a guided sequence — the report walks a viewer through a specific narrative instead of leaving them to find it themselves.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> A board presentation needs a story ("here's the problem, here's the driver, here's the recommendation"), not just a dashboard to poke at.</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> Three bookmarks — "1. The Problem" (a KPI in red), "2. The Driver" (a Bar Chart appears, highlighting one region), "3. The Fix" (a target line and a written recommendation) — stepped through with Next/Back buttons during a live presentation.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Plan the sequence on paper first: what does the viewer see at each step, and why</li>
-            <li>Build every visual for every step on the same page (Selection pane will control what's visible when)</li>
-            <li>Create one bookmark per step, capturing which visuals are visible/hidden at that step</li>
-            <li>Add Next/Back buttons wired to the bookmarks, or group all bookmarks into a Bookmark navigator (Insert → Buttons → Bookmark navigator) for automatic step buttons</li>
-          </ol>
-          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Never more than 4–5 steps — storytelling mode is for a live walkthrough, not a replacement for the dashboard someone explores on their own later.</p>
-        </div>
-      </details>
-
-      <h2 style="margin-top:30px">Exercises</h2>
+      <h2 style="margin-top:30px">What Power Query is for (and what it isn't)</h2>
       <div class="grid grid-2">
         <div class="card">
-          <span class="eyebrow">Exercise 1 · Drill-through</span>
-          <h3 style="margin-top:8px">Build a Customer Detail page</h3>
-          <p style="font-size:.9rem">Using the Sales dataset, build a "Customer Detail" page filtered by Customer, then right-click a bar on a Sales-by-Customer chart on a separate Overview page and drill through to it.</p>
+          <span class="pill table">Power Query · M</span>
+          <h3 style="margin-top:8px">Shapes the data</h3>
+          <p style="font-size:.9rem">Works on <b>rows and columns before they're loaded</b>. It fixes typos, sets types, removes duplicates, splits and merges columns, stacks monthly files, joins tables and reshapes wide data into long data. Its output is a clean table.</p>
         </div>
         <div class="card">
-          <span class="eyebrow">Exercise 2 · Bookmarks &amp; Buttons</span>
-          <h3 style="margin-top:8px">A "This Year / Last Year" toggle</h3>
-          <p style="font-size:.9rem">Create two bookmarks that apply different Date filters to the same page, then wire two buttons to jump between them — no page navigation, just a state change.</p>
+          <span class="pill table">DAX</span>
+          <h3 style="margin-top:8px">Calculates on the data</h3>
+          <p style="font-size:.9rem">Works on the <b>loaded model</b>, responding to whatever a viewer has filtered. It produces % of total, YoY growth, running totals and anything else whose answer depends on the slicer. Its output is a number in a visual. See <a href="19-dax-basics.html">Module 3</a>.</p>
         </div>
       </div>
+      <div class="table-wrap" style="margin-top:14px">
+        <table>
+          <tr><th>The job</th><th>Tool</th><th>Why</th></tr>
+          <tr><td>"online", "ONLINE" and "Onlin" should all read "Online"</td><td><b>Power Query</b></td><td>Fixing a value is shaping, and it should happen once, at the source, for every report built on it</td></tr>
+          <tr><td>Remove the duplicated ORD2012 row</td><td><b>Power Query</b></td><td>Once duplicates are loaded, every measure is quietly wrong</td></tr>
+          <tr><td>Stack January's and February's order files</td><td><b>Power Query</b></td><td>Append is a Power Query operation, and there's no clean DAX equivalent</td></tr>
+          <tr><td>A "Line Total" per row = Qty × Unit Price</td><td><b>Power Query</b> (custom column)</td><td>It's a fixed per-row value. A DAX calculated column also works, but it's computed after load and bloats the model the same way</td></tr>
+          <tr><td>Each channel's % of total revenue</td><td><b>DAX</b></td><td>The answer changes with every slicer, so it has to be calculated at query time</td></tr>
+          <tr><td>Revenue this year vs. last year</td><td><b>DAX</b></td><td>Time intelligence works against the model's date table, not the raw file</td></tr>
+        </table>
+      </div>
+      <div class="callout"><b>The rule of thumb practitioners use:</b> transform data as far upstream as possible, and as far downstream as necessary. If it can be fixed in the source system, fix it there. Otherwise fix it in Power Query. Leave to DAX only what has to respond to the viewer.</div>
 
-      <footer class="pagefoot"><span>Module 2 · Interactivity</span><a href="13-tables-matrix.html">Next: Tables &amp; Matrix →</a></footer>
+      <h2 style="margin-top:30px">The editor, piece by piece</h2>
+      <div class="clickpath">
+        <span class="seg">Home</span><span class="arrow">→</span><span class="seg">Get Data → Text/CSV</span><span class="arrow">→</span><span class="seg">PQ_Practice_Orders.csv</span><span class="arrow">→</span><span class="seg">Transform Data</span>
+      </div>
+      <p style="font-size:.92rem">Clicking <b>Transform Data</b> instead of <b>Load</b> opens the Power Query Editor, a separate window with six regions. (Already loaded? Use <b>Home → Transform data</b> from the main window.)</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Region</th><th>Where</th><th>What it's for</th></tr>
+          <tr><td><b>Ribbon</b></td><td>Top</td><td><b>Home</b> (load, refresh, merge, append), <b>Transform</b> (change a column in place), <b>Add Column</b> (derive a new column), <b>View</b> (formula bar, data profiling, Advanced Editor)</td></tr>
+          <tr><td><b>Queries pane</b></td><td>Left</td><td>Every query in the file. One query usually becomes one table in the model</td></tr>
+          <tr><td><b>Formula bar</b></td><td>Above the data</td><td>The M code of the selected step. Turn it on with <b>View → Formula Bar</b> and leave it on for good</td></tr>
+          <tr><td><b>Data preview</b></td><td>Center</td><td>The table <i>as of the selected step</i>, not necessarily the final result</td></tr>
+          <tr><td><b>Query Settings</b></td><td>Right</td><td><b>Properties</b> (the query's name, which becomes the table name) and <b>Applied Steps</b> (the recipe)</td></tr>
+          <tr><td><b>Status bar</b></td><td>Bottom</td><td>Column/row counts, and whether profiling uses the top 1,000 rows or the whole dataset</td></tr>
+        </table>
+      </div>
 
-<script>
-/* ============= drill-down mock demo ============= */
-const DRILL_DATA = {
-  Category: [{label:'Electronics', val:80, key:'Electronics'},{label:'Apparel', val:55, key:'Apparel'},{label:'Home', val:40, key:'Home'}],
-  Electronics: [{label:'Laptop', val:90},{label:'Camera', val:60},{label:'Headphones', val:35}],
-  Apparel: [{label:'Jeans', val:50},{label:'Shirts', val:65},{label:'Footwear', val:45}],
-  Home: [{label:'Sofa', val:70},{label:'Chair', val:40},{label:'Table', val:55}],
-};
-function renderDrill(level){
-  const data = DRILL_DATA[level];
-  document.getElementById('drillCrumb').textContent = level;
-  document.getElementById('drillBack').style.display = level === 'Category' ? 'none' : 'inline-flex';
-  document.getElementById('drillBars').innerHTML = data.map(d => `
-    <div class="mocktile" ${level==='Category' ? `data-key="${d.key}" style="cursor:pointer"` : ''}>
-      <div class="mocktile-label">${d.label}</div>
-      <div class="mockbars"><div class="mockbar hi" style="height:${d.val}%"></div></div>
-    </div>`).join('');
-  if(level === 'Category'){
-    document.querySelectorAll('#drillBars .mocktile').forEach(t => t.addEventListener('click', () => renderDrill(t.dataset.key)));
-  }
-}
-document.getElementById('drillBack').addEventListener('click', () => renderDrill('Category'));
-renderDrill('Category');
-</script>
+      <h3 style="margin-top:24px">Transform tab vs. Add Column tab: the same buttons, different results</h3>
+      <p style="font-size:.92rem">Many buttons appear on both tabs: Extract, Format, Parse, Date and Standard math. They differ in what happens to the original column:</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <b>Transform → Extract → First Characters (8)</b>
+          <p style="font-size:.88rem;margin-top:6px"><code>Product Code</code> changes in place: <code>SKU-1001-RED</code> becomes <code>SKU-1001</code>. The color suffix is gone from this query.</p>
+        </div>
+        <div class="card">
+          <b>Add Column → Extract → First Characters (8)</b>
+          <p style="font-size:.88rem;margin-top:6px"><code>Product Code</code> stays as it was, and a new column <code>First Characters</code> holds <code>SKU-1001</code>. Nothing is lost.</p>
+        </div>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">Unsure which one you want? Use <b>Add Column</b>. You can always delete the original column later, but you can't get it back from a transformed column without undoing the step.</p>
+
+      <h2 style="margin-top:30px">Applied Steps: the recipe that replays on every refresh</h2>
+      <p style="font-size:.92rem">Nothing you do in Power Query edits the CSV. Each click adds a <b>step</b> to the query's <button class="term" data-term="appliedsteps">Applied Steps</button> recipe, and each step takes the previous step's table as input and outputs a new one. On every refresh Power BI re-reads the source and replays every step, top to bottom. That's why you do the cleaning once: next month's export gets the same treatment automatically.</p>
+      <div class="grid grid-3">
+        <div class="card"><b>Click an earlier step</b><p style="font-size:.86rem;margin-top:6px">The preview shows the data <i>as it was at that step</i>. It's the fastest way to find where a problem came from.</p></div>
+        <div class="card"><b>Click a step's gear ⚙</b><p style="font-size:.86rem;margin-top:6px">Reopens that step's dialog with its settings, so you can change a Replace Values without redoing it.</p></div>
+        <div class="card"><b>Right-click → Rename</b><p style="font-size:.86rem;margin-top:6px">"Replaced Value3" tells a teammate nothing. "Fix Onlin typo" does. Right-click → Properties also lets you add a description.</p></div>
+      </div>
+      <div class="callout warn"><b>The #1 way queries break:</b> steps refer to columns <i>by name</i>. Rename <code>Qty</code> to <code>Quantity</code> in step 4, and a step 7 that still says <code>"Qty"</code> fails with <code>Expression.Error: The column 'Qty' of the table wasn't found</code>. Deleting or reordering a middle step causes the same failure. Power Query warns you when you insert a step mid-recipe for exactly this reason. After any change in the middle, click the <b>last</b> step and check it still works.</div>
+
+      <h3 style="margin-top:24px">Try it: watch the recipe build</h3>
+      <ol class="steps">
+        <li>Open <code>PQ_Practice_Orders.csv</code> with <b>Transform Data</b>. Two steps already exist, <b>Source</b> and <b>Promoted Headers</b>, and usually a third, <b>Changed Type</b>, which Power Query adds on its own</li>
+        <li>Select <b>First Name</b> → Transform → Format → Trim. A <b>Trimmed Text</b> step appears. <code>"Rohit "</code> (ORD2002) and <code>"  Swati"</code> (ORD2007) lose their stray spaces</li>
+        <li>Select <b>Channel</b> → Transform → Format → Capitalize Each Word. Now click back on the <b>Trimmed Text</b> step: the lowercase <code>online</code> values are still there, because that step comes before the fix</li>
+        <li>Click the last step again, then right-click it → <b>Rename</b> → <code>Proper-case Channel</code></li>
+        <li>Open <b>View → Advanced Editor</b>. Each step you clicked is one line of M code. The <a href="43-m-query.html">M Query</a> page teaches you to read and write these lines</li>
+      </ol>
+
+      <h2 style="margin-top:30px">Data types first, and the locale trap</h2>
+      <p style="font-size:.92rem">Every column has a type, shown by the icon in its header: <code>ABC</code> text, <code>123</code> whole number, <code>1.2</code> decimal, a calendar for date, <code>ABC/123</code> "any" (untyped, which is always a to-do). The automatic <b>Changed Type</b> step guesses types from the first rows. Treat that guess as a draft, not as settled.</p>
+      <p style="font-size:.92rem">Dates are where the guess goes wrong. <code>PQ_Practice_Orders.csv</code> writes dates as <b>DD-MM-YYYY</b>: <code>03-01-2025</code> is 3 January. Power Query parses dates using your computer's regional setting. If that setting is US English (MM-DD-YYYY), this is what happens to the file's 35 rows:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Rows</th><th>Example</th><th>Result under US English</th></tr>
+          <tr><td class="num">12</td><td><code>03-01-2025</code> (ORD2001)</td><td><b>Silently wrong:</b> becomes 1 March. The day is ≤ 12, so it's a valid US date. No error, no warning</td></tr>
+          <tr><td class="num">20</td><td><code>22-01-2025</code> (ORD2012)</td><td>Error: there's no 22nd month</td></tr>
+          <tr><td class="num">3</td><td><code>2025/01/09</code>, <code>2025-01-15</code>, <code>25/01/2025</code></td><td>Different formats entirely (ORD2004, ORD2008, ORD2014). One locale can't fix these</td></tr>
+        </table>
+      </div>
+      <div class="clickpath">
+        <span class="seg">Right-click Order Date</span><span class="arrow">→</span><span class="seg">Change Type</span><span class="arrow">→</span><span class="seg">Using Locale…</span><span class="arrow">→</span><span class="seg">Data Type: Date · Locale: English (India)</span>
+      </div>
+      <p style="font-size:.9rem">With the locale set, the 32 DD-MM-YYYY rows parse correctly regardless of whose computer refreshes the file. The 3 odd-format rows need the hand-written M function on the <a href="23-m-language-etl.html">M Language &amp; End-to-End ETL</a> page.</p>
+      <div class="callout warn"><b>The dangerous rows are the 12, not the 20.</b> Errors are visible. A date that became 1 March instead of 3 January is a correct-looking date. Your month-over-month chart is now wrong, and nothing on screen says so.</div>
+
+      <h2 style="margin-top:30px">Column profiling: check the data, don't assume it</h2>
+      <p style="font-size:.92rem">Turn on all three in the <b>View</b> ribbon: <b>Column quality</b>, <b>Column distribution</b>, <b>Column profile</b>. Then click the status bar text <i>"Column profiling based on top 1000 rows"</i> and switch to <b>entire data set</b>. On a large file, a problem in row 1,001 is invisible otherwise.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Indicator</th><th>What it tells you</th><th>On PQ_Practice_Orders.csv</th></tr>
+          <tr><td><b>Column quality</b></td><td>% Valid / Error / Empty</td><td>Once <code>Qty</code> is typed as a whole number: 1 Error (<code>N/A</code>, ORD2011) and 1 Empty (ORD2006)</td></tr>
+          <tr><td><b>Column distribution</b></td><td><b>Distinct</b> = how many different values · <b>Unique</b> = values that appear exactly once</td><td><code>Channel</code>: <b>7 distinct, 4 unique</b>, but there are only 2 real channels. Power Query compares text case-sensitively, so <code>Online</code>, <code>online</code>, <code>ONLINE</code> and <code>Onlin</code> all count separately</td></tr>
+          <tr><td><b>Column profile</b></td><td>Min/max, value counts and a histogram for the selected column</td><td>Click <code>Channel</code> to see every variant with its count: the complete to-do list for the Replace Values lesson</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">A key column like <code>Order ID</code> should show <i>distinct = unique = row count</i>. Here it shows 34 distinct, 33 unique, 35 rows: that's the duplicated ORD2012, found without scrolling.</p>
+
+      <h2 style="margin-top:30px">Managing queries: Duplicate, Reference, and staging</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>Duplicate</th><th>Reference</th></tr>
+          <tr><td><b>What you get</b></td><td>A full copy of every step, independent from then on</td><td>A new query whose single first step is <i>"start from the other query's result"</i></td></tr>
+          <tr><td><b>Fix a bug upstream</b></td><td>You fix it twice, or forget the copy</td><td>Fixed everywhere at once</td></tr>
+          <tr><td><b>Use it for</b></td><td>Experimenting without risking the original</td><td>Building several tables from one cleaned source, e.g. a Products dimension from the Orders query (see <a href="42-joins-data-modelling.html">Joins &amp; Data Modelling</a>)</td></tr>
+        </table>
+      </div>
+      <ul style="font-size:.92rem;margin-top:12px">
+        <li><b>Enable load:</b> right-click a query → uncheck <b>Enable load</b> for intermediate "staging" queries that exist only to feed another query. Its name turns italic and it never becomes a model table. That keeps the Fields pane clean and the file smaller.</li>
+        <li><b>Name queries like tables:</b> the query name <i>is</i> the model table's name. <code>Orders</code>, not <code>PQ_Practice_Orders (2)</code>.</li>
+        <li><b>Group them:</b> right-click → Move To Group → New Group, e.g. <i>Staging</i>, <i>Dimensions</i>, <i>Facts</i>.</li>
+        <li><b>Close &amp; Apply</b> loads and closes, <b>Apply</b> loads and stays open, <b>Close</b> keeps pending changes unapplied (Power BI shows a yellow banner until you apply them).</li>
+      </ul>
+
+      <h2 style="margin-top:30px">Query folding: letting the database do the work</h2>
+      <p style="font-size:.92rem">When the source is a database such as AdventureWorksDW on SQL Server, Power Query tries to <button class="term" data-term="queryfolding">fold</button> your steps: translate them into one SQL query the server runs, so only the finished result travels over the network. Filtering <code>FactInternetSales</code> to one year, removing 20 unused columns, and grouping by product can all become a single <code>SELECT … WHERE … GROUP BY</code> that returns a few hundred rows, instead of pulling 60,000 rows and filtering them on your laptop.</p>
+      <div class="clickpath">
+        <span class="seg">Right-click a step</span><span class="arrow">→</span><span class="seg">View Native Query</span><span class="arrow">→</span><span class="seg">enabled = this step folds · greyed out = it doesn't (or can't be shown)</span>
+      </div>
+      <div class="grid grid-2">
+        <div class="card"><span class="pill good">usually folds</span><p style="font-size:.88rem;margin-top:8px">Remove/choose columns, filter rows, rename, sort, Group By, simple merges between tables in the <i>same</i> database, most type changes</p></div>
+        <div class="card"><span class="pill bad">usually breaks folding</span><p style="font-size:.88rem;margin-top:8px">Adding an Index column, most custom M functions, merging with a table from a different source (e.g. a CSV). Once one step stops folding, <i>every step after it</i> runs locally</p></div>
+      </div>
+      <div class="callout"><b>Practical rule:</b> put the steps that shrink the data (remove columns, filter rows) <b>first</b>, while folding still works. Flat files (CSV, Excel) never fold, because there's no database engine to hand the work to. That's fine for 35 rows, but it matters on a real warehouse.</div>
+
+      <h2 style="margin-top:30px">A good step order</h2>
+      <ol class="steps">
+        <li><b>Remove</b> columns you don't need and <b>filter</b> rows you'll never report on, early (it also helps folding)</li>
+        <li><b>Clean text</b> (trim, fix case, replace typos) <i>before</i> setting number/date types, because <code>"₹1,158"</code> or <code>"N/A"</code> won't convert</li>
+        <li><b>Set types deliberately</b>, using a locale for dates. Delete an automatic Changed Type step if it guessed wrong, rather than stacking a second one on top</li>
+        <li><b>Standardize, then remove duplicates.</b> <code>Online</code> and <code>online</code> rows aren't duplicates to Power Query until they're spelled the same</li>
+        <li><b>Merge and append last</b>, once both sides are clean. A join on a dirty key silently misses matches</li>
+        <li><b>Rename steps and queries</b>, and turn off load for staging queries, before you hand the file to anyone</li>
+      </ol>
+
+      <h2 style="margin-top:30px">Check yourself</h2>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">You fixed a typo in Power Query. Did the CSV file on your disk change?</summary><p style="font-size:.9rem;margin-top:8px">No. Power Query never writes back to a source. The fix is a step in the query's recipe, replayed on every refresh. That's why it also applies to next month's file.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">A query worked yesterday. Today, after you renamed a column in step 3, step 9 shows an error. What happened?</summary><p style="font-size:.9rem;margin-top:8px">Step 9 still refers to the column by its old name. Steps reference columns by name, so a rename upstream breaks every later step that uses the old name. Click step 9's gear (or edit its formula) and use the new name.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">Order Date converted to Date with no errors at all. Why might it still be wrong?</summary><p style="font-size:.9rem;margin-top:8px">If the values are DD-MM-YYYY and your locale is MM-DD-YYYY, every date with a day ≤ 12 converts to a valid but wrong date. No errors doesn't mean correct. Convert with <b>Change Type → Using Locale</b> and spot-check a few dates you know.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">You need an Orders table and a Products table built from the same cleaned file. Duplicate or Reference?</summary><p style="font-size:.9rem;margin-top:8px">Reference. Both tables then start from the one cleaned query, so a cleaning fix made once reaches both. With Duplicate, you'd have two copies of the cleaning steps to keep in sync.</p></details>
+
+      <footer class="pagefoot"><span>Module 4 · How Power Query Works</span><a href="04-power-query.html">Next: Power Query Editor, 25 lessons →</a></footer>
     </main>
   </div>
 </div>

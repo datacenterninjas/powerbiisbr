@@ -1,0 +1,159 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 4 · 1</span>
+        <h1>Power Query is a recipe, not an edit</h1>
+        <p class="lede">Before the 25 hands-on lessons on the next page, this page gives you the mental model underneath them: where Power Query sits in Power BI, what the editor's panes are for, why your source files are never touched, and the habits that decide whether a query still works next month. Everything here uses <a href="datasets/PQ_Practice_Orders.csv" download>PQ_Practice_Orders.csv</a>, the same file the next page's lessons use.</p>
+      </div>
+
+      <figure>
+        <img src="images/power-query-pipeline.svg" alt="Where Power Query sits in Power BI. Data sources (CSV and Excel, SQL Server, web and SharePoint) flow into Power Query, where a query is a recipe of Applied Steps written in M. Close and Apply loads the result into the Data Model, where tables are joined by relationships; DAX measures calculate on the model and visuals display them. Every refresh re-reads the source and replays every step; the original files are never modified.">
+        <figcaption>Power Query is stage 2 of 5. Everything it does happens <i>before</i> the data model exists, and it's replayed from scratch on every refresh.</figcaption>
+      </figure>
+
+      <h2 style="margin-top:30px">What Power Query is for (and what it isn't)</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <span class="pill table">Power Query · M</span>
+          <h3 style="margin-top:8px">Shapes the data</h3>
+          <p style="font-size:.9rem">Works on <b>rows and columns before they're loaded</b>. It fixes typos, sets types, removes duplicates, splits and merges columns, stacks monthly files, joins tables and reshapes wide data into long data. Its output is a clean table.</p>
+        </div>
+        <div class="card">
+          <span class="pill table">DAX</span>
+          <h3 style="margin-top:8px">Calculates on the data</h3>
+          <p style="font-size:.9rem">Works on the <b>loaded model</b>, responding to whatever a viewer has filtered. It produces % of total, YoY growth, running totals and anything else whose answer depends on the slicer. Its output is a number in a visual. See <a href="19-dax-basics.html">Module 3</a>.</p>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:14px">
+        <table>
+          <tr><th>The job</th><th>Tool</th><th>Why</th></tr>
+          <tr><td>"online", "ONLINE" and "Onlin" should all read "Online"</td><td><b>Power Query</b></td><td>Fixing a value is shaping, and it should happen once, at the source, for every report built on it</td></tr>
+          <tr><td>Remove the duplicated ORD2012 row</td><td><b>Power Query</b></td><td>Once duplicates are loaded, every measure is quietly wrong</td></tr>
+          <tr><td>Stack January's and February's order files</td><td><b>Power Query</b></td><td>Append is a Power Query operation, and there's no clean DAX equivalent</td></tr>
+          <tr><td>A "Line Total" per row = Qty × Unit Price</td><td><b>Power Query</b> (custom column)</td><td>It's a fixed per-row value. A DAX calculated column also works, but it's computed after load and bloats the model the same way</td></tr>
+          <tr><td>Each channel's % of total revenue</td><td><b>DAX</b></td><td>The answer changes with every slicer, so it has to be calculated at query time</td></tr>
+          <tr><td>Revenue this year vs. last year</td><td><b>DAX</b></td><td>Time intelligence works against the model's date table, not the raw file</td></tr>
+        </table>
+      </div>
+      <div class="callout"><b>The rule of thumb practitioners use:</b> transform data as far upstream as possible, and as far downstream as necessary. If it can be fixed in the source system, fix it there. Otherwise fix it in Power Query. Leave to DAX only what has to respond to the viewer.</div>
+
+      <h2 style="margin-top:30px">The editor, piece by piece</h2>
+      <div class="clickpath">
+        <span class="seg">Home</span><span class="arrow">→</span><span class="seg">Get Data → Text/CSV</span><span class="arrow">→</span><span class="seg">PQ_Practice_Orders.csv</span><span class="arrow">→</span><span class="seg">Transform Data</span>
+      </div>
+      <p style="font-size:.92rem">Clicking <b>Transform Data</b> instead of <b>Load</b> opens the Power Query Editor, a separate window with six regions. (Already loaded? Use <b>Home → Transform data</b> from the main window.)</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Region</th><th>Where</th><th>What it's for</th></tr>
+          <tr><td><b>Ribbon</b></td><td>Top</td><td><b>Home</b> (load, refresh, merge, append), <b>Transform</b> (change a column in place), <b>Add Column</b> (derive a new column), <b>View</b> (formula bar, data profiling, Advanced Editor)</td></tr>
+          <tr><td><b>Queries pane</b></td><td>Left</td><td>Every query in the file. One query usually becomes one table in the model</td></tr>
+          <tr><td><b>Formula bar</b></td><td>Above the data</td><td>The M code of the selected step. Turn it on with <b>View → Formula Bar</b> and leave it on for good</td></tr>
+          <tr><td><b>Data preview</b></td><td>Center</td><td>The table <i>as of the selected step</i>, not necessarily the final result</td></tr>
+          <tr><td><b>Query Settings</b></td><td>Right</td><td><b>Properties</b> (the query's name, which becomes the table name) and <b>Applied Steps</b> (the recipe)</td></tr>
+          <tr><td><b>Status bar</b></td><td>Bottom</td><td>Column/row counts, and whether profiling uses the top 1,000 rows or the whole dataset</td></tr>
+        </table>
+      </div>
+
+      <h3 style="margin-top:24px">Transform tab vs. Add Column tab: the same buttons, different results</h3>
+      <p style="font-size:.92rem">Many buttons appear on both tabs: Extract, Format, Parse, Date and Standard math. They differ in what happens to the original column:</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <b>Transform → Extract → First Characters (8)</b>
+          <p style="font-size:.88rem;margin-top:6px"><code>Product Code</code> changes in place: <code>SKU-1001-RED</code> becomes <code>SKU-1001</code>. The color suffix is gone from this query.</p>
+        </div>
+        <div class="card">
+          <b>Add Column → Extract → First Characters (8)</b>
+          <p style="font-size:.88rem;margin-top:6px"><code>Product Code</code> stays as it was, and a new column <code>First Characters</code> holds <code>SKU-1001</code>. Nothing is lost.</p>
+        </div>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">Unsure which one you want? Use <b>Add Column</b>. You can always delete the original column later, but you can't get it back from a transformed column without undoing the step.</p>
+
+      <h2 style="margin-top:30px">Applied Steps: the recipe that replays on every refresh</h2>
+      <p style="font-size:.92rem">Nothing you do in Power Query edits the CSV. Each click adds a <b>step</b> to the query's <button class="term" data-term="appliedsteps">Applied Steps</button> recipe, and each step takes the previous step's table as input and outputs a new one. On every refresh Power BI re-reads the source and replays every step, top to bottom. That's why you do the cleaning once: next month's export gets the same treatment automatically.</p>
+      <div class="grid grid-3">
+        <div class="card"><b>Click an earlier step</b><p style="font-size:.86rem;margin-top:6px">The preview shows the data <i>as it was at that step</i>. It's the fastest way to find where a problem came from.</p></div>
+        <div class="card"><b>Click a step's gear ⚙</b><p style="font-size:.86rem;margin-top:6px">Reopens that step's dialog with its settings, so you can change a Replace Values without redoing it.</p></div>
+        <div class="card"><b>Right-click → Rename</b><p style="font-size:.86rem;margin-top:6px">"Replaced Value3" tells a teammate nothing. "Fix Onlin typo" does. Right-click → Properties also lets you add a description.</p></div>
+      </div>
+      <div class="callout warn"><b>The #1 way queries break:</b> steps refer to columns <i>by name</i>. Rename <code>Qty</code> to <code>Quantity</code> in step 4, and a step 7 that still says <code>"Qty"</code> fails with <code>Expression.Error: The column 'Qty' of the table wasn't found</code>. Deleting or reordering a middle step causes the same failure. Power Query warns you when you insert a step mid-recipe for exactly this reason. After any change in the middle, click the <b>last</b> step and check it still works.</div>
+
+      <h3 style="margin-top:24px">Try it: watch the recipe build</h3>
+      <ol class="steps">
+        <li>Open <code>PQ_Practice_Orders.csv</code> with <b>Transform Data</b>. Two steps already exist, <b>Source</b> and <b>Promoted Headers</b>, and usually a third, <b>Changed Type</b>, which Power Query adds on its own</li>
+        <li>Select <b>First Name</b> → Transform → Format → Trim. A <b>Trimmed Text</b> step appears. <code>"Rohit "</code> (ORD2002) and <code>"  Swati"</code> (ORD2007) lose their stray spaces</li>
+        <li>Select <b>Channel</b> → Transform → Format → Capitalize Each Word. Now click back on the <b>Trimmed Text</b> step: the lowercase <code>online</code> values are still there, because that step comes before the fix</li>
+        <li>Click the last step again, then right-click it → <b>Rename</b> → <code>Proper-case Channel</code></li>
+        <li>Open <b>View → Advanced Editor</b>. Each step you clicked is one line of M code. The <a href="43-m-query.html">M Query</a> page teaches you to read and write these lines</li>
+      </ol>
+
+      <h2 style="margin-top:30px">Data types first, and the locale trap</h2>
+      <p style="font-size:.92rem">Every column has a type, shown by the icon in its header: <code>ABC</code> text, <code>123</code> whole number, <code>1.2</code> decimal, a calendar for date, <code>ABC/123</code> "any" (untyped, which is always a to-do). The automatic <b>Changed Type</b> step guesses types from the first rows. Treat that guess as a draft, not as settled.</p>
+      <p style="font-size:.92rem">Dates are where the guess goes wrong. <code>PQ_Practice_Orders.csv</code> writes dates as <b>DD-MM-YYYY</b>: <code>03-01-2025</code> is 3 January. Power Query parses dates using your computer's regional setting. If that setting is US English (MM-DD-YYYY), this is what happens to the file's 35 rows:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Rows</th><th>Example</th><th>Result under US English</th></tr>
+          <tr><td class="num">12</td><td><code>03-01-2025</code> (ORD2001)</td><td><b>Silently wrong:</b> becomes 1 March. The day is ≤ 12, so it's a valid US date. No error, no warning</td></tr>
+          <tr><td class="num">20</td><td><code>22-01-2025</code> (ORD2012)</td><td>Error: there's no 22nd month</td></tr>
+          <tr><td class="num">3</td><td><code>2025/01/09</code>, <code>2025-01-15</code>, <code>25/01/2025</code></td><td>Different formats entirely (ORD2004, ORD2008, ORD2014). One locale can't fix these</td></tr>
+        </table>
+      </div>
+      <div class="clickpath">
+        <span class="seg">Right-click Order Date</span><span class="arrow">→</span><span class="seg">Change Type</span><span class="arrow">→</span><span class="seg">Using Locale…</span><span class="arrow">→</span><span class="seg">Data Type: Date · Locale: English (India)</span>
+      </div>
+      <p style="font-size:.9rem">With the locale set, the 32 DD-MM-YYYY rows parse correctly regardless of whose computer refreshes the file. The 3 odd-format rows need the hand-written M function on the <a href="23-m-language-etl.html">M Language &amp; End-to-End ETL</a> page.</p>
+      <div class="callout warn"><b>The dangerous rows are the 12, not the 20.</b> Errors are visible. A date that became 1 March instead of 3 January is a correct-looking date. Your month-over-month chart is now wrong, and nothing on screen says so.</div>
+
+      <h2 style="margin-top:30px">Column profiling: check the data, don't assume it</h2>
+      <p style="font-size:.92rem">Turn on all three in the <b>View</b> ribbon: <b>Column quality</b>, <b>Column distribution</b>, <b>Column profile</b>. Then click the status bar text <i>"Column profiling based on top 1000 rows"</i> and switch to <b>entire data set</b>. On a large file, a problem in row 1,001 is invisible otherwise.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Indicator</th><th>What it tells you</th><th>On PQ_Practice_Orders.csv</th></tr>
+          <tr><td><b>Column quality</b></td><td>% Valid / Error / Empty</td><td>Once <code>Qty</code> is typed as a whole number: 1 Error (<code>N/A</code>, ORD2011) and 1 Empty (ORD2006)</td></tr>
+          <tr><td><b>Column distribution</b></td><td><b>Distinct</b> = how many different values · <b>Unique</b> = values that appear exactly once</td><td><code>Channel</code>: <b>7 distinct, 4 unique</b>, but there are only 2 real channels. Power Query compares text case-sensitively, so <code>Online</code>, <code>online</code>, <code>ONLINE</code> and <code>Onlin</code> all count separately</td></tr>
+          <tr><td><b>Column profile</b></td><td>Min/max, value counts and a histogram for the selected column</td><td>Click <code>Channel</code> to see every variant with its count: the complete to-do list for the Replace Values lesson</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">A key column like <code>Order ID</code> should show <i>distinct = unique = row count</i>. Here it shows 34 distinct, 33 unique, 35 rows: that's the duplicated ORD2012, found without scrolling.</p>
+
+      <h2 style="margin-top:30px">Managing queries: Duplicate, Reference, and staging</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>Duplicate</th><th>Reference</th></tr>
+          <tr><td><b>What you get</b></td><td>A full copy of every step, independent from then on</td><td>A new query whose single first step is <i>"start from the other query's result"</i></td></tr>
+          <tr><td><b>Fix a bug upstream</b></td><td>You fix it twice, or forget the copy</td><td>Fixed everywhere at once</td></tr>
+          <tr><td><b>Use it for</b></td><td>Experimenting without risking the original</td><td>Building several tables from one cleaned source, e.g. a Products dimension from the Orders query (see <a href="42-joins-data-modelling.html">Joins &amp; Data Modelling</a>)</td></tr>
+        </table>
+      </div>
+      <ul style="font-size:.92rem;margin-top:12px">
+        <li><b>Enable load:</b> right-click a query → uncheck <b>Enable load</b> for intermediate "staging" queries that exist only to feed another query. Its name turns italic and it never becomes a model table. That keeps the Fields pane clean and the file smaller.</li>
+        <li><b>Name queries like tables:</b> the query name <i>is</i> the model table's name. <code>Orders</code>, not <code>PQ_Practice_Orders (2)</code>.</li>
+        <li><b>Group them:</b> right-click → Move To Group → New Group, e.g. <i>Staging</i>, <i>Dimensions</i>, <i>Facts</i>.</li>
+        <li><b>Close &amp; Apply</b> loads and closes, <b>Apply</b> loads and stays open, <b>Close</b> keeps pending changes unapplied (Power BI shows a yellow banner until you apply them).</li>
+      </ul>
+
+      <h2 style="margin-top:30px">Query folding: letting the database do the work</h2>
+      <p style="font-size:.92rem">When the source is a database such as AdventureWorksDW on SQL Server, Power Query tries to <button class="term" data-term="queryfolding">fold</button> your steps: translate them into one SQL query the server runs, so only the finished result travels over the network. Filtering <code>FactInternetSales</code> to one year, removing 20 unused columns, and grouping by product can all become a single <code>SELECT … WHERE … GROUP BY</code> that returns a few hundred rows, instead of pulling 60,000 rows and filtering them on your laptop.</p>
+      <div class="clickpath">
+        <span class="seg">Right-click a step</span><span class="arrow">→</span><span class="seg">View Native Query</span><span class="arrow">→</span><span class="seg">enabled = this step folds · greyed out = it doesn't (or can't be shown)</span>
+      </div>
+      <div class="grid grid-2">
+        <div class="card"><span class="pill good">usually folds</span><p style="font-size:.88rem;margin-top:8px">Remove/choose columns, filter rows, rename, sort, Group By, simple merges between tables in the <i>same</i> database, most type changes</p></div>
+        <div class="card"><span class="pill bad">usually breaks folding</span><p style="font-size:.88rem;margin-top:8px">Adding an Index column, most custom M functions, merging with a table from a different source (e.g. a CSV). Once one step stops folding, <i>every step after it</i> runs locally</p></div>
+      </div>
+      <div class="callout"><b>Practical rule:</b> put the steps that shrink the data (remove columns, filter rows) <b>first</b>, while folding still works. Flat files (CSV, Excel) never fold, because there's no database engine to hand the work to. That's fine for 35 rows, but it matters on a real warehouse.</div>
+
+      <h2 style="margin-top:30px">A good step order</h2>
+      <ol class="steps">
+        <li><b>Remove</b> columns you don't need and <b>filter</b> rows you'll never report on, early (it also helps folding)</li>
+        <li><b>Clean text</b> (trim, fix case, replace typos) <i>before</i> setting number/date types, because <code>"₹1,158"</code> or <code>"N/A"</code> won't convert</li>
+        <li><b>Set types deliberately</b>, using a locale for dates. Delete an automatic Changed Type step if it guessed wrong, rather than stacking a second one on top</li>
+        <li><b>Standardize, then remove duplicates.</b> <code>Online</code> and <code>online</code> rows aren't duplicates to Power Query until they're spelled the same</li>
+        <li><b>Merge and append last</b>, once both sides are clean. A join on a dirty key silently misses matches</li>
+        <li><b>Rename steps and queries</b>, and turn off load for staging queries, before you hand the file to anyone</li>
+      </ol>
+
+      <h2 style="margin-top:30px">Check yourself</h2>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">You fixed a typo in Power Query. Did the CSV file on your disk change?</summary><p style="font-size:.9rem;margin-top:8px">No. Power Query never writes back to a source. The fix is a step in the query's recipe, replayed on every refresh. That's why it also applies to next month's file.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">A query worked yesterday. Today, after you renamed a column in step 3, step 9 shows an error. What happened?</summary><p style="font-size:.9rem;margin-top:8px">Step 9 still refers to the column by its old name. Steps reference columns by name, so a rename upstream breaks every later step that uses the old name. Click step 9's gear (or edit its formula) and use the new name.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">Order Date converted to Date with no errors at all. Why might it still be wrong?</summary><p style="font-size:.9rem;margin-top:8px">If the values are DD-MM-YYYY and your locale is MM-DD-YYYY, every date with a day ≤ 12 converts to a valid but wrong date. No errors doesn't mean correct. Convert with <b>Change Type → Using Locale</b> and spot-check a few dates you know.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">You need an Orders table and a Products table built from the same cleaned file. Duplicate or Reference?</summary><p style="font-size:.9rem;margin-top:8px">Reference. Both tables then start from the one cleaned query, so a cleaning fix made once reaches both. With Duplicate, you'd have two copies of the cleaning steps to keep in sync.</p></details>
+
+      <footer class="pagefoot"><span>Module 4 · How Power Query Works</span><a href="04-power-query.html">Next: Power Query Editor, 25 lessons →</a></footer>
