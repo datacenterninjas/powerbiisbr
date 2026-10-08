@@ -308,6 +308,15 @@ your system context, not a guess.
 
 ## Changelog
 
+### 2026-10-08 — Added Complex DAX (44-complex-dax.html) and All DAX Formulas & Combinations Encyclopedia (45-all-dax-formulas.html)
+- **Why:** user requested pages covering (1) "complex dax formulas with example datasets" and (2) "all dax formulas available in power bi with examples. Also combination dax like calculate and filter". Built two dedicated pages extending Module 3.
+- **What was added:**
+  - `44-complex-dax.html` (`src/pages/complex-dax.html`, id `complexdax`, num 7): 8 enterprise-grade scenarios anchored to downloadable practice CSVs and AdventureWorksDW (Dynamic Customer Spend Tiers, New vs. Returning Cohort Revenue, Top 5 + Others Rollup with Disconnected Table, Multi-Condition Financial Risk Scoring, Pareto 80/20 Cumulative Distribution, 30-Day Hospital Readmission, Department Peer-Group Z-Score, and Market Basket Co-occurrence).
+  - `45-all-dax-formulas.html` (`src/pages/all-dax-formulas.html`, id `alldaxformulas`, num 8): Complete DAX reference encyclopedia covering 80+ functions across all functional domains, with a live client-side search box, category filters, and an in-depth spotlight on 10 Combination DAX patterns (`CALCULATE + FILTER`, `CALCULATE + ALL`, `CALCULATE + ALLSELECTED`, `CALCULATE + ALLEXCEPT`, `CALCULATE + USERELATIONSHIP`, `CALCULATE + KEEPFILTERS`, `CALCULATE + CROSSFILTER`, `SUMX + RELATED`, `SWITCH + TRUE()`, `CONCATENATEX + VALUES`, `ADDCOLUMNS + SUMMARIZE`).
+  - Added `.gitignore` to prevent tracking `.DS_Store` and temporary scratch files.
+  - Linked in `src/pages.json` under Module 3, connected in sequential footer navigation (`40-dax-reference.html` → `44-complex-dax.html` → `45-all-dax-formulas.html` → `32-module3-assignment.html`), and cross-linked in `cheatsheet.html`.
+  - Rebuilt all 49 pages via `node tools/build.mjs`, verified search-index generation and link checks pass cleanly.
+
 ### 2026-09-29 — Module 4: three new pages (How Power Query Works, Joins & Data Modelling, M Query), three diagrams, site-wide code-block fix
 - **Why:** maintainer asked, after the DAX reference update, for "a topic about Power Query", then "joins and data modelling", then "M query." Audit of Module 4 found the existing pages were technique-first (25 cleaning lessons, one walkthrough, one ETL pipeline) with no page on Power Query's concepts, only a join-kinds table with no worked examples, no data-modelling content at all (NEXT-ITERATION.md's deferred "Module 09"), and M taught only in passing. Built three new pages rather than stretching existing ones.
 - **New pages, placed in teaching order** (`pages.json` nums renumbered 1–7, eyebrows updated, footer "Next" chain rewired: Module 3 Assignment → 41 → 04 → 31 → 42 → 43 → 23 → 24): `41-power-query-fundamentals.html` (concepts, placed first), `42-joins-data-modelling.html`, `43-m-query.html` (placed *before* 23 so 23 applies it, and so 23 → 24's shared `FoodDelivery` table continuity is unbroken). 23's lede and join section now point to 42/43 instead of duplicating them.

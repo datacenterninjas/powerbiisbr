@@ -1,0 +1,996 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 3 · Complete Encyclopedia</span>
+        <h1>All DAX Formulas &amp; Combinations in Power BI</h1>
+        <p class="lede">A complete reference guide to DAX functions in Power BI — categorized by functional family with signatures, business use cases, and practical examples. Includes an in-depth breakdown of essential <b>Combination DAX patterns</b> like <code>CALCULATE + FILTER</code>, <code>CALCULATE + ALL</code>, <code>CALCULATE + USERELATIONSHIP</code>, and <code>SUMX + RELATED</code>.</p>
+      </div>
+
+      <div class="callout">
+        <b>Quick Search &amp; Filter:</b> Use the search box below to instantly find any function by name, syntax, or keyword (e.g. <i>"calculate"</i>, <i>"date"</i>, <i>"rank"</i>, <i>"iterator"</i>). Click any category pill to filter the encyclopedia.
+      </div>
+
+      <!-- Live Search & Category Filter Toolbar -->
+      <div class="card" style="margin:20px 0;padding:16px 20px;">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
+          <input type="text" id="daxSearch" placeholder="Search all DAX functions or combinations..." style="flex:1;min-width:240px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font-family:var(--font-body);font-size:.9rem;outline:none;" />
+          <span id="daxCount" class="pill good" style="font-size:.8rem;padding:6px 14px;">Showing all entries</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;" id="categoryFilter">
+          <button class="pill btn active" data-cat="all">All Functions</button>
+          <button class="pill btn" data-cat="combination">⭐ Combinations</button>
+          <button class="pill btn" data-cat="filter">Filter &amp; CALCULATE</button>
+          <button class="pill btn" data-cat="time">Time Intelligence</button>
+          <button class="pill btn" data-cat="aggregation">Aggregation &amp; Stats</button>
+          <button class="pill btn" data-cat="iterator">Iterators (X-Family)</button>
+          <button class="pill btn" data-cat="logical">Logical &amp; Conditional</button>
+          <button class="pill btn" data-cat="text">Text &amp; String</button>
+          <button class="pill btn" data-cat="date">Date &amp; Time</button>
+          <button class="pill btn" data-cat="table">Table &amp; Virtual</button>
+          <button class="pill btn" data-cat="math">Math &amp; Numeric</button>
+          <button class="pill btn" data-cat="relationship">Relationships</button>
+        </div>
+      </div>
+
+      <!-- Spotlight: Combination DAX Patterns -->
+      <h2 id="combo-spotlight" style="margin-top:36px">⭐ Combination DAX Patterns Spotlight</h2>
+      <p style="font-size:.92rem">DAX gains its real power when functions are chained together. In enterprise models, a single function rarely solves a business requirement alone — combinations alter filter context, iterate across relationships, and handle dynamic executive logic.</p>
+
+      <div class="grid grid-2" style="margin-top:16px">
+        <div class="card">
+          <span class="pill good">Core Pattern #1</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + FILTER</h3>
+          <p style="font-size:.88rem"><b>When required:</b> A bare <code>CALCULATE(..., Sales &gt; 1000)</code> only accepts simple single-column constant filters. You <b>must</b> combine with <code>FILTER()</code> whenever: (1) you compare two columns to each other, (2) you reference a measure inside the condition, or (3) you apply multi-column row logic.</p>
+          <div class="codeblock"><span class="c-com">// Filtering by measure or dynamic row logic</span>
+High Profit Sales = 
+<span class="c-fn">CALCULATE</span>(
+    [Total Sales],
+    <span class="c-fn">FILTER</span>(
+        DimProduct,
+        DimProduct[ListPrice] &gt; DimProduct[StandardCost] * 2
+    )
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)"><code>FILTER(DimProduct, ...)</code> returns a filtered table that <code>CALCULATE</code> applies as its new filter context.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #2</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + ALL</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Market share, % of category, or benchmark ratios where the denominator must ignore whatever slicers or visual rows are currently filtering the data.</p>
+          <div class="codeblock"><span class="c-com">// Market Share / % of Grand Total</span>
+% of All Sales = 
+<span class="c-fn">DIVIDE</span>(
+    [Total Sales],
+    <span class="c-fn">CALCULATE</span>( [Total Sales], <span class="c-fn">ALL</span>( FactInternetSales ) ),
+    0
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)"><code>ALL</code> removes all filters from the table or column, providing a fixed grand total denominator.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #3</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + ALLSELECTED</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Percentage of user selection. Unlike <code>ALL</code> (which ignores even the user's slicers), <code>ALLSELECTED</code> respects external page slicers while clearing the visual's internal row/column axes.</p>
+          <div class="codeblock"><span class="c-com">// Respects Category slicer, but sums across table rows</span>
+% of Filtered Selection = 
+<span class="c-fn">DIVIDE</span>(
+    [Total Sales],
+    <span class="c-fn">CALCULATE</span>( [Total Sales], <span class="c-fn">ALLSELECTED</span>( DimProduct ) ),
+    0
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">If the user filters to "Bikes", the rows sum to 100% of Bikes rather than % of all company sales.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #4</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + ALLEXCEPT</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Category subtotals. Strips filters from every column on a dimension <i>except</i> the specified column(s). Great for "Product sales as % of its Parent Category."</p>
+          <div class="codeblock"><span class="c-com">// Keeps Category filter, strips Subcategory and Product filters</span>
+Category Total Sales = 
+<span class="c-fn">CALCULATE</span>(
+    [Total Sales],
+    <span class="c-fn">ALLEXCEPT</span>( DimProduct, DimProduct[ProductLine] )
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Calculates the total for Road Bikes across all individual bike models in that line.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #5</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + USERELATIONSHIP</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Role-playing dimensions. When a fact table has multiple dates (Order Date, Ship Date, Due Date), Power BI only allows one active relationship. <code>USERELATIONSHIP</code> activates the inactive relationship inside that measure.</p>
+          <div class="codeblock"><span class="c-com">// Analyzes sales by Ship Date instead of default Order Date</span>
+Sales by Ship Date = 
+<span class="c-fn">CALCULATE</span>(
+    [Total Sales],
+    <span class="c-fn">USERELATIONSHIP</span>(
+        FactInternetSales[ShipDateKey],
+        DimDate[DateKey]
+    )
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Enables plotting both Order Date volume and Shipping Date volume on the same calendar axis.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #6</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + KEEPFILTERS</h3>
+          <p style="font-size:.88rem"><b>When required:</b> By default, <code>CALCULATE</code> overrides existing filters on the same column. Wrapping the filter in <code>KEEPFILTERS</code> tells DAX to <i>intersect</i> instead of override.</p>
+          <div class="codeblock"><span class="c-com">// Intersects with slicer; returns blank if slicer is set to "Mountain"</span>
+Safe Road Bike Sales = 
+<span class="c-fn">CALCULATE</span>(
+    [Total Sales],
+    <span class="c-fn">KEEPFILTERS</span>( DimProduct[ProductLine] = <span class="c-str">"R"</span> )
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Prevents accidental display of Road Bike sales when an executive specifically filtered to Mountain Bikes.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #7</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">SUMX + RELATED</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Multiplying a transaction quantity on the Fact table (Many side) by a unit cost or price sitting in a Dimension table (One side).</p>
+          <div class="codeblock"><span class="c-com">// Evaluated row by row on Fact, fetching Unit Price from DimProduct</span>
+Total Revenue at List Price = 
+<span class="c-fn">SUMX</span>(
+    FactInternetSales,
+    FactInternetSales[OrderQuantity] * <span class="c-fn">RELATED</span>( DimProduct[ListPrice] )
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)"><code>RELATED</code> traverses the 1-to-many relationship inside the row context created by <code>SUMX</code>.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #8</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">SWITCH + TRUE()</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Multi-condition decision ladders, performance scoring, or custom text tagging. Replaces messy nested <code>IF()</code> statements.</p>
+          <div class="codeblock"><span class="c-com">// Executive Performance Classification Ladder</span>
+Performance Tier = 
+<span class="c-fn">VAR</span> MarginRate = [Profit Margin %]
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">SWITCH</span>(
+        <span class="c-fn">TRUE</span>(),
+        MarginRate &gt;= 0.40, <span class="c-str">"Tier 1: High Margin (40%+)"</span>,
+        MarginRate &gt;= 0.20, <span class="c-str">"Tier 2: Standard (20-39%)"</span>,
+        MarginRate &gt; 0,     <span class="c-str">"Tier 3: Low Margin (&lt;20%)"</span>,
+        <span class="c-str">"Tier 4: Loss Making"</span>
+    )</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Evaluates conditions in sequential top-down order until the first true expression is found.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #9</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CONCATENATEX + VALUES</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Dynamic titles, card subtitles, or tooltips that list all items currently chosen in a multi-select slicer.</p>
+          <div class="codeblock"><span class="c-com">// Returns "Selected Cities: Bangalore, Mumbai, Delhi"</span>
+Selected Regions List = 
+<span class="c-fn">VAR</span> SelectedList = 
+    <span class="c-fn">CONCATENATEX</span>(
+        <span class="c-fn">VALUES</span>( DimSalesTerritory[SalesTerritoryRegion] ),
+        DimSalesTerritory[SalesTerritoryRegion],
+        <span class="c-str">", "</span>,
+        DimSalesTerritory[SalesTerritoryRegion],
+        ASC
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-str">"Regions: "</span> &amp; SelectedList</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Turns tabular filter context into a clean, comma-delimited string for card visuals or chart headers.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #10</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">ADDCOLUMNS + SUMMARIZE</h3>
+          <p style="font-size:.88rem"><b>When required:</b> The recommended best practice for generating virtual tables. Never compute measures directly inside <code>SUMMARIZE</code> (which can cause severe performance bugs); use <code>ADDCOLUMNS</code> wrapped around <code>SUMMARIZE</code>.</p>
+          <div class="codeblock"><span class="c-com">// Golden pattern for virtual table aggregations</span>
+Average Customer Sales = 
+<span class="c-fn">VAR</span> CustomerTable = 
+    <span class="c-fn">ADDCOLUMNS</span>(
+        <span class="c-fn">SUMMARIZE</span>( FactInternetSales, FactInternetSales[CustomerKey] ),
+        <span class="c-str">"@CustSales"</span>, [Total Sales]
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">AVERAGEX</span>( CustomerTable, [@CustSales] )</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Summarizes unique customers, calculates sales per customer with context transition, then averages them.</p>
+        </div>
+      </div>
+
+      <!-- Complete DAX Function Directory -->
+      <h2 style="margin-top:48px">Comprehensive DAX Function Directory</h2>
+      <p style="font-size:.92rem">All functions available in Power BI Desktop, arranged by functional domain. Each entry provides the formal syntax, concise description, and working DAX formula.</p>
+
+      <div id="daxDirectory" style="margin-top:16px;"></div>
+
+      <footer class="pagefoot"><span>Module 3 · Complete DAX Encyclopedia</span><a href="32-module3-assignment.html">Next: Module 3 Assignment →</a></footer>
+
+<script>
+/* ================= COMPLETE DAX ENCYCLOPEDIA DATA ================= */
+const DAX_FUNCTIONS = [
+  /* ---------- COMBINATIONS ---------- */
+  {
+    name: "CALCULATE + FILTER",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, FILTER ( <Table>, <Condition> ) )",
+    desc: "Applies a dynamic table filter to an expression. Essential when conditions involve measures, compare two columns, or require complex row-by-row filtering.",
+    example: "High Margin Sales =\nCALCULATE( [Total Sales], FILTER( DimProduct, DimProduct[ListPrice] > DimProduct[StandardCost] * 2 ) )"
+  },
+  {
+    name: "CALCULATE + ALL",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, ALL ( <TableOrColumn> ) )",
+    desc: "Clears filters from the specified table or column to compute static grand totals, market shares, or baselines.",
+    example: "% of All Sales =\nDIVIDE( [Total Sales], CALCULATE( [Total Sales], ALL( FactInternetSales ) ), 0 )"
+  },
+  {
+    name: "CALCULATE + ALLSELECTED",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, ALLSELECTED ( <TableOrColumn> ) )",
+    desc: "Clears visual row/column filters while preserving report-level and slicer selections. Standard pattern for dynamic % of Selection.",
+    example: "% of Filtered Selection =\nDIVIDE( [Total Sales], CALCULATE( [Total Sales], ALLSELECTED( DimProduct ) ), 0 )"
+  },
+  {
+    name: "CALCULATE + ALLEXCEPT",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, ALLEXCEPT ( <Table>, <Column1>, ... ) )",
+    desc: "Removes all filters from a table except for the specified column(s). Standard pattern for parent-category subtotals.",
+    example: "Category Total Sales =\nCALCULATE( [Total Sales], ALLEXCEPT( DimProduct, DimProduct[ProductLine] ) )"
+  },
+  {
+    name: "CALCULATE + KEEPFILTERS",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, KEEPFILTERS ( <FilterExpression> ) )",
+    desc: "Forces CALCULATE to intersect its filter with existing filter context instead of overriding it.",
+    example: "Safe Road Bike Sales =\nCALCULATE( [Total Sales], KEEPFILTERS( DimProduct[ProductLine] = \"R\" ) )"
+  },
+  {
+    name: "CALCULATE + USERELATIONSHIP",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, USERELATIONSHIP ( <Column1>, <Column2> ) )",
+    desc: "Activates an inactive relationship for the duration of the calculation. Enables role-playing dates (ShipDate vs OrderDate).",
+    example: "Sales by Ship Date =\nCALCULATE( [Total Sales], USERELATIONSHIP( FactInternetSales[ShipDateKey], DimDate[DateKey] ) )"
+  },
+  {
+    name: "CALCULATE + CROSSFILTER",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, CROSSFILTER ( <Column1>, <Column2>, Both | Single | None ) )",
+    desc: "Modifies how filters propagate across a relationship dynamically without changing permanent model settings.",
+    example: "Customers with Purchases =\nCALCULATE( DISTINCTCOUNT( DimCustomer[CustomerKey] ), CROSSFILTER( FactInternetSales[CustomerKey], DimCustomer[CustomerKey], Both ) )"
+  },
+  {
+    name: "SUMX + RELATED",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "SUMX ( <FactTable>, <FactColumn> * RELATED ( <DimColumn> ) )",
+    desc: "Iterates across a fact table row-by-row, looking up a price, cost, or weight from a related dimension table.",
+    example: "Total Sales at List Price =\nSUMX( FactInternetSales, FactInternetSales[OrderQuantity] * RELATED( DimProduct[ListPrice] ) )"
+  },
+  {
+    name: "SWITCH + TRUE()",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "SWITCH ( TRUE(), <Condition1>, <Result1>, <Condition2>, <Result2>, <Else> )",
+    desc: "The premier pattern for multi-condition decision ladders and KPI scoring, eliminating deeply nested IF statements.",
+    example: "Customer Tier =\nSWITCH( TRUE(), [Total Sales] >= 50000, \"Platinum\", [Total Sales] >= 20000, \"Gold\", \"Standard\" )"
+  },
+  {
+    name: "CONCATENATEX + VALUES",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CONCATENATEX ( VALUES ( <Column> ), <Column>, <Delimiter>, <OrderBy> )",
+    desc: "Constructs a clean comma-separated text string of all items currently chosen in a slicer or filter.",
+    example: "Active Slicer Choices =\nCONCATENATEX( VALUES( DimProduct[ProductLine] ), DimProduct[ProductLine], \", \", DimProduct[ProductLine], ASC )"
+  },
+  {
+    name: "ADDCOLUMNS + SUMMARIZE",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "ADDCOLUMNS ( SUMMARIZE ( <Table>, <GroupCols> ), \"@MeasureName\", <Measure> )",
+    desc: "The golden practice for creating virtual calculation tables in memory without suffering from SUMMARIZE clustering bugs.",
+    example: "Average Sales per Customer =\nVAR T = ADDCOLUMNS( SUMMARIZE( FactInternetSales, FactInternetSales[CustomerKey] ), \"@Spend\", [Total Sales] )\nRETURN AVERAGEX( T, [@Spend] )"
+  },
+
+  /* ---------- FILTER & CALCULATE ---------- */
+  {
+    name: "CALCULATE",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "CALCULATE ( <Expression>, <Filter1>, <Filter2>, ... )",
+    desc: "The single most important function in DAX. Evaluates an expression inside a modified filter context, transitioning row context into filter context.",
+    example: "Road Bike Sales =\nCALCULATE( [Total Sales], DimProduct[ProductLine] = \"R\" )"
+  },
+  {
+    name: "CALCULATETABLE",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "CALCULATETABLE ( <TableExpression>, <Filter1>, ... )",
+    desc: "Evaluates a table expression within a modified filter context, returning a table instead of a scalar value.",
+    example: "Active Customers Table =\nCALCULATETABLE( VALUES( DimCustomer[CustomerKey] ), FactInternetSales[SalesAmount] > 0 )"
+  },
+  {
+    name: "FILTER",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "FILTER ( <Table>, <FilterCondition> )",
+    desc: "Iterates row-by-row over a table and returns only the rows that satisfy the boolean expression.",
+    example: "Expensive Products =\nFILTER( DimProduct, DimProduct[ListPrice] > 1000 )"
+  },
+  {
+    name: "ALL",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "ALL ( <TableOrColumn1>, [Column2], ... )",
+    desc: "Removes all filters from specified columns or tables, ignoring visual, page, and report slicers.",
+    example: "Grand Total Revenue =\nCALCULATE( [Total Sales], ALL( FactInternetSales ) )"
+  },
+  {
+    name: "ALLEXCEPT",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "ALLEXCEPT ( <Table>, <KeepColumn1>, ... )",
+    desc: "Clears all filters from a table EXCEPT those on the explicitly specified columns.",
+    example: "Category Sales =\nCALCULATE( [Total Sales], ALLEXCEPT( DimProduct, DimProduct[ProductLine] ) )"
+  },
+  {
+    name: "ALLSELECTED",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "ALLSELECTED ( [TableOrColumn] )",
+    desc: "Removes context filters from rows and columns in the visual while keeping outer slicers and page filters intact.",
+    example: "% of Selected Products =\nDIVIDE( [Total Sales], CALCULATE( [Total Sales], ALLSELECTED( DimProduct ) ) )"
+  },
+  {
+    name: "REMOVEFILTERS",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "REMOVEFILTERS ( [TableOrColumn1], ... )",
+    desc: "Alias for ALL when used purely as a filter argument in CALCULATE. Explicitly communicates intent to clear filters.",
+    example: "Unfiltered Sales =\nCALCULATE( [Total Sales], REMOVEFILTERS( DimProduct[Color] ) )"
+  },
+  {
+    name: "KEEPFILTERS",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "KEEPFILTERS ( <FilterExpression> )",
+    desc: "Modifies how filters are applied in CALCULATE, ensuring existing filters are intersected rather than replaced.",
+    example: "Strict Category Sales =\nCALCULATE( [Total Sales], KEEPFILTERS( DimProduct[ProductLine] = \"R\" ) )"
+  },
+  {
+    name: "TREATAS",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "TREATAS ( <TableExpression>, <Column1>, [Column2], ... )",
+    desc: "Applies the values from a table expression as a filter to target columns, simulating a relationship between disconnected tables.",
+    example: "Filtered Target Sales =\nCALCULATE( [Total Sales], TREATAS( {\"North\", \"South\"}, DimSalesTerritory[SalesTerritoryGroup] ) )"
+  },
+  {
+    name: "LOOKUPVALUE",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "LOOKUPVALUE ( <ResultCol>, <SearchCol1>, <SearchVal1>, ... )",
+    desc: "Looks up and returns a scalar value from a table where search columns match search values, without requiring a model relationship.",
+    example: "Manager Email =\nLOOKUPVALUE( DimEmployee[EmailAddress], DimEmployee[EmployeeKey], FactInternetSales[EmployeeKey] )"
+  },
+
+  /* ---------- TIME INTELLIGENCE ---------- */
+  {
+    name: "TOTALYTD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "TOTALYTD ( <Expression>, <DateColumn>, [Filter], [YearEndDate] )",
+    desc: "Computes a cumulative running total of an expression from the first day of the year up to the current date in context.",
+    example: "Sales YTD =\nTOTALYTD( [Total Sales], DimDate[FullDateAlternateKey] )"
+  },
+  {
+    name: "TOTALQTD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "TOTALQTD ( <Expression>, <DateColumn>, [Filter] )",
+    desc: "Evaluates the quarterly running total from the start of the quarter up to the current context date.",
+    example: "Sales QTD =\nTOTALQTD( [Total Sales], DimDate[FullDateAlternateKey] )"
+  },
+  {
+    name: "TOTALMTD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "TOTALMTD ( <Expression>, <DateColumn>, [Filter] )",
+    desc: "Evaluates the monthly running total from the first day of the month up to the current context date.",
+    example: "Sales MTD =\nTOTALMTD( [Total Sales], DimDate[FullDateAlternateKey] )"
+  },
+  {
+    name: "SAMEPERIODLASTYEAR",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "SAMEPERIODLASTYEAR ( <DateColumn> )",
+    desc: "Returns a table of dates shifted back exactly one full year from the dates in the current filter context.",
+    example: "Sales Last Year =\nCALCULATE( [Total Sales], SAMEPERIODLASTYEAR( DimDate[FullDateAlternateKey] ) )"
+  },
+  {
+    name: "DATEADD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "DATEADD ( <DateColumn>, <NumberOfIntervals>, DAY | MONTH | QUARTER | YEAR )",
+    desc: "Shifts dates by a given number of days, months, quarters, or years backward or forward.",
+    example: "Sales Previous Month =\nCALCULATE( [Total Sales], DATEADD( DimDate[FullDateAlternateKey], -1, MONTH ) )"
+  },
+  {
+    name: "DATESBETWEEN",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "DATESBETWEEN ( <DateColumn>, <StartDate>, <EndDate> )",
+    desc: "Returns a contiguous table of dates between a specified start and end date inclusive.",
+    example: "Q1 Sales =\nCALCULATE( [Total Sales], DATESBETWEEN( DimDate[FullDateAlternateKey], DATE(2024,1,1), DATE(2024,3,31) ) )"
+  },
+  {
+    name: "DATESINPERIOD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "DATESINPERIOD ( <DateColumn>, <StartDate>, <NumberOfIntervals>, DAY | MONTH | QUARTER | YEAR )",
+    desc: "Returns a table of dates starting at a date and extending across the given interval. Foundation for rolling averages.",
+    example: "Rolling 3 Month Sales =\nCALCULATE( [Total Sales], DATESINPERIOD( DimDate[FullDateAlternateKey], MAX(DimDate[FullDateAlternateKey]), -3, MONTH ) )"
+  },
+  {
+    name: "PARALLELPERIOD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "PARALLELPERIOD ( <DateColumn>, <NumberOfIntervals>, MONTH | QUARTER | YEAR )",
+    desc: "Returns a complete period of dates parallel to the dates in the current context, shifted by the specified intervals.",
+    example: "Prior Full Year Sales =\nCALCULATE( [Total Sales], PARALLELPERIOD( DimDate[FullDateAlternateKey], -1, YEAR ) )"
+  },
+  {
+    name: "PREVIOUSMONTH / PREVIOUSYEAR",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "PREVIOUSMONTH ( <DateColumn> )",
+    desc: "Returns all dates from the entire month preceding the first date in the current filter context.",
+    example: "Sales Prior Month =\nCALCULATE( [Total Sales], PREVIOUSMONTH( DimDate[FullDateAlternateKey] ) )"
+  },
+  {
+    name: "CLOSINGBALANCEMONTH / YEAR",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "CLOSINGBALANCEMONTH ( <Expression>, <DateColumn>, [Filter] )",
+    desc: "Evaluates an expression for the last date of the current month. Standard for inventory and bank balance snapshots.",
+    example: "Month End Inventory =\nCLOSINGBALANCEMONTH( SUM( Retail[Inventory] ), DimDate[FullDateAlternateKey] )"
+  },
+
+  /* ---------- AGGREGATIONS & STATS ---------- */
+  {
+    name: "SUM",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "SUM ( <Column> )",
+    desc: "Sums all numeric values in a column.",
+    example: "Total Sales =\nSUM( FactInternetSales[SalesAmount] )"
+  },
+  {
+    name: "AVERAGE",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "AVERAGE ( <Column> )",
+    desc: "Calculates the arithmetic mean of all numeric values in a column.",
+    example: "Avg Order Value =\nAVERAGE( FactInternetSales[SalesAmount] )"
+  },
+  {
+    name: "COUNT",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "COUNT ( <Column> )",
+    desc: "Counts the number of non-blank numeric, date, or text values in a column.",
+    example: "Customer Count =\nCOUNT( DimCustomer[CustomerKey] )"
+  },
+  {
+    name: "COUNTA",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "COUNTA ( <Column> )",
+    desc: "Counts non-empty values in a column, including text, dates, and logical booleans.",
+    example: "Active Emails =\nCOUNTA( DimCustomer[EmailAddress] )"
+  },
+  {
+    name: "COUNTROWS",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "COUNTROWS ( <Table> )",
+    desc: "Counts the total number of rows in the specified table currently visible in filter context.",
+    example: "Total Line Items =\nCOUNTROWS( FactInternetSales )"
+  },
+  {
+    name: "DISTINCTCOUNT",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "DISTINCTCOUNT ( <Column> )",
+    desc: "Counts the number of unique distinct values in a column, including blanks if present.",
+    example: "Unique Orders =\nDISTINCTCOUNT( FactInternetSales[SalesOrderNumber] )"
+  },
+  {
+    name: "DISTINCTCOUNTNOBLANK",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "DISTINCTCOUNTNOBLANK ( <Column> )",
+    desc: "Counts unique distinct values in a column, strictly ignoring blank values.",
+    example: "Unique Active SKUs =\nDISTINCTCOUNTNOBLANK( DimProduct[ProductKey] )"
+  },
+  {
+    name: "MIN / MAX",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "MIN ( <Column> ) / MAX ( <Column> )",
+    desc: "Returns the smallest or largest value in a column or between two scalar values.",
+    example: "Max Transaction Amount =\nMAX( FactInternetSales[SalesAmount] )"
+  },
+  {
+    name: "MEDIAN",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "MEDIAN ( <Column> )",
+    desc: "Calculates the median (50th percentile) value of a column, resistant to extreme outliers.",
+    example: "Median Order Value =\nMEDIAN( FactInternetSales[SalesAmount] )"
+  },
+  {
+    name: "STDEV.P / STDEV.S",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "STDEV.P ( <Column> ) / STDEV.S ( <Column> )",
+    desc: "Calculates the standard deviation for an entire population (.P) or a sample (.S).",
+    example: "Salary Standard Deviation =\nSTDEV.P( HR[Salary] )"
+  },
+  {
+    name: "PERCENTILE.INC / EXC",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "PERCENTILE.INC ( <Column>, <k> )",
+    desc: "Returns the k-th percentile of values in a column (e.g. k=0.9 for the 90th percentile).",
+    example: "90th Percentile Sales =\nPERCENTILE.INC( FactInternetSales[SalesAmount], 0.90 )"
+  },
+
+  /* ---------- ITERATORS (X-FAMILY) ---------- */
+  {
+    name: "SUMX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "SUMX ( <Table>, <Expression> )",
+    desc: "Iterates through each row of a table, computes the expression row-by-row, and sums the results.",
+    example: "Total Margin =\nSUMX( FactInternetSales, FactInternetSales[SalesAmount] - FactInternetSales[TotalProductCost] )"
+  },
+  {
+    name: "AVERAGEX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "AVERAGEX ( <Table>, <Expression> )",
+    desc: "Evaluates an expression for each row of a table, then computes the average of those values.",
+    example: "Avg Profit per Order =\nAVERAGEX( VALUES( FactInternetSales[SalesOrderNumber] ), [Total Profit] )"
+  },
+  {
+    name: "MINX / MAXX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "MAXX ( <Table>, <Expression> )",
+    desc: "Iterates row-by-row, evaluating the expression on each row, and returns the maximum or minimum resulting value.",
+    example: "Highest Store Daily Sales =\nMAXX( Retail, Retail[Sales] )"
+  },
+  {
+    name: "COUNTX / COUNTAX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "COUNTX ( <Table>, <Expression> )",
+    desc: "Counts the rows where the expression evaluates to a non-blank result during table iteration.",
+    example: "Profitable Order Count =\nCOUNTX( FactInternetSales, IF( FactInternetSales[SalesAmount] > FactInternetSales[TotalProductCost], 1 ) )"
+  },
+  {
+    name: "CONCATENATEX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "CONCATENATEX ( <Table>, <Expression>, [Delimiter], [OrderBy], [Order] )",
+    desc: "Evaluates an expression for each row of a table and concatenates the results into a single string with delimiters.",
+    example: "Product Colors List =\nCONCATENATEX( VALUES( DimProduct[Color] ), DimProduct[Color], \", \", DimProduct[Color], ASC )"
+  },
+  {
+    name: "MEDIANX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "MEDIANX ( <Table>, <Expression> )",
+    desc: "Iterates over a table, evaluates an expression row-by-row, and calculates the median of the resulting values.",
+    example: "Median Daily Store Revenue =\nMEDIANX( VALUES( Retail[Date] ), [Total Retail Sales] )"
+  },
+
+  /* ---------- LOGICAL & CONDITIONAL ---------- */
+  {
+    name: "IF",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "IF ( <LogicalTest>, <ResultIfTrue>, [ResultIfFalse] )",
+    desc: "Checks a condition and returns one value if true, another if false.",
+    example: "Target Status =\nIF( [Total Sales] >= 1000000, \"Met\", \"Missed\" )"
+  },
+  {
+    name: "SWITCH",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "SWITCH ( <Expression>, <Val1>, <Result1>, [Val2], [Result2], [Else] )",
+    desc: "Evaluates an expression against a series of values and returns the matching result.",
+    example: "Category Label =\nSWITCH( DimProduct[ProductLine], \"R\", \"Road\", \"M\", \"Mountain\", \"Other\" )"
+  },
+  {
+    name: "COALESCE",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "COALESCE ( <Val1>, <Val2>, ... )",
+    desc: "Returns the first argument that does not evaluate to blank.",
+    example: "Safe Customer Phone =\nCOALESCE( DimCustomer[Phone], DimCustomer[MobilePhone], \"N/A\" )"
+  },
+  {
+    name: "ISBLANK",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "ISBLANK ( <Value> )",
+    desc: "Returns TRUE if the value is blank or null, FALSE otherwise.",
+    example: "Has Discount =\nIF( ISBLANK( Sales[Discount] ), \"No\", \"Yes\" )"
+  },
+  {
+    name: "SELECTEDVALUE",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "SELECTEDVALUE ( <Column>, [AlternateResult] )",
+    desc: "Returns the value of a column if only one unique value is filtered, otherwise returns an alternate result.",
+    example: "Header Title =\n\"Sales for: \" & SELECTEDVALUE( DimProduct[ProductLine], \"All Categories\" )"
+  },
+  {
+    name: "HASONEVALUE",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "HASONEVALUE ( <Column> )",
+    desc: "Returns TRUE when context for the column has been filtered down to one distinct value.",
+    example: "Is Single Store Selected =\nIF( HASONEVALUE( Retail[Store] ), [Total Sales], BLANK() )"
+  },
+  {
+    name: "ISINSCOPE",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "ISINSCOPE ( <Column> )",
+    desc: "Returns TRUE when the column is the level of hierarchy currently in context on a matrix or drilldown visual.",
+    example: "Matrix Subtotal Display =\nIF( ISINSCOPE( DimProduct[EnglishProductName] ), [Item Sales], [Category Sales] )"
+  },
+  {
+    name: "IFERROR",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "IFERROR ( <Value>, <ValueIfError> )",
+    desc: "Evaluates an expression and returns an alternate value if an error occurs.",
+    example: "Safe Parsing =\nIFERROR( VALUE( Sales[DiscountText] ), 0 )"
+  },
+
+  /* ---------- TEXT & STRING ---------- */
+  {
+    name: "CONCATENATE / &",
+    category: "text",
+    family: "Text & String",
+    syntax: "CONCATENATE ( <Text1>, <Text2> ) or <Text1> & <Text2>",
+    desc: "Joins two text strings into one. In practice, the ampersand operator (&) is preferred.",
+    example: "Full Name =\nDimCustomer[FirstName] & \" \" & DimCustomer[LastName]"
+  },
+  {
+    name: "LEFT / RIGHT / MID",
+    category: "text",
+    family: "Text & String",
+    syntax: "LEFT ( <Text>, <NumChars> )",
+    desc: "Returns a substring of specified length from the start, middle, or end of a string.",
+    example: "Order Prefix =\nLEFT( FactInternetSales[SalesOrderNumber], 2 )"
+  },
+  {
+    name: "UPPER / LOWER / PROPER",
+    category: "text",
+    family: "Text & String",
+    syntax: "UPPER ( <Text> ) / LOWER ( <Text> )",
+    desc: "Converts text to uppercase, lowercase, or capitalized title case.",
+    example: "Standard City =\nUPPER( DimCustomer[City] )"
+  },
+  {
+    name: "TRIM",
+    category: "text",
+    family: "Text & String",
+    syntax: "TRIM ( <Text> )",
+    desc: "Removes all leading, trailing, and redundant spaces from a text string.",
+    example: "Clean Customer Name =\nTRIM( DimCustomer[FirstName] )"
+  },
+  {
+    name: "FORMAT",
+    category: "text",
+    family: "Text & String",
+    syntax: "FORMAT ( <Value>, <FormatString> )",
+    desc: "Converts a numeric or date value into a formatted text string according to custom formatting codes.",
+    example: "Formatted Revenue =\nFORMAT( [Total Sales], \"₹#,##0\" )"
+  },
+  {
+    name: "SUBSTITUTE / REPLACE",
+    category: "text",
+    family: "Text & String",
+    syntax: "SUBSTITUTE ( <Text>, <OldText>, <NewText>, [Instance] )",
+    desc: "Replaces existing text with new text in a string.",
+    example: "Sanitized Code =\nSUBSTITUTE( DimProduct[ProductNumber], \"-\", \"\" )"
+  },
+  {
+    name: "SEARCH / FIND",
+    category: "text",
+    family: "Text & String",
+    syntax: "SEARCH ( <FindText>, <WithinText>, [StartPos], [NotFoundVal] )",
+    desc: "Returns the starting character position of a substring. SEARCH is case-insensitive; FIND is case-sensitive.",
+    example: "Domain Position =\nSEARCH( \"@\", DimCustomer[EmailAddress], 1, 0 )"
+  },
+  {
+    name: "LEN",
+    category: "text",
+    family: "Text & String",
+    syntax: "LEN ( <Text> )",
+    desc: "Returns the count of characters in a text string.",
+    example: "Postal Code Length =\nLEN( DimCustomer[PostalCode] )"
+  },
+
+  /* ---------- DATE & TIME ---------- */
+  {
+    name: "DATE / TIME",
+    category: "date",
+    family: "Date & Time",
+    syntax: "DATE ( <Year>, <Month>, <Day> )",
+    desc: "Constructs a valid datetime value from integer year, month, and day components.",
+    example: "Fiscal Start Date =\nDATE( 2024, 4, 1 )"
+  },
+  {
+    name: "TODAY / NOW",
+    category: "date",
+    family: "Date & Time",
+    syntax: "TODAY () / NOW ()",
+    desc: "Returns the current calendar date (TODAY) or current date and time (NOW).",
+    example: "Days Since Order =\nDATEDIFF( FactInternetSales[OrderDate], TODAY(), DAY )"
+  },
+  {
+    name: "YEAR / MONTH / DAY",
+    category: "date",
+    family: "Date & Time",
+    syntax: "YEAR ( <Date> ) / MONTH ( <Date> ) / DAY ( <Date> )",
+    desc: "Extracts the four-digit year, month number (1-12), or day number (1-31) from a date.",
+    example: "Order Year =\nYEAR( FactInternetSales[OrderDate] )"
+  },
+  {
+    name: "DATEDIFF",
+    category: "date",
+    family: "Date & Time",
+    syntax: "DATEDIFF ( <Date1>, <Date2>, SECOND | MINUTE | HOUR | DAY | MONTH | QUARTER | YEAR )",
+    desc: "Calculates the exact interval difference between two dates.",
+    example: "Delivery Days =\nDATEDIFF( FactInternetSales[OrderDate], FactInternetSales[ShipDate], DAY )"
+  },
+  {
+    name: "EOMONTH / EDATE",
+    category: "date",
+    family: "Date & Time",
+    syntax: "EOMONTH ( <StartDate>, <MonthsOffset> )",
+    desc: "Returns the last date of the month, offset by a given number of months forward or backward.",
+    example: "End of Current Month =\nEOMONTH( TODAY(), 0 )"
+  },
+  {
+    name: "WEEKDAY / WEEKNUM",
+    category: "date",
+    family: "Date & Time",
+    syntax: "WEEKDAY ( <Date>, [ReturnType] )",
+    desc: "Returns the integer day of the week (1-7) or ISO week number of the year (1-53).",
+    example: "Is Weekend =\nIF( WEEKDAY( DimDate[FullDateAlternateKey], 2 ) >= 6, \"Weekend\", \"Weekday\" )"
+  },
+
+  /* ---------- TABLE & VIRTUAL ---------- */
+  {
+    name: "SUMMARIZE",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "SUMMARIZE ( <Table>, <GroupByCol1>, [GroupByCol2], ... )",
+    desc: "Creates a summarized virtual table grouping by distinct values of specified columns.",
+    example: "Store Summary =\nSUMMARIZE( Retail, Retail[Store], Retail[City] )"
+  },
+  {
+    name: "ADDCOLUMNS",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "ADDCOLUMNS ( <Table>, <Name1>, <Expression1>, ... )",
+    desc: "Appends calculated columns to an existing table expression with context transition.",
+    example: "Products with Margin =\nADDCOLUMNS( DimProduct, \"@Margin\", DimProduct[ListPrice] - DimProduct[StandardCost] )"
+  },
+  {
+    name: "SELECTCOLUMNS",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "SELECTCOLUMNS ( <Table>, <Name1>, <Expression1>, ... )",
+    desc: "Returns a table containing only the selected and computed columns, without keeping source columns.",
+    example: "Customer Lookup Table =\nSELECTCOLUMNS( DimCustomer, \"ID\", DimCustomer[CustomerKey], \"Email\", DimCustomer[EmailAddress] )"
+  },
+  {
+    name: "VALUES / DISTINCT",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "VALUES ( <ColumnOrTable> ) / DISTINCT ( <ColumnOrTable> )",
+    desc: "Returns a one-column table of unique values visible in current context. VALUES preserves blank row integrity.",
+    example: "Filtered Categories =\nVALUES( DimProduct[ProductLine] )"
+  },
+  {
+    name: "UNION / INTERSECT / EXCEPT",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "INTERSECT ( <Table1>, <Table2> )",
+    desc: "Set operations. UNION stacks rows; INTERSECT returns matching rows in both; EXCEPT returns rows in Table1 not in Table2.",
+    example: "Repeat Customers =\nCOUNTROWS( INTERSECT( VALUES(Month1[CustID]), VALUES(Month2[CustID]) ) )"
+  },
+  {
+    name: "TOPN",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "TOPN ( <N_Value>, <Table>, <OrderByExpr>, [Order] )",
+    desc: "Returns the top N rows of a table according to a sorting expression.",
+    example: "Top 5 Products Table =\nTOPN( 5, DimProduct, [Total Sales], DESC )"
+  },
+  {
+    name: "ROW",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "ROW ( <Name1>, <Expression1>, ... )",
+    desc: "Generates a single-row virtual table containing specified named measure results.",
+    example: "Benchmark Row =\nROW( \"AvgSales\", [Total Sales] / 12, \"Target\", 1000000 )"
+  },
+  {
+    name: "DATATABLE",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "DATATABLE ( <Col1>, <Type1>, ..., { { Val1, ... }, { Val2, ... } } )",
+    desc: "Defines an inline static table directly in DAX code without loading an external source.",
+    example: "Tiers Table =\nDATATABLE( \"Tier\", STRING, \"MinScore\", INTEGER, { {\"High\", 750}, {\"Mid\", 650} } )"
+  },
+
+  /* ---------- MATH & NUMERIC ---------- */
+  {
+    name: "DIVIDE",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "DIVIDE ( <Numerator>, <Denominator>, [AlternateResult] )",
+    desc: "Performs safe division and returns an alternate result (or blank) when dividing by zero, preventing errors.",
+    example: "Profit Margin % =\nDIVIDE( [Total Profit], [Total Sales], 0 )"
+  },
+  {
+    name: "ROUND / ROUNDUP / ROUNDDOWN",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "ROUND ( <Number>, <NumDigits> )",
+    desc: "Rounds a number to a specified number of decimal digits.",
+    example: "Rounded Margin =\nROUND( [Profit Margin %], 2 )"
+  },
+  {
+    name: "INT / TRUNC",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "INT ( <Number> ) / TRUNC ( <Number>, [NumDigits] )",
+    desc: "Rounds a number down to the nearest integer, or truncates decimal digits without rounding.",
+    example: "Tenure Years =\nINT( DATEDIFF( HR[JoinDate], TODAY(), DAY ) / 365 )"
+  },
+  {
+    name: "ABS",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "ABS ( <Number> )",
+    desc: "Returns the absolute positive value of a number.",
+    example: "Variance Magnitude =\nABS( [Actual Sales] - [Budget Sales] )"
+  },
+  {
+    name: "MOD",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "MOD ( <Number>, <Divisor> )",
+    desc: "Returns the remainder after a number is divided by a divisor.",
+    example: "Is Even Row =\nIF( MOD( FactInternetSales[OrderQuantity], 2 ) = 0, \"Even\", \"Odd\" )"
+  },
+  {
+    name: "POWER / SQRT",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "POWER ( <Base>, <Exponent> ) / SQRT ( <Number> )",
+    desc: "Raises a number to a power, or returns the positive square root.",
+    example: "Variance Squared =\nPOWER( [Sales Variance], 2 )"
+  },
+
+  /* ---------- RELATIONSHIPS & RANKING ---------- */
+  {
+    name: "RELATED",
+    category: "relationship",
+    family: "Relationship & Lookups",
+    syntax: "RELATED ( <ColumnName> )",
+    desc: "Retrieves a related value from another table on the 'one' side of a 1-to-many relationship.",
+    example: "Product Category =\nRELATED( DimProduct[EnglishProductName] )"
+  },
+  {
+    name: "RELATEDTABLE",
+    category: "relationship",
+    family: "Relationship & Lookups",
+    syntax: "RELATEDTABLE ( <TableName> )",
+    desc: "Returns a table containing all matching rows from the 'many' side of a relationship.",
+    example: "Orders per Customer =\nCOUNTROWS( RELATEDTABLE( FactInternetSales ) )"
+  },
+  {
+    name: "USERELATIONSHIP",
+    category: "relationship",
+    family: "Relationship & Lookups",
+    syntax: "USERELATIONSHIP ( <Column1>, <Column2> )",
+    desc: "Activates an existing but inactive relationship inside CALCULATE.",
+    example: "Sales by Delivery Date =\nCALCULATE( [Total Sales], USERELATIONSHIP( FactInternetSales[ShipDateKey], DimDate[DateKey] ) )"
+  },
+  {
+    name: "CROSSFILTER",
+    category: "relationship",
+    family: "Relationship & Lookups",
+    syntax: "CROSSFILTER ( <Column1>, <Column2>, Both | Single | None )",
+    desc: "Specifies cross-filtering direction for a relationship dynamically inside CALCULATE.",
+    example: "Filter Cross Propagate =\nCALCULATE( [Total Sales], CROSSFILTER( DimCustomer[CustomerKey], FactInternetSales[CustomerKey], Both ) )"
+  },
+  {
+    name: "RANKX",
+    category: "relationship",
+    family: "Window & Ranking",
+    syntax: "RANKX ( <Table>, <Expression>, [Value], [Order], [Ties] )",
+    desc: "Evaluates an expression over a table and returns the rank of the current row/context within that table.",
+    example: "Product Sales Rank =\nRANKX( ALLSELECTED( DimProduct[EnglishProductName] ), [Total Sales], , DESC, Dense )"
+  }
+];
+
+/* ================= RENDER & FILTER ENGINE ================= */
+function renderDirectory(items) {
+  const container = document.getElementById('daxDirectory');
+  if(!items.length) {
+    container.innerHTML = '<div class="card" style="text-align:center;padding:30px;color:var(--text-muted)">No DAX formulas found matching your criteria. Try another keyword.</div>';
+    document.getElementById('daxCount').textContent = '0 functions found';
+    return;
+  }
+  document.getElementById('daxCount').textContent = `Showing ${items.length} functions`;
+  
+  container.innerHTML = items.map((fn, idx) => `
+    <details class="card" style="margin-bottom:12px;padding:16px 20px;" ${items.length <= 15 ? 'open' : ''}>
+      <summary style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none;">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <b style="font-family:var(--font-mono);font-size:1rem;color:var(--text);">${fn.name}</b>
+          <span class="pill ${fn.category === 'combination' ? 'good' : 'table'}">${fn.family}</span>
+        </div>
+        <span style="font-family:var(--font-mono);font-size:.78rem;color:var(--text-muted);">Expand ▾</span>
+      </summary>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
+        <p style="font-size:.9rem;margin:0 0 8px;">${fn.desc}</p>
+        <div style="font-family:var(--font-mono);font-size:.82rem;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;margin:8px 0;color:var(--accent);">
+          <b>Syntax:</b> ${fn.syntax}
+        </div>
+        <div class="codeblock" style="margin:8px 0;">${fn.example.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      </div>
+    </details>
+  `).join('');
+}
+
+let activeCat = 'all';
+let searchQuery = '';
+
+function filterData() {
+  const q = searchQuery.toLowerCase().trim();
+  const filtered = DAX_FUNCTIONS.filter(f => {
+    const matchCat = activeCat === 'all' || f.category === activeCat;
+    const matchText = !q || f.name.toLowerCase().includes(q) || f.desc.toLowerCase().includes(q) || f.syntax.toLowerCase().includes(q) || f.family.toLowerCase().includes(q);
+    return matchCat && matchText;
+  });
+  renderDirectory(filtered);
+}
+
+document.getElementById('daxSearch').addEventListener('input', (e) => {
+  searchQuery = e.target.value;
+  filterData();
+});
+
+document.querySelectorAll('#categoryFilter button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#categoryFilter button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCat = btn.getAttribute('data-cat');
+    filterData();
+  });
+});
+
+// Initial render
+renderDirectory(DAX_FUNCTIONS);
+</script>

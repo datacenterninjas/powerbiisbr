@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Custom Visuals — Power BI for MBA Analytics</title>
+<title>Complex DAX Formulas with Example Datasets — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -264,7 +264,7 @@
     </div>
     <div class="navgroup" data-group-ids="customvisuals,groupshistograms,bestpractices,interactivity,tablesmatrix,conditionalformatting,filters,slicers,module2assignment">
       <div class="label"><span>Module 2: Advanced Visualizations</span><span class="progress-count" data-group-ids="customvisuals,groupshistograms,bestpractices,interactivity,tablesmatrix,conditionalformatting,filters,slicers,module2assignment"></span></div>
-      <div class="navitem"><a class="navbtn active" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a><input type="checkbox" class="navcheck" data-page="customvisuals" title="Mark &quot;Custom Visuals&quot; as done" aria-label="Mark Custom Visuals as done"></div>
+      <div class="navitem"><a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a><input type="checkbox" class="navcheck" data-page="customvisuals" title="Mark &quot;Custom Visuals&quot; as done" aria-label="Mark Custom Visuals as done"></div>
       <div class="navitem"><a class="navbtn" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a><input type="checkbox" class="navcheck" data-page="groupshistograms" title="Mark &quot;Groups & Histograms&quot; as done" aria-label="Mark Groups & Histograms as done"></div>
       <div class="navitem"><a class="navbtn" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a><input type="checkbox" class="navcheck" data-page="bestpractices" title="Mark &quot;Best Practices&quot; as done" aria-label="Mark Best Practices as done"></div>
       <div class="navitem"><a class="navbtn" href="12-interactivity.html"><span class="num">4</span> Interactivity</a><input type="checkbox" class="navcheck" data-page="interactivity" title="Mark &quot;Interactivity&quot; as done" aria-label="Mark Interactivity as done"></div>
@@ -283,7 +283,7 @@
       <div class="navitem"><a class="navbtn" href="38-dax-patterns.html"><span class="num">5</span> Pattern Library</a><input type="checkbox" class="navcheck" data-page="daxpatterns" title="Mark &quot;Pattern Library&quot; as done" aria-label="Mark Pattern Library as done"></div>
       <div class="navitem"><a class="navbtn" href="39-dax-practice.html"><span class="num">6</span> Practice: Problems &amp; Solutions</a><input type="checkbox" class="navcheck" data-page="daxpractice" title="Mark &quot;Practice: Problems & Solutions&quot; as done" aria-label="Mark Practice: Problems & Solutions as done"></div>
       <div class="navitem"><a class="navbtn" href="40-dax-reference.html"><span class="num">◆</span> Formula Reference</a><input type="checkbox" class="navcheck" data-page="daxreference" title="Mark &quot;Formula Reference&quot; as done" aria-label="Mark Formula Reference as done"></div>
-      <div class="navitem"><a class="navbtn" href="44-complex-dax.html"><span class="num">7</span> Complex DAX &amp; Real Datasets</a><input type="checkbox" class="navcheck" data-page="complexdax" title="Mark &quot;Complex DAX & Real Datasets&quot; as done" aria-label="Mark Complex DAX & Real Datasets as done"></div>
+      <div class="navitem"><a class="navbtn active" href="44-complex-dax.html"><span class="num">7</span> Complex DAX &amp; Real Datasets</a><input type="checkbox" class="navcheck" data-page="complexdax" title="Mark &quot;Complex DAX & Real Datasets&quot; as done" aria-label="Mark Complex DAX & Real Datasets as done"></div>
       <div class="navitem"><a class="navbtn" href="45-all-dax-formulas.html"><span class="num">8</span> All DAX Formulas &amp; Combinations</a><input type="checkbox" class="navcheck" data-page="alldaxformulas" title="Mark &quot;All DAX Formulas & Combinations&quot; as done" aria-label="Mark All DAX Formulas & Combinations as done"></div>
       <div class="navitem"><a class="navbtn" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
     </div>
@@ -331,214 +331,342 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Custom Visuals</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Complex DAX Formulas</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 2 · Custom Visuals</span>
-        <h1>Thirty built-in charts cover most questions. Custom visuals are for the ones that don't.</h1>
-        <p class="lede">AppSource is Power BI's plug-in marketplace — hundreds of extra <button class="term" data-term="customvisual">custom visuals</button> beyond the ~30 built-in chart types covered on the <a href="05-visualizations.html">Visualizations</a> page, built by Microsoft, its partners, and independent developers. They drop into the same Visualizations pane and read fields exactly the way a built-in chart does — but every one you add runs third-party code inside your report, so knowing when to reach for one, and how to check it first, matters as much as knowing it exists.</p>
+        <span class="eyebrow">Module 3 · Advanced DAX</span>
+        <h1>Complex DAX Formulas with Real Datasets</h1>
+        <p class="lede">Beyond single-column sums and basic time offsets lie the formulas that power enterprise analytics: dynamic customer cohorting, multi-condition risk exposure, Pareto 80/20 distributions, disconnected-dimension Top N rollups, and peer-group statistical benchmarking. Every pattern below runs on a real, downloadable practice dataset from this course.</p>
       </div>
 
-      <figure>
-        <img src="images/custom-visuals-flow.svg" alt="Flow diagram: AppSource Marketplace leads to Search and Preview, into Import, into the Visualizations Pane, into dragging onto the canvas.">
-        <figcaption>The path every custom visual takes, from the marketplace to your canvas.</figcaption>
-      </figure>
+      <div class="callout"><b>How to use this page:</b> Each pattern solves a real executive question. Download the linked dataset, load it into Power BI Desktop, rename the table as indicated, and test the measure directly. Every formula uses modern DAX practices with <code>VAR ... RETURN</code> blocks for readability and execution performance.</div>
 
-      <h2>What a custom visual actually is</h2>
-      <p>Once installed, a custom visual behaves exactly like Bar Chart or Line Chart — drag a field into a well, format it in the same pane, save it with the rest of the report. The only difference is where it came from: Microsoft AppSource, or occasionally a file, instead of the box. Some are published by Microsoft itself, some by analytics consulting firms, many by independent developers — anyone can publish one, which is exactly why the trust-check later on this page matters.</p>
-      <p>A handful of categories show up again and again in real business reporting:</p>
       <div class="table-wrap">
         <table>
-          <tr><th>Business question</th><th>Custom visual category</th><th>Why a built-in chart falls short</th></tr>
-          <tr><td>Which words come up most in open-text feedback?</td><td><b>Word Cloud</b></td><td>No built-in visual sizes text by frequency</td></tr>
-          <tr><td>Show overlapping tasks, stays, or projects on a real date timeline</td><td><b>Gantt Chart</b></td><td>Bar charts can't position a bar between two actual dates</td></tr>
-          <tr><td>Show how volume splits and flows between stages or groups</td><td><b>Sankey / Chord Diagram</b></td><td>No built-in visual draws flow width between nodes</td></tr>
-          <tr><td>Compare a value against a target and performance bands, densely</td><td><b>Bullet Chart</b></td><td>A Gauge fits one metric per screen; Bullet fits many in a row</td></tr>
-          <tr><td>Compare several dimensions of one item at once (a scorecard)</td><td><b>Radar / Spider Chart</b></td><td>No built-in visual plots multiple axes around a center point</td></tr>
-          <tr><td>Show daily activity across many months (attendance, logins)</td><td><b>Calendar Heatmap</b></td><td>A Matrix holds the numbers but can't shade like a calendar grid</td></tr>
+          <tr><th>#</th><th>Pattern</th><th>Core DAX Machinery</th><th>Example Dataset</th><th>Business Question</th></tr>
+          <tr><td class="num">1</td><td><b>Dynamic Customer Spend Tiers</b></td><td><code>SUMMARIZE</code>, <code>ADDCOLUMNS</code>, <code>COUNTX</code>, <code>SWITCH</code></td><td><a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a></td><td>How many customers fall into Platinum vs. Gold tiers within the current filtered period?</td></tr>
+          <tr><td class="num">2</td><td><b>New vs. Returning Customer Revenue</b></td><td><code>CALCULATETABLE</code>, <code>MIN</code>, <code>ALL</code>, <code>FILTER</code></td><td><a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a></td><td>What share of this month's revenue came from brand-new first-time buyers vs. repeat clients?</td></tr>
+          <tr><td class="num">3</td><td><b>Top 5 + "All Others" Rollup</b></td><td><code>RANKX</code>, <code>ALLSELECTED</code>, Disconnected Dimension</td><td><a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a></td><td>How do we show the top 5 stores by name while rolling all remaining 20+ stores into one bar?</td></tr>
+          <tr><td class="num">4</td><td><b>Multi-Condition Risk Exposure</b></td><td><code>SUMX</code>, <code>DIVIDE</code> inside iterator, Boolean AND</td><td><a href="datasets/Banking_Clean.csv" download>Banking_Clean.csv</a></td><td>What total loan capital is tied up in accounts with low credit and an EMI burden &gt; 40%?</td></tr>
+          <tr><td class="num">5</td><td><b>Pareto 80/20 Cumulative Share</b></td><td><code>RANKX</code>, <code>SUMX</code> over categorical table, <code>DIVIDE</code></td><td><a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a></td><td>Which top products generate the first 80% of our cumulative revenue?</td></tr>
+          <tr><td class="num">6</td><td><b>30-Day Hospital Readmission Rate</b></td><td>Self-referencing <code>FILTER</code>, <code>DATEDIFF</code>, <code>CALCULATE</code></td><td><a href="datasets/Hospital_Clean.csv" download>Hospital_Clean.csv</a></td><td>What percentage of discharged patients returned for another admission within 30 days?</td></tr>
+          <tr><td class="num">7</td><td><b>Department Peer-Group Z-Score</b></td><td><code>ALLEXCEPT</code>, <code>AVERAGEX</code>, <code>STDEV.P</code>, <code>DIVIDE</code></td><td><a href="datasets/HR_Clean.csv" download>HR_Clean.csv</a></td><td>Which employee salaries deviate by &gt; 1.5 standard deviations from their department mean?</td></tr>
+          <tr><td class="num">8</td><td><b>Market Basket Affinity (Cross-Sell)</b></td><td><code>CALCULATETABLE</code>, <code>INTERSECT</code>, Order Co-occurrence</td><td>AdventureWorksDW</td><td>When customers purchase Road Bikes, what percentage also bought Helmets or Accessories?</td></tr>
         </table>
       </div>
-      <p style="font-size:.9rem;color:var(--text-muted)">None of these are required anywhere else in this course — they're here because you will eventually meet a business question a built-in chart genuinely cannot answer, and you should know where to look.</p>
 
-      <h2 style="margin-top:30px">When to reach for one — and when to stay native</h2>
+      <h2 style="margin-top:34px">1. Dynamic Customer Spend Tiers (Virtual Table Segmentation)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> If you create a Calculated Column to classify customers into tiers (e.g. Platinum &gt; ₹10,000, Gold &gt; ₹5,000), that tier is permanently calculated at data refresh time. If an executive filters the dashboard by Year 2024 or Region "North", the column does <i>not</i> recalculate. We need a <b>dynamic measure</b> that evaluates customer spend on the fly using an in-memory virtual table.</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a> (Table: <code>Sales</code> — Columns: <code>Order ID</code>, <code>Customer</code>, <code>Region</code>, <code>Sales</code>, <code>Date</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// Measure 1: Base Sales aggregation</span>
+Total Sales = <span class="c-fn">SUM</span>( Sales[Sales] )
+
+<span class="c-com">// Measure 2: Dynamic Count of Platinum Customers (&gt;= ₹10,000 in current filter context)</span>
+Platinum Customer Count = 
+<span class="c-fn">VAR</span> CustomerSpendTable = 
+    <span class="c-fn">ADDCOLUMNS</span>(
+        <span class="c-fn">SUMMARIZE</span>( Sales, Sales[Customer] ),
+        <span class="c-str">"@Spend"</span>, [Total Sales]
+    )
+<span class="c-fn">VAR</span> PlatinumCustomers = 
+    <span class="c-fn">FILTER</span>(
+        CustomerSpendTable,
+        [@Spend] &gt;= 10000
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">COUNTROWS</span>( PlatinumCustomers )
+
+<span class="c-com">// Measure 3: Total Revenue generated solely by Platinum Customers</span>
+Platinum Customer Revenue = 
+<span class="c-fn">VAR</span> CustomerSpendTable = 
+    <span class="c-fn">ADDCOLUMNS</span>(
+        <span class="c-fn">SUMMARIZE</span>( Sales, Sales[Customer] ),
+        <span class="c-str">"@Spend"</span>, [Total Sales]
+    )
+<span class="c-fn">VAR</span> PlatinumCustomers = 
+    <span class="c-fn">FILTER</span>( CustomerSpendTable, [@Spend] &gt;= 10000 )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">SUMX</span>( PlatinumCustomers, [@Spend] )</div>
+
       <div class="table-wrap">
         <table>
-          <tr><th></th><th>Reach for a custom visual</th><th>Stay with a built-in visual</th></tr>
-          <tr><td><b>The question</b></td><td>A built-in chart structurally cannot show it — e.g. real date-range bars, word frequency, flow between groups</td><td>A bar, line, map, KPI card, or table would answer it just as well</td></tr>
-          <tr><td><b>Speed</b></td><td>Worth testing and timing before it ships</td><td>Microsoft-optimized, fastest by default <span class="pill good">default choice</span></td></tr>
-          <tr><td><b>Support</b></td><td>You've confirmed the publisher is active and the visual was updated recently</td><td>No dependency on a third party ever going quiet</td></tr>
-          <tr><td><b>Risk</b></td><td>You've vetted it (see below) and it's going into a low-stakes report first</td><td>No extra security or performance review needed</td></tr>
+          <tr><th>DAX Element</th><th>Why It Is Used Here</th></tr>
+          <tr><td><code>SUMMARIZE( Sales, Sales[Customer] )</code></td><td>Builds a virtual list of distinct customers currently visible in the active filter context.</td></tr>
+          <tr><td><code>ADDCOLUMNS(..., "@Spend", [Total Sales])</code></td><td>Invokes context transition: computes the total sales for each customer individually. Note the <code>@</code> prefix convention for virtual columns to avoid colliding with model fields.</td></tr>
+          <tr><td><code>FILTER(..., [@Spend] &gt;= 10000)</code></td><td>Filters the in-memory virtual table to rows meeting the threshold.</td></tr>
+          <tr><td><code>COUNTROWS</code> / <code>SUMX</code></td><td>Aggregates the filtered virtual table to return the final metric on cards or charts.</td></tr>
         </table>
       </div>
-      <div class="callout warn"><b>Default bias:</b> start every report with built-in visuals. Reach into AppSource only when you can name the specific business question a built-in chart cannot answer — never because a custom visual "looks more advanced."</div>
 
-      <h2 style="margin-top:30px">Advantages and disadvantages, stated plainly</h2>
-      <div class="grid grid-2">
-        <div class="card">
-          <h4>Advantages</h4>
-          <ul class="kicker-list">
-            <li><span class="ico">✓</span><div style="font-size:.9rem">Answers questions built-in charts structurally can't — real date-range bars, word frequency, flow between groups</div></li>
-            <li><span class="ico">✓</span><div style="font-size:.9rem">Same drag-and-drop field wells as any built-in chart — no new mental model once it's installed</div></li>
-            <li><span class="ico">✓</span><div style="font-size:.9rem">Most are free, and several — including many of Microsoft's own — are Certified and actively maintained</div></li>
-          </ul>
-        </div>
-        <div class="card">
-          <h4>Disadvantages</h4>
-          <ul class="kicker-list">
-            <li><span class="ico">✕</span><div style="font-size:.9rem">Third-party code runs inside your report — a real security surface, larger for uncertified visuals</div></li>
-            <li><span class="ico">✕</span><div style="font-size:.9rem">Can render slower than native visuals, especially on large tables (see Performance, below)</div></li>
-            <li><span class="ico">✕</span><div style="font-size:.9rem">An organization's Power BI admin can restrict which custom visuals are allowed tenant-wide — a report that works on your laptop can fail to render for a colleague</div></li>
-            <li><span class="ico">✕</span><div style="font-size:.9rem">No continuity guarantee — a publisher can stop updating a visual, or pull it from AppSource, with no Microsoft backstop the way the built-in ~30 have</div></li>
-          </ul>
-        </div>
-      </div>
+      <h2 style="margin-top:34px">2. New vs. Returning Customer Cohorts</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> In SaaS, e-commerce, and retail, executives need to know if monthly sales growth is fueled by expensive new customer acquisition or healthy repeat business. Comparing a customer's order in the current month against their entire order history requires scanning across time outside the current slicer.</p>
 
-      <h2 style="margin-top:30px">Finding a custom visual</h2>
-      <div class="clickpath">
-        <span class="seg">Visualizations pane</span><span class="arrow">→</span><span class="seg">"..." More options</span><span class="arrow">→</span><span class="seg">Get more visuals</span><span class="arrow">→</span><span class="seg">search or browse a category</span><span class="arrow">→</span><span class="seg">Add</span>
-      </div>
-      <p>The same catalog is also a standalone website — AppSource (appsource.microsoft.com) — worth browsing outside Desktop while you're still planning a report. It's easier to compare several visuals side by side, read full descriptions, and check ratings there than inside the narrow pane. Anything found on the website gets added to a report the same way, from inside Desktop.</p>
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a> (Table: <code>Sales</code> — Columns: <code>Order ID</code>, <code>Customer</code>, <code>Sales</code>, <code>Date</code>).</div>
 
-      <h2 style="margin-top:30px">Importing one into your report</h2>
-      <div class="grid grid-2">
-        <div class="card">
-          <h4>From AppSource, inside Desktop</h4>
-          <ol class="steps">
-            <li>Visualizations pane → "..." → Get more visuals</li>
-            <li>Search by name, or browse a category</li>
-            <li>Open the listing — check publisher, rating, and the Certified badge before adding (next section)</li>
-            <li>Add — the icon appears at the bottom of the Visualizations pane, ready to use like any built-in chart</li>
-          </ol>
-        </div>
-        <div class="card">
-          <h4>From a downloaded .pbiviz file</h4>
-          <ol class="steps">
-            <li>Visualizations pane → "..." → Import a visual from a file</li>
-            <li>Browse to the .pbiviz file — common for an internal company-built visual, or one shared outside AppSource entirely</li>
-            <li>Confirm the security prompt — Power BI always warns that a visual from outside AppSource hasn't been through Microsoft's review</li>
-            <li>The visual appears in the Visualizations pane for that report only</li>
-          </ol>
-        </div>
-      </div>
-      <div class="callout warn"><b>Treat a .pbiviz file like any unfamiliar executable:</b> it's a packaged bundle of code, not a picture. Only import one from a source — a colleague, your IT team, a known vendor — you'd trust with access to whatever data you drop into it.</div>
+      <div class="codeblock"><span class="c-com">// New Customer Revenue: Sales from customers whose very first purchase occurred within the filtered date window</span>
+New Customer Revenue = 
+<span class="c-fn">VAR</span> PeriodStart = <span class="c-fn">MIN</span>( Sales[Date] )
+<span class="c-fn">VAR</span> PeriodEnd = <span class="c-fn">MAX</span>( Sales[Date] )
+<span class="c-fn">VAR</span> CustomersInPeriod = <span class="c-fn">VALUES</span>( Sales[Customer] )
+<span class="c-fn">VAR</span> CustomersWithFirstDate = 
+    <span class="c-fn">ADDCOLUMNS</span>(
+        CustomersInPeriod,
+        <span class="c-str">"@FirstPurchaseDate"</span>, 
+        <span class="c-fn">CALCULATE</span>(
+            <span class="c-fn">MIN</span>( Sales[Date] ),
+            <span class="c-fn">ALL</span>( Sales[Date] )  <span class="c-com">// Ignores current date slicer to find true lifetime first order</span>
+        )
+    )
+<span class="c-fn">VAR</span> NewCustomers = 
+    <span class="c-fn">FILTER</span>(
+        CustomersWithFirstDate,
+        [@FirstPurchaseDate] &gt;= PeriodStart &amp;&amp; [@FirstPurchaseDate] &lt;= PeriodEnd
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">CALCULATE</span>(
+        [Total Sales],
+        <span class="c-fn">KEEPFILTERS</span>( NewCustomers )
+    )
 
-      <h2 style="margin-top:30px">Is it safe to use? Evaluating trustworthiness</h2>
+<span class="c-com">// Returning Customer Revenue: Remaining sales in the period</span>
+Returning Customer Revenue = 
+[Total Sales] - [New Customer Revenue]
+
+<span class="c-com">// Ratio KPI</span>
+New Customer Revenue % = 
+<span class="c-fn">DIVIDE</span>( [New Customer Revenue], [Total Sales], 0 )</div>
+
+      <div class="callout warn"><b>Why <code>ALL( Sales[Date] )</code> is critical:</b> Without <code>ALL( Sales[Date] )</code>, the <code>MIN( Sales[Date] )</code> inside CALCULATE would only see dates in the currently filtered month! Every customer would look like a "new customer" in every month. <code>ALL</code> resets the date filter context so DAX can scan their entire historical lifetime.</div>
+
+      <h2 style="margin-top:34px">3. Top 5 + "All Others" Rollup (Disconnected Dimension)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> When you apply Power BI's built-in Top N visual filter to a bar chart, it only displays the Top 5 stores and completely discards the rest. The chart total no longer matches the company total! To solve this, we create a <b>disconnected parameter table</b> and write a DAX measure that dynamically plots the Top 5 and aggregates the remaining stores into a single <code>"Other Stores"</code> bar.</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a> (Table: <code>Retail</code> — Columns: <code>Store</code>, <code>City</code>, <code>Sales</code>, <code>Profit</code>).</div>
+
+      <p style="font-size:.9rem"><b>Step 1: Create the Disconnected Table in Power BI</b> (Home ribbon → <i>Enter Data</i>, name it <code>StoreDisplay</code>):</p>
       <div class="table-wrap">
         <table>
-          <tr><th>Signal</th><th>What to check</th><th>Why it matters</th></tr>
-          <tr><td><b>Certified badge</b></td><td>A checkmark shown right on the AppSource listing</td><td>Means Microsoft reviewed it for security and performance — the closest thing to an official stamp</td></tr>
-          <tr><td><b>Publisher</b></td><td>Microsoft, a known analytics partner, or an unnamed individual account</td><td>An accountable, actively-maintained publisher is lower long-term risk</td></tr>
-          <tr><td><b>Ratings &amp; review count</b></td><td>Star rating, and how many organizations actually left one</td><td>A handful of reviews tells you far less than hundreds</td></tr>
-          <tr><td><b>Data access requested</b></td><td>Whether it only renders the fields you give it, or calls out to an external service (a mapping or AI API, say)</td><td>Sending company data outside Power BI is a real governance question, not a technicality</td></tr>
-          <tr><td><b>Open source</b></td><td>Whether the code is publicly published — many, including several of Microsoft's own, are on GitHub</td><td>You or your IT team can inspect what it actually does instead of taking the listing's word for it</td></tr>
+          <tr><th>StoreGroup</th><th>SortOrder</th></tr>
+          <tr><td>Store 1 ... Store 10 (or any store names from Retail)</td><td>1</td></tr>
+          <tr><td>Other Stores</td><td>99</td></tr>
         </table>
       </div>
-      <div class="callout warn"><b>Certified isn't the same as risk-free</b> — it means Microsoft confirmed a baseline. For a report built on this course's HR, Banking, or Hospital data, treat "uncertified + unknown publisher + almost no reviews" as a hard no, not a maybe.</div>
+      <p style="font-size:.85rem;color:var(--text-muted)">Do NOT create a relationship between <code>StoreDisplay</code> and <code>Retail</code> in Model view. It is deliberately disconnected.</p>
 
-      <h2 style="margin-top:30px">Licensing, in general terms</h2>
-      <div class="grid grid-3">
-        <div class="card"><h4>Free</h4><p style="font-size:.88rem">No cost to add or use. Most custom visuals on AppSource fall here, including many of Microsoft's own.</p></div>
-        <div class="card"><h4>Freemium</h4><p style="font-size:.88rem">Free to add, with a paid tier unlocking extra formatting, export options, or higher data-point limits.</p></div>
-        <div class="card"><h4>Paid / subscription</h4><p style="font-size:.88rem">Requires a license key, sign-in, or subscription from the publisher before it renders at all — terms set entirely by them, not Microsoft.</p></div>
-      </div>
-      <div class="callout">Licensing lives with the publisher, not Power BI. Before building a report around a paid visual, check the listing's pricing page and confirm whether the license covers just you, or everyone who'll open the published report — that per-user vs. per-report line varies by publisher and is worth confirming in writing, not assuming.</div>
+      <div class="codeblock"><span class="c-com">// Base Measure</span>
+Total Retail Sales = <span class="c-fn">SUM</span>( Retail[Sales] )
 
-      <h2 style="margin-top:30px">Performance: test before it ships company-wide</h2>
+<span class="c-com">// Top 5 + Others Dynamic Sales Measure</span>
+Top 5 and Others Sales = 
+<span class="c-fn">VAR</span> TopThreshold = 5
+<span class="c-fn">VAR</span> SelectedGroup = <span class="c-fn">SELECTEDVALUE</span>( StoreDisplay[StoreGroup] )
+<span class="c-fn">VAR</span> RankedStores = 
+    <span class="c-fn">ADDCOLUMNS</span>(
+        <span class="c-fn">ALLSELECTED</span>( Retail[Store] ),
+        <span class="c-str">"@Rank"</span>, <span class="c-fn">RANKX</span>( <span class="c-fn">ALLSELECTED</span>( Retail[Store] ), [Total Retail Sales], , DESC )
+    )
+<span class="c-fn">VAR</span> Top5Stores = 
+    <span class="c-fn">FILTER</span>( RankedStores, [@Rank] &lt;= TopThreshold )
+<span class="c-fn">VAR</span> OtherStoresSales = 
+    <span class="c-fn">SUMX</span>(
+        <span class="c-fn">FILTER</span>( RankedStores, [@Rank] &gt; TopThreshold ),
+        [Total Retail Sales]
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">IF</span>(
+        SelectedGroup = <span class="c-str">"Other Stores"</span>,
+        OtherStoresSales,
+        <span class="c-fn">CALCULATE</span>(
+            [Total Retail Sales],
+            <span class="c-fn">TREATAS</span>( { SelectedGroup }, Retail[Store] ),
+            Top5Stores
+        )
+    )</div>
+
+      <p style="font-size:.9rem"><b>Visual Setup:</b> Add a Clustered Bar Chart. Drag <code>StoreDisplay[StoreGroup]</code> into Y-Axis, and <code>[Top 5 and Others Sales]</code> into X-Axis. Sort by SortOrder or Sales descending. The chart cleanly renders 5 top store bars plus one aggregate bar for all others!</p>
+
+      <h2 style="margin-top:34px">4. Multi-Condition Risk Exposure (Non-Performing Loan Scoring)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> Bank risk models don't look at one metric in isolation. A customer with a low credit score is fine if their debt-to-income ratio is minimal. But when <i>three</i> adverse factors align — Credit Score &lt; 650, EMI exceeding 40% of monthly income, and an Active loan — that loan is classified as "Critical Risk Exposure."</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Banking_Clean.csv" download>Banking_Clean.csv</a> (Table: <code>Banking</code> — Columns: <code>Customer</code>, <code>Loan Amount</code>, <code>EMI</code>, <code>Income</code>, <code>Credit Score</code>, <code>Loan Status</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// Total Loan Volume</span>
+Total Loan Capital = <span class="c-fn">SUM</span>( Banking[Loan Amount] )
+
+<span class="c-com">// High Risk Capital Exposure</span>
+Critical Risk Exposure Capital = 
+<span class="c-fn">SUMX</span>(
+    <span class="c-fn">FILTER</span>(
+        Banking,
+        Banking[Loan Status] = <span class="c-str">"Approved"</span> &amp;&amp;
+        Banking[Credit Score] &lt; 650 &amp;&amp;
+        <span class="c-fn">DIVIDE</span>( Banking[EMI], Banking[Income], 0 ) &gt; 0.40
+    ),
+    Banking[Loan Amount]
+)
+
+<span class="c-com">// Risk Share as % of all Active Loans</span>
+Critical Risk Capital Share % = 
+<span class="c-fn">VAR</span> ActiveCapital = 
+    <span class="c-fn">CALCULATE</span>(
+        [Total Loan Capital],
+        Banking[Loan Status] = <span class="c-str">"Approved"</span>
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">DIVIDE</span>( [Critical Risk Exposure Capital], ActiveCapital, 0 )</div>
+
+      <div class="callout"><b>Why <code>SUMX</code> is required here instead of <code>CALCULATE(SUM(...))</code>:</b> The condition <code>DIVIDE(Banking[EMI], Banking[Income]) &gt; 0.40</code> compares two columns on the <i>same row</i> against each other. Simple boolean filters in <code>CALCULATE</code> only support constant comparisons (e.g. <code>Credit Score &lt; 650</code>). Row-by-row math across two columns requires an iterator like <code>SUMX(FILTER(...))</code>.</div>
+
+      <h2 style="margin-top:34px">5. Pareto 80/20 Cumulative Distribution over Categories</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> Standard running totals sort across calendar dates (Jan → Feb → Mar). But Pareto analysis asks: <i>"Which top products generate 80% of our revenue?"</i> Products do not have a calendar order; they must be sorted dynamically by their <b>sales rank</b> in descending order, and accumulated until reaching 80%.</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a> (Table: <code>Retail</code> — Columns: <code>Store</code>, <code>Product</code>, <code>Sales</code>, <code>Profit</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// Measure 1: Cumulative Running Sales % by Product Rank</span>
+Cumulative Product Sales % = 
+<span class="c-fn">VAR</span> CurrentSales = [Total Retail Sales]
+<span class="c-fn">VAR</span> AllProductsSales = 
+    <span class="c-fn">CALCULATE</span>( [Total Retail Sales], <span class="c-fn">ALLSELECTED</span>( Retail[Product] ) )
+<span class="c-fn">VAR</span> CurrentRank = 
+    <span class="c-fn">RANKX</span>( <span class="c-fn">ALLSELECTED</span>( Retail[Product] ), [Total Retail Sales], , DESC )
+<span class="c-fn">VAR</span> CumulativeSalesToRank = 
+    <span class="c-fn">SUMX</span>(
+        <span class="c-fn">FILTER</span>(
+            <span class="c-fn">ALLSELECTED</span>( Retail[Product] ),
+            <span class="c-fn">RANKX</span>( <span class="c-fn">ALLSELECTED</span>( Retail[Product] ), [Total Retail Sales], , DESC ) &lt;= CurrentRank
+        ),
+        [Total Retail Sales]
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">DIVIDE</span>( CumulativeSalesToRank, AllProductsSales, 0 )
+
+<span class="c-com">// Measure 2: Pareto 80/20 Classification Tag</span>
+Pareto Classification = 
+<span class="c-fn">IF</span>(
+    <span class="c-fn">ISBLANK</span>( [Total Retail Sales] ),
+    <span class="c-fn">BLANK</span>(),
+    <span class="c-fn">IF</span>( [Cumulative Product Sales %] &lt;= 0.80, <span class="c-str">"Core (Top 80%)"</span>, <span class="c-str">"Long Tail (Remaining 20%)"</span> )
+)</div>
+
+      <p style="font-size:.9rem"><b>Visual Setup:</b> Create a Line and Clustered Column Chart. Place <code>Retail[Product]</code> on the X-axis (sorted descending by Total Sales). Add <code>[Total Retail Sales]</code> to Column Values and <code>[Cumulative Product Sales %]</code> to Line Values (formatted as <code>0.0%</code>). Add a constant line at <code>80%</code> on the secondary Y-axis.</p>
+
+      <h2 style="margin-top:34px">6. 30-Day Hospital Readmission Rate (Cross-Event Date Math)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> Hospital clinical quality tracking requires monitoring how many patients return for a second admission within 30 days of discharge. Because each admission is a separate row, DAX must scan the table for the same patient where a subsequent <code>Admission Date</code> falls within 30 days of the current row's <code>Discharge Date</code>.</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Hospital_Clean.csv" download>Hospital_Clean.csv</a> (Table: <code>Hospital</code> — Columns: <code>Patient</code>, <code>Doctor</code>, <code>Department</code>, <code>Bill Amount</code>, <code>Admission Date</code>, <code>Discharge Date</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// Total Inpatient Admissions</span>
+Total Admissions = <span class="c-fn">COUNTROWS</span>( Hospital )
+
+<span class="c-com">// Readmissions within 30 Days</span>
+Readmissions within 30 Days = 
+<span class="c-fn">SUMX</span>(
+    Hospital,
+    <span class="c-fn">VAR</span> CurrentPatient = Hospital[Patient]
+    <span class="c-fn">VAR</span> CurrentDischarge = Hospital[Discharge Date]
+    <span class="c-com">// Check if this exact patient had another admission within 1 to 30 days post-discharge</span>
+    <span class="c-fn">VAR</span> SubsequentVisits = 
+        <span class="c-fn">CALCULATE</span>(
+            <span class="c-fn">COUNTROWS</span>( Hospital ),
+            <span class="c-fn">ALL</span>( Hospital ),
+            Hospital[Patient] = CurrentPatient &amp;&amp;
+            Hospital[Admission Date] &gt; CurrentDischarge &amp;&amp;
+            Hospital[Admission Date] &lt;= CurrentDischarge + 30
+        )
+    <span class="c-fn">RETURN</span>
+        <span class="c-fn">IF</span>( SubsequentVisits &gt; 0, 1, 0 )
+)
+
+<span class="c-com">// Readmission Rate %</span>
+Readmission Rate % = 
+<span class="c-fn">DIVIDE</span>( [Readmissions within 30 Days], [Total Admissions], 0 )</div>
+
+      <div class="callout"><b>Business Insight:</b> Dropping <code>[Readmission Rate %]</code> into a Bar Chart by <code>Hospital[Department]</code> immediately reveals which clinical specialties (e.g. Cardiology vs. Orthopedics) suffer from premature discharges or post-operative complications.</div>
+
+      <h2 style="margin-top:34px">7. Department Peer-Group Z-Score (Statistical Outlier Detection)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> An HR compensation audit needs to flag employees whose salary deviates significantly from their department peers. A raw company-wide average is meaningless (Engineering salaries differ from Operations). We calculate a dynamic <b>Z-Score</b> (standard deviations from the department mean) using <code>ALLEXCEPT</code> to respect the department context while releasing employee-level filters.</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/HR_Clean.csv" download>HR_Clean.csv</a> (Table: <code>HR</code> — Columns: <code>Employee ID</code>, <code>Department</code>, <code>Salary</code>, <code>Experience</code>, <code>Location</code>, <code>Performance Rating</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// Department Peer-Group Salary Z-Score</span>
+Dept Salary Z-Score = 
+<span class="c-fn">VAR</span> CurrentSalary = <span class="c-fn">MAX</span>( HR[Salary] )
+<span class="c-fn">VAR</span> DeptMean = 
+    <span class="c-fn">CALCULATE</span>(
+        <span class="c-fn">AVERAGE</span>( HR[Salary] ),
+        <span class="c-fn">ALLEXCEPT</span>( HR, HR[Department] )
+    )
+<span class="c-fn">VAR</span> DeptStdDev = 
+    <span class="c-fn">CALCULATE</span>(
+        <span class="c-fn">STDEV.P</span>( HR[Salary] ),
+        <span class="c-fn">ALLEXCEPT</span>( HR, HR[Department] )
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">IF</span>(
+        <span class="c-fn">NOT ISBLANK</span>( DeptStdDev ) &amp;&amp; DeptStdDev &gt; 0,
+        <span class="c-fn">DIVIDE</span>( CurrentSalary - DeptMean, DeptStdDev, 0 ),
+        0
+    )
+
+<span class="c-com">// Compensation Flag for Matrix Visual</span>
+Compensation Anomaly Flag = 
+<span class="c-fn">VAR</span> Z = [Dept Salary Z-Score]
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">SWITCH</span>(
+        <span class="c-fn">TRUE</span>(),
+        Z &gt;= 2.0, <span class="c-str">"High Outlier (+2σ)"</span>,
+        Z &lt;= -2.0, <span class="c-str">"Low Outlier (-2σ)"</span>,
+        <span class="c-str">"Peer Norm"</span>
+    )</div>
+
       <div class="table-wrap">
         <table>
-          <tr><th></th><th>Native (built-in) visual</th><th>Custom visual</th></tr>
-          <tr><td><b>Render speed</b></td><td>Optimized by Microsoft, fastest by default</td><td>Varies by publisher — can be noticeably slower, especially uncertified ones</td></tr>
-          <tr><td><b>Large datasets</b></td><td>Built and tested at enterprise scale</td><td>Not guaranteed — test explicitly on a full-size table, not just a 100-row practice file</td></tr>
-          <tr><td><b>Support</b></td><td>Microsoft, as part of the product, indefinitely</td><td>Whoever published it — can pause updates or stop entirely</td></tr>
+          <tr><th>Function</th><th>Role in Peer-Group Calculation</th></tr>
+          <tr><td><code>ALLEXCEPT( HR, HR[Department] )</code></td><td>Strips out the filter on individual <code>Employee ID</code> while preserving the filter on <code>Department</code>. This allows DAX to compute the department-wide mean and standard deviation for the employee currently sitting on that row.</td></tr>
+          <tr><td><code>STDEV.P</code></td><td>Computes the population standard deviation across all employees in that department.</td></tr>
+          <tr><td><code>SWITCH( TRUE(), ... )</code></td><td>Classifies the employee into actionable equity audit buckets.</td></tr>
         </table>
       </div>
-      <div class="callout warn">A visual that feels instant on your laptop with a small sample can lag badly once it's facing the real row count in production. Add it to a copy of the report, test with realistic data volumes, and time it — before it ships in a report the whole company opens every Monday morning.</div>
 
-      <h2 style="margin-top:30px">Guided walkthrough</h2>
-      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Gantt Chart — Hospital dataset: patient length of stay</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> A Gantt Chart visual draws one horizontal bar per row, positioned and sized by a start date and an end date — something no built-in Power BI chart does. The closest built-in option, a stacked bar chart, has no way to place a bar between two real calendar dates.</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Business question:</b> A hospital ops manager wants to see, at a glance, which patients are occupying a bed far longer than others in the same department — a length-of-stay outlier is either a genuinely complex case or a discharge-process bottleneck worth a follow-up question.</p>
+      <h2 style="margin-top:34px">8. Market Basket Affinity (Cross-Sell Co-Occurrence Rate)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> E-commerce merchandising teams constantly ask: <i>"When customers buy Road Bikes, what percentage also add Helmets or Water Bottles to the same shopping basket?"</i> Standard star-schema relationships filter orders in one direction only; finding orders containing <b>both</b> product lines requires intersecting transaction order numbers.</p>
 
-          <div style="margin-top:12px">
-            <p style="font-size:.85rem;font-weight:700;margin-bottom:8px">Field mapping &nbsp;<span class="pill table">Table: Hospital</span></p>
-            <div class="fieldflow">
-              <span class="chip">Hospital[Patient]</span>
-              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
-              <span class="chip well">Category (task)</span>
-            </div>
-            <div class="fieldflow">
-              <span class="chip">Hospital[Admission Date]</span>
-              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
-              <span class="chip well">Start Date</span>
-            </div>
-            <div class="fieldflow">
-              <span class="chip">Hospital[Discharge Date]</span>
-              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
-              <span class="chip well">End Date</span>
-            </div>
-            <div class="fieldflow">
-              <span class="chip">Hospital[Department]</span>
-              <span class="flowline"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
-              <span class="chip well">Legend</span>
-            </div>
-            <p style="font-size:.83rem;color:var(--text-muted);margin-top:8px">All four fields live on the one Hospital table — no join needed to build this.</p>
-          </div>
+      <div class="callout"><b>Database:</b> AdventureWorksDW (<code>FactInternetSales</code>, <code>DimProduct</code>).</div>
 
-          <p style="font-size:.85rem;font-weight:700;margin-top:14px;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Download <code>Hospital_Clean.csv</code> from the <a href="datasets.html">Datasets</a> page → Get Data → Text/CSV → Transform Data</li>
-            <li>In Power Query, confirm Admission Date and Discharge Date are typed as Date, not Text — a Gantt visual can't place a text value on a date axis</li>
-            <li>Visualizations pane → "..." → Get more visuals → search "Gantt" → check the listing, then Add</li>
-            <li>Build the field mapping above: Patient into the task well, Admission Date into Start, Discharge Date into End, Department into Legend</li>
-            <li>Optional: add a <button class="term" data-term="calculatedcolumn">calculated column</button> in <button class="term" data-term="dax">DAX</button> so bars can be sorted or labeled by duration directly: <code>Length of Stay = Hospital[Discharge Date] − Hospital[Admission Date]</code></li>
-            <li>Format → sort by Start Date so the timeline reads left to right in admission order, and turn on data labels for the duration</li>
-          </ol>
+      <div class="codeblock"><span class="c-com">// Basket Affinity %: Share of Road Bike orders that ALSO contain Mountain Bikes or Accessories</span>
+Road and Mountain Cross-Sell Rate = 
+<span class="c-fn">VAR</span> RoadBikeOrders = 
+    <span class="c-fn">CALCULATETABLE</span>(
+        <span class="c-fn">VALUES</span>( FactInternetSales[SalesOrderNumber] ),
+        DimProduct[ProductLine] = <span class="c-str">"R"</span>
+    )
+<span class="c-fn">VAR</span> MountainBikeOrders = 
+    <span class="c-fn">CALCULATETABLE</span>(
+        <span class="c-fn">VALUES</span>( FactInternetSales[SalesOrderNumber] ),
+        <span class="c-fn">ALL</span>( DimProduct ),
+        DimProduct[ProductLine] = <span class="c-str">"M"</span>
+    )
+<span class="c-fn">VAR</span> SharedOrders = 
+    <span class="c-fn">COUNTROWS</span>(
+        <span class="c-fn">INTERSECT</span>( RoadBikeOrders, MountainBikeOrders )
+    )
+<span class="c-fn">VAR</span> TotalRoadOrders = 
+    <span class="c-fn">COUNTROWS</span>( RoadBikeOrders )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">DIVIDE</span>( SharedOrders, TotalRoadOrders, 0 )</div>
 
-          <p style="font-size:.9rem;margin-top:8px">Once built, a pattern like this is what you're looking for — illustrative values, not the real file's numbers:</p>
-          <div class="mockgrid">
-            <div class="mocktile">
-              <div class="mocktile-label">Patient · Cardiology</div>
-              <div class="mockkpi">4 <span style="font-size:.55em;font-weight:400;color:var(--text-muted)">days</span></div>
-              <span class="pill good" style="margin-top:6px">typical</span>
-            </div>
-            <div class="mocktile">
-              <div class="mocktile-label">Patient · Cardiology</div>
-              <div class="mockkpi">11 <span style="font-size:.55em;font-weight:400;color:var(--text-muted)">days</span></div>
-              <span class="pill bad" style="margin-top:6px">above dept. average</span>
-            </div>
-            <div class="mocktile">
-              <div class="mocktile-label">Patient · Maternity</div>
-              <div class="mockkpi">2 <span style="font-size:.55em;font-weight:400;color:var(--text-muted)">days</span></div>
-              <span class="pill good" style="margin-top:6px">typical</span>
-            </div>
-          </div>
+      <div class="callout"><b>Why <code>INTERSECT</code> is so powerful:</b> <code>INTERSECT(TableA, TableB)</code> returns only the rows present in both tables. By feeding it two tables of order IDs (one filtered to Product A, the second to Product B), DAX instantly identifies all cross-sold transactions without requiring heavy self-joins in SQL or Power Query.</div>
 
-          <div class="grid grid-2" style="margin-top:12px">
-            <div><p style="font-size:.85rem"><b>Best practice:</b> Keep Department in the Legend well — length of stay only makes sense compared within the same specialty, since a normal Maternity stay and a normal Cardiology stay are very different numbers.</p></div>
-            <div><p style="font-size:.85rem"><b>Common mistake:</b> Building the visual before checking the two date columns actually parsed as Date — the same trap as a Line Chart X-axis, except here it can silently misdraw every bar's length, not just the sort order.</p></div>
-          </div>
-          <div class="callout" style="margin-top:10px"><b>Try it yourself:</b> Swap Department for Doctor in the Legend well — does the same length-of-stay pattern hold per doctor, or only per department?</div>
-        </div>
-      </details>
-
-      <h2 style="margin-top:30px">Exercise</h2>
-      <div class="card">
-        <span class="eyebrow">Practice · Custom Visuals</span>
-        <h3 style="margin-top:8px">Find, vet, and justify one custom visual</h3>
-        <ul class="kicker-list" style="margin-top:10px">
-          <li><span class="ico">1</span><div>Pick any dataset already used in this course (Sales, HR, Retail, Banking, or Hospital) and name one real business question a built-in chart genuinely cannot answer.</div></li>
-          <li><span class="ico">2</span><div>Search AppSource for a custom visual that answers it, and note its Certified status, publisher, and review count.</div></li>
-          <li><span class="ico">3</span><div>Import it and build it against your chosen dataset.</div></li>
-          <li><span class="ico">4</span><div>Write two sentences: why a built-in chart couldn't do this job, and what you checked before trusting the visual.</div></li>
-        </ul>
+      <div class="callout warn" style="margin-top:24px">
+        <b>Best Practice for Complex DAX:</b> Always structure complex measures using <code>VAR</code> steps. Variables in DAX are evaluated once and cached in memory — they make code easy to debug, eliminate redundant calculations, and prevent performance bottlenecks on large models.
       </div>
 
-      <footer class="pagefoot"><span>Module 2 · Custom Visuals</span><a href="10-groups-histograms.html">Next: Groups &amp; Histograms →</a></footer>
+      <footer class="pagefoot"><span>Module 3 · Complex DAX Formulas</span><a href="45-all-dax-formulas.html">Next: All DAX Formulas &amp; Combinations →</a></footer>
     </main>
   </div>
 </div>

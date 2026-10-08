@@ -250,6 +250,26 @@
     "title": "DAX Formula Reference — Power BI for MBA Analytics"
   },
   {
+    "id": "complexdax",
+    "file": "44-complex-dax.html",
+    "fragment": "complex-dax.html",
+    "group": "Module 3: Introduction to DAX",
+    "num": "7",
+    "label": "Complex DAX &amp; Real Datasets",
+    "crumb": "Complex DAX Formulas",
+    "title": "Complex DAX Formulas with Example Datasets — Power BI for MBA Analytics"
+  },
+  {
+    "id": "alldaxformulas",
+    "file": "45-all-dax-formulas.html",
+    "fragment": "all-dax-formulas.html",
+    "group": "Module 3: Introduction to DAX",
+    "num": "8",
+    "label": "All DAX Formulas &amp; Combinations",
+    "crumb": "All DAX Formulas",
+    "title": "All DAX Formulas &amp; Combinations — Power BI for MBA Analytics"
+  },
+  {
     "id": "module3assignment",
     "file": "32-module3-assignment.html",
     "fragment": "module3-assignment.html",

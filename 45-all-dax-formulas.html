@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All DAX Formulas &amp; Combinations — Power BI for MBA Analytics</title>
+<style>
+  :root{
+    --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
+    --text:#14171F; --text-muted:#565B6B; --border:#DEDACE;
+    --accent:#C97A1E; --accent-ink:#1B1300; --accent-soft:#F3E1C4;
+    --teal:#2A6560; --teal-soft:#DCEBE8;
+    --good:#2E7D4F; --good-soft:#E3F1E7; --bad:#B3402D; --bad-soft:#F6E4DF;
+    --shadow: 0 1px 2px rgba(20,23,31,.06), 0 8px 24px -12px rgba(20,23,31,.18);
+    --radius:12px;
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --font-body: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", Consolas, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12141B; --surface:#1A1D27; --surface-2:#1F2330; --surface-3:#282D3D;
+      --text:#ECEAE2; --text-muted:#A2A6B5; --border:#2C3040;
+      --accent:#E8A23D; --accent-ink:#1B1300; --accent-soft:#3A2E15;
+      --teal:#5FA69E; --teal-soft:#173330;
+      --good:#4EA872; --good-soft:#153524; --bad:#E06A54; --bad-soft:#3A1E18;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12141B; --surface:#1A1D27; --surface-2:#1F2330; --surface-3:#282D3D;
+    --text:#ECEAE2; --text-muted:#A2A6B5; --border:#2C3040;
+    --accent:#E8A23D; --accent-ink:#1B1300; --accent-soft:#3A2E15;
+    --teal:#5FA69E; --teal-soft:#173330;
+    --good:#4EA872; --good-soft:#153524; --bad:#E06A54; --bad-soft:#3A1E18;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.55);
+  }
+  :root[data-theme="light"]{
+    --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
+    --text:#14171F; --text-muted:#565B6B; --border:#DEDACE;
+    --accent:#C97A1E; --accent-ink:#1B1300; --accent-soft:#F3E1C4;
+    --teal:#2A6560; --teal-soft:#DCEBE8;
+    --good:#2E7D4F; --good-soft:#E3F1E7; --bad:#B3402D; --bad-soft:#F6E4DF;
+    --shadow: 0 1px 2px rgba(20,23,31,.06), 0 8px 24px -12px rgba(20,23,31,.18);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font-body);
+    font-size:15.5px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{ font-family:var(--font-display); font-weight:700; text-wrap:balance; margin:0 0 .4em; color:var(--text); }
+  h1{ font-size:2.1rem; letter-spacing:-.01em; }
+  h2{ font-size:1.5rem; margin-top:0; }
+  h3{ font-size:1.15rem; }
+  h4{ font-size:1rem; font-family:var(--font-body); font-weight:700; }
+  p{ margin:.6em 0; max-width:68ch; }
+  a{ color:var(--teal); }
+  .eyebrow{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+  .lede{ font-size:1.05rem; color:var(--text-muted); max-width:62ch; }
+  strong{ color:var(--text); }
+  code{ font-family:var(--font-mono); background:var(--surface-2); border:1px solid var(--border); border-radius:5px; padding:.1em .4em; font-size:.88em; }
+  ::selection{ background:var(--accent-soft); }
+  :focus-visible{ outline:2.5px solid var(--accent); outline-offset:2px; border-radius:4px; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+
+  /* ---------- layout shell ---------- */
+  .app{ display:flex; min-height:100vh; }
+  .sidebar{
+    width:272px; flex:none; background:var(--surface-2); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto;
+  }
+  .brand{ padding:22px 20px 14px; border-bottom:1px solid var(--border); }
+  .brand .mark{ display:flex; align-items:center; gap:10px; }
+  .brand .mark svg{ flex:none; }
+  .brand h1{ font-size:1.05rem; margin:0; line-height:1.25; }
+  .brand .sub{ font-size:.78rem; color:var(--text-muted); margin-top:3px; font-family:var(--font-mono); }
+
+  .sidebarsearch{ padding:12px 16px; border-bottom:1px solid var(--border); position:relative; }
+  .sidebarsearch input{ width:100%; box-sizing:border-box; padding:7px 10px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:var(--font-body); font-size:.85rem; }
+  .sidebarsearch input:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+  .search-results{ position:absolute; left:16px; right:16px; top:calc(100% + 4px); background:var(--surface); border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); max-height:360px; overflow-y:auto; z-index:30; display:none; }
+  .search-results.open{ display:block; }
+  .search-results a{ display:block; padding:9px 12px; text-decoration:none; color:var(--text); border-bottom:1px solid var(--border); }
+  .search-results a:last-child{ border-bottom:none; }
+  .search-results a:hover, .search-results a:focus-visible{ background:var(--surface-3); }
+  .search-results .sr-title{ font-weight:700; font-size:.85rem; }
+  .search-results .sr-group{ font-family:var(--font-mono); font-size:.68rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:.05em; margin-top:2px; }
+  .search-results .sr-snippet{ font-size:.78rem; color:var(--text-muted); margin-top:4px; }
+  .search-results .sr-empty{ padding:12px; font-size:.82rem; color:var(--text-muted); }
+
+  .navgroup{ padding:14px 12px; }
+  .navgroup .label{ display:flex; align-items:center; justify-content:space-between; gap:8px; font-family:var(--font-mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--text-muted); padding:0 10px; margin-bottom:6px; }
+  .navgroup .label .progress-count{ font-weight:400; letter-spacing:0; text-transform:none; flex:none; }
+  .navitem{ display:flex; align-items:center; gap:2px; }
+  .navitem .navbtn{ flex:1; min-width:0; }
+  .navcheck{ flex:none; width:15px; height:15px; margin-right:9px; cursor:pointer; accent-color:var(--accent); }
+  .navbtn{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:none; border:none;
+    color:var(--text); font-family:var(--font-body); font-size:.88rem; padding:8px 10px; border-radius:8px; cursor:pointer;
+    text-decoration:none;
+  }
+  .navbtn .num{ font-family:var(--font-mono); font-size:.72rem; color:var(--text-muted); width:1.4em; flex:none; }
+  .navbtn:hover{ background:var(--surface-3); }
+  .navbtn.active{ background:var(--accent); color:var(--accent-ink); font-weight:700; }
+  .navbtn.active .num{ color:var(--accent-ink); opacity:.7; }
+
+  .themebar{ margin-top:auto; padding:14px 20px 8px; border-top:1px solid var(--border); display:flex; gap:8px; }
+  .themebtn{ flex:1; font-family:var(--font-mono); font-size:.72rem; padding:7px 4px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text-muted); cursor:pointer; }
+  .progressreset{ padding:0 20px 16px; }
+  .progressreset button{ font-family:var(--font-mono); font-size:.7rem; color:var(--text-muted); background:none; border:none; cursor:pointer; padding:2px 0; text-decoration:underline; text-underline-offset:2px; }
+  .progressreset button:hover{ color:var(--accent); }
+  .themebtn.active{ border-color:var(--accent); color:var(--accent); }
+
+  .main-col{ flex:1; min-width:0; display:flex; flex-direction:column; }
+  .topbar{
+    position:sticky; top:0; z-index:5; background:var(--bg); border-bottom:1px solid var(--border);
+    padding:14px 40px; display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .topbar .crumb{ font-family:var(--font-mono); font-size:.78rem; color:var(--text-muted); }
+  .topbar .crumb b{ color:var(--text); font-weight:600; }
+  .menutoggle{ display:none; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:7px 10px; cursor:pointer; }
+
+  .content{ flex:1; padding:36px 40px 80px; max-width:980px; }
+
+  /* ---------- reusable components ---------- */
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow); }
+  .grid{ display:grid; gap:16px; }
+  .grid-2{ grid-template-columns:1fr 1fr; }
+  .grid-3{ grid-template-columns:repeat(3,1fr); }
+  @media (max-width:760px){ .grid-2,.grid-3{ grid-template-columns:1fr; } }
+
+  .callout{ border-left:3px solid var(--teal); background:var(--teal-soft); border-radius:0 8px 8px 0; padding:12px 16px; margin:14px 0; font-size:.93rem; }
+  .callout.warn{ border-color:var(--accent); background:var(--accent-soft); }
+  .callout b{ color:var(--text); }
+
+  .steps{ counter-reset:step; list-style:none; padding:0; margin:14px 0; }
+  .steps li{ counter-increment:step; position:relative; padding:6px 0 6px 38px; margin-bottom:2px; font-size:.94rem; }
+  .steps li::before{ content:counter(step); position:absolute; left:0; top:5px; width:24px; height:24px; border-radius:50%; background:var(--surface-3); color:var(--text); font-family:var(--font-mono); font-size:.75rem; display:flex; align-items:center; justify-content:center; font-weight:700; }
+
+  .clickpath{ font-family:var(--font-mono); font-size:.85rem; background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:12px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:12px 0; }
+  .clickpath .seg{ background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:3px 9px; }
+  .clickpath .arrow{ color:var(--text-muted); }
+
+  table{ width:100%; border-collapse:collapse; font-size:.88rem; }
+  th,td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+  th{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); font-weight:600; }
+  td.num, th.num{ font-variant-numeric:tabular-nums; text-align:right; }
+  .table-wrap{ overflow-x:auto; margin:14px 0; border:1px solid var(--border); border-radius:10px; }
+  .table-wrap table{ margin:0; }
+  .table-wrap th,.table-wrap td{ border-bottom:1px solid var(--border); }
+  tr:last-child td{ border-bottom:none; }
+
+  .codeblock{ background:#181A20; color:#E9E6DB; font-family:var(--font-mono); font-size:.85rem; border-radius:10px; padding:16px 18px; overflow-x:auto; white-space:pre; line-height:1.55; margin:14px 0; }
+  .codeblock .c-fn{ color:#E8A23D; } .codeblock .c-str{ color:#8FBF9F; } .codeblock .c-com{ color:#7C8194; }
+
+  .pill{ display:inline-flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:.72rem; padding:3px 10px; border-radius:999px; background:var(--surface-2); border:1px solid var(--border); color:var(--text-muted); }
+  .pill.good{ background:var(--good-soft); color:var(--good); border-color:transparent; }
+  .pill.bad{ background:var(--bad-soft); color:var(--bad); border-color:transparent; }
+  .pill.table{ background:var(--teal-soft); color:var(--teal); border-color:transparent; font-weight:700; }
+
+  /* field → well animated flow diagram */
+  .fieldflow{ display:flex; align-items:center; gap:10px; margin:8px 0; font-size:.82rem; flex-wrap:wrap; }
+  .fieldflow .chip{ font-family:var(--font-mono); font-size:.78rem; padding:4px 10px; border-radius:999px; border:1px solid var(--border); white-space:nowrap; background:var(--surface-2); color:var(--text); }
+  .fieldflow .chip.well{ background:var(--accent-soft); color:var(--accent-ink); border-color:transparent; font-weight:700; }
+  .flowline{ position:relative; flex:1 1 40px; min-width:32px; height:2px; background:var(--border); }
+  .flowline .dot{ position:absolute; top:50%; width:5px; height:5px; margin-top:-2.5px; border-radius:50%; background:var(--accent); opacity:0; animation:flowdot 1.8s linear infinite; }
+  .flowline .dot:nth-child(2){ animation-delay:.6s; }
+  .flowline .dot:nth-child(3){ animation-delay:1.2s; }
+  @keyframes flowdot{ 0%{ left:0%; opacity:0; } 12%{ opacity:1; } 88%{ opacity:1; } 100%{ left:100%; opacity:0; } }
+
+  /* terminology hint system — click/tap to toggle, same on desktop + mobile */
+  .term{ font:inherit; font-weight:600; color:var(--teal); background:var(--teal-soft); border:none; border-radius:4px; padding:0 5px; cursor:pointer; position:relative; }
+  .term:hover{ filter:brightness(1.08); }
+  .term.term-open{ background:var(--accent); color:var(--accent-ink); }
+  .term-pop{ position:absolute; left:0; top:calc(100% + 6px); z-index:10; width:max(220px,min(300px,80vw)); background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); padding:10px 12px; font-size:.82rem; font-weight:400; line-height:1.5; text-align:left; white-space:normal; }
+
+  /* mock mini-report — hand-built interactive demo, no charting library */
+  .mockreport{ border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; background:var(--surface); margin:14px 0; }
+  .mockreport-controls{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .mockreport-controls .btn.active{ background:var(--accent); color:var(--accent-ink); border-color:transparent; }
+  .mockgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:760px){ .mockgrid{ grid-template-columns:1fr; } }
+  .mocktile{ border:1px solid var(--border); border-radius:8px; padding:12px; background:var(--surface-2); transition:opacity .2s ease; }
+  .mocktile.dimmed{ opacity:.28; }
+  .mocktile-label{ font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:8px; }
+  .mockbars{ display:flex; align-items:flex-end; gap:6px; height:70px; }
+  .mockbar{ flex:1; background:var(--teal); border-radius:3px 3px 0 0; opacity:.85; transition:opacity .2s ease, background .2s ease, height .2s ease; }
+  .mockbar.hi{ background:var(--accent); opacity:1; }
+  .mockkpi{ font-family:var(--font-display); font-size:1.6rem; font-weight:700; }
+
+  .section-head{ margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid var(--border); }
+  .section-head .eyebrow{ display:block; margin-bottom:8px; }
+
+  figure{ margin:20px 0; }
+  figure svg{ max-width:100%; height:auto; display:block; }
+  figure img{ max-width:100%; height:auto; display:block; border:1px solid var(--border); border-radius:10px; }
+  figcaption{ font-size:.83rem; color:var(--text-muted); margin-top:10px; text-align:center; }
+
+  .btn{ display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:var(--accent-ink); border:none; font-family:var(--font-body); font-weight:700; font-size:.85rem; padding:9px 16px; border-radius:8px; cursor:pointer; text-decoration:none; }
+  .btn:hover{ filter:brightness(1.06); }
+  .btn.ghost{ background:transparent; color:var(--text); border:1px solid var(--border); }
+  .btn.sm{ padding:6px 12px; font-size:.78rem; }
+
+  .kicker-list{ list-style:none; padding:0; margin:14px 0; display:grid; gap:10px; }
+  .kicker-list li{ display:flex; gap:12px; align-items:flex-start; font-size:.94rem; }
+  .kicker-list .ico{ flex:none; width:26px; height:26px; border-radius:7px; background:var(--teal-soft); color:var(--teal); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:.75rem; font-weight:700; }
+
+  footer.pagefoot{ margin-top:40px; padding-top:18px; border-top:1px solid var(--border); font-size:.8rem; color:var(--text-muted); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  footer.pagefoot a{ color:var(--text-muted); text-decoration:none; font-weight:600; }
+  footer.pagefoot a:hover{ color:var(--teal); }
+
+  @media (max-width:860px){
+    .sidebar{ position:fixed; inset:0 auto 0 0; z-index:20; transform:translateX(-100%); transition:transform .2s ease; box-shadow:var(--shadow); }
+    .sidebar.open{ transform:translateX(0); }
+    .menutoggle{ display:inline-flex; }
+    .content{ padding:24px 18px 60px; }
+    .topbar{ padding:12px 18px; }
+  }
+  @media print{
+    .sidebar,.topbar,.no-print{ display:none !important; }
+    .content{ padding:0; max-width:none; }
+    body{ background:#fff; color:#000; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="mark">
+        <svg width="30" height="30" viewBox="0 0 30 30" role="img" aria-label="Course mark">
+          <rect x="1" y="1" width="28" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="7" y="16" width="3.6" height="7" rx="1" fill="currentColor"/>
+          <rect x="13.2" y="11" width="3.6" height="12" rx="1" fill="var(--accent)"/>
+          <rect x="19.4" y="7" width="3.6" height="16" rx="1" fill="currentColor"/>
+        </svg>
+        <div>
+          <h1>Power BI Portal</h1>
+          <div class="sub">MBA Analytics · Beginner Track</div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebarsearch">
+      <input type="search" id="siteSearch" placeholder="Search this site…" autocomplete="off" aria-label="Search this site">
+      <div id="searchResults" class="search-results"></div>
+    </div>
+        <div class="navgroup" data-group-ids="home">
+      <div class="label"><span>Overview</span><span class="progress-count" data-group-ids="home"></span></div>
+      <div class="navitem"><a class="navbtn" href="index.html"><span class="num">·</span> Home &amp; Roadmap</a><input type="checkbox" class="navcheck" data-page="home" title="Mark &quot;Home & Roadmap&quot; as done" aria-label="Mark Home & Roadmap as done"></div>
+    </div>
+    <div class="navgroup" data-group-ids="understandingbi,bitoolsoverview,architecture,connecting,sqlserver,interface,visuals,module1assignment">
+      <div class="label"><span>Module 1: Introduction to BI &amp; BI Tools</span><span class="progress-count" data-group-ids="understandingbi,bitoolsoverview,architecture,connecting,sqlserver,interface,visuals,module1assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="17-understanding-bi.html"><span class="num">1</span> Understanding Business Intelligence</a><input type="checkbox" class="navcheck" data-page="understandingbi" title="Mark &quot;Understanding Business Intelligence&quot; as done" aria-label="Mark Understanding Business Intelligence as done"></div>
+      <div class="navitem"><a class="navbtn" href="18-bi-tools-overview.html"><span class="num">2</span> Overview of BI Tools</a><input type="checkbox" class="navcheck" data-page="bitoolsoverview" title="Mark &quot;Overview of BI Tools&quot; as done" aria-label="Mark Overview of BI Tools as done"></div>
+      <div class="navitem"><a class="navbtn" href="01-architecture.html"><span class="num">3</span> Power BI Architecture</a><input type="checkbox" class="navcheck" data-page="architecture" title="Mark &quot;Power BI Architecture&quot; as done" aria-label="Mark Power BI Architecture as done"></div>
+      <div class="navitem"><a class="navbtn" href="03-connecting-data.html"><span class="num">4</span> Connecting to Data Sources</a><input type="checkbox" class="navcheck" data-page="connecting" title="Mark &quot;Connecting to Data Sources&quot; as done" aria-label="Mark Connecting to Data Sources as done"></div>
+      <div class="navitem"><a class="navbtn" href="08-sql-server-adventureworks.html"><span class="num">+</span> SQL Server &amp; AdventureWorks</a><input type="checkbox" class="navcheck" data-page="sqlserver" title="Mark &quot;SQL Server & AdventureWorks&quot; as done" aria-label="Mark SQL Server & AdventureWorks as done"></div>
+      <div class="navitem"><a class="navbtn" href="02-interface.html"><span class="num">5</span> Navigating the Interface</a><input type="checkbox" class="navcheck" data-page="interface" title="Mark &quot;Navigating the Interface&quot; as done" aria-label="Mark Navigating the Interface as done"></div>
+      <div class="navitem"><a class="navbtn" href="05-visualizations.html"><span class="num">6</span> Basic Visualizations</a><input type="checkbox" class="navcheck" data-page="visuals" title="Mark &quot;Basic Visualizations&quot; as done" aria-label="Mark Basic Visualizations as done"></div>
+      <div class="navitem"><a class="navbtn" href="29-module1-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module1assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
+    </div>
+    <div class="navgroup" data-group-ids="customvisuals,groupshistograms,bestpractices,interactivity,tablesmatrix,conditionalformatting,filters,slicers,module2assignment">
+      <div class="label"><span>Module 2: Advanced Visualizations</span><span class="progress-count" data-group-ids="customvisuals,groupshistograms,bestpractices,interactivity,tablesmatrix,conditionalformatting,filters,slicers,module2assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a><input type="checkbox" class="navcheck" data-page="customvisuals" title="Mark &quot;Custom Visuals&quot; as done" aria-label="Mark Custom Visuals as done"></div>
+      <div class="navitem"><a class="navbtn" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a><input type="checkbox" class="navcheck" data-page="groupshistograms" title="Mark &quot;Groups & Histograms&quot; as done" aria-label="Mark Groups & Histograms as done"></div>
+      <div class="navitem"><a class="navbtn" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a><input type="checkbox" class="navcheck" data-page="bestpractices" title="Mark &quot;Best Practices&quot; as done" aria-label="Mark Best Practices as done"></div>
+      <div class="navitem"><a class="navbtn" href="12-interactivity.html"><span class="num">4</span> Interactivity</a><input type="checkbox" class="navcheck" data-page="interactivity" title="Mark &quot;Interactivity&quot; as done" aria-label="Mark Interactivity as done"></div>
+      <div class="navitem"><a class="navbtn" href="13-tables-matrix.html"><span class="num">5</span> Tables &amp; Matrix</a><input type="checkbox" class="navcheck" data-page="tablesmatrix" title="Mark &quot;Tables & Matrix&quot; as done" aria-label="Mark Tables & Matrix as done"></div>
+      <div class="navitem"><a class="navbtn" href="14-conditional-formatting.html"><span class="num">6</span> Conditional Formatting</a><input type="checkbox" class="navcheck" data-page="conditionalformatting" title="Mark &quot;Conditional Formatting&quot; as done" aria-label="Mark Conditional Formatting as done"></div>
+      <div class="navitem"><a class="navbtn" href="15-filters.html"><span class="num">7</span> Filters</a><input type="checkbox" class="navcheck" data-page="filters" title="Mark &quot;Filters&quot; as done" aria-label="Mark Filters as done"></div>
+      <div class="navitem"><a class="navbtn" href="16-slicers.html"><span class="num">8</span> Slicers</a><input type="checkbox" class="navcheck" data-page="slicers" title="Mark &quot;Slicers&quot; as done" aria-label="Mark Slicers as done"></div>
+      <div class="navitem"><a class="navbtn" href="30-module2-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module2assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
+    </div>
+    <div class="navgroup" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,daxpatterns,daxpractice,daxreference,complexdax,alldaxformulas,module3assignment">
+      <div class="label"><span>Module 3: Introduction to DAX</span><span class="progress-count" data-group-ids="daxbasics,daxtimeintelligence,daxcontext,daxcalculatemodeling,daxpatterns,daxpractice,daxreference,complexdax,alldaxformulas,module3assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="19-dax-basics.html"><span class="num">1</span> DAX Basics &amp; Measures</a><input type="checkbox" class="navcheck" data-page="daxbasics" title="Mark &quot;DAX Basics & Measures&quot; as done" aria-label="Mark DAX Basics & Measures as done"></div>
+      <div class="navitem"><a class="navbtn" href="20-dax-time-intelligence.html"><span class="num">2</span> Time Intelligence &amp; Aggregations</a><input type="checkbox" class="navcheck" data-page="daxtimeintelligence" title="Mark &quot;Time Intelligence & Aggregations&quot; as done" aria-label="Mark Time Intelligence & Aggregations as done"></div>
+      <div class="navitem"><a class="navbtn" href="21-dax-context.html"><span class="num">3</span> Context &amp; Dynamic Measures</a><input type="checkbox" class="navcheck" data-page="daxcontext" title="Mark &quot;Context & Dynamic Measures&quot; as done" aria-label="Mark Context & Dynamic Measures as done"></div>
+      <div class="navitem"><a class="navbtn" href="22-dax-calculate-modeling.html"><span class="num">4</span> CALCULATE, FILTER &amp; Modeling</a><input type="checkbox" class="navcheck" data-page="daxcalculatemodeling" title="Mark &quot;CALCULATE, FILTER & Modeling&quot; as done" aria-label="Mark CALCULATE, FILTER & Modeling as done"></div>
+      <div class="navitem"><a class="navbtn" href="38-dax-patterns.html"><span class="num">5</span> Pattern Library</a><input type="checkbox" class="navcheck" data-page="daxpatterns" title="Mark &quot;Pattern Library&quot; as done" aria-label="Mark Pattern Library as done"></div>
+      <div class="navitem"><a class="navbtn" href="39-dax-practice.html"><span class="num">6</span> Practice: Problems &amp; Solutions</a><input type="checkbox" class="navcheck" data-page="daxpractice" title="Mark &quot;Practice: Problems & Solutions&quot; as done" aria-label="Mark Practice: Problems & Solutions as done"></div>
+      <div class="navitem"><a class="navbtn" href="40-dax-reference.html"><span class="num">◆</span> Formula Reference</a><input type="checkbox" class="navcheck" data-page="daxreference" title="Mark &quot;Formula Reference&quot; as done" aria-label="Mark Formula Reference as done"></div>
+      <div class="navitem"><a class="navbtn" href="44-complex-dax.html"><span class="num">7</span> Complex DAX &amp; Real Datasets</a><input type="checkbox" class="navcheck" data-page="complexdax" title="Mark &quot;Complex DAX & Real Datasets&quot; as done" aria-label="Mark Complex DAX & Real Datasets as done"></div>
+      <div class="navitem"><a class="navbtn active" href="45-all-dax-formulas.html"><span class="num">8</span> All DAX Formulas &amp; Combinations</a><input type="checkbox" class="navcheck" data-page="alldaxformulas" title="Mark &quot;All DAX Formulas & Combinations&quot; as done" aria-label="Mark All DAX Formulas & Combinations as done"></div>
+      <div class="navitem"><a class="navbtn" href="32-module3-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module3assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
+    </div>
+    <div class="navgroup" data-group-ids="pqfundamentals,powerquery,pqwalkthrough,joinsmodelling,mquery,mlanguageetl,kpisdashboard,module4assignment">
+      <div class="label"><span>Module 4: Power Query Editor</span><span class="progress-count" data-group-ids="pqfundamentals,powerquery,pqwalkthrough,joinsmodelling,mquery,mlanguageetl,kpisdashboard,module4assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="41-power-query-fundamentals.html"><span class="num">1</span> How Power Query Works</a><input type="checkbox" class="navcheck" data-page="pqfundamentals" title="Mark &quot;How Power Query Works&quot; as done" aria-label="Mark How Power Query Works as done"></div>
+      <div class="navitem"><a class="navbtn" href="04-power-query.html"><span class="num">2</span> Power Query Editor</a><input type="checkbox" class="navcheck" data-page="powerquery" title="Mark &quot;Power Query Editor&quot; as done" aria-label="Mark Power Query Editor as done"></div>
+      <div class="navitem"><a class="navbtn" href="31-power-query-walkthrough.html"><span class="num">3</span> Dirty → Clean Walkthrough</a><input type="checkbox" class="navcheck" data-page="pqwalkthrough" title="Mark &quot;Dirty → Clean Walkthrough&quot; as done" aria-label="Mark Dirty → Clean Walkthrough as done"></div>
+      <div class="navitem"><a class="navbtn" href="42-joins-data-modelling.html"><span class="num">4</span> Joins &amp; Data Modelling</a><input type="checkbox" class="navcheck" data-page="joinsmodelling" title="Mark &quot;Joins & Data Modelling&quot; as done" aria-label="Mark Joins & Data Modelling as done"></div>
+      <div class="navitem"><a class="navbtn" href="43-m-query.html"><span class="num">5</span> M Query</a><input type="checkbox" class="navcheck" data-page="mquery" title="Mark &quot;M Query&quot; as done" aria-label="Mark M Query as done"></div>
+      <div class="navitem"><a class="navbtn" href="23-m-language-etl.html"><span class="num">6</span> M Language &amp; End-to-End ETL</a><input type="checkbox" class="navcheck" data-page="mlanguageetl" title="Mark &quot;M Language & End-to-End ETL&quot; as done" aria-label="Mark M Language & End-to-End ETL as done"></div>
+      <div class="navitem"><a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">7</span> KPIs &amp; Single-Page Dashboard</a><input type="checkbox" class="navcheck" data-page="kpisdashboard" title="Mark &quot;KPIs & Single-Page Dashboard&quot; as done" aria-label="Mark KPIs & Single-Page Dashboard as done"></div>
+      <div class="navitem"><a class="navbtn" href="33-module4-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module4assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
+    </div>
+    <div class="navgroup" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment">
+      <div class="label"><span>Module 5: Power BI Service</span><span class="progress-count" data-group-ids="publishingsharing,qascenariomanager,practicalapplications,serviceslicers,module5assignment"></span></div>
+      <div class="navitem"><a class="navbtn" href="25-publishing-sharing.html"><span class="num">1</span> Publishing &amp; Sharing</a><input type="checkbox" class="navcheck" data-page="publishingsharing" title="Mark &quot;Publishing & Sharing&quot; as done" aria-label="Mark Publishing & Sharing as done"></div>
+      <div class="navitem"><a class="navbtn" href="26-qa-scenario-manager.html"><span class="num">2</span> Q&amp;A and Scenario Manager</a><input type="checkbox" class="navcheck" data-page="qascenariomanager" title="Mark &quot;Q&A and Scenario Manager&quot; as done" aria-label="Mark Q&A and Scenario Manager as done"></div>
+      <div class="navitem"><a class="navbtn" href="27-practical-applications-pivots.html"><span class="num">3</span> Practical Applications &amp; Pivots</a><input type="checkbox" class="navcheck" data-page="practicalapplications" title="Mark &quot;Practical Applications & Pivots&quot; as done" aria-label="Mark Practical Applications & Pivots as done"></div>
+      <div class="navitem"><a class="navbtn" href="28-service-slicers-interactivity.html"><span class="num">4</span> Slicers at Scale &amp; Interactivity</a><input type="checkbox" class="navcheck" data-page="serviceslicers" title="Mark &quot;Slicers at Scale & Interactivity&quot; as done" aria-label="Mark Slicers at Scale & Interactivity as done"></div>
+      <div class="navitem"><a class="navbtn" href="34-module5-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module5assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
+    </div>
+    <div class="navgroup" data-group-ids="exercises,finalproject,quiz">
+      <div class="label"><span>Practice</span><span class="progress-count" data-group-ids="exercises,finalproject,quiz"></span></div>
+      <div class="navitem"><a class="navbtn" href="06-exercises.html"><span class="num">★</span> 5 Exercises</a><input type="checkbox" class="navcheck" data-page="exercises" title="Mark &quot;5 Exercises&quot; as done" aria-label="Mark 5 Exercises as done"></div>
+      <div class="navitem"><a class="navbtn" href="07-final-project.html"><span class="num">★</span> Final Project</a><input type="checkbox" class="navcheck" data-page="finalproject" title="Mark &quot;Final Project&quot; as done" aria-label="Mark Final Project as done"></div>
+      <div class="navitem"><a class="navbtn" href="quiz.html"><span class="num">★</span> Self-Test Quiz</a><input type="checkbox" class="navcheck" data-page="quiz" title="Mark &quot;Self-Test Quiz&quot; as done" aria-label="Mark Self-Test Quiz as done"></div>
+    </div>
+    <div class="navgroup" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets,glossary">
+      <div class="label"><span>Reference</span><span class="progress-count" data-group-ids="troubleshooting,cheatsheet,careerpl300,datasets,glossary"></span></div>
+      <div class="navitem"><a class="navbtn" href="35-troubleshooting.html"><span class="num">⚠</span> Troubleshooting</a><input type="checkbox" class="navcheck" data-page="troubleshooting" title="Mark &quot;Troubleshooting&quot; as done" aria-label="Mark Troubleshooting as done"></div>
+      <div class="navitem"><a class="navbtn" href="cheatsheet.html"><span class="num">◆</span> Cheat Sheet</a><input type="checkbox" class="navcheck" data-page="cheatsheet" title="Mark &quot;Cheat Sheet&quot; as done" aria-label="Mark Cheat Sheet as done"></div>
+      <div class="navitem"><a class="navbtn" href="36-career-pl300.html"><span class="num">🎓</span> Career &amp; PL-300</a><input type="checkbox" class="navcheck" data-page="careerpl300" title="Mark &quot;Career & PL-300&quot; as done" aria-label="Mark Career & PL-300 as done"></div>
+      <div class="navitem"><a class="navbtn" href="datasets.html"><span class="num">⇩</span> Datasets</a><input type="checkbox" class="navcheck" data-page="datasets" title="Mark &quot;Datasets&quot; as done" aria-label="Mark Datasets as done"></div>
+      <div class="navitem"><a class="navbtn" href="37-glossary.html"><span class="num">📖</span> Glossary</a><input type="checkbox" class="navcheck" data-page="glossary" title="Mark &quot;Glossary&quot; as done" aria-label="Mark Glossary as done"></div>
+    </div>
+    <div class="themebar">
+      <button class="themebtn" data-theme-choice="light">☀ Light</button>
+      <button class="themebtn" data-theme-choice="dark">☾ Dark</button>
+      <button class="themebtn" data-theme-choice="auto">Auto</button>
+    </div>
+    <div class="progressreset"><button id="resetProgress" type="button">↺ Reset my progress</button></div>
+  </aside>
+
+  <div class="main-col">
+    <div class="topbar">
+      <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">All DAX Formulas</b></div>
+      <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
+    </div>
+
+    <main class="content">
+      <div class="section-head">
+        <span class="eyebrow">Module 3 · Complete Encyclopedia</span>
+        <h1>All DAX Formulas &amp; Combinations in Power BI</h1>
+        <p class="lede">A complete reference guide to DAX functions in Power BI — categorized by functional family with signatures, business use cases, and practical examples. Includes an in-depth breakdown of essential <b>Combination DAX patterns</b> like <code>CALCULATE + FILTER</code>, <code>CALCULATE + ALL</code>, <code>CALCULATE + USERELATIONSHIP</code>, and <code>SUMX + RELATED</code>.</p>
+      </div>
+
+      <div class="callout">
+        <b>Quick Search &amp; Filter:</b> Use the search box below to instantly find any function by name, syntax, or keyword (e.g. <i>"calculate"</i>, <i>"date"</i>, <i>"rank"</i>, <i>"iterator"</i>). Click any category pill to filter the encyclopedia.
+      </div>
+
+      <!-- Live Search & Category Filter Toolbar -->
+      <div class="card" style="margin:20px 0;padding:16px 20px;">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
+          <input type="text" id="daxSearch" placeholder="Search all DAX functions or combinations..." style="flex:1;min-width:240px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font-family:var(--font-body);font-size:.9rem;outline:none;" />
+          <span id="daxCount" class="pill good" style="font-size:.8rem;padding:6px 14px;">Showing all entries</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;" id="categoryFilter">
+          <button class="pill btn active" data-cat="all">All Functions</button>
+          <button class="pill btn" data-cat="combination">⭐ Combinations</button>
+          <button class="pill btn" data-cat="filter">Filter &amp; CALCULATE</button>
+          <button class="pill btn" data-cat="time">Time Intelligence</button>
+          <button class="pill btn" data-cat="aggregation">Aggregation &amp; Stats</button>
+          <button class="pill btn" data-cat="iterator">Iterators (X-Family)</button>
+          <button class="pill btn" data-cat="logical">Logical &amp; Conditional</button>
+          <button class="pill btn" data-cat="text">Text &amp; String</button>
+          <button class="pill btn" data-cat="date">Date &amp; Time</button>
+          <button class="pill btn" data-cat="table">Table &amp; Virtual</button>
+          <button class="pill btn" data-cat="math">Math &amp; Numeric</button>
+          <button class="pill btn" data-cat="relationship">Relationships</button>
+        </div>
+      </div>
+
+      <!-- Spotlight: Combination DAX Patterns -->
+      <h2 id="combo-spotlight" style="margin-top:36px">⭐ Combination DAX Patterns Spotlight</h2>
+      <p style="font-size:.92rem">DAX gains its real power when functions are chained together. In enterprise models, a single function rarely solves a business requirement alone — combinations alter filter context, iterate across relationships, and handle dynamic executive logic.</p>
+
+      <div class="grid grid-2" style="margin-top:16px">
+        <div class="card">
+          <span class="pill good">Core Pattern #1</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + FILTER</h3>
+          <p style="font-size:.88rem"><b>When required:</b> A bare <code>CALCULATE(..., Sales &gt; 1000)</code> only accepts simple single-column constant filters. You <b>must</b> combine with <code>FILTER()</code> whenever: (1) you compare two columns to each other, (2) you reference a measure inside the condition, or (3) you apply multi-column row logic.</p>
+          <div class="codeblock"><span class="c-com">// Filtering by measure or dynamic row logic</span>
+High Profit Sales = 
+<span class="c-fn">CALCULATE</span>(
+    [Total Sales],
+    <span class="c-fn">FILTER</span>(
+        DimProduct,
+        DimProduct[ListPrice] &gt; DimProduct[StandardCost] * 2
+    )
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)"><code>FILTER(DimProduct, ...)</code> returns a filtered table that <code>CALCULATE</code> applies as its new filter context.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #2</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + ALL</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Market share, % of category, or benchmark ratios where the denominator must ignore whatever slicers or visual rows are currently filtering the data.</p>
+          <div class="codeblock"><span class="c-com">// Market Share / % of Grand Total</span>
+% of All Sales = 
+<span class="c-fn">DIVIDE</span>(
+    [Total Sales],
+    <span class="c-fn">CALCULATE</span>( [Total Sales], <span class="c-fn">ALL</span>( FactInternetSales ) ),
+    0
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)"><code>ALL</code> removes all filters from the table or column, providing a fixed grand total denominator.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #3</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + ALLSELECTED</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Percentage of user selection. Unlike <code>ALL</code> (which ignores even the user's slicers), <code>ALLSELECTED</code> respects external page slicers while clearing the visual's internal row/column axes.</p>
+          <div class="codeblock"><span class="c-com">// Respects Category slicer, but sums across table rows</span>
+% of Filtered Selection = 
+<span class="c-fn">DIVIDE</span>(
+    [Total Sales],
+    <span class="c-fn">CALCULATE</span>( [Total Sales], <span class="c-fn">ALLSELECTED</span>( DimProduct ) ),
+    0
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">If the user filters to "Bikes", the rows sum to 100% of Bikes rather than % of all company sales.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #4</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + ALLEXCEPT</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Category subtotals. Strips filters from every column on a dimension <i>except</i> the specified column(s). Great for "Product sales as % of its Parent Category."</p>
+          <div class="codeblock"><span class="c-com">// Keeps Category filter, strips Subcategory and Product filters</span>
+Category Total Sales = 
+<span class="c-fn">CALCULATE</span>(
+    [Total Sales],
+    <span class="c-fn">ALLEXCEPT</span>( DimProduct, DimProduct[ProductLine] )
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Calculates the total for Road Bikes across all individual bike models in that line.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #5</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + USERELATIONSHIP</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Role-playing dimensions. When a fact table has multiple dates (Order Date, Ship Date, Due Date), Power BI only allows one active relationship. <code>USERELATIONSHIP</code> activates the inactive relationship inside that measure.</p>
+          <div class="codeblock"><span class="c-com">// Analyzes sales by Ship Date instead of default Order Date</span>
+Sales by Ship Date = 
+<span class="c-fn">CALCULATE</span>(
+    [Total Sales],
+    <span class="c-fn">USERELATIONSHIP</span>(
+        FactInternetSales[ShipDateKey],
+        DimDate[DateKey]
+    )
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Enables plotting both Order Date volume and Shipping Date volume on the same calendar axis.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #6</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CALCULATE + KEEPFILTERS</h3>
+          <p style="font-size:.88rem"><b>When required:</b> By default, <code>CALCULATE</code> overrides existing filters on the same column. Wrapping the filter in <code>KEEPFILTERS</code> tells DAX to <i>intersect</i> instead of override.</p>
+          <div class="codeblock"><span class="c-com">// Intersects with slicer; returns blank if slicer is set to "Mountain"</span>
+Safe Road Bike Sales = 
+<span class="c-fn">CALCULATE</span>(
+    [Total Sales],
+    <span class="c-fn">KEEPFILTERS</span>( DimProduct[ProductLine] = <span class="c-str">"R"</span> )
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Prevents accidental display of Road Bike sales when an executive specifically filtered to Mountain Bikes.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #7</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">SUMX + RELATED</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Multiplying a transaction quantity on the Fact table (Many side) by a unit cost or price sitting in a Dimension table (One side).</p>
+          <div class="codeblock"><span class="c-com">// Evaluated row by row on Fact, fetching Unit Price from DimProduct</span>
+Total Revenue at List Price = 
+<span class="c-fn">SUMX</span>(
+    FactInternetSales,
+    FactInternetSales[OrderQuantity] * <span class="c-fn">RELATED</span>( DimProduct[ListPrice] )
+)</div>
+          <p style="font-size:.82rem;color:var(--text-muted)"><code>RELATED</code> traverses the 1-to-many relationship inside the row context created by <code>SUMX</code>.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #8</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">SWITCH + TRUE()</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Multi-condition decision ladders, performance scoring, or custom text tagging. Replaces messy nested <code>IF()</code> statements.</p>
+          <div class="codeblock"><span class="c-com">// Executive Performance Classification Ladder</span>
+Performance Tier = 
+<span class="c-fn">VAR</span> MarginRate = [Profit Margin %]
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">SWITCH</span>(
+        <span class="c-fn">TRUE</span>(),
+        MarginRate &gt;= 0.40, <span class="c-str">"Tier 1: High Margin (40%+)"</span>,
+        MarginRate &gt;= 0.20, <span class="c-str">"Tier 2: Standard (20-39%)"</span>,
+        MarginRate &gt; 0,     <span class="c-str">"Tier 3: Low Margin (&lt;20%)"</span>,
+        <span class="c-str">"Tier 4: Loss Making"</span>
+    )</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Evaluates conditions in sequential top-down order until the first true expression is found.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #9</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">CONCATENATEX + VALUES</h3>
+          <p style="font-size:.88rem"><b>When required:</b> Dynamic titles, card subtitles, or tooltips that list all items currently chosen in a multi-select slicer.</p>
+          <div class="codeblock"><span class="c-com">// Returns "Selected Cities: Bangalore, Mumbai, Delhi"</span>
+Selected Regions List = 
+<span class="c-fn">VAR</span> SelectedList = 
+    <span class="c-fn">CONCATENATEX</span>(
+        <span class="c-fn">VALUES</span>( DimSalesTerritory[SalesTerritoryRegion] ),
+        DimSalesTerritory[SalesTerritoryRegion],
+        <span class="c-str">", "</span>,
+        DimSalesTerritory[SalesTerritoryRegion],
+        ASC
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-str">"Regions: "</span> &amp; SelectedList</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Turns tabular filter context into a clean, comma-delimited string for card visuals or chart headers.</p>
+        </div>
+
+        <div class="card">
+          <span class="pill good">Core Pattern #10</span>
+          <h3 style="margin:8px 0;font-size:1.05rem">ADDCOLUMNS + SUMMARIZE</h3>
+          <p style="font-size:.88rem"><b>When required:</b> The recommended best practice for generating virtual tables. Never compute measures directly inside <code>SUMMARIZE</code> (which can cause severe performance bugs); use <code>ADDCOLUMNS</code> wrapped around <code>SUMMARIZE</code>.</p>
+          <div class="codeblock"><span class="c-com">// Golden pattern for virtual table aggregations</span>
+Average Customer Sales = 
+<span class="c-fn">VAR</span> CustomerTable = 
+    <span class="c-fn">ADDCOLUMNS</span>(
+        <span class="c-fn">SUMMARIZE</span>( FactInternetSales, FactInternetSales[CustomerKey] ),
+        <span class="c-str">"@CustSales"</span>, [Total Sales]
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">AVERAGEX</span>( CustomerTable, [@CustSales] )</div>
+          <p style="font-size:.82rem;color:var(--text-muted)">Summarizes unique customers, calculates sales per customer with context transition, then averages them.</p>
+        </div>
+      </div>
+
+      <!-- Complete DAX Function Directory -->
+      <h2 style="margin-top:48px">Comprehensive DAX Function Directory</h2>
+      <p style="font-size:.92rem">All functions available in Power BI Desktop, arranged by functional domain. Each entry provides the formal syntax, concise description, and working DAX formula.</p>
+
+      <div id="daxDirectory" style="margin-top:16px;"></div>
+
+      <footer class="pagefoot"><span>Module 3 · Complete DAX Encyclopedia</span><a href="32-module3-assignment.html">Next: Module 3 Assignment →</a></footer>
+
+<script>
+/* ================= COMPLETE DAX ENCYCLOPEDIA DATA ================= */
+const DAX_FUNCTIONS = [
+  /* ---------- COMBINATIONS ---------- */
+  {
+    name: "CALCULATE + FILTER",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, FILTER ( <Table>, <Condition> ) )",
+    desc: "Applies a dynamic table filter to an expression. Essential when conditions involve measures, compare two columns, or require complex row-by-row filtering.",
+    example: "High Margin Sales =\nCALCULATE( [Total Sales], FILTER( DimProduct, DimProduct[ListPrice] > DimProduct[StandardCost] * 2 ) )"
+  },
+  {
+    name: "CALCULATE + ALL",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, ALL ( <TableOrColumn> ) )",
+    desc: "Clears filters from the specified table or column to compute static grand totals, market shares, or baselines.",
+    example: "% of All Sales =\nDIVIDE( [Total Sales], CALCULATE( [Total Sales], ALL( FactInternetSales ) ), 0 )"
+  },
+  {
+    name: "CALCULATE + ALLSELECTED",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, ALLSELECTED ( <TableOrColumn> ) )",
+    desc: "Clears visual row/column filters while preserving report-level and slicer selections. Standard pattern for dynamic % of Selection.",
+    example: "% of Filtered Selection =\nDIVIDE( [Total Sales], CALCULATE( [Total Sales], ALLSELECTED( DimProduct ) ), 0 )"
+  },
+  {
+    name: "CALCULATE + ALLEXCEPT",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, ALLEXCEPT ( <Table>, <Column1>, ... ) )",
+    desc: "Removes all filters from a table except for the specified column(s). Standard pattern for parent-category subtotals.",
+    example: "Category Total Sales =\nCALCULATE( [Total Sales], ALLEXCEPT( DimProduct, DimProduct[ProductLine] ) )"
+  },
+  {
+    name: "CALCULATE + KEEPFILTERS",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, KEEPFILTERS ( <FilterExpression> ) )",
+    desc: "Forces CALCULATE to intersect its filter with existing filter context instead of overriding it.",
+    example: "Safe Road Bike Sales =\nCALCULATE( [Total Sales], KEEPFILTERS( DimProduct[ProductLine] = \"R\" ) )"
+  },
+  {
+    name: "CALCULATE + USERELATIONSHIP",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, USERELATIONSHIP ( <Column1>, <Column2> ) )",
+    desc: "Activates an inactive relationship for the duration of the calculation. Enables role-playing dates (ShipDate vs OrderDate).",
+    example: "Sales by Ship Date =\nCALCULATE( [Total Sales], USERELATIONSHIP( FactInternetSales[ShipDateKey], DimDate[DateKey] ) )"
+  },
+  {
+    name: "CALCULATE + CROSSFILTER",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CALCULATE ( <Expression>, CROSSFILTER ( <Column1>, <Column2>, Both | Single | None ) )",
+    desc: "Modifies how filters propagate across a relationship dynamically without changing permanent model settings.",
+    example: "Customers with Purchases =\nCALCULATE( DISTINCTCOUNT( DimCustomer[CustomerKey] ), CROSSFILTER( FactInternetSales[CustomerKey], DimCustomer[CustomerKey], Both ) )"
+  },
+  {
+    name: "SUMX + RELATED",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "SUMX ( <FactTable>, <FactColumn> * RELATED ( <DimColumn> ) )",
+    desc: "Iterates across a fact table row-by-row, looking up a price, cost, or weight from a related dimension table.",
+    example: "Total Sales at List Price =\nSUMX( FactInternetSales, FactInternetSales[OrderQuantity] * RELATED( DimProduct[ListPrice] ) )"
+  },
+  {
+    name: "SWITCH + TRUE()",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "SWITCH ( TRUE(), <Condition1>, <Result1>, <Condition2>, <Result2>, <Else> )",
+    desc: "The premier pattern for multi-condition decision ladders and KPI scoring, eliminating deeply nested IF statements.",
+    example: "Customer Tier =\nSWITCH( TRUE(), [Total Sales] >= 50000, \"Platinum\", [Total Sales] >= 20000, \"Gold\", \"Standard\" )"
+  },
+  {
+    name: "CONCATENATEX + VALUES",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "CONCATENATEX ( VALUES ( <Column> ), <Column>, <Delimiter>, <OrderBy> )",
+    desc: "Constructs a clean comma-separated text string of all items currently chosen in a slicer or filter.",
+    example: "Active Slicer Choices =\nCONCATENATEX( VALUES( DimProduct[ProductLine] ), DimProduct[ProductLine], \", \", DimProduct[ProductLine], ASC )"
+  },
+  {
+    name: "ADDCOLUMNS + SUMMARIZE",
+    category: "combination",
+    family: "Combination Patterns",
+    syntax: "ADDCOLUMNS ( SUMMARIZE ( <Table>, <GroupCols> ), \"@MeasureName\", <Measure> )",
+    desc: "The golden practice for creating virtual calculation tables in memory without suffering from SUMMARIZE clustering bugs.",
+    example: "Average Sales per Customer =\nVAR T = ADDCOLUMNS( SUMMARIZE( FactInternetSales, FactInternetSales[CustomerKey] ), \"@Spend\", [Total Sales] )\nRETURN AVERAGEX( T, [@Spend] )"
+  },
+
+  /* ---------- FILTER & CALCULATE ---------- */
+  {
+    name: "CALCULATE",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "CALCULATE ( <Expression>, <Filter1>, <Filter2>, ... )",
+    desc: "The single most important function in DAX. Evaluates an expression inside a modified filter context, transitioning row context into filter context.",
+    example: "Road Bike Sales =\nCALCULATE( [Total Sales], DimProduct[ProductLine] = \"R\" )"
+  },
+  {
+    name: "CALCULATETABLE",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "CALCULATETABLE ( <TableExpression>, <Filter1>, ... )",
+    desc: "Evaluates a table expression within a modified filter context, returning a table instead of a scalar value.",
+    example: "Active Customers Table =\nCALCULATETABLE( VALUES( DimCustomer[CustomerKey] ), FactInternetSales[SalesAmount] > 0 )"
+  },
+  {
+    name: "FILTER",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "FILTER ( <Table>, <FilterCondition> )",
+    desc: "Iterates row-by-row over a table and returns only the rows that satisfy the boolean expression.",
+    example: "Expensive Products =\nFILTER( DimProduct, DimProduct[ListPrice] > 1000 )"
+  },
+  {
+    name: "ALL",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "ALL ( <TableOrColumn1>, [Column2], ... )",
+    desc: "Removes all filters from specified columns or tables, ignoring visual, page, and report slicers.",
+    example: "Grand Total Revenue =\nCALCULATE( [Total Sales], ALL( FactInternetSales ) )"
+  },
+  {
+    name: "ALLEXCEPT",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "ALLEXCEPT ( <Table>, <KeepColumn1>, ... )",
+    desc: "Clears all filters from a table EXCEPT those on the explicitly specified columns.",
+    example: "Category Sales =\nCALCULATE( [Total Sales], ALLEXCEPT( DimProduct, DimProduct[ProductLine] ) )"
+  },
+  {
+    name: "ALLSELECTED",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "ALLSELECTED ( [TableOrColumn] )",
+    desc: "Removes context filters from rows and columns in the visual while keeping outer slicers and page filters intact.",
+    example: "% of Selected Products =\nDIVIDE( [Total Sales], CALCULATE( [Total Sales], ALLSELECTED( DimProduct ) ) )"
+  },
+  {
+    name: "REMOVEFILTERS",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "REMOVEFILTERS ( [TableOrColumn1], ... )",
+    desc: "Alias for ALL when used purely as a filter argument in CALCULATE. Explicitly communicates intent to clear filters.",
+    example: "Unfiltered Sales =\nCALCULATE( [Total Sales], REMOVEFILTERS( DimProduct[Color] ) )"
+  },
+  {
+    name: "KEEPFILTERS",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "KEEPFILTERS ( <FilterExpression> )",
+    desc: "Modifies how filters are applied in CALCULATE, ensuring existing filters are intersected rather than replaced.",
+    example: "Strict Category Sales =\nCALCULATE( [Total Sales], KEEPFILTERS( DimProduct[ProductLine] = \"R\" ) )"
+  },
+  {
+    name: "TREATAS",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "TREATAS ( <TableExpression>, <Column1>, [Column2], ... )",
+    desc: "Applies the values from a table expression as a filter to target columns, simulating a relationship between disconnected tables.",
+    example: "Filtered Target Sales =\nCALCULATE( [Total Sales], TREATAS( {\"North\", \"South\"}, DimSalesTerritory[SalesTerritoryGroup] ) )"
+  },
+  {
+    name: "LOOKUPVALUE",
+    category: "filter",
+    family: "Filter & Context",
+    syntax: "LOOKUPVALUE ( <ResultCol>, <SearchCol1>, <SearchVal1>, ... )",
+    desc: "Looks up and returns a scalar value from a table where search columns match search values, without requiring a model relationship.",
+    example: "Manager Email =\nLOOKUPVALUE( DimEmployee[EmailAddress], DimEmployee[EmployeeKey], FactInternetSales[EmployeeKey] )"
+  },
+
+  /* ---------- TIME INTELLIGENCE ---------- */
+  {
+    name: "TOTALYTD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "TOTALYTD ( <Expression>, <DateColumn>, [Filter], [YearEndDate] )",
+    desc: "Computes a cumulative running total of an expression from the first day of the year up to the current date in context.",
+    example: "Sales YTD =\nTOTALYTD( [Total Sales], DimDate[FullDateAlternateKey] )"
+  },
+  {
+    name: "TOTALQTD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "TOTALQTD ( <Expression>, <DateColumn>, [Filter] )",
+    desc: "Evaluates the quarterly running total from the start of the quarter up to the current context date.",
+    example: "Sales QTD =\nTOTALQTD( [Total Sales], DimDate[FullDateAlternateKey] )"
+  },
+  {
+    name: "TOTALMTD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "TOTALMTD ( <Expression>, <DateColumn>, [Filter] )",
+    desc: "Evaluates the monthly running total from the first day of the month up to the current context date.",
+    example: "Sales MTD =\nTOTALMTD( [Total Sales], DimDate[FullDateAlternateKey] )"
+  },
+  {
+    name: "SAMEPERIODLASTYEAR",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "SAMEPERIODLASTYEAR ( <DateColumn> )",
+    desc: "Returns a table of dates shifted back exactly one full year from the dates in the current filter context.",
+    example: "Sales Last Year =\nCALCULATE( [Total Sales], SAMEPERIODLASTYEAR( DimDate[FullDateAlternateKey] ) )"
+  },
+  {
+    name: "DATEADD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "DATEADD ( <DateColumn>, <NumberOfIntervals>, DAY | MONTH | QUARTER | YEAR )",
+    desc: "Shifts dates by a given number of days, months, quarters, or years backward or forward.",
+    example: "Sales Previous Month =\nCALCULATE( [Total Sales], DATEADD( DimDate[FullDateAlternateKey], -1, MONTH ) )"
+  },
+  {
+    name: "DATESBETWEEN",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "DATESBETWEEN ( <DateColumn>, <StartDate>, <EndDate> )",
+    desc: "Returns a contiguous table of dates between a specified start and end date inclusive.",
+    example: "Q1 Sales =\nCALCULATE( [Total Sales], DATESBETWEEN( DimDate[FullDateAlternateKey], DATE(2024,1,1), DATE(2024,3,31) ) )"
+  },
+  {
+    name: "DATESINPERIOD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "DATESINPERIOD ( <DateColumn>, <StartDate>, <NumberOfIntervals>, DAY | MONTH | QUARTER | YEAR )",
+    desc: "Returns a table of dates starting at a date and extending across the given interval. Foundation for rolling averages.",
+    example: "Rolling 3 Month Sales =\nCALCULATE( [Total Sales], DATESINPERIOD( DimDate[FullDateAlternateKey], MAX(DimDate[FullDateAlternateKey]), -3, MONTH ) )"
+  },
+  {
+    name: "PARALLELPERIOD",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "PARALLELPERIOD ( <DateColumn>, <NumberOfIntervals>, MONTH | QUARTER | YEAR )",
+    desc: "Returns a complete period of dates parallel to the dates in the current context, shifted by the specified intervals.",
+    example: "Prior Full Year Sales =\nCALCULATE( [Total Sales], PARALLELPERIOD( DimDate[FullDateAlternateKey], -1, YEAR ) )"
+  },
+  {
+    name: "PREVIOUSMONTH / PREVIOUSYEAR",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "PREVIOUSMONTH ( <DateColumn> )",
+    desc: "Returns all dates from the entire month preceding the first date in the current filter context.",
+    example: "Sales Prior Month =\nCALCULATE( [Total Sales], PREVIOUSMONTH( DimDate[FullDateAlternateKey] ) )"
+  },
+  {
+    name: "CLOSINGBALANCEMONTH / YEAR",
+    category: "time",
+    family: "Time Intelligence",
+    syntax: "CLOSINGBALANCEMONTH ( <Expression>, <DateColumn>, [Filter] )",
+    desc: "Evaluates an expression for the last date of the current month. Standard for inventory and bank balance snapshots.",
+    example: "Month End Inventory =\nCLOSINGBALANCEMONTH( SUM( Retail[Inventory] ), DimDate[FullDateAlternateKey] )"
+  },
+
+  /* ---------- AGGREGATIONS & STATS ---------- */
+  {
+    name: "SUM",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "SUM ( <Column> )",
+    desc: "Sums all numeric values in a column.",
+    example: "Total Sales =\nSUM( FactInternetSales[SalesAmount] )"
+  },
+  {
+    name: "AVERAGE",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "AVERAGE ( <Column> )",
+    desc: "Calculates the arithmetic mean of all numeric values in a column.",
+    example: "Avg Order Value =\nAVERAGE( FactInternetSales[SalesAmount] )"
+  },
+  {
+    name: "COUNT",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "COUNT ( <Column> )",
+    desc: "Counts the number of non-blank numeric, date, or text values in a column.",
+    example: "Customer Count =\nCOUNT( DimCustomer[CustomerKey] )"
+  },
+  {
+    name: "COUNTA",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "COUNTA ( <Column> )",
+    desc: "Counts non-empty values in a column, including text, dates, and logical booleans.",
+    example: "Active Emails =\nCOUNTA( DimCustomer[EmailAddress] )"
+  },
+  {
+    name: "COUNTROWS",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "COUNTROWS ( <Table> )",
+    desc: "Counts the total number of rows in the specified table currently visible in filter context.",
+    example: "Total Line Items =\nCOUNTROWS( FactInternetSales )"
+  },
+  {
+    name: "DISTINCTCOUNT",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "DISTINCTCOUNT ( <Column> )",
+    desc: "Counts the number of unique distinct values in a column, including blanks if present.",
+    example: "Unique Orders =\nDISTINCTCOUNT( FactInternetSales[SalesOrderNumber] )"
+  },
+  {
+    name: "DISTINCTCOUNTNOBLANK",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "DISTINCTCOUNTNOBLANK ( <Column> )",
+    desc: "Counts unique distinct values in a column, strictly ignoring blank values.",
+    example: "Unique Active SKUs =\nDISTINCTCOUNTNOBLANK( DimProduct[ProductKey] )"
+  },
+  {
+    name: "MIN / MAX",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "MIN ( <Column> ) / MAX ( <Column> )",
+    desc: "Returns the smallest or largest value in a column or between two scalar values.",
+    example: "Max Transaction Amount =\nMAX( FactInternetSales[SalesAmount] )"
+  },
+  {
+    name: "MEDIAN",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "MEDIAN ( <Column> )",
+    desc: "Calculates the median (50th percentile) value of a column, resistant to extreme outliers.",
+    example: "Median Order Value =\nMEDIAN( FactInternetSales[SalesAmount] )"
+  },
+  {
+    name: "STDEV.P / STDEV.S",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "STDEV.P ( <Column> ) / STDEV.S ( <Column> )",
+    desc: "Calculates the standard deviation for an entire population (.P) or a sample (.S).",
+    example: "Salary Standard Deviation =\nSTDEV.P( HR[Salary] )"
+  },
+  {
+    name: "PERCENTILE.INC / EXC",
+    category: "aggregation",
+    family: "Aggregation & Stats",
+    syntax: "PERCENTILE.INC ( <Column>, <k> )",
+    desc: "Returns the k-th percentile of values in a column (e.g. k=0.9 for the 90th percentile).",
+    example: "90th Percentile Sales =\nPERCENTILE.INC( FactInternetSales[SalesAmount], 0.90 )"
+  },
+
+  /* ---------- ITERATORS (X-FAMILY) ---------- */
+  {
+    name: "SUMX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "SUMX ( <Table>, <Expression> )",
+    desc: "Iterates through each row of a table, computes the expression row-by-row, and sums the results.",
+    example: "Total Margin =\nSUMX( FactInternetSales, FactInternetSales[SalesAmount] - FactInternetSales[TotalProductCost] )"
+  },
+  {
+    name: "AVERAGEX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "AVERAGEX ( <Table>, <Expression> )",
+    desc: "Evaluates an expression for each row of a table, then computes the average of those values.",
+    example: "Avg Profit per Order =\nAVERAGEX( VALUES( FactInternetSales[SalesOrderNumber] ), [Total Profit] )"
+  },
+  {
+    name: "MINX / MAXX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "MAXX ( <Table>, <Expression> )",
+    desc: "Iterates row-by-row, evaluating the expression on each row, and returns the maximum or minimum resulting value.",
+    example: "Highest Store Daily Sales =\nMAXX( Retail, Retail[Sales] )"
+  },
+  {
+    name: "COUNTX / COUNTAX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "COUNTX ( <Table>, <Expression> )",
+    desc: "Counts the rows where the expression evaluates to a non-blank result during table iteration.",
+    example: "Profitable Order Count =\nCOUNTX( FactInternetSales, IF( FactInternetSales[SalesAmount] > FactInternetSales[TotalProductCost], 1 ) )"
+  },
+  {
+    name: "CONCATENATEX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "CONCATENATEX ( <Table>, <Expression>, [Delimiter], [OrderBy], [Order] )",
+    desc: "Evaluates an expression for each row of a table and concatenates the results into a single string with delimiters.",
+    example: "Product Colors List =\nCONCATENATEX( VALUES( DimProduct[Color] ), DimProduct[Color], \", \", DimProduct[Color], ASC )"
+  },
+  {
+    name: "MEDIANX",
+    category: "iterator",
+    family: "Iterators (X-Family)",
+    syntax: "MEDIANX ( <Table>, <Expression> )",
+    desc: "Iterates over a table, evaluates an expression row-by-row, and calculates the median of the resulting values.",
+    example: "Median Daily Store Revenue =\nMEDIANX( VALUES( Retail[Date] ), [Total Retail Sales] )"
+  },
+
+  /* ---------- LOGICAL & CONDITIONAL ---------- */
+  {
+    name: "IF",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "IF ( <LogicalTest>, <ResultIfTrue>, [ResultIfFalse] )",
+    desc: "Checks a condition and returns one value if true, another if false.",
+    example: "Target Status =\nIF( [Total Sales] >= 1000000, \"Met\", \"Missed\" )"
+  },
+  {
+    name: "SWITCH",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "SWITCH ( <Expression>, <Val1>, <Result1>, [Val2], [Result2], [Else] )",
+    desc: "Evaluates an expression against a series of values and returns the matching result.",
+    example: "Category Label =\nSWITCH( DimProduct[ProductLine], \"R\", \"Road\", \"M\", \"Mountain\", \"Other\" )"
+  },
+  {
+    name: "COALESCE",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "COALESCE ( <Val1>, <Val2>, ... )",
+    desc: "Returns the first argument that does not evaluate to blank.",
+    example: "Safe Customer Phone =\nCOALESCE( DimCustomer[Phone], DimCustomer[MobilePhone], \"N/A\" )"
+  },
+  {
+    name: "ISBLANK",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "ISBLANK ( <Value> )",
+    desc: "Returns TRUE if the value is blank or null, FALSE otherwise.",
+    example: "Has Discount =\nIF( ISBLANK( Sales[Discount] ), \"No\", \"Yes\" )"
+  },
+  {
+    name: "SELECTEDVALUE",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "SELECTEDVALUE ( <Column>, [AlternateResult] )",
+    desc: "Returns the value of a column if only one unique value is filtered, otherwise returns an alternate result.",
+    example: "Header Title =\n\"Sales for: \" & SELECTEDVALUE( DimProduct[ProductLine], \"All Categories\" )"
+  },
+  {
+    name: "HASONEVALUE",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "HASONEVALUE ( <Column> )",
+    desc: "Returns TRUE when context for the column has been filtered down to one distinct value.",
+    example: "Is Single Store Selected =\nIF( HASONEVALUE( Retail[Store] ), [Total Sales], BLANK() )"
+  },
+  {
+    name: "ISINSCOPE",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "ISINSCOPE ( <Column> )",
+    desc: "Returns TRUE when the column is the level of hierarchy currently in context on a matrix or drilldown visual.",
+    example: "Matrix Subtotal Display =\nIF( ISINSCOPE( DimProduct[EnglishProductName] ), [Item Sales], [Category Sales] )"
+  },
+  {
+    name: "IFERROR",
+    category: "logical",
+    family: "Logical & Conditional",
+    syntax: "IFERROR ( <Value>, <ValueIfError> )",
+    desc: "Evaluates an expression and returns an alternate value if an error occurs.",
+    example: "Safe Parsing =\nIFERROR( VALUE( Sales[DiscountText] ), 0 )"
+  },
+
+  /* ---------- TEXT & STRING ---------- */
+  {
+    name: "CONCATENATE / &",
+    category: "text",
+    family: "Text & String",
+    syntax: "CONCATENATE ( <Text1>, <Text2> ) or <Text1> & <Text2>",
+    desc: "Joins two text strings into one. In practice, the ampersand operator (&) is preferred.",
+    example: "Full Name =\nDimCustomer[FirstName] & \" \" & DimCustomer[LastName]"
+  },
+  {
+    name: "LEFT / RIGHT / MID",
+    category: "text",
+    family: "Text & String",
+    syntax: "LEFT ( <Text>, <NumChars> )",
+    desc: "Returns a substring of specified length from the start, middle, or end of a string.",
+    example: "Order Prefix =\nLEFT( FactInternetSales[SalesOrderNumber], 2 )"
+  },
+  {
+    name: "UPPER / LOWER / PROPER",
+    category: "text",
+    family: "Text & String",
+    syntax: "UPPER ( <Text> ) / LOWER ( <Text> )",
+    desc: "Converts text to uppercase, lowercase, or capitalized title case.",
+    example: "Standard City =\nUPPER( DimCustomer[City] )"
+  },
+  {
+    name: "TRIM",
+    category: "text",
+    family: "Text & String",
+    syntax: "TRIM ( <Text> )",
+    desc: "Removes all leading, trailing, and redundant spaces from a text string.",
+    example: "Clean Customer Name =\nTRIM( DimCustomer[FirstName] )"
+  },
+  {
+    name: "FORMAT",
+    category: "text",
+    family: "Text & String",
+    syntax: "FORMAT ( <Value>, <FormatString> )",
+    desc: "Converts a numeric or date value into a formatted text string according to custom formatting codes.",
+    example: "Formatted Revenue =\nFORMAT( [Total Sales], \"₹#,##0\" )"
+  },
+  {
+    name: "SUBSTITUTE / REPLACE",
+    category: "text",
+    family: "Text & String",
+    syntax: "SUBSTITUTE ( <Text>, <OldText>, <NewText>, [Instance] )",
+    desc: "Replaces existing text with new text in a string.",
+    example: "Sanitized Code =\nSUBSTITUTE( DimProduct[ProductNumber], \"-\", \"\" )"
+  },
+  {
+    name: "SEARCH / FIND",
+    category: "text",
+    family: "Text & String",
+    syntax: "SEARCH ( <FindText>, <WithinText>, [StartPos], [NotFoundVal] )",
+    desc: "Returns the starting character position of a substring. SEARCH is case-insensitive; FIND is case-sensitive.",
+    example: "Domain Position =\nSEARCH( \"@\", DimCustomer[EmailAddress], 1, 0 )"
+  },
+  {
+    name: "LEN",
+    category: "text",
+    family: "Text & String",
+    syntax: "LEN ( <Text> )",
+    desc: "Returns the count of characters in a text string.",
+    example: "Postal Code Length =\nLEN( DimCustomer[PostalCode] )"
+  },
+
+  /* ---------- DATE & TIME ---------- */
+  {
+    name: "DATE / TIME",
+    category: "date",
+    family: "Date & Time",
+    syntax: "DATE ( <Year>, <Month>, <Day> )",
+    desc: "Constructs a valid datetime value from integer year, month, and day components.",
+    example: "Fiscal Start Date =\nDATE( 2024, 4, 1 )"
+  },
+  {
+    name: "TODAY / NOW",
+    category: "date",
+    family: "Date & Time",
+    syntax: "TODAY () / NOW ()",
+    desc: "Returns the current calendar date (TODAY) or current date and time (NOW).",
+    example: "Days Since Order =\nDATEDIFF( FactInternetSales[OrderDate], TODAY(), DAY )"
+  },
+  {
+    name: "YEAR / MONTH / DAY",
+    category: "date",
+    family: "Date & Time",
+    syntax: "YEAR ( <Date> ) / MONTH ( <Date> ) / DAY ( <Date> )",
+    desc: "Extracts the four-digit year, month number (1-12), or day number (1-31) from a date.",
+    example: "Order Year =\nYEAR( FactInternetSales[OrderDate] )"
+  },
+  {
+    name: "DATEDIFF",
+    category: "date",
+    family: "Date & Time",
+    syntax: "DATEDIFF ( <Date1>, <Date2>, SECOND | MINUTE | HOUR | DAY | MONTH | QUARTER | YEAR )",
+    desc: "Calculates the exact interval difference between two dates.",
+    example: "Delivery Days =\nDATEDIFF( FactInternetSales[OrderDate], FactInternetSales[ShipDate], DAY )"
+  },
+  {
+    name: "EOMONTH / EDATE",
+    category: "date",
+    family: "Date & Time",
+    syntax: "EOMONTH ( <StartDate>, <MonthsOffset> )",
+    desc: "Returns the last date of the month, offset by a given number of months forward or backward.",
+    example: "End of Current Month =\nEOMONTH( TODAY(), 0 )"
+  },
+  {
+    name: "WEEKDAY / WEEKNUM",
+    category: "date",
+    family: "Date & Time",
+    syntax: "WEEKDAY ( <Date>, [ReturnType] )",
+    desc: "Returns the integer day of the week (1-7) or ISO week number of the year (1-53).",
+    example: "Is Weekend =\nIF( WEEKDAY( DimDate[FullDateAlternateKey], 2 ) >= 6, \"Weekend\", \"Weekday\" )"
+  },
+
+  /* ---------- TABLE & VIRTUAL ---------- */
+  {
+    name: "SUMMARIZE",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "SUMMARIZE ( <Table>, <GroupByCol1>, [GroupByCol2], ... )",
+    desc: "Creates a summarized virtual table grouping by distinct values of specified columns.",
+    example: "Store Summary =\nSUMMARIZE( Retail, Retail[Store], Retail[City] )"
+  },
+  {
+    name: "ADDCOLUMNS",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "ADDCOLUMNS ( <Table>, <Name1>, <Expression1>, ... )",
+    desc: "Appends calculated columns to an existing table expression with context transition.",
+    example: "Products with Margin =\nADDCOLUMNS( DimProduct, \"@Margin\", DimProduct[ListPrice] - DimProduct[StandardCost] )"
+  },
+  {
+    name: "SELECTCOLUMNS",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "SELECTCOLUMNS ( <Table>, <Name1>, <Expression1>, ... )",
+    desc: "Returns a table containing only the selected and computed columns, without keeping source columns.",
+    example: "Customer Lookup Table =\nSELECTCOLUMNS( DimCustomer, \"ID\", DimCustomer[CustomerKey], \"Email\", DimCustomer[EmailAddress] )"
+  },
+  {
+    name: "VALUES / DISTINCT",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "VALUES ( <ColumnOrTable> ) / DISTINCT ( <ColumnOrTable> )",
+    desc: "Returns a one-column table of unique values visible in current context. VALUES preserves blank row integrity.",
+    example: "Filtered Categories =\nVALUES( DimProduct[ProductLine] )"
+  },
+  {
+    name: "UNION / INTERSECT / EXCEPT",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "INTERSECT ( <Table1>, <Table2> )",
+    desc: "Set operations. UNION stacks rows; INTERSECT returns matching rows in both; EXCEPT returns rows in Table1 not in Table2.",
+    example: "Repeat Customers =\nCOUNTROWS( INTERSECT( VALUES(Month1[CustID]), VALUES(Month2[CustID]) ) )"
+  },
+  {
+    name: "TOPN",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "TOPN ( <N_Value>, <Table>, <OrderByExpr>, [Order] )",
+    desc: "Returns the top N rows of a table according to a sorting expression.",
+    example: "Top 5 Products Table =\nTOPN( 5, DimProduct, [Total Sales], DESC )"
+  },
+  {
+    name: "ROW",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "ROW ( <Name1>, <Expression1>, ... )",
+    desc: "Generates a single-row virtual table containing specified named measure results.",
+    example: "Benchmark Row =\nROW( \"AvgSales\", [Total Sales] / 12, \"Target\", 1000000 )"
+  },
+  {
+    name: "DATATABLE",
+    category: "table",
+    family: "Table & Virtual",
+    syntax: "DATATABLE ( <Col1>, <Type1>, ..., { { Val1, ... }, { Val2, ... } } )",
+    desc: "Defines an inline static table directly in DAX code without loading an external source.",
+    example: "Tiers Table =\nDATATABLE( \"Tier\", STRING, \"MinScore\", INTEGER, { {\"High\", 750}, {\"Mid\", 650} } )"
+  },
+
+  /* ---------- MATH & NUMERIC ---------- */
+  {
+    name: "DIVIDE",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "DIVIDE ( <Numerator>, <Denominator>, [AlternateResult] )",
+    desc: "Performs safe division and returns an alternate result (or blank) when dividing by zero, preventing errors.",
+    example: "Profit Margin % =\nDIVIDE( [Total Profit], [Total Sales], 0 )"
+  },
+  {
+    name: "ROUND / ROUNDUP / ROUNDDOWN",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "ROUND ( <Number>, <NumDigits> )",
+    desc: "Rounds a number to a specified number of decimal digits.",
+    example: "Rounded Margin =\nROUND( [Profit Margin %], 2 )"
+  },
+  {
+    name: "INT / TRUNC",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "INT ( <Number> ) / TRUNC ( <Number>, [NumDigits] )",
+    desc: "Rounds a number down to the nearest integer, or truncates decimal digits without rounding.",
+    example: "Tenure Years =\nINT( DATEDIFF( HR[JoinDate], TODAY(), DAY ) / 365 )"
+  },
+  {
+    name: "ABS",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "ABS ( <Number> )",
+    desc: "Returns the absolute positive value of a number.",
+    example: "Variance Magnitude =\nABS( [Actual Sales] - [Budget Sales] )"
+  },
+  {
+    name: "MOD",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "MOD ( <Number>, <Divisor> )",
+    desc: "Returns the remainder after a number is divided by a divisor.",
+    example: "Is Even Row =\nIF( MOD( FactInternetSales[OrderQuantity], 2 ) = 0, \"Even\", \"Odd\" )"
+  },
+  {
+    name: "POWER / SQRT",
+    category: "math",
+    family: "Math & Numeric",
+    syntax: "POWER ( <Base>, <Exponent> ) / SQRT ( <Number> )",
+    desc: "Raises a number to a power, or returns the positive square root.",
+    example: "Variance Squared =\nPOWER( [Sales Variance], 2 )"
+  },
+
+  /* ---------- RELATIONSHIPS & RANKING ---------- */
+  {
+    name: "RELATED",
+    category: "relationship",
+    family: "Relationship & Lookups",
+    syntax: "RELATED ( <ColumnName> )",
+    desc: "Retrieves a related value from another table on the 'one' side of a 1-to-many relationship.",
+    example: "Product Category =\nRELATED( DimProduct[EnglishProductName] )"
+  },
+  {
+    name: "RELATEDTABLE",
+    category: "relationship",
+    family: "Relationship & Lookups",
+    syntax: "RELATEDTABLE ( <TableName> )",
+    desc: "Returns a table containing all matching rows from the 'many' side of a relationship.",
+    example: "Orders per Customer =\nCOUNTROWS( RELATEDTABLE( FactInternetSales ) )"
+  },
+  {
+    name: "USERELATIONSHIP",
+    category: "relationship",
+    family: "Relationship & Lookups",
+    syntax: "USERELATIONSHIP ( <Column1>, <Column2> )",
+    desc: "Activates an existing but inactive relationship inside CALCULATE.",
+    example: "Sales by Delivery Date =\nCALCULATE( [Total Sales], USERELATIONSHIP( FactInternetSales[ShipDateKey], DimDate[DateKey] ) )"
+  },
+  {
+    name: "CROSSFILTER",
+    category: "relationship",
+    family: "Relationship & Lookups",
+    syntax: "CROSSFILTER ( <Column1>, <Column2>, Both | Single | None )",
+    desc: "Specifies cross-filtering direction for a relationship dynamically inside CALCULATE.",
+    example: "Filter Cross Propagate =\nCALCULATE( [Total Sales], CROSSFILTER( DimCustomer[CustomerKey], FactInternetSales[CustomerKey], Both ) )"
+  },
+  {
+    name: "RANKX",
+    category: "relationship",
+    family: "Window & Ranking",
+    syntax: "RANKX ( <Table>, <Expression>, [Value], [Order], [Ties] )",
+    desc: "Evaluates an expression over a table and returns the rank of the current row/context within that table.",
+    example: "Product Sales Rank =\nRANKX( ALLSELECTED( DimProduct[EnglishProductName] ), [Total Sales], , DESC, Dense )"
+  }
+];
+
+/* ================= RENDER & FILTER ENGINE ================= */
+function renderDirectory(items) {
+  const container = document.getElementById('daxDirectory');
+  if(!items.length) {
+    container.innerHTML = '<div class="card" style="text-align:center;padding:30px;color:var(--text-muted)">No DAX formulas found matching your criteria. Try another keyword.</div>';
+    document.getElementById('daxCount').textContent = '0 functions found';
+    return;
+  }
+  document.getElementById('daxCount').textContent = `Showing ${items.length} functions`;
+  
+  container.innerHTML = items.map((fn, idx) => `
+    <details class="card" style="margin-bottom:12px;padding:16px 20px;" ${items.length <= 15 ? 'open' : ''}>
+      <summary style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none;">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <b style="font-family:var(--font-mono);font-size:1rem;color:var(--text);">${fn.name}</b>
+          <span class="pill ${fn.category === 'combination' ? 'good' : 'table'}">${fn.family}</span>
+        </div>
+        <span style="font-family:var(--font-mono);font-size:.78rem;color:var(--text-muted);">Expand ▾</span>
+      </summary>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
+        <p style="font-size:.9rem;margin:0 0 8px;">${fn.desc}</p>
+        <div style="font-family:var(--font-mono);font-size:.82rem;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;margin:8px 0;color:var(--accent);">
+          <b>Syntax:</b> ${fn.syntax}
+        </div>
+        <div class="codeblock" style="margin:8px 0;">${fn.example.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      </div>
+    </details>
+  `).join('');
+}
+
+let activeCat = 'all';
+let searchQuery = '';
+
+function filterData() {
+  const q = searchQuery.toLowerCase().trim();
+  const filtered = DAX_FUNCTIONS.filter(f => {
+    const matchCat = activeCat === 'all' || f.category === activeCat;
+    const matchText = !q || f.name.toLowerCase().includes(q) || f.desc.toLowerCase().includes(q) || f.syntax.toLowerCase().includes(q) || f.family.toLowerCase().includes(q);
+    return matchCat && matchText;
+  });
+  renderDirectory(filtered);
+}
+
+document.getElementById('daxSearch').addEventListener('input', (e) => {
+  searchQuery = e.target.value;
+  filterData();
+});
+
+document.querySelectorAll('#categoryFilter button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#categoryFilter button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCat = btn.getAttribute('data-cat');
+    filterData();
+  });
+});
+
+// Initial render
+renderDirectory(DAX_FUNCTIONS);
+</script>
+    </main>
+  </div>
+</div>
+
+<script>
+/* ============= mobile menu ============= */
+document.getElementById('menutoggle').addEventListener('click', ()=>{
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+/* ============= theme switching ============= */
+const themebtns = document.querySelectorAll('.themebtn');
+function setTheme(choice){
+  if(choice === 'auto'){ document.documentElement.removeAttribute('data-theme'); }
+  else{ document.documentElement.setAttribute('data-theme', choice); }
+  themebtns.forEach(b => b.classList.toggle('active', b.dataset.themeChoice === choice));
+  try{ localStorage.setItem('pbi-theme', choice); }catch(e){}
+}
+themebtns.forEach(b => b.addEventListener('click', ()=> setTheme(b.dataset.themeChoice)));
+let savedTheme = 'auto';
+try{ savedTheme = localStorage.getItem('pbi-theme') || 'auto'; }catch(e){}
+setTheme(savedTheme);
+
+/* ============= per-page progress tracking (purely local, no analytics) ============= */
+function loadProgress(){
+  try{ return JSON.parse(localStorage.getItem('pbi-progress') || '{}'); }catch(e){ return {}; }
+}
+function saveProgress(state){
+  try{ localStorage.setItem('pbi-progress', JSON.stringify(state)); }catch(e){}
+}
+function updateGroupCounts(state){
+  document.querySelectorAll('.progress-count').forEach(el=>{
+    const ids = el.dataset.groupIds.split(',').filter(Boolean);
+    const done = ids.filter(id => state[id]).length;
+    el.textContent = `${done}/${ids.length}`;
+  });
+}
+let progressState = loadProgress();
+document.querySelectorAll('.navcheck').forEach(cb=>{
+  cb.checked = !!progressState[cb.dataset.page];
+  cb.addEventListener('click', (e)=> e.stopPropagation());
+  cb.addEventListener('change', ()=>{
+    progressState[cb.dataset.page] = cb.checked;
+    saveProgress(progressState);
+    updateGroupCounts(progressState);
+  });
+});
+updateGroupCounts(progressState);
+const resetBtn = document.getElementById('resetProgress');
+if(resetBtn) resetBtn.addEventListener('click', ()=>{
+  if(!confirm('Clear all progress checkmarks? This only affects this browser and can\'t be undone.')) return;
+  progressState = {};
+  saveProgress(progressState);
+  document.querySelectorAll('.navcheck').forEach(cb => cb.checked = false);
+  updateGroupCounts(progressState);
+});
+
+/* ============= client-side search ============= */
+(function(){
+  const input = document.getElementById('siteSearch');
+  const resultsBox = document.getElementById('searchResults');
+  if(!input || !resultsBox) return;
+  let index = null;
+  let indexPromise = null;
+  function loadIndex(){
+    if(!indexPromise){
+      indexPromise = fetch('search-index.json').then(r => r.json()).then(data => { index = data; return data; })
+        .catch(() => { index = []; return []; });
+    }
+    return indexPromise;
+  }
+  function snippetAround(text, q){
+    const i = text.toLowerCase().indexOf(q);
+    if(i === -1) return text.slice(0, 90) + '…';
+    const start = Math.max(0, i - 40);
+    return (start > 0 ? '…' : '') + text.slice(start, i + q.length + 50) + '…';
+  }
+  function render(query){
+    const q = query.trim().toLowerCase();
+    if(q.length < 2){ resultsBox.classList.remove('open'); resultsBox.innerHTML = ''; return; }
+    const matches = (index || []).map(page => {
+      const inTitle = page.title.toLowerCase().includes(q);
+      const headingHit = (page.headings || []).find(h => h.toLowerCase().includes(q));
+      const textIdx = page.text.toLowerCase().indexOf(q);
+      if(!inTitle && !headingHit && textIdx === -1) return null;
+      const score = (inTitle ? 3 : 0) + (headingHit ? 2 : 0) + (textIdx !== -1 ? 1 : 0);
+      return { page, score, snippet: headingHit || (textIdx !== -1 ? snippetAround(page.text, q) : '') };
+    }).filter(Boolean).sort((a, b) => b.score - a.score).slice(0, 8);
+
+    if(!matches.length){ resultsBox.innerHTML = '<div class="sr-empty">No matches.</div>'; resultsBox.classList.add('open'); return; }
+    resultsBox.innerHTML = matches.map(m => `
+      <a href="${m.page.file}">
+        <div class="sr-title">${m.page.title}</div>
+        <div class="sr-group">${m.page.group}</div>
+        ${m.snippet ? `<div class="sr-snippet">${m.snippet}</div>` : ''}
+      </a>`).join('');
+    resultsBox.classList.add('open');
+  }
+  input.addEventListener('focus', loadIndex);
+  input.addEventListener('input', () => { loadIndex().then(() => render(input.value)); });
+  document.addEventListener('click', (e) => { if(!e.target.closest('.sidebarsearch')) resultsBox.classList.remove('open'); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape'){ resultsBox.classList.remove('open'); input.blur(); } });
+})();
+
+/* ============= terminology hints ============= */
+const GLOSSARY = {
+  dimension: 'A descriptive field used to categorize or slice data — e.g. Product, Region, Customer, or Date.',
+  measure: 'A calculation defined in DAX that recalculates based on whatever filters are currently applied — e.g. Total Sales, Profit Margin %.',
+  fact: 'A table of measurable events — one row per transaction, order, or occurrence — that measures are built from.',
+  axis: 'The field well that places a column along the horizontal (or categorical) edge of a chart.',
+  legend: 'The field well that splits a visual into color-coded groups, one color per category.',
+  values: 'The field well that supplies the number(s) a visual actually plots or displays.',
+  tooltip: 'The small popup that appears on hover over a data point, showing extra detail without cluttering the visual.',
+  smallmultiples: 'A grid of small copies of the same chart, one per category, so you can compare shapes side by side instead of overlapping lines/bars.',
+  filter: 'A rule that restricts which rows are included — at the visual, page, or report level.',
+  slicer: 'An on-canvas control that lets the report viewer filter interactively by clicking, without opening a menu.',
+  drilldown: 'Clicking deeper into the SAME hierarchy on the SAME visual — e.g. Year → Quarter → Month on one chart.',
+  drillthrough: 'Right-clicking a data point to jump to a separate, filtered detail page built specifically for that context.',
+  bookmark: 'A saved snapshot of a report\'s current state — filters, visibility, selections — that a button can jump back to.',
+  hierarchy: 'A set of fields nested in a fixed order for drill-down, e.g. Category → Sub-Category → Product.',
+  cardinality: 'How many distinct values a column has — "high cardinality" means many unique values, like an ID column.',
+  relationship: 'A link between two tables through a shared key column, letting Power BI treat them as one connected model.',
+  starschema: 'A modeling shape with one central fact table and several dimension tables branching off it, like a star.',
+  calculatedcolumn: 'A new column computed with DAX and stored row-by-row in the table — unlike a measure, which computes on the fly.',
+  dax: '"Data Analysis Expressions" — the formula language Power BI uses for measures and calculated columns.',
+  aggregation: 'Combining many rows into one number — Sum, Average, Count, Min, Max are all aggregations.',
+  group: 'Combining several existing category values into one broader bucket, without changing the source data.',
+  binning: 'Splitting a continuous number into equal-sized ranges ("bins") so it can be treated like a category.',
+  conditionalformatting: 'Rules that change a visual\'s color or icon based on the value itself, so exceptions are visible at a glance.',
+  customvisual: 'A visual type from Microsoft AppSource, beyond Power BI\'s built-in chart types.',
+  implicitmeasure: 'An aggregation Power BI creates automatically the moment you drag a numeric field into Values, without writing any DAX — convenient, but harder to reuse and format consistently than an explicit measure.',
+  iterator: 'A DAX function (the "X" family — SUMX, AVERAGEX, and others) that walks a table row by row, computing an expression fresh on each row before aggregating — needed whenever the answer can\'t come from summing a column that already exists.',
+  rowcontext: '"Which row am I on right now?" — active inside a calculated column (evaluated once per row) and inside iterator functions like SUMX. A different thing from filter context, even though both get called "context."',
+  filtercontext: '"What\'s currently sliced/filtered?" — the combined effect of every slicer, filter, and visual axis surrounding a measure at the moment it calculates. The same measure formula returns a different number under different filter context, without being rewritten.',
+  contexttransition: 'What happens when row context turns into filter context — specifically, the moment CALCULATE runs inside a row-by-row calculation, and each row\'s own values become a one-row filter for whatever\'s inside CALCULATE. A real, subtle topic — this course only needs you to know it exists.',
+  datetable: 'A table with one row per continuous calendar date, explicitly marked as the model\'s official date table (Modeling → Mark as Date Table) — the prerequisite every time intelligence function (TOTALYTD, SAMEPERIODLASTYEAR) silently assumes exists.',
+  timeintelligence: 'DAX functions that compare a measure across a time window — year-to-date, same period last year, a rolling average — by rewriting the date filter for you instead of you hand-picking a date range.',
+  granularity: 'The level of detail one row of a table represents — one row per order is finer granularity than one row per month. Aggregating from fine to coarse granularity is normal; going the other way isn\'t possible without more information than the table has.',
+  appliedsteps: 'The ordered list of transformations in a Power Query query (right-hand pane). Each step is one line of M that takes the previous step\'s result as input; Power BI replays every step from the source on each refresh, so the original file is never changed.',
+  queryfolding: 'Power Query translating its steps into the source database\'s own query language (e.g. SQL) so the database does the filtering and grouping. Right-click a step → View Native Query to check. Flat files like CSV never fold.',
+  mergequery: 'A Power Query join: matches rows from two tables on a key column and brings the second table\'s columns into the first. The join kind (Left Outer, Inner, Left Anti…) decides which rows survive. Not the same as a model relationship, which keeps the tables separate.',
+};
+function closeTerm(btn){
+  btn.classList.remove('term-open');
+  const pop = btn.querySelector('.term-pop');
+  if(pop) pop.remove();
+}
+function openTerm(btn){
+  const pop = document.createElement('span');
+  pop.className = 'term-pop';
+  pop.textContent = GLOSSARY[btn.dataset.term] || 'Definition coming soon.';
+  btn.appendChild(pop);
+  btn.classList.add('term-open');
+}
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.term');
+  if(btn){
+    e.stopPropagation();
+    const wasOpen = btn.classList.contains('term-open');
+    document.querySelectorAll('.term-open').forEach(b => { if(b !== btn) closeTerm(b); });
+    wasOpen ? closeTerm(btn) : openTerm(btn);
+    return;
+  }
+  document.querySelectorAll('.term-open').forEach(closeTerm);
+});
+</script>
+</body>
+</html>

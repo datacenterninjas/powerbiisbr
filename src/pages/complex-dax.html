@@ -1,0 +1,331 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 3 · Advanced DAX</span>
+        <h1>Complex DAX Formulas with Real Datasets</h1>
+        <p class="lede">Beyond single-column sums and basic time offsets lie the formulas that power enterprise analytics: dynamic customer cohorting, multi-condition risk exposure, Pareto 80/20 distributions, disconnected-dimension Top N rollups, and peer-group statistical benchmarking. Every pattern below runs on a real, downloadable practice dataset from this course.</p>
+      </div>
+
+      <div class="callout"><b>How to use this page:</b> Each pattern solves a real executive question. Download the linked dataset, load it into Power BI Desktop, rename the table as indicated, and test the measure directly. Every formula uses modern DAX practices with <code>VAR ... RETURN</code> blocks for readability and execution performance.</div>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>#</th><th>Pattern</th><th>Core DAX Machinery</th><th>Example Dataset</th><th>Business Question</th></tr>
+          <tr><td class="num">1</td><td><b>Dynamic Customer Spend Tiers</b></td><td><code>SUMMARIZE</code>, <code>ADDCOLUMNS</code>, <code>COUNTX</code>, <code>SWITCH</code></td><td><a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a></td><td>How many customers fall into Platinum vs. Gold tiers within the current filtered period?</td></tr>
+          <tr><td class="num">2</td><td><b>New vs. Returning Customer Revenue</b></td><td><code>CALCULATETABLE</code>, <code>MIN</code>, <code>ALL</code>, <code>FILTER</code></td><td><a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a></td><td>What share of this month's revenue came from brand-new first-time buyers vs. repeat clients?</td></tr>
+          <tr><td class="num">3</td><td><b>Top 5 + "All Others" Rollup</b></td><td><code>RANKX</code>, <code>ALLSELECTED</code>, Disconnected Dimension</td><td><a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a></td><td>How do we show the top 5 stores by name while rolling all remaining 20+ stores into one bar?</td></tr>
+          <tr><td class="num">4</td><td><b>Multi-Condition Risk Exposure</b></td><td><code>SUMX</code>, <code>DIVIDE</code> inside iterator, Boolean AND</td><td><a href="datasets/Banking_Clean.csv" download>Banking_Clean.csv</a></td><td>What total loan capital is tied up in accounts with low credit and an EMI burden &gt; 40%?</td></tr>
+          <tr><td class="num">5</td><td><b>Pareto 80/20 Cumulative Share</b></td><td><code>RANKX</code>, <code>SUMX</code> over categorical table, <code>DIVIDE</code></td><td><a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a></td><td>Which top products generate the first 80% of our cumulative revenue?</td></tr>
+          <tr><td class="num">6</td><td><b>30-Day Hospital Readmission Rate</b></td><td>Self-referencing <code>FILTER</code>, <code>DATEDIFF</code>, <code>CALCULATE</code></td><td><a href="datasets/Hospital_Clean.csv" download>Hospital_Clean.csv</a></td><td>What percentage of discharged patients returned for another admission within 30 days?</td></tr>
+          <tr><td class="num">7</td><td><b>Department Peer-Group Z-Score</b></td><td><code>ALLEXCEPT</code>, <code>AVERAGEX</code>, <code>STDEV.P</code>, <code>DIVIDE</code></td><td><a href="datasets/HR_Clean.csv" download>HR_Clean.csv</a></td><td>Which employee salaries deviate by &gt; 1.5 standard deviations from their department mean?</td></tr>
+          <tr><td class="num">8</td><td><b>Market Basket Affinity (Cross-Sell)</b></td><td><code>CALCULATETABLE</code>, <code>INTERSECT</code>, Order Co-occurrence</td><td>AdventureWorksDW</td><td>When customers purchase Road Bikes, what percentage also bought Helmets or Accessories?</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:34px">1. Dynamic Customer Spend Tiers (Virtual Table Segmentation)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> If you create a Calculated Column to classify customers into tiers (e.g. Platinum &gt; ₹10,000, Gold &gt; ₹5,000), that tier is permanently calculated at data refresh time. If an executive filters the dashboard by Year 2024 or Region "North", the column does <i>not</i> recalculate. We need a <b>dynamic measure</b> that evaluates customer spend on the fly using an in-memory virtual table.</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a> (Table: <code>Sales</code> — Columns: <code>Order ID</code>, <code>Customer</code>, <code>Region</code>, <code>Sales</code>, <code>Date</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// Measure 1: Base Sales aggregation</span>
+Total Sales = <span class="c-fn">SUM</span>( Sales[Sales] )
+
+<span class="c-com">// Measure 2: Dynamic Count of Platinum Customers (&gt;= ₹10,000 in current filter context)</span>
+Platinum Customer Count = 
+<span class="c-fn">VAR</span> CustomerSpendTable = 
+    <span class="c-fn">ADDCOLUMNS</span>(
+        <span class="c-fn">SUMMARIZE</span>( Sales, Sales[Customer] ),
+        <span class="c-str">"@Spend"</span>, [Total Sales]
+    )
+<span class="c-fn">VAR</span> PlatinumCustomers = 
+    <span class="c-fn">FILTER</span>(
+        CustomerSpendTable,
+        [@Spend] &gt;= 10000
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">COUNTROWS</span>( PlatinumCustomers )
+
+<span class="c-com">// Measure 3: Total Revenue generated solely by Platinum Customers</span>
+Platinum Customer Revenue = 
+<span class="c-fn">VAR</span> CustomerSpendTable = 
+    <span class="c-fn">ADDCOLUMNS</span>(
+        <span class="c-fn">SUMMARIZE</span>( Sales, Sales[Customer] ),
+        <span class="c-str">"@Spend"</span>, [Total Sales]
+    )
+<span class="c-fn">VAR</span> PlatinumCustomers = 
+    <span class="c-fn">FILTER</span>( CustomerSpendTable, [@Spend] &gt;= 10000 )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">SUMX</span>( PlatinumCustomers, [@Spend] )</div>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>DAX Element</th><th>Why It Is Used Here</th></tr>
+          <tr><td><code>SUMMARIZE( Sales, Sales[Customer] )</code></td><td>Builds a virtual list of distinct customers currently visible in the active filter context.</td></tr>
+          <tr><td><code>ADDCOLUMNS(..., "@Spend", [Total Sales])</code></td><td>Invokes context transition: computes the total sales for each customer individually. Note the <code>@</code> prefix convention for virtual columns to avoid colliding with model fields.</td></tr>
+          <tr><td><code>FILTER(..., [@Spend] &gt;= 10000)</code></td><td>Filters the in-memory virtual table to rows meeting the threshold.</td></tr>
+          <tr><td><code>COUNTROWS</code> / <code>SUMX</code></td><td>Aggregates the filtered virtual table to return the final metric on cards or charts.</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:34px">2. New vs. Returning Customer Cohorts</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> In SaaS, e-commerce, and retail, executives need to know if monthly sales growth is fueled by expensive new customer acquisition or healthy repeat business. Comparing a customer's order in the current month against their entire order history requires scanning across time outside the current slicer.</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a> (Table: <code>Sales</code> — Columns: <code>Order ID</code>, <code>Customer</code>, <code>Sales</code>, <code>Date</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// New Customer Revenue: Sales from customers whose very first purchase occurred within the filtered date window</span>
+New Customer Revenue = 
+<span class="c-fn">VAR</span> PeriodStart = <span class="c-fn">MIN</span>( Sales[Date] )
+<span class="c-fn">VAR</span> PeriodEnd = <span class="c-fn">MAX</span>( Sales[Date] )
+<span class="c-fn">VAR</span> CustomersInPeriod = <span class="c-fn">VALUES</span>( Sales[Customer] )
+<span class="c-fn">VAR</span> CustomersWithFirstDate = 
+    <span class="c-fn">ADDCOLUMNS</span>(
+        CustomersInPeriod,
+        <span class="c-str">"@FirstPurchaseDate"</span>, 
+        <span class="c-fn">CALCULATE</span>(
+            <span class="c-fn">MIN</span>( Sales[Date] ),
+            <span class="c-fn">ALL</span>( Sales[Date] )  <span class="c-com">// Ignores current date slicer to find true lifetime first order</span>
+        )
+    )
+<span class="c-fn">VAR</span> NewCustomers = 
+    <span class="c-fn">FILTER</span>(
+        CustomersWithFirstDate,
+        [@FirstPurchaseDate] &gt;= PeriodStart &amp;&amp; [@FirstPurchaseDate] &lt;= PeriodEnd
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">CALCULATE</span>(
+        [Total Sales],
+        <span class="c-fn">KEEPFILTERS</span>( NewCustomers )
+    )
+
+<span class="c-com">// Returning Customer Revenue: Remaining sales in the period</span>
+Returning Customer Revenue = 
+[Total Sales] - [New Customer Revenue]
+
+<span class="c-com">// Ratio KPI</span>
+New Customer Revenue % = 
+<span class="c-fn">DIVIDE</span>( [New Customer Revenue], [Total Sales], 0 )</div>
+
+      <div class="callout warn"><b>Why <code>ALL( Sales[Date] )</code> is critical:</b> Without <code>ALL( Sales[Date] )</code>, the <code>MIN( Sales[Date] )</code> inside CALCULATE would only see dates in the currently filtered month! Every customer would look like a "new customer" in every month. <code>ALL</code> resets the date filter context so DAX can scan their entire historical lifetime.</div>
+
+      <h2 style="margin-top:34px">3. Top 5 + "All Others" Rollup (Disconnected Dimension)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> When you apply Power BI's built-in Top N visual filter to a bar chart, it only displays the Top 5 stores and completely discards the rest. The chart total no longer matches the company total! To solve this, we create a <b>disconnected parameter table</b> and write a DAX measure that dynamically plots the Top 5 and aggregates the remaining stores into a single <code>"Other Stores"</code> bar.</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a> (Table: <code>Retail</code> — Columns: <code>Store</code>, <code>City</code>, <code>Sales</code>, <code>Profit</code>).</div>
+
+      <p style="font-size:.9rem"><b>Step 1: Create the Disconnected Table in Power BI</b> (Home ribbon → <i>Enter Data</i>, name it <code>StoreDisplay</code>):</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>StoreGroup</th><th>SortOrder</th></tr>
+          <tr><td>Store 1 ... Store 10 (or any store names from Retail)</td><td>1</td></tr>
+          <tr><td>Other Stores</td><td>99</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">Do NOT create a relationship between <code>StoreDisplay</code> and <code>Retail</code> in Model view. It is deliberately disconnected.</p>
+
+      <div class="codeblock"><span class="c-com">// Base Measure</span>
+Total Retail Sales = <span class="c-fn">SUM</span>( Retail[Sales] )
+
+<span class="c-com">// Top 5 + Others Dynamic Sales Measure</span>
+Top 5 and Others Sales = 
+<span class="c-fn">VAR</span> TopThreshold = 5
+<span class="c-fn">VAR</span> SelectedGroup = <span class="c-fn">SELECTEDVALUE</span>( StoreDisplay[StoreGroup] )
+<span class="c-fn">VAR</span> RankedStores = 
+    <span class="c-fn">ADDCOLUMNS</span>(
+        <span class="c-fn">ALLSELECTED</span>( Retail[Store] ),
+        <span class="c-str">"@Rank"</span>, <span class="c-fn">RANKX</span>( <span class="c-fn">ALLSELECTED</span>( Retail[Store] ), [Total Retail Sales], , DESC )
+    )
+<span class="c-fn">VAR</span> Top5Stores = 
+    <span class="c-fn">FILTER</span>( RankedStores, [@Rank] &lt;= TopThreshold )
+<span class="c-fn">VAR</span> OtherStoresSales = 
+    <span class="c-fn">SUMX</span>(
+        <span class="c-fn">FILTER</span>( RankedStores, [@Rank] &gt; TopThreshold ),
+        [Total Retail Sales]
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">IF</span>(
+        SelectedGroup = <span class="c-str">"Other Stores"</span>,
+        OtherStoresSales,
+        <span class="c-fn">CALCULATE</span>(
+            [Total Retail Sales],
+            <span class="c-fn">TREATAS</span>( { SelectedGroup }, Retail[Store] ),
+            Top5Stores
+        )
+    )</div>
+
+      <p style="font-size:.9rem"><b>Visual Setup:</b> Add a Clustered Bar Chart. Drag <code>StoreDisplay[StoreGroup]</code> into Y-Axis, and <code>[Top 5 and Others Sales]</code> into X-Axis. Sort by SortOrder or Sales descending. The chart cleanly renders 5 top store bars plus one aggregate bar for all others!</p>
+
+      <h2 style="margin-top:34px">4. Multi-Condition Risk Exposure (Non-Performing Loan Scoring)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> Bank risk models don't look at one metric in isolation. A customer with a low credit score is fine if their debt-to-income ratio is minimal. But when <i>three</i> adverse factors align — Credit Score &lt; 650, EMI exceeding 40% of monthly income, and an Active loan — that loan is classified as "Critical Risk Exposure."</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Banking_Clean.csv" download>Banking_Clean.csv</a> (Table: <code>Banking</code> — Columns: <code>Customer</code>, <code>Loan Amount</code>, <code>EMI</code>, <code>Income</code>, <code>Credit Score</code>, <code>Loan Status</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// Total Loan Volume</span>
+Total Loan Capital = <span class="c-fn">SUM</span>( Banking[Loan Amount] )
+
+<span class="c-com">// High Risk Capital Exposure</span>
+Critical Risk Exposure Capital = 
+<span class="c-fn">SUMX</span>(
+    <span class="c-fn">FILTER</span>(
+        Banking,
+        Banking[Loan Status] = <span class="c-str">"Approved"</span> &amp;&amp;
+        Banking[Credit Score] &lt; 650 &amp;&amp;
+        <span class="c-fn">DIVIDE</span>( Banking[EMI], Banking[Income], 0 ) &gt; 0.40
+    ),
+    Banking[Loan Amount]
+)
+
+<span class="c-com">// Risk Share as % of all Active Loans</span>
+Critical Risk Capital Share % = 
+<span class="c-fn">VAR</span> ActiveCapital = 
+    <span class="c-fn">CALCULATE</span>(
+        [Total Loan Capital],
+        Banking[Loan Status] = <span class="c-str">"Approved"</span>
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">DIVIDE</span>( [Critical Risk Exposure Capital], ActiveCapital, 0 )</div>
+
+      <div class="callout"><b>Why <code>SUMX</code> is required here instead of <code>CALCULATE(SUM(...))</code>:</b> The condition <code>DIVIDE(Banking[EMI], Banking[Income]) &gt; 0.40</code> compares two columns on the <i>same row</i> against each other. Simple boolean filters in <code>CALCULATE</code> only support constant comparisons (e.g. <code>Credit Score &lt; 650</code>). Row-by-row math across two columns requires an iterator like <code>SUMX(FILTER(...))</code>.</div>
+
+      <h2 style="margin-top:34px">5. Pareto 80/20 Cumulative Distribution over Categories</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> Standard running totals sort across calendar dates (Jan → Feb → Mar). But Pareto analysis asks: <i>"Which top products generate 80% of our revenue?"</i> Products do not have a calendar order; they must be sorted dynamically by their <b>sales rank</b> in descending order, and accumulated until reaching 80%.</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a> (Table: <code>Retail</code> — Columns: <code>Store</code>, <code>Product</code>, <code>Sales</code>, <code>Profit</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// Measure 1: Cumulative Running Sales % by Product Rank</span>
+Cumulative Product Sales % = 
+<span class="c-fn">VAR</span> CurrentSales = [Total Retail Sales]
+<span class="c-fn">VAR</span> AllProductsSales = 
+    <span class="c-fn">CALCULATE</span>( [Total Retail Sales], <span class="c-fn">ALLSELECTED</span>( Retail[Product] ) )
+<span class="c-fn">VAR</span> CurrentRank = 
+    <span class="c-fn">RANKX</span>( <span class="c-fn">ALLSELECTED</span>( Retail[Product] ), [Total Retail Sales], , DESC )
+<span class="c-fn">VAR</span> CumulativeSalesToRank = 
+    <span class="c-fn">SUMX</span>(
+        <span class="c-fn">FILTER</span>(
+            <span class="c-fn">ALLSELECTED</span>( Retail[Product] ),
+            <span class="c-fn">RANKX</span>( <span class="c-fn">ALLSELECTED</span>( Retail[Product] ), [Total Retail Sales], , DESC ) &lt;= CurrentRank
+        ),
+        [Total Retail Sales]
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">DIVIDE</span>( CumulativeSalesToRank, AllProductsSales, 0 )
+
+<span class="c-com">// Measure 2: Pareto 80/20 Classification Tag</span>
+Pareto Classification = 
+<span class="c-fn">IF</span>(
+    <span class="c-fn">ISBLANK</span>( [Total Retail Sales] ),
+    <span class="c-fn">BLANK</span>(),
+    <span class="c-fn">IF</span>( [Cumulative Product Sales %] &lt;= 0.80, <span class="c-str">"Core (Top 80%)"</span>, <span class="c-str">"Long Tail (Remaining 20%)"</span> )
+)</div>
+
+      <p style="font-size:.9rem"><b>Visual Setup:</b> Create a Line and Clustered Column Chart. Place <code>Retail[Product]</code> on the X-axis (sorted descending by Total Sales). Add <code>[Total Retail Sales]</code> to Column Values and <code>[Cumulative Product Sales %]</code> to Line Values (formatted as <code>0.0%</code>). Add a constant line at <code>80%</code> on the secondary Y-axis.</p>
+
+      <h2 style="margin-top:34px">6. 30-Day Hospital Readmission Rate (Cross-Event Date Math)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> Hospital clinical quality tracking requires monitoring how many patients return for a second admission within 30 days of discharge. Because each admission is a separate row, DAX must scan the table for the same patient where a subsequent <code>Admission Date</code> falls within 30 days of the current row's <code>Discharge Date</code>.</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/Hospital_Clean.csv" download>Hospital_Clean.csv</a> (Table: <code>Hospital</code> — Columns: <code>Patient</code>, <code>Doctor</code>, <code>Department</code>, <code>Bill Amount</code>, <code>Admission Date</code>, <code>Discharge Date</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// Total Inpatient Admissions</span>
+Total Admissions = <span class="c-fn">COUNTROWS</span>( Hospital )
+
+<span class="c-com">// Readmissions within 30 Days</span>
+Readmissions within 30 Days = 
+<span class="c-fn">SUMX</span>(
+    Hospital,
+    <span class="c-fn">VAR</span> CurrentPatient = Hospital[Patient]
+    <span class="c-fn">VAR</span> CurrentDischarge = Hospital[Discharge Date]
+    <span class="c-com">// Check if this exact patient had another admission within 1 to 30 days post-discharge</span>
+    <span class="c-fn">VAR</span> SubsequentVisits = 
+        <span class="c-fn">CALCULATE</span>(
+            <span class="c-fn">COUNTROWS</span>( Hospital ),
+            <span class="c-fn">ALL</span>( Hospital ),
+            Hospital[Patient] = CurrentPatient &amp;&amp;
+            Hospital[Admission Date] &gt; CurrentDischarge &amp;&amp;
+            Hospital[Admission Date] &lt;= CurrentDischarge + 30
+        )
+    <span class="c-fn">RETURN</span>
+        <span class="c-fn">IF</span>( SubsequentVisits &gt; 0, 1, 0 )
+)
+
+<span class="c-com">// Readmission Rate %</span>
+Readmission Rate % = 
+<span class="c-fn">DIVIDE</span>( [Readmissions within 30 Days], [Total Admissions], 0 )</div>
+
+      <div class="callout"><b>Business Insight:</b> Dropping <code>[Readmission Rate %]</code> into a Bar Chart by <code>Hospital[Department]</code> immediately reveals which clinical specialties (e.g. Cardiology vs. Orthopedics) suffer from premature discharges or post-operative complications.</div>
+
+      <h2 style="margin-top:34px">7. Department Peer-Group Z-Score (Statistical Outlier Detection)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> An HR compensation audit needs to flag employees whose salary deviates significantly from their department peers. A raw company-wide average is meaningless (Engineering salaries differ from Operations). We calculate a dynamic <b>Z-Score</b> (standard deviations from the department mean) using <code>ALLEXCEPT</code> to respect the department context while releasing employee-level filters.</p>
+
+      <div class="callout"><b>Dataset:</b> <a href="datasets/HR_Clean.csv" download>HR_Clean.csv</a> (Table: <code>HR</code> — Columns: <code>Employee ID</code>, <code>Department</code>, <code>Salary</code>, <code>Experience</code>, <code>Location</code>, <code>Performance Rating</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// Department Peer-Group Salary Z-Score</span>
+Dept Salary Z-Score = 
+<span class="c-fn">VAR</span> CurrentSalary = <span class="c-fn">MAX</span>( HR[Salary] )
+<span class="c-fn">VAR</span> DeptMean = 
+    <span class="c-fn">CALCULATE</span>(
+        <span class="c-fn">AVERAGE</span>( HR[Salary] ),
+        <span class="c-fn">ALLEXCEPT</span>( HR, HR[Department] )
+    )
+<span class="c-fn">VAR</span> DeptStdDev = 
+    <span class="c-fn">CALCULATE</span>(
+        <span class="c-fn">STDEV.P</span>( HR[Salary] ),
+        <span class="c-fn">ALLEXCEPT</span>( HR, HR[Department] )
+    )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">IF</span>(
+        <span class="c-fn">NOT ISBLANK</span>( DeptStdDev ) &amp;&amp; DeptStdDev &gt; 0,
+        <span class="c-fn">DIVIDE</span>( CurrentSalary - DeptMean, DeptStdDev, 0 ),
+        0
+    )
+
+<span class="c-com">// Compensation Flag for Matrix Visual</span>
+Compensation Anomaly Flag = 
+<span class="c-fn">VAR</span> Z = [Dept Salary Z-Score]
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">SWITCH</span>(
+        <span class="c-fn">TRUE</span>(),
+        Z &gt;= 2.0, <span class="c-str">"High Outlier (+2σ)"</span>,
+        Z &lt;= -2.0, <span class="c-str">"Low Outlier (-2σ)"</span>,
+        <span class="c-str">"Peer Norm"</span>
+    )</div>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Function</th><th>Role in Peer-Group Calculation</th></tr>
+          <tr><td><code>ALLEXCEPT( HR, HR[Department] )</code></td><td>Strips out the filter on individual <code>Employee ID</code> while preserving the filter on <code>Department</code>. This allows DAX to compute the department-wide mean and standard deviation for the employee currently sitting on that row.</td></tr>
+          <tr><td><code>STDEV.P</code></td><td>Computes the population standard deviation across all employees in that department.</td></tr>
+          <tr><td><code>SWITCH( TRUE(), ... )</code></td><td>Classifies the employee into actionable equity audit buckets.</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:34px">8. Market Basket Affinity (Cross-Sell Co-Occurrence Rate)</h2>
+      <p style="font-size:.92rem"><b>The Problem:</b> E-commerce merchandising teams constantly ask: <i>"When customers buy Road Bikes, what percentage also add Helmets or Water Bottles to the same shopping basket?"</i> Standard star-schema relationships filter orders in one direction only; finding orders containing <b>both</b> product lines requires intersecting transaction order numbers.</p>
+
+      <div class="callout"><b>Database:</b> AdventureWorksDW (<code>FactInternetSales</code>, <code>DimProduct</code>).</div>
+
+      <div class="codeblock"><span class="c-com">// Basket Affinity %: Share of Road Bike orders that ALSO contain Mountain Bikes or Accessories</span>
+Road and Mountain Cross-Sell Rate = 
+<span class="c-fn">VAR</span> RoadBikeOrders = 
+    <span class="c-fn">CALCULATETABLE</span>(
+        <span class="c-fn">VALUES</span>( FactInternetSales[SalesOrderNumber] ),
+        DimProduct[ProductLine] = <span class="c-str">"R"</span>
+    )
+<span class="c-fn">VAR</span> MountainBikeOrders = 
+    <span class="c-fn">CALCULATETABLE</span>(
+        <span class="c-fn">VALUES</span>( FactInternetSales[SalesOrderNumber] ),
+        <span class="c-fn">ALL</span>( DimProduct ),
+        DimProduct[ProductLine] = <span class="c-str">"M"</span>
+    )
+<span class="c-fn">VAR</span> SharedOrders = 
+    <span class="c-fn">COUNTROWS</span>(
+        <span class="c-fn">INTERSECT</span>( RoadBikeOrders, MountainBikeOrders )
+    )
+<span class="c-fn">VAR</span> TotalRoadOrders = 
+    <span class="c-fn">COUNTROWS</span>( RoadBikeOrders )
+<span class="c-fn">RETURN</span>
+    <span class="c-fn">DIVIDE</span>( SharedOrders, TotalRoadOrders, 0 )</div>
+
+      <div class="callout"><b>Why <code>INTERSECT</code> is so powerful:</b> <code>INTERSECT(TableA, TableB)</code> returns only the rows present in both tables. By feeding it two tables of order IDs (one filtered to Product A, the second to Product B), DAX instantly identifies all cross-sold transactions without requiring heavy self-joins in SQL or Power Query.</div>
+
+      <div class="callout warn" style="margin-top:24px">
+        <b>Best Practice for Complex DAX:</b> Always structure complex measures using <code>VAR</code> steps. Variables in DAX are evaluated once and cached in memory — they make code easy to debug, eliminate redundant calculations, and prevent performance bottlenecks on large models.
+      </div>
+
+      <footer class="pagefoot"><span>Module 3 · Complex DAX Formulas</span><a href="45-all-dax-formulas.html">Next: All DAX Formulas &amp; Combinations →</a></footer>
