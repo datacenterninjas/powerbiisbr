@@ -16,6 +16,7 @@
         <a href="#relationships"><span class="n">07</span>Relationships</a>
         <a href="#operators"><span class="n">08</span>Operators</a>
         <a href="#pitfalls"><span class="n">09</span>Common Pitfalls</a>
+        <a href="#index"><span class="n">10</span>Every Measure in the Course</a>
       </nav>
 
       <section class="dax-ref-block" id="basics">
@@ -80,6 +81,22 @@
             <div class="fdesc">Iterator: evaluates <span class="mono">expr</span> per row, then sums. Needed whenever the calculation itself varies row by row.</div>
             <div class="dax-ref-code"><span class="f">Total Margin</span> = <span class="k">SUMX</span>(<br>&nbsp;&nbsp;FactInternetSales,<br>&nbsp;&nbsp;FactInternetSales[SalesAmount] <span class="k">-</span> FactInternetSales[TotalProductCost]<br>)</div>
           </div>
+          <div class="dax-ref-card">
+            <div class="fname">AVERAGEX<span class="paren">(table, expr)</span></div>
+            <div class="fdesc">Iterator: evaluates <span class="mono">expr</span> per row of the table, then averages the results. Handed a table of dates, it averages a measure across them — the engine behind the rolling average in section 06.</div>
+            <div class="dax-ref-code"><span class="f">Avg Margin per Line</span> = <span class="k">AVERAGEX</span>(<br>&nbsp;&nbsp;FactInternetSales,<br>&nbsp;&nbsp;FactInternetSales[SalesAmount] <span class="k">-</span> FactInternetSales[TotalProductCost]<br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">COUNT<span class="paren">(column)</span></div>
+            <div class="fdesc">Counts non-blank values in one column. Like COUNTROWS on this table, it still counts order lines, not orders.</div>
+            <div class="dax-ref-code"><span class="f">Sales Value Count</span> = <span class="k">COUNT</span>(FactInternetSales[SalesAmount])</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">DIVIDE<span class="paren">(numerator, denominator, [alternate])</span></div>
+            <div class="fdesc">Safe division — returns blank (or the optional alternate) instead of an error when the denominator is zero or blank. Every ratio in this course uses it.</div>
+            <div class="dax-ref-code"><span class="f">Average Order Value</span> = <span class="k">DIVIDE</span>([Total Sales], [Order Count])
+<span class="f">Margin %</span> = <span class="k">DIVIDE</span>([Total Margin], [Total Sales])</div>
+          </div>
         </div>
       </section>
 
@@ -106,6 +123,16 @@
             <div class="fname">ISBLANK / COALESCE</div>
             <div class="fdesc">Guard against blanks before displaying — <span class="mono">COALESCE</span> returns the first non-blank argument. <code>DimProduct[Style]</code> is genuinely blank on many real AdventureWorksDW rows, which is exactly why this pattern exists.</div>
             <div class="dax-ref-code"><span class="f">Style Label</span> = <span class="k">COALESCE</span>(DimProduct[Style], <span class="s">"Unspecified"</span>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">SELECTEDVALUE<span class="paren">(column, [alternate])</span></div>
+            <div class="fdesc">Returns the one value left in filter context, or the fallback when there are zero or several. The standard way to build a dynamic title — always pass the second argument, or a multi-selection shows a silent blank. Full treatment: <a href="21-dax-context.html">Context &amp; Dynamic Measures</a>.</div>
+            <div class="dax-ref-code"><span class="f">Selected Product Line</span> = <span class="k">SELECTEDVALUE</span>(<br>&nbsp;&nbsp;DimProduct[ProductLine], <span class="s">"All Product Lines"</span><br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">IF against another measure</div>
+            <div class="fdesc">A status flag compares two measures, so it re-evaluates for every cell of a visual. Assumes a <span class="mono">[Target]</span> measure already exists in the model.</div>
+            <div class="dax-ref-code"><span class="f">Status Flag</span> = <span class="k">IF</span>([Total Sales] <span class="k">&gt;</span> [Target], <span class="s">"On Track"</span>, <span class="s">"Behind"</span>)</div>
           </div>
         </div>
       </section>
@@ -155,6 +182,16 @@
             <div class="fdesc">Removes all filters on a table except the columns listed — narrower and often safer than ALL.</div>
             <div class="dax-ref-code"><span class="f">Sales by Product Line Only</span> = <span class="k">CALCULATE</span>(<br>&nbsp;&nbsp;[Total Sales],<br>&nbsp;&nbsp;<span class="k">ALLEXCEPT</span>(DimProduct, DimProduct[ProductLine])<br>)</div>
           </div>
+          <div class="dax-ref-card">
+            <div class="fname">ALLSELECTED<span class="paren">(table / column)</span></div>
+            <div class="fdesc">Removes the visual's own row/column filters but keeps what the viewer picked in slicers — "% of what I selected," not "% of everything." With no slicer touched, it matches ALL.</div>
+            <div class="dax-ref-code"><span class="f">% of Selection</span> = <span class="k">DIVIDE</span>(<br>&nbsp;&nbsp;[Total Sales],<br>&nbsp;&nbsp;<span class="k">CALCULATE</span>([Total Sales], <span class="k">ALLSELECTED</span>(DimProduct))<br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">COUNTROWS + FILTER</div>
+            <div class="fdesc">Counts rows meeting a condition — FILTER returns the qualifying rows, COUNTROWS counts them. Counts order lines over the threshold, not whole orders.</div>
+            <div class="dax-ref-code"><span class="f">Big Orders Count</span> = <span class="k">COUNTROWS</span>(<br>&nbsp;&nbsp;<span class="k">FILTER</span>(FactInternetSales, FactInternetSales[SalesAmount] <span class="k">&gt;</span> <span class="s">50000</span>)<br>)</div>
+          </div>
         </div>
       </section>
 
@@ -190,6 +227,11 @@
                 <td>Shifts the date filter by n intervals (DAY / MONTH / QUARTER / YEAR)</td>
                 <td class="mono">CALCULATE([Total Sales], DATEADD(DimDate[FullDateAlternateKey], -1, MONTH))</td>
               </tr>
+              <tr>
+                <td class="op">DATESINPERIOD</td>
+                <td>A rolling window of dates: N intervals back from a start date</td>
+                <td class="mono">DATESINPERIOD(DimDate[FullDateAlternateKey], MAX(DimDate[FullDateAlternateKey]), -3, MONTH)</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -198,6 +240,23 @@
           <div class="fdesc">Time intelligence functions are almost always chained: build the comparison period first, then divide. Same formula as the payoff on CALCULATE, FILTER &amp; Modeling.</div>
           <div class="dax-ref-code"><span class="f">Sales LY</span> = <span class="k">CALCULATE</span>([Total Sales], <span class="k">SAMEPERIODLASTYEAR</span>(DimDate[FullDateAlternateKey]))
 <span class="f">YoY Growth %</span> = <span class="k">DIVIDE</span>([Total Sales] <span class="k">-</span> [Sales LY], [Sales LY])</div>
+        </div>
+        <div class="dax-ref-grid" style="margin-top:14px">
+          <div class="dax-ref-card">
+            <div class="fname">Rolling 3-month total</div>
+            <div class="fdesc">DATESINPERIOD hands CALCULATE a 3-month window ending at the date in context — smooths a noisy monthly line without deleting any detail.</div>
+            <div class="dax-ref-code"><span class="f">Sales Rolling 3M</span> = <span class="k">CALCULATE</span>(<br>&nbsp;&nbsp;[Total Sales],<br>&nbsp;&nbsp;<span class="k">DATESINPERIOD</span>(<br>&nbsp;&nbsp;&nbsp;&nbsp;DimDate[FullDateAlternateKey],<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">MAX</span>(DimDate[FullDateAlternateKey]), <span class="s">-3</span>, MONTH<br>&nbsp;&nbsp;)<br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">Rolling 3-month average</div>
+            <div class="fdesc">The same window, averaged with AVERAGEX instead of summed. The first two months of data have an incomplete window, so they read low or blank.</div>
+            <div class="dax-ref-code"><span class="f">Sales Rolling 3M Avg</span> = <span class="k">AVERAGEX</span>(<br>&nbsp;&nbsp;<span class="k">DATESINPERIOD</span>(<br>&nbsp;&nbsp;&nbsp;&nbsp;DimDate[FullDateAlternateKey],<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">MAX</span>(DimDate[FullDateAlternateKey]), <span class="s">-3</span>, MONTH<br>&nbsp;&nbsp;),<br>&nbsp;&nbsp;[Total Sales]<br>)</div>
+          </div>
+          <div class="dax-ref-card">
+            <div class="fname">DATEDIFF<span class="paren">(start, end, interval)</span></div>
+            <div class="fdesc">Whole intervals between two dates. Used as a calculated column on the Hospital practice dataset — it doesn't need a Date table at all.</div>
+            <div class="dax-ref-code"><span class="f">Length of Stay</span> = <span class="k">DATEDIFF</span>(<br>&nbsp;&nbsp;Hospital[Admission Date], Hospital[Discharge Date], DAY<br>)</div>
+          </div>
         </div>
       </section>
 
@@ -261,6 +320,65 @@
         </div>
       </section>
 
+      <section class="dax-ref-block" id="index">
+        <div class="dax-ref-block-head"><span class="dax-ref-block-num">10</span><h2 class="dax-ref-block-title">Every Measure in the Course</h2></div>
+        <p class="dax-ref-block-desc">Every named DAX formula written anywhere on this site, in one place — the formula exactly as taught, and the page(s) that teach it. Measures reference each other by name, so build them top to bottom within each group.</p>
+        <div class="dax-ref-table-wrap">
+          <table class="dax-ref-table dax-ref-index">
+            <thead><tr><th>Measure</th><th>Formula</th><th>Taught on</th></tr></thead>
+            <tbody>
+              <tr class="grp"><td colspan="3">AdventureWorksDW — core measures</td></tr>
+              <tr><td class="op">Total Sales</td><td class="mono formula">SUM( FactInternetSales[SalesAmount] )</td><td class="where"><a href="19-dax-basics.html">DAX Basics</a></td></tr>
+              <tr><td class="op">Total Quantity</td><td class="mono formula">SUM( FactInternetSales[OrderQuantity] )</td><td class="where"><a href="19-dax-basics.html">DAX Basics</a></td></tr>
+              <tr><td class="op">Order Count</td><td class="mono formula">DISTINCTCOUNT( FactInternetSales[SalesOrderNumber] )</td><td class="where"><a href="19-dax-basics.html">DAX Basics</a> · <a href="38-dax-patterns.html">Patterns</a> · <a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Average Order Value</td><td class="mono formula">DIVIDE( [Total Sales], [Order Count] )</td><td class="where"><a href="19-dax-basics.html">DAX Basics</a> · <a href="38-dax-patterns.html">Patterns</a> · <a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Total Margin</td><td class="mono formula">SUMX( FactInternetSales, FactInternetSales[SalesAmount] - FactInternetSales[TotalProductCost] )</td><td class="where"><a href="19-dax-basics.html">DAX Basics</a> · <a href="38-dax-patterns.html">Patterns</a> · <a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Margin %</td><td class="mono formula">DIVIDE( [Total Margin], [Total Sales] )</td><td class="where"><a href="19-dax-basics.html">DAX Basics</a> · <a href="38-dax-patterns.html">Patterns</a> · <a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">All Rows</td><td class="mono formula">COUNTROWS( FactInternetSales )</td><td class="where"><a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Average Weight</td><td class="mono formula">AVERAGE( DimProduct[Weight] )</td><td class="where"><a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Average Standard Cost</td><td class="mono formula">AVERAGE( DimProduct[StandardCost] )</td><td class="where"><a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Big Orders Count</td><td class="mono formula">COUNTROWS( FILTER( FactInternetSales, FactInternetSales[SalesAmount] &gt; 50000 ) )</td><td class="where"><a href="38-dax-patterns.html">Patterns</a></td></tr>
+              <tr class="grp"><td colspan="3">AdventureWorksDW — time intelligence</td></tr>
+              <tr><td class="op">Sales YTD</td><td class="mono formula">TOTALYTD( [Total Sales], DimDate[FullDateAlternateKey] )</td><td class="where"><a href="20-dax-time-intelligence.html">Time Intelligence</a> · <a href="38-dax-patterns.html">Patterns</a> · <a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Sales QTD</td><td class="mono formula">TOTALQTD( [Total Sales], DimDate[FullDateAlternateKey] )</td><td class="where"><a href="38-dax-patterns.html">Patterns</a> · <a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Sales LY</td><td class="mono formula">CALCULATE( [Total Sales], SAMEPERIODLASTYEAR( DimDate[FullDateAlternateKey] ) )</td><td class="where"><a href="20-dax-time-intelligence.html">Time Intelligence</a> · <a href="22-dax-calculate-modeling.html">CALCULATE</a> · <a href="38-dax-patterns.html">Patterns</a> · <a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">YoY Growth %</td><td class="mono formula">DIVIDE( [Total Sales] - [Sales LY], [Sales LY] )</td><td class="where"><a href="20-dax-time-intelligence.html">Time Intelligence</a> · <a href="38-dax-patterns.html">Patterns</a> · <a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Sales Rolling 3M</td><td class="mono formula">CALCULATE( [Total Sales], DATESINPERIOD( DimDate[FullDateAlternateKey], MAX( DimDate[FullDateAlternateKey] ), -3, MONTH ) )</td><td class="where"><a href="20-dax-time-intelligence.html">Time Intelligence</a></td></tr>
+              <tr><td class="op">Sales Rolling 3M Avg</td><td class="mono formula">AVERAGEX( DATESINPERIOD( DimDate[FullDateAlternateKey], MAX( DimDate[FullDateAlternateKey] ), -3, MONTH ), [Total Sales] )</td><td class="where"><a href="38-dax-patterns.html">Patterns</a> · <a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr class="grp"><td colspan="3">AdventureWorksDW — CALCULATE &amp; context</td></tr>
+              <tr><td class="op">Road Bike Sales</td><td class="mono formula">CALCULATE( [Total Sales], DimProduct[ProductLine] = "R" )</td><td class="where"><a href="22-dax-calculate-modeling.html">CALCULATE</a> · <a href="38-dax-patterns.html">Patterns</a> · <a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Premium Product Sales</td><td class="mono formula">CALCULATE( [Total Sales], FILTER( DimProduct, DimProduct[ListPrice] &gt; 1000 ) )</td><td class="where"><a href="22-dax-calculate-modeling.html">CALCULATE</a></td></tr>
+              <tr><td class="op">All Product Sales</td><td class="mono formula">CALCULATE( [Total Sales], ALL( DimProduct ) )</td><td class="where"><a href="22-dax-calculate-modeling.html">CALCULATE</a> · <a href="38-dax-patterns.html">Patterns</a></td></tr>
+              <tr><td class="op">% of All Products</td><td class="mono formula">DIVIDE( [Total Sales], [All Product Sales] )</td><td class="where"><a href="22-dax-calculate-modeling.html">CALCULATE</a> · <a href="38-dax-patterns.html">Patterns</a></td></tr>
+              <tr><td class="op">% of Selection</td><td class="mono formula">DIVIDE( [Total Sales], CALCULATE( [Total Sales], ALLSELECTED( DimProduct ) ) )</td><td class="where"><a href="38-dax-patterns.html">Patterns</a></td></tr>
+              <tr><td class="op">All Class Sales</td><td class="mono formula">CALCULATE( [Total Sales], ALL( DimProduct[Class] ) )</td><td class="where"><a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">% of All Classes</td><td class="mono formula">DIVIDE( [Total Sales], [All Class Sales] )</td><td class="where"><a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Selected Class Sales</td><td class="mono formula">CALCULATE( [Total Sales], ALLSELECTED( DimProduct[Class] ) )</td><td class="where"><a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">% of Selected Classes</td><td class="mono formula">DIVIDE( [Total Sales], [Selected Class Sales] )</td><td class="where"><a href="39-dax-practice.html">Practice</a></td></tr>
+              <tr><td class="op">Selected Product Line</td><td class="mono formula">SELECTEDVALUE( DimProduct[ProductLine], "All Product Lines" )</td><td class="where"><a href="21-dax-context.html">Context</a> · <a href="38-dax-patterns.html">Patterns</a></td></tr>
+              <tr><td class="op">Status Flag</td><td class="mono formula">IF( [Total Sales] &gt; [Target], "On Track", "Behind" )</td><td class="where"><a href="21-dax-context.html">Context</a></td></tr>
+              <tr><td class="op">Sales vs Target %</td><td class="mono formula">DIVIDE( [Total Sales] - [Target Sales], [Target Sales] )</td><td class="where"><a href="14-conditional-formatting.html">Conditional Formatting</a></td></tr>
+              <tr class="grp"><td colspan="3">Food delivery dashboard (FoodDelivery_Raw.csv)</td></tr>
+              <tr><td class="op">Total Orders</td><td class="mono formula">COUNTROWS( FoodDelivery )</td><td class="where"><a href="24-kpis-dashboard-build.html">KPIs &amp; Dashboard</a></td></tr>
+              <tr><td class="op">Revenue</td><td class="mono formula">CALCULATE( SUM( FoodDelivery[Order Value] ), FoodDelivery[Order Status] = "Delivered" )</td><td class="where"><a href="24-kpis-dashboard-build.html">KPIs &amp; Dashboard</a></td></tr>
+              <tr><td class="op">Delivered Orders</td><td class="mono formula">CALCULATE( COUNTROWS( FoodDelivery ), FoodDelivery[Order Status] = "Delivered" )</td><td class="where"><a href="24-kpis-dashboard-build.html">KPIs &amp; Dashboard</a></td></tr>
+              <tr><td class="op">Average Order Value</td><td class="mono formula">DIVIDE( [Revenue], [Delivered Orders] )</td><td class="where"><a href="24-kpis-dashboard-build.html">KPIs &amp; Dashboard</a></td></tr>
+              <tr><td class="op">Cancellation Rate</td><td class="mono formula">DIVIDE( CALCULATE( COUNTROWS( FoodDelivery ), FoodDelivery[Order Status] = "Cancelled" ), [Total Orders] )</td><td class="where"><a href="24-kpis-dashboard-build.html">KPIs &amp; Dashboard</a></td></tr>
+              <tr><td class="op">Average Rating</td><td class="mono formula">AVERAGE( FoodDelivery[Rating] )</td><td class="where"><a href="24-kpis-dashboard-build.html">KPIs &amp; Dashboard</a></td></tr>
+              <tr class="grp"><td colspan="3">Practice CSVs &amp; what-if</td></tr>
+              <tr><td class="op">Average Order Value</td><td class="mono formula">DIVIDE( SUM( Sales[Sales] ), DISTINCTCOUNT( Sales[Order ID] ) )</td><td class="where"><a href="cheatsheet.html">Cheat Sheet</a> · <a href="07-final-project.html">Final Project</a></td></tr>
+              <tr><td class="op">Profit Margin %</td><td class="mono formula">DIVIDE( SUM( Sales[Profit] ), SUM( Sales[Sales] ) )</td><td class="where"><a href="cheatsheet.html">Cheat Sheet</a></td></tr>
+              <tr><td class="op">Length of Stay</td><td class="mono formula">DATEDIFF( Hospital[Admission Date], Hospital[Discharge Date], DAY )</td><td class="where"><a href="cheatsheet.html">Cheat Sheet</a> · <a href="06-exercises.html">Exercises</a></td></tr>
+              <tr><td class="op">Average Salary</td><td class="mono formula">AVERAGE( HR[Salary] )</td><td class="where"><a href="cheatsheet.html">Cheat Sheet</a></td></tr>
+              <tr><td class="op">Total Loans</td><td class="mono formula">COUNTROWS( Banking )</td><td class="where"><a href="cheatsheet.html">Cheat Sheet</a></td></tr>
+              <tr><td class="op">Approved Loans</td><td class="mono formula">CALCULATE( COUNTROWS( Banking ), Banking[Loan Status] = "Approved" )</td><td class="where"><a href="cheatsheet.html">Cheat Sheet</a></td></tr>
+              <tr><td class="op">Approval Rate</td><td class="mono formula">DIVIDE( [Approved Loans], [Total Loans] )</td><td class="where"><a href="cheatsheet.html">Cheat Sheet</a></td></tr>
+              <tr><td class="op">Adjusted Sales</td><td class="mono formula">SUM( Sales[Sales] ) * ( 1 - 'Discount % Parameter'[Discount % Value] )</td><td class="where"><a href="26-qa-scenario-manager.html">QA &amp; Scenarios</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       </div>
 
       <footer class="pagefoot"><span>Module 3 · DAX Formula Reference</span><a href="32-module3-assignment.html">Next: Module 3 Assignment →</a></footer>
@@ -311,9 +429,9 @@
   .dax-ref-block-desc{ color:var(--dax-ink-muted); max-width:68ch; margin:10px 0 20px; font-size:.94rem; }
   .dax-ref-block-desc a{ color:var(--dax-teal); }
 
-  .dax-ref-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .dax-ref-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
   @media (max-width:680px){ .dax-ref-grid{ grid-template-columns:1fr; } }
-  .dax-ref-card{ background:var(--dax-surface); border:1px solid var(--dax-border); border-radius:10px; padding:16px 18px; box-shadow:var(--dax-shadow); }
+  .dax-ref-card{ min-width:0; background:var(--dax-surface); border:1px solid var(--dax-border); border-radius:10px; padding:16px 18px; box-shadow:var(--dax-shadow); }
   .dax-ref-card .fname{ font-family:var(--font-mono); font-weight:600; font-size:.9rem; color:var(--dax-ink); }
   .dax-ref-card .fname .paren{ color:var(--dax-ink-muted); font-weight:400; }
   .dax-ref-card .fdesc{ margin:6px 0 10px; font-size:.86rem; color:var(--dax-ink-muted); }
@@ -322,7 +440,7 @@
   .dax-ref-code .k{ color:var(--dax-code-key); } .dax-ref-code .s{ color:var(--dax-code-str); } .dax-ref-code .f{ color:var(--dax-code-fn); } .dax-ref-code .m{ color:var(--dax-code-muted); }
   .dax-ref-code .mono{ color:var(--dax-code-muted); }
 
-  .dax-ref-compare{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .dax-ref-compare{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
   @media (max-width:680px){ .dax-ref-compare{ grid-template-columns:1fr; } }
   .dax-ref-compare .dax-ref-col{ background:var(--dax-surface); border:1px solid var(--dax-border); border-radius:10px; overflow:hidden; box-shadow:var(--dax-shadow); }
   .dax-ref-compare .dax-ref-col-measure{ border-top:3px solid var(--dax-teal); }
@@ -339,7 +457,13 @@
   table.dax-ref-table tr:last-child td{ border-bottom:none; }
   table.dax-ref-table td.op{ font-family:var(--font-mono); font-weight:600; color:var(--dax-accent); white-space:nowrap; }
 
-  .dax-ref-context-panel{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+  table.dax-ref-index td.formula{ font-size:.8rem; white-space:normal; overflow-wrap:anywhere; min-width:260px; }
+  table.dax-ref-index td.where{ font-size:.8rem; white-space:nowrap; }
+  table.dax-ref-index td.where a{ color:var(--dax-teal); }
+  table.dax-ref-index tr.grp td{ background:var(--dax-surface-alt); font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--dax-ink-muted); font-weight:600; }
+  @media (max-width:680px){ table.dax-ref-index td.where{ white-space:normal; } }
+
+  .dax-ref-context-panel{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-bottom:16px; }
   @media (max-width:680px){ .dax-ref-context-panel{ grid-template-columns:1fr; } }
   .dax-ref-context-panel .dax-ref-panel{ padding:18px; border-radius:10px; border:1px solid var(--dax-border); }
   .dax-ref-context-panel .dax-ref-panel-row{ background:var(--dax-accent-soft); }

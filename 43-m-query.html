@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactivity — Power BI for MBA Analytics</title>
+<title>M Query — Power BI for MBA Analytics</title>
 <style>
   :root{
     --bg:#F2F1EB; --surface:#FFFFFF; --surface-2:#EAE7DC; --surface-3:#E0DCCC;
@@ -267,7 +267,7 @@
       <div class="navitem"><a class="navbtn" href="09-custom-visuals.html"><span class="num">1</span> Custom Visuals</a><input type="checkbox" class="navcheck" data-page="customvisuals" title="Mark &quot;Custom Visuals&quot; as done" aria-label="Mark Custom Visuals as done"></div>
       <div class="navitem"><a class="navbtn" href="10-groups-histograms.html"><span class="num">2</span> Groups &amp; Histograms</a><input type="checkbox" class="navcheck" data-page="groupshistograms" title="Mark &quot;Groups & Histograms&quot; as done" aria-label="Mark Groups & Histograms as done"></div>
       <div class="navitem"><a class="navbtn" href="11-visualization-best-practices.html"><span class="num">3</span> Best Practices</a><input type="checkbox" class="navcheck" data-page="bestpractices" title="Mark &quot;Best Practices&quot; as done" aria-label="Mark Best Practices as done"></div>
-      <div class="navitem"><a class="navbtn active" href="12-interactivity.html"><span class="num">4</span> Interactivity</a><input type="checkbox" class="navcheck" data-page="interactivity" title="Mark &quot;Interactivity&quot; as done" aria-label="Mark Interactivity as done"></div>
+      <div class="navitem"><a class="navbtn" href="12-interactivity.html"><span class="num">4</span> Interactivity</a><input type="checkbox" class="navcheck" data-page="interactivity" title="Mark &quot;Interactivity&quot; as done" aria-label="Mark Interactivity as done"></div>
       <div class="navitem"><a class="navbtn" href="13-tables-matrix.html"><span class="num">5</span> Tables &amp; Matrix</a><input type="checkbox" class="navcheck" data-page="tablesmatrix" title="Mark &quot;Tables & Matrix&quot; as done" aria-label="Mark Tables & Matrix as done"></div>
       <div class="navitem"><a class="navbtn" href="14-conditional-formatting.html"><span class="num">6</span> Conditional Formatting</a><input type="checkbox" class="navcheck" data-page="conditionalformatting" title="Mark &quot;Conditional Formatting&quot; as done" aria-label="Mark Conditional Formatting as done"></div>
       <div class="navitem"><a class="navbtn" href="15-filters.html"><span class="num">7</span> Filters</a><input type="checkbox" class="navcheck" data-page="filters" title="Mark &quot;Filters&quot; as done" aria-label="Mark Filters as done"></div>
@@ -291,7 +291,7 @@
       <div class="navitem"><a class="navbtn" href="04-power-query.html"><span class="num">2</span> Power Query Editor</a><input type="checkbox" class="navcheck" data-page="powerquery" title="Mark &quot;Power Query Editor&quot; as done" aria-label="Mark Power Query Editor as done"></div>
       <div class="navitem"><a class="navbtn" href="31-power-query-walkthrough.html"><span class="num">3</span> Dirty → Clean Walkthrough</a><input type="checkbox" class="navcheck" data-page="pqwalkthrough" title="Mark &quot;Dirty → Clean Walkthrough&quot; as done" aria-label="Mark Dirty → Clean Walkthrough as done"></div>
       <div class="navitem"><a class="navbtn" href="42-joins-data-modelling.html"><span class="num">4</span> Joins &amp; Data Modelling</a><input type="checkbox" class="navcheck" data-page="joinsmodelling" title="Mark &quot;Joins & Data Modelling&quot; as done" aria-label="Mark Joins & Data Modelling as done"></div>
-      <div class="navitem"><a class="navbtn" href="43-m-query.html"><span class="num">5</span> M Query</a><input type="checkbox" class="navcheck" data-page="mquery" title="Mark &quot;M Query&quot; as done" aria-label="Mark M Query as done"></div>
+      <div class="navitem"><a class="navbtn active" href="43-m-query.html"><span class="num">5</span> M Query</a><input type="checkbox" class="navcheck" data-page="mquery" title="Mark &quot;M Query&quot; as done" aria-label="Mark M Query as done"></div>
       <div class="navitem"><a class="navbtn" href="23-m-language-etl.html"><span class="num">6</span> M Language &amp; End-to-End ETL</a><input type="checkbox" class="navcheck" data-page="mlanguageetl" title="Mark &quot;M Language & End-to-End ETL&quot; as done" aria-label="Mark M Language & End-to-End ETL as done"></div>
       <div class="navitem"><a class="navbtn" href="24-kpis-dashboard-build.html"><span class="num">7</span> KPIs &amp; Single-Page Dashboard</a><input type="checkbox" class="navcheck" data-page="kpisdashboard" title="Mark &quot;KPIs & Single-Page Dashboard&quot; as done" aria-label="Mark KPIs & Single-Page Dashboard as done"></div>
       <div class="navitem"><a class="navbtn" href="33-module4-assignment.html"><span class="num">★</span> Assignment (10 marks)</a><input type="checkbox" class="navcheck" data-page="module4assignment" title="Mark &quot;Assignment (10 marks)&quot; as done" aria-label="Mark Assignment (10 marks) as done"></div>
@@ -329,186 +329,246 @@
   <div class="main-col">
     <div class="topbar">
       <button class="menutoggle" id="menutoggle" aria-label="Toggle menu">☰ Menu</button>
-      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">Interactivity</b></div>
+      <div class="crumb">Power BI for MBA Analytics &nbsp;/&nbsp; <b id="crumbLabel">M Query</b></div>
       <a class="btn ghost sm no-print" href="datasets.html" id="topDatasetsLink">⇩ Get datasets</a>
     </div>
 
     <main class="content">
       <div class="section-head">
-        <span class="eyebrow">Module 2 · Interactivity</span>
-        <h1>A dashboard that responds is worth ten that don't.</h1>
-        <p class="lede">Every feature on this page turns a static picture into something a viewer can actually explore — click deeper, jump to detail, save a view, tell a story across pages. All of it is on-canvas navigation: nothing here requires leaving Power BI or writing DAX.</p>
+        <span class="eyebrow">Module 4 · 5</span>
+        <h1>M: the language behind every click</h1>
+        <p class="lede">Every Applied Step you've made is a line of M code. This page teaches you to <b>read</b> that code, <b>fix</b> it when a step breaks, and <b>write</b> it when no button does what you need. It ends with a whole query written by hand. The <a href="23-m-language-etl.html">next page</a> then applies these skills to a complete ETL pipeline.</p>
       </div>
 
-      <h2>Exploring one visual</h2>
+      <div class="callout"><b>Set-up:</b> this page continues the <code>AllOrders</code> query from <a href="42-joins-data-modelling.html">Joins &amp; Data Modelling</a> (<code>Orders</code> + <code>Orders_Feb</code> appended, duplicates removed, <b>49 rows</b>). Only have <a href="datasets/PQ_Practice_Orders.csv" download>PQ_Practice_Orders.csv</a>? Most examples still work on it; only the row counts differ.</div>
 
-      <details class="card" style="margin-bottom:10px;padding:14px 18px" open>
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Drill-down</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> Clicking deeper into the SAME <button class="term" data-term="hierarchy">hierarchy</button> on the SAME visual — Category → Sub-Category → Product, one chart, three levels.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> One chart answers "what's the total" and "what's inside that total" without building three separate charts.</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A retail category manager sees Electronics is the top category, drills in, and finds Laptops are carrying nearly all of it — Headphones barely sell.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Build a Bar or Column chart with a multi-level field well: drag Category, then Sub Category, into the same Axis well (Power BI treats this as a hierarchy automatically)</li>
-            <li>Turn on the drill icons in the visual header (the down-arrow and the double-down "expand" icon)</li>
-            <li>Click a bar, then click the single down-arrow to drill into just that category</li>
-            <li>Click the up-arrow to drill back up</li>
-          </ol>
-          <p style="font-size:.9rem;margin-top:8px"><b>Try it below</b> — this is a real, clickable mock of the mechanic, not a screenshot:</p>
-          <div class="mockreport">
-            <div class="mockreport-controls">
-              <button class="btn ghost sm" id="drillBack" style="display:none">← Back to Category</button>
-              <span id="drillCrumb" style="font-family:var(--font-mono);font-size:.78rem;color:var(--text-muted);align-self:center;padding:6px 0">Category</span>
-            </div>
-            <div class="mockgrid" id="drillBars"></div>
-          </div>
-          <p style="font-size:.83rem;color:var(--text-muted);margin-top:6px">Click a bar to drill into it. Click "Back" to drill back up — exactly the same up/down motion as the real drill icons.</p>
-          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Putting unrelated fields in the same Axis well and calling it a hierarchy — Region under Product doesn't mean anything; a hierarchy needs a genuine parent-child relationship.</div>
-          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Keep hierarchies to 2–3 levels. Beyond that, a drill-through page (below) usually communicates better than a fourth drill level.</p>
-        </div>
-      </details>
-
-      <details class="card" style="margin-bottom:10px;padding:14px 18px">
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Tooltips</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> The small popup that appears on hover over a data point, showing extra detail without permanently occupying space on the report.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> A chart can only show so many fields before it turns into clutter — a tooltip carries the "nice to know" fields without carrying their visual weight.</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A Sales-by-Region map shows just Region and Sales at a glance, but hovering a state reveals Profit Margin and Order Count too.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Drag any extra field into the Tooltip well of the Visualizations pane</li>
-            <li>For a richer tooltip, build a separate small report page sized "Tooltip" (Page Information → Tooltip toggle), then reference that page name in another visual's Tooltip well</li>
-          </ol>
-          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Keep default tooltips to 2–4 fields. Reach for a full report-page tooltip only when hover detail genuinely needs its own mini chart.</p>
-          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Relying on a tooltip to convey a number the audience needs to act on — if it's important enough to decide something, it belongs on the visual itself, not hidden behind a hover.</div>
-        </div>
-      </details>
-
-      <div class="callout" style="margin-top:14px"><b>Drill-down vs. Tooltip:</b> Drill-down changes what the chart is SHOWING (fewer, more specific bars). A tooltip changes nothing on the chart — it only reveals extra detail for the one point being hovered, then disappears.</div>
-
-      <h2 style="margin-top:30px">Jumping to another view</h2>
-      <figure>
-        <img src="images/drilldown-vs-drillthrough.svg" alt="Two rows comparing drill-down, which goes deeper on the same chart, against drill-through, which jumps to a separate detail page.">
-        <figcaption>Drill-down stays on one visual and goes deeper. Drill-through leaves the page entirely.</figcaption>
-      </figure>
-
-      <details class="card" style="margin-bottom:10px;padding:14px 18px">
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Drill-through</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> Right-clicking a data point to jump to a completely separate, filtered detail page built specifically for that context.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> Some questions need an entirely different LAYOUT to answer — not just fewer bars on the same chart, but different visuals altogether (a customer's full order history, say).</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> Right-click a customer on a Sales Overview page, choose "Drill through → Customer Detail," and land on a page built just for that one customer's order history, complaints, and lifetime value.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Build the detail page (e.g. "Customer Detail")</li>
-            <li>Drag the field it should filter by (e.g. Customer Name) into the Drill Through well in the Format pane of that page</li>
-            <li>A "Back" button appears automatically on the detail page</li>
-            <li>On the source page, right-click any data point → the drill-through page appears under "Drill through"</li>
-          </ol>
-          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Forgetting the detail page still needs its own visuals built — drill-through only handles the filtering and navigation, not the page's content.</div>
-          <p style="font-size:.85rem;margin-top:8px"><b>Try it yourself:</b> Build a one-page "Product Detail" report filtered by Product, drill through to it from a Bar Chart of Sales by Product.</p>
-        </div>
-      </details>
-
-      <details class="card" style="margin-bottom:10px;padding:14px 18px">
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Bookmarks</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> A saved snapshot of a report's current state — filters, visibility, selections, even scroll position — that a button can jump straight back to.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> It turns a single flexible page into several "views" without duplicating the page, and it's the engine behind interactive storytelling (below).</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A dashboard has two bookmarks — "This Year" and "Last Year" — each pre-filtering the same visuals to a different date range, one click apart.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Set up the report exactly how you want it captured (filters applied, visuals shown/hidden)</li>
-            <li>View → Bookmarks pane → Add</li>
-            <li>Name the bookmark clearly (e.g. "This Year")</li>
-            <li>Repeat for each state you want to save</li>
-            <li>Wire each one to a button (next lesson)</li>
-          </ol>
-          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> In the bookmark's options, uncheck "Data" if you only want it to control visibility/selection, not re-apply filters — the two behave very differently and it's a common source of confusion.</p>
-        </div>
-      </details>
-
-      <details class="card" style="margin-bottom:10px;padding:14px 18px">
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Buttons &amp; Navigation (Page and Report level)</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> Buttons are clickable shapes wired to an action — most often jumping to a bookmark or another page. Navigation is the pattern of using several buttons together as a menu.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> A viewer shouldn't need to know Power BI's page tabs exist — a button labeled "Regional Detail" is self-explanatory in a way a small tab strip isn't.</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> A left-hand strip of buttons — Overview, Sales, Customers, Products — turns a 4-page report into something that feels like a real app.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Insert → Buttons → Blank (or a built-in style)</li>
-            <li>Format the button → Action → turn On</li>
-            <li>Type: Page navigation (jump to a page) or Bookmark (jump to a saved state)</li>
-            <li>Pick the destination page or bookmark</li>
-            <li>Repeat for every destination, then duplicate the button strip onto every page for consistent navigation</li>
-          </ol>
-          <div class="callout warn" style="margin-top:10px"><b>Common mistake:</b> Hiding the native page tabs (View → Page Navigator off) before every page has its own way back — always leave one path home.</div>
-        </div>
-      </details>
-
-      <div class="callout" style="margin-top:14px"><b>Bookmark vs. Page navigation:</b> Page navigation always jumps to the same fixed page. A bookmark can jump to the SAME page in a different state (different filters, different visuals shown) — or to a different page entirely with a specific state pre-applied. A bookmark is strictly more powerful; a plain page-navigation button is simpler when state doesn't matter.</div>
-
-      <div class="callout" style="margin-top:10px"><b>Tooltip vs. Drill-through:</b> A tooltip stays on the SAME page and disappears the moment the mouse moves away — it's a glance, not a destination. Drill-through actually navigates to a different page that stays put until the viewer clicks Back.</div>
-
-      <h2 style="margin-top:30px">Putting it together</h2>
-      <details class="card" style="margin-bottom:10px;padding:14px 18px">
-        <summary style="cursor:pointer;font-weight:700;font-family:var(--font-display);font-size:1.05rem">Interactive Storytelling</summary>
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-          <p style="font-size:.9rem"><b>Concept:</b> Combining bookmarks, buttons, and the Selection pane into a guided sequence — the report walks a viewer through a specific narrative instead of leaving them to find it themselves.</p>
-          <p style="font-size:.9rem"><b>Why it matters:</b> A board presentation needs a story ("here's the problem, here's the driver, here's the recommendation"), not just a dashboard to poke at.</p>
-          <p style="font-size:.9rem;color:var(--text-muted)"><b>Real-world example:</b> Three bookmarks — "1. The Problem" (a KPI in red), "2. The Driver" (a Bar Chart appears, highlighting one region), "3. The Fix" (a target line and a written recommendation) — stepped through with Next/Back buttons during a live presentation.</p>
-          <p style="font-size:.85rem;font-weight:700;margin-bottom:4px">Steps</p>
-          <ol class="steps">
-            <li>Plan the sequence on paper first: what does the viewer see at each step, and why</li>
-            <li>Build every visual for every step on the same page (Selection pane will control what's visible when)</li>
-            <li>Create one bookmark per step, capturing which visuals are visible/hidden at that step</li>
-            <li>Add Next/Back buttons wired to the bookmarks, or group all bookmarks into a Bookmark navigator (Insert → Buttons → Bookmark navigator) for automatic step buttons</li>
-          </ol>
-          <p style="font-size:.85rem;margin-top:8px"><b>Best practice:</b> Never more than 4–5 steps — storytelling mode is for a live walkthrough, not a replacement for the dashboard someone explores on their own later.</p>
-        </div>
-      </details>
-
-      <h2 style="margin-top:30px">Exercises</h2>
-      <div class="grid grid-2">
-        <div class="card">
-          <span class="eyebrow">Exercise 1 · Drill-through</span>
-          <h3 style="margin-top:8px">Build a Customer Detail page</h3>
-          <p style="font-size:.9rem">Using the Sales dataset, build a "Customer Detail" page filtered by Customer, then right-click a bar on a Sales-by-Customer chart on a separate Overview page and drill through to it.</p>
-        </div>
-        <div class="card">
-          <span class="eyebrow">Exercise 2 · Bookmarks &amp; Buttons</span>
-          <h3 style="margin-top:8px">A "This Year / Last Year" toggle</h3>
-          <p style="font-size:.9rem">Create two bookmarks that apply different Date filters to the same page, then wire two buttons to jump between them — no page navigation, just a state change.</p>
-        </div>
+      <h2 style="margin-top:30px">Where M lives</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Place</th><th>How to open</th><th>Shows</th></tr>
+          <tr><td><b>Formula bar</b></td><td>View → tick Formula Bar</td><td>One step's expression. Edit it and press Enter to change that step</td></tr>
+          <tr><td><b>Advanced Editor</b></td><td>View → Advanced Editor (or Home → Advanced Editor)</td><td>The whole query, every step, as one block of code</td></tr>
+          <tr><td><b>Custom Column dialog</b></td><td>Add Column → Custom Column</td><td>A single expression, evaluated once per row</td></tr>
+          <tr><td><b>Blank query</b></td><td>Home → New Source → Blank Query</td><td>An empty query, used to write functions or a query from scratch</td></tr>
+        </table>
       </div>
 
-      <footer class="pagefoot"><span>Module 2 · Interactivity</span><a href="13-tables-matrix.html">Next: Tables &amp; Matrix →</a></footer>
+      <h2 style="margin-top:30px">Anatomy of a query</h2>
+      <p style="font-size:.92rem">Open <code>PQ_Practice_Orders.csv</code> fresh, trim <code>First Name</code>, and open the Advanced Editor. You'll see something like this (your file path will differ):</p>
+      <div class="codeblock"><span class="c-fn">let</span>
+    Source = <span class="c-fn">Csv.Document</span>(<span class="c-fn">File.Contents</span>(<span class="c-str">"C:\Data\PQ_Practice_Orders.csv"</span>),
+                 [Delimiter = <span class="c-str">","</span>, Columns = 14, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+    #<span class="c-str">"Promoted Headers"</span> = <span class="c-fn">Table.PromoteHeaders</span>(Source, [PromoteAllScalars = <span class="c-fn">true</span>]),
+    #<span class="c-str">"Changed Type"</span> = <span class="c-fn">Table.TransformColumnTypes</span>(#<span class="c-str">"Promoted Headers"</span>,
+                 {{<span class="c-str">"Order ID"</span>, <span class="c-fn">type text</span>}, {<span class="c-str">"Unit Price"</span>, <span class="c-fn">type number</span>}, <span class="c-com">/* …one pair per column… */</span>}),
+    #<span class="c-str">"Trimmed Text"</span> = <span class="c-fn">Table.TransformColumns</span>(#<span class="c-str">"Changed Type"</span>, {{<span class="c-str">"First Name"</span>, <span class="c-fn">Text.Trim</span>, <span class="c-fn">type text</span>}})
+<span class="c-fn">in</span>
+    #<span class="c-str">"Trimmed Text"</span></div>
+      <ol class="steps">
+        <li><b><code>let</code></b> opens a list of named steps. <b><code>in</code></b> says which step is the query's output, almost always the last one</li>
+        <li>Each step is <code>Name = expression</code>, and steps are separated by <b>commas</b>. The last step before <code>in</code> has <b>no</b> comma</li>
+        <li>Each step takes the <b>previous step's name</b> as its input. <code>#"Trimmed Text"</code> starts from <code>#"Changed Type"</code>. That chain of names <i>is</i> the Applied Steps pane</li>
+        <li><code>#"…"</code> quotes a name that contains spaces or symbols. <code>Source</code> needs no quoting; <code>#"Promoted Headers"</code> does</li>
+        <li><code>{…}</code> is a <b>list</b> and <code>[…]</code> is a <b>record</b>. <code>{{"First Name", Text.Trim, type text}}</code> is a list of one list: "for column First Name, apply Text.Trim, and the result is text"</li>
+      </ol>
+      <div class="callout"><b>Why the chain matters:</b> steps don't have to follow each other in order. Any step can reference any <i>earlier</i> step by name, and that's how you'd go back to <code>Source</code> to compare. But the UI assumes a straight chain, so keep it one when you edit by hand.</div>
 
-<script>
-/* ============= drill-down mock demo ============= */
-const DRILL_DATA = {
-  Category: [{label:'Electronics', val:80, key:'Electronics'},{label:'Apparel', val:55, key:'Apparel'},{label:'Home', val:40, key:'Home'}],
-  Electronics: [{label:'Laptop', val:90},{label:'Camera', val:60},{label:'Headphones', val:35}],
-  Apparel: [{label:'Jeans', val:50},{label:'Shirts', val:65},{label:'Footwear', val:45}],
-  Home: [{label:'Sofa', val:70},{label:'Chair', val:40},{label:'Table', val:55}],
-};
-function renderDrill(level){
-  const data = DRILL_DATA[level];
-  document.getElementById('drillCrumb').textContent = level;
-  document.getElementById('drillBack').style.display = level === 'Category' ? 'none' : 'inline-flex';
-  document.getElementById('drillBars').innerHTML = data.map(d => `
-    <div class="mocktile" ${level==='Category' ? `data-key="${d.key}" style="cursor:pointer"` : ''}>
-      <div class="mocktile-label">${d.label}</div>
-      <div class="mockbars"><div class="mockbar hi" style="height:${d.val}%"></div></div>
-    </div>`).join('');
-  if(level === 'Category'){
-    document.querySelectorAll('#drillBars .mocktile').forEach(t => t.addEventListener('click', () => renderDrill(t.dataset.key)));
-  }
-}
-document.getElementById('drillBack').addEventListener('click', () => renderDrill('Category'));
-renderDrill('Category');
-</script>
+      <h2 style="margin-top:30px">Five rules that trip up everyone</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Rule</th><th>Wrong</th><th>Right</th></tr>
+          <tr><td><b>Case-sensitive everywhere</b>: function names, column names, text comparisons</td><td><code>text.trim(…)</code> · <code>[qty]</code> · <code>[Channel] = "online"</code> misses "Online"</td><td><code>Text.Trim(…)</code> · <code>[Qty]</code> · <code>Text.Lower([Channel]) = "online"</code></td></tr>
+          <tr><td><b>Counting starts at 0</b></td><td><code>{"a","b","c"}{1}</code> is <i>not</i> "a"</td><td><code>{"a","b","c"}{0}</code> = "a" · <code>AllOrders{0}</code> is the first row</td></tr>
+          <tr><td><b><code>&lt;&gt;</code> means "not equal"</b>, and <code>=</code> is both "is" and "equals"</td><td><code>[Status] != "Cancelled"</code></td><td><code>[Status] &lt;&gt; "Cancelled"</code></td></tr>
+          <tr><td><b><code>&amp;</code> joins text</b> (and lists, and records). <code>+</code> is only for numbers</td><td><code>[First Name] + " " + [Last Name]</code></td><td><code>[First Name] &amp; " " &amp; [Last Name]</code></td></tr>
+          <tr><td><b><code>null</code> spreads:</b> any arithmetic with null gives null</td><td><code>[Qty] * [Unit Price]</code> where Qty is blank → null, silently</td><td>Decide what blank means first (see <i>Decisions</i> below)</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">Comments: <code>// to the end of the line</code> or <code>/* a block */</code>. Use them in hand-written steps. The Advanced Editor keeps them.</p>
+
+      <h2 style="margin-top:30px">Values and types</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Kind</th><th>Written as</th><th>From this dataset</th></tr>
+          <tr><td>text</td><td><code>"Online"</code></td><td><code>[Channel]</code></td></tr>
+          <tr><td>number</td><td><code>1499</code>, <code>449.5</code></td><td><code>[Unit Price]</code></td></tr>
+          <tr><td>logical</td><td><code>true</code>, <code>false</code></td><td><code>[Status] = "Completed"</code></td></tr>
+          <tr><td>null</td><td><code>null</code></td><td><code>[Qty]</code> on ORD2006, once typed</td></tr>
+          <tr><td>date</td><td><code>#date(2025, 1, 3)</code></td><td>3 January 2025, ORD2001's order date</td></tr>
+          <tr><td>list</td><td><code>{"Online", "Store"}</code></td><td><code>AllOrders[Channel]</code>, a whole column is a list</td></tr>
+          <tr><td>record</td><td><code>[Qty = 2, #"Unit Price" = 1499]</code></td><td><code>AllOrders{0}</code>, a whole row is a record</td></tr>
+          <tr><td>table</td><td>a list of records with the same fields</td><td><code>AllOrders</code> itself</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.92rem">Combine the brackets to reach anything: <code>AllOrders{0}</code> is the first row (a record), <code>AllOrders{0}[Order ID]</code> is <code>"ORD2001"</code>, and <code>AllOrders[Channel]</code> is the Channel column as a list. Try <code>= List.Distinct(AllOrders[Channel])</code> in a blank query: it returns the <b>7</b> spellings of two channels, the same to-do list the column profile showed on <a href="41-power-query-fundamentals.html">How Power Query Works</a>, now in code.</p>
+
+      <h2 style="margin-top:30px"><code>each</code> and <code>_</code>: the shorthand in every generated step</h2>
+      <p style="font-size:.92rem"><code>each</code> means "a small function, applied to each item". <code>_</code> is the item. What the item is depends on the function that receives it:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Step</th><th>What <code>_</code> is</th><th>Example</th></tr>
+          <tr><td><code>Table.SelectRows</code>, <code>Table.AddColumn</code></td><td>The whole <b>row</b> (a record). <code>[Qty]</code> is short for <code>_[Qty]</code></td><td><code>Table.SelectRows(AllOrders, each [Qty] &gt; 2)</code></td></tr>
+          <tr><td><code>Table.TransformColumns</code></td><td>One <b>cell's value</b></td><td><code>{"Channel", each Text.Proper(_)}</code></td></tr>
+          <tr><td><code>Table.Group</code> aggregations</td><td>The <b>sub-table</b> of rows in the group</td><td><code>each Table.RowCount(_)</code></td></tr>
+        </table>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)"><code>each [Qty] &gt; 2</code> is exactly the same as <code>(_) =&gt; _[Qty] &gt; 2</code>, a function with one parameter named <code>_</code>. You'll write the long form when a function needs more than one input (see <i>Custom functions</i> below).</p>
+
+      <h2 style="margin-top:30px">Decisions: <code>if</code>, <code>try</code>, and blanks</h2>
+      <div class="codeblock"><span class="c-com">// if … then … else — the else is NOT optional in M</span>
+= <span class="c-fn">if</span> [Discount %] &gt;= 10 <span class="c-fn">then</span> <span class="c-str">"Promo"</span> <span class="c-fn">else</span> <span class="c-str">"Full price"</span>
+
+<span class="c-com">// chain conditions with else if</span>
+= <span class="c-fn">if</span> [Unit Price] &gt;= 2000 <span class="c-fn">then</span> <span class="c-str">"Premium"</span> <span class="c-fn">else if</span> [Unit Price] &gt;= 800 <span class="c-fn">then</span> <span class="c-str">"Mid"</span> <span class="c-fn">else</span> <span class="c-str">"Entry"</span>
+
+<span class="c-com">// try … otherwise — catch a conversion that fails ("N/A" on ORD2011)</span>
+= <span class="c-fn">try</span> <span class="c-fn">Number.From</span>([Qty]) <span class="c-fn">otherwise</span> <span class="c-fn">null</span>
+
+<span class="c-com">// ?? — "use the right side if the left side is null" (ORD2017's blank Discount %, once the column is typed)</span>
+= [Discount %] ?? 0</div>
+      <div class="callout warn"><b><code>try … otherwise</code> hides problems as easily as it solves them.</b> Use it where you've decided what a failure means ("N/A" quantity = unknown = null). Don't wrap a whole step in it to make a red error go away. A silent null in a revenue column is worse than a visible error.</div>
+
+      <h2 style="margin-top:30px">The function library you'll actually use</h2>
+      <p style="font-size:.92rem">M has hundreds of functions, named <code>Family.Action</code>. These cover almost everything in this course. Each example uses a real value from the practice files:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Function</th><th>Example</th><th>Result</th></tr>
+          <tr><td colspan="3" style="background:var(--surface-2);font-family:var(--font-mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em">Text</td></tr>
+          <tr><td><code>Text.Trim</code></td><td><code>Text.Trim("  Swati")</code></td><td><code>"Swati"</code></td></tr>
+          <tr><td><code>Text.Proper</code> / <code>Upper</code> / <code>Lower</code></td><td><code>Text.Proper("ONLINE")</code></td><td><code>"Online"</code></td></tr>
+          <tr><td><code>Text.Replace</code></td><td><code>Text.Replace("₹1,158", "₹", "")</code></td><td><code>"1,158"</code></td></tr>
+          <tr><td><code>Text.Start</code> / <code>Text.End</code></td><td><code>Text.End("SKU-1001-RED", 3)</code></td><td><code>"RED"</code></td></tr>
+          <tr><td><code>Text.BeforeDelimiter</code> / <code>AfterDelimiter</code></td><td><code>Text.BeforeDelimiter("Bangalore, Karnataka", ",")</code></td><td><code>"Bangalore"</code></td></tr>
+          <tr><td><code>Text.Contains</code></td><td><code>Text.Contains("Pune, Maharashtra", "Maharashtra")</code></td><td><code>true</code></td></tr>
+          <tr><td colspan="3" style="background:var(--surface-2);font-family:var(--font-mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em">Number &amp; Date</td></tr>
+          <tr><td><code>Number.From</code></td><td><code>Number.From("449.50")</code></td><td><code>449.5</code> (uses your locale's decimal separator)</td></tr>
+          <tr><td><code>Number.Round</code></td><td><code>Number.Round(2549.15, 0)</code></td><td><code>2549</code></td></tr>
+          <tr><td><code>Date.FromText</code></td><td><code>Date.FromText("03-01-2025", [Format = "dd-MM-yyyy"])</code></td><td>3 January 2025</td></tr>
+          <tr><td><code>Date.Year</code> / <code>Date.MonthName</code></td><td><code>Date.MonthName(#date(2025, 1, 3))</code></td><td><code>"January"</code></td></tr>
+          <tr><td colspan="3" style="background:var(--surface-2);font-family:var(--font-mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em">List</td></tr>
+          <tr><td><code>List.Distinct</code></td><td><code>List.Distinct(AllOrders[Channel])</code></td><td>7 values</td></tr>
+          <tr><td><code>List.Sum</code> / <code>List.Count</code></td><td><code>List.Sum(Returns[Refund Amount])</code></td><td><code>10191</code></td></tr>
+          <tr><td><code>List.Contains</code></td><td><code>List.Contains({"Online", "Store"}, "Onlin")</code></td><td><code>false</code></td></tr>
+          <tr><td colspan="3" style="background:var(--surface-2);font-family:var(--font-mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em">Table (these are the Applied Steps)</td></tr>
+          <tr><td><code>Table.SelectRows</code></td><td>Filter Rows</td><td><code>Table.SelectRows(t, each [Status] = "Completed")</code></td></tr>
+          <tr><td><code>Table.AddColumn</code></td><td>Custom Column</td><td><code>Table.AddColumn(t, "Line Total", each [Qty] * [Unit Price], type number)</code></td></tr>
+          <tr><td><code>Table.TransformColumns</code></td><td>Format / Trim / Clean</td><td><code>Table.TransformColumns(t, {{"Channel", Text.Proper, type text}})</code></td></tr>
+          <tr><td><code>Table.ReplaceValue</code></td><td>Replace Values</td><td><code>Table.ReplaceValue(t, "Onlin", "Online", Replacer.ReplaceValue, {"Channel"})</code></td></tr>
+          <tr><td><code>Table.RenameColumns</code> / <code>RemoveColumns</code></td><td>Rename / Remove</td><td><code>Table.RenameColumns(t, {{"Qty", "Quantity"}})</code></td></tr>
+          <tr><td><code>Table.Distinct</code></td><td>Remove Duplicates</td><td><code>Table.Distinct(t)</code>, or <code>Table.Distinct(t, {"Order ID"})</code> for one key</td></tr>
+          <tr><td><code>Table.Group</code></td><td>Group By</td><td>See the hand-written query below</td></tr>
+          <tr><td><code>Table.Combine</code></td><td>Append</td><td><code>Table.Combine({Orders, Orders_Feb})</code></td></tr>
+          <tr><td><code>Table.NestedJoin</code> + <code>ExpandTableColumn</code></td><td>Merge + expand</td><td>See next section</td></tr>
+          <tr><td><code>Table.UnpivotOtherColumns</code></td><td>Unpivot Other Columns</td><td>See next section</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">Forgot a function's arguments? Type its name alone as a step (<code>= Text.BeforeDelimiter</code>, no brackets) and Power Query shows its documentation, with a form to try it.</p>
+      <div class="callout warn"><b><code>Replacer.ReplaceValue</code> vs <code>Replacer.ReplaceText</code>:</b> the first replaces a cell only if the <i>whole</i> value matches. The second replaces text <i>inside</i> a value. Replacing "Onlin" with "Online" using ReplaceText would also turn every correct "Online" into "Onlinee". The UI picks ReplaceValue when you tick <i>Match entire cell contents</i>.</div>
+
+      <h2 style="margin-top:30px">Reading what the UI wrote</h2>
+      <p style="font-size:.92rem"><b>Merge</b> (from <a href="42-joins-data-modelling.html">Joins &amp; Data Modelling</a>) is two steps: the join, then the expand.</p>
+      <div class="codeblock">#<span class="c-str">"Merged Queries"</span> = <span class="c-fn">Table.NestedJoin</span>(AllOrders, {<span class="c-str">"Order ID"</span>}, Returns, {<span class="c-str">"Order ID"</span>}, <span class="c-str">"Returns"</span>, <span class="c-fn">JoinKind.LeftOuter</span>),
+#<span class="c-str">"Expanded Returns"</span> = <span class="c-fn">Table.ExpandTableColumn</span>(#<span class="c-str">"Merged Queries"</span>, <span class="c-str">"Returns"</span>,
+                          {<span class="c-str">"Return Reason"</span>, <span class="c-str">"Refund Amount"</span>}, {<span class="c-str">"Return Reason"</span>, <span class="c-str">"Refund Amount"</span>})</div>
+      <p style="font-size:.9rem">Arguments, in order: left table, left key(s) as a list, right table, right key(s), the name of the new nested column, the join kind. Changing join kind is a one-word edit: <code>JoinKind.Inner</code>, <code>LeftAnti</code>, <code>RightAnti</code>, <code>RightOuter</code> or <code>FullOuter</code>. Swap it in the formula bar and watch the row count move through the numbers from the joins page.</p>
+      <p style="font-size:.92rem"><b>Unpivot</b> on <a href="datasets/PQ_Practice_Wide.csv" download>PQ_Practice_Wide.csv</a> (5 regions × 4 month columns):</p>
+      <div class="codeblock">#<span class="c-str">"Unpivoted"</span> = <span class="c-fn">Table.UnpivotOtherColumns</span>(#<span class="c-str">"Changed Type"</span>, {<span class="c-str">"Region"</span>}, <span class="c-str">"Attribute"</span>, <span class="c-str">"Value"</span>),
+#<span class="c-str">"Renamed"</span>   = <span class="c-fn">Table.RenameColumns</span>(#<span class="c-str">"Unpivoted"</span>, {{<span class="c-str">"Attribute"</span>, <span class="c-str">"Month"</span>}, {<span class="c-str">"Value"</span>, <span class="c-str">"Sales"</span>}})</div>
+      <p style="font-size:.9rem">5 rows × 4 months become <b>20 rows</b> of Region / Month / Sales. The second argument lists the columns to <i>keep</i>, which is why "Unpivot <b>Other</b> Columns" is the safe choice: when a May column arrives next month, it's unpivoted automatically, because it isn't in the keep list.</p>
+
+      <h2 style="margin-top:30px">Write a whole query by hand</h2>
+      <p style="font-size:.92rem"><b>The question:</b> completed revenue by channel, net of discount, from <code>AllOrders</code>, with every data problem handled in code. Home → New Source → <b>Blank Query</b> → Advanced Editor → paste → Done → rename the query <code>ChannelRevenue</code>.</p>
+      <div class="codeblock"><span class="c-fn">let</span>
+    Source = AllOrders,
+
+    <span class="c-com">// "online", "ONLINE", " Store" → "Online", "Store"; then the one real typo</span>
+    CleanChannel = <span class="c-fn">Table.TransformColumns</span>(Source,
+        {{<span class="c-str">"Channel"</span>, <span class="c-fn">each</span> <span class="c-fn">Text.Proper</span>(<span class="c-fn">Text.Trim</span>(_)), <span class="c-fn">type text</span>}}),
+    FixTypo = <span class="c-fn">Table.ReplaceValue</span>(CleanChannel, <span class="c-str">"Onlin"</span>, <span class="c-str">"Online"</span>, <span class="c-fn">Replacer.ReplaceValue</span>, {<span class="c-str">"Channel"</span>}),
+
+    <span class="c-com">// Qty: "N/A" and blank → null (unknown). Discount %: blank → 0 (no discount)</span>
+    Typed = <span class="c-fn">Table.TransformColumns</span>(FixTypo, {
+        {<span class="c-str">"Qty"</span>,        <span class="c-fn">each</span> <span class="c-fn">try</span> <span class="c-fn">Number.From</span>(_) <span class="c-fn">otherwise</span> <span class="c-fn">null</span>, <span class="c-fn">type nullable number</span>},
+        {<span class="c-str">"Unit Price"</span>, <span class="c-fn">Number.From</span>, <span class="c-fn">type number</span>},
+        {<span class="c-str">"Discount %"</span>, <span class="c-fn">each</span> (<span class="c-fn">try</span> <span class="c-fn">Number.From</span>(_) <span class="c-fn">otherwise</span> <span class="c-fn">null</span>) ?? 0, <span class="c-fn">type number</span>}}),
+
+    <span class="c-com">// revenue only counts completed orders with a known quantity</span>
+    Completed = <span class="c-fn">Table.SelectRows</span>(Typed, <span class="c-fn">each</span> [Status] = <span class="c-str">"Completed"</span> <span class="c-fn">and</span> [Qty] &lt;&gt; <span class="c-fn">null</span>),
+
+    WithTotal = <span class="c-fn">Table.AddColumn</span>(Completed, <span class="c-str">"Line Total"</span>,
+        <span class="c-fn">each</span> [Qty] * [Unit Price] * (1 - [Discount %] / 100), <span class="c-fn">type number</span>),
+
+    ByChannel = <span class="c-fn">Table.Group</span>(WithTotal, {<span class="c-str">"Channel"</span>}, {
+        {<span class="c-str">"Orders"</span>,  <span class="c-fn">each</span> <span class="c-fn">Table.RowCount</span>(_), <span class="c-fn">Int64.Type</span>},
+        {<span class="c-str">"Revenue"</span>, <span class="c-fn">each</span> <span class="c-fn">Number.Round</span>(<span class="c-fn">List.Sum</span>([Line Total]), 2), <span class="c-fn">type number</span>}})
+<span class="c-fn">in</span>
+    ByChannel</div>
+      <div class="table-wrap" style="max-width:420px">
+        <table>
+          <tr><th>Channel</th><th>Orders</th><th>Revenue (₹)</th></tr>
+          <tr><td>Online</td><td class="num">26</td><td class="num">53,471.38</td></tr>
+          <tr><td>Store</td><td class="num">18</td><td class="num">28,604.00</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.9rem"><b>Check the arithmetic, not just the output:</b> 49 rows − 3 cancelled (ORD2005, ORD2016, ORD2042) − 2 unknown quantities (ORD2006, ORD2011) = <b>44 orders</b> = 26 + 18. If your total isn't 44, click each step in turn and find where the count changes unexpectedly. Checking row counts step by step like this is the most useful debugging habit in Power Query.</p>
+      <div class="callout"><b>Why hand-write it at all?</b> Every step here <i>could</i> be clicked, except that the UI can't express "blank discount means 0, but blank quantity means unknown" in one pass. Writing it makes each decision visible in a comment, where the next analyst can read it and challenge it.</div>
+
+      <h2 style="margin-top:30px">Custom functions and parameters</h2>
+      <p style="font-size:.92rem">A <b>function</b> is a query that takes inputs. Home → New Source → Blank Query → Advanced Editor:</p>
+      <div class="codeblock">(qty <span class="c-fn">as</span> <span class="c-fn">nullable</span> number, unitPrice <span class="c-fn">as</span> number, discountPct <span class="c-fn">as</span> <span class="c-fn">nullable</span> number) <span class="c-fn">as</span> <span class="c-fn">nullable</span> number =&gt;
+    qty * unitPrice * (1 - (discountPct ?? 0) / 100)</div>
+      <p style="font-size:.9rem">Rename it <code>fnLineTotal</code>. Use it from any query: <b>Add Column → Invoke Custom Function</b>, or a custom column <code>= fnLineTotal([Qty], [Unit Price], [Discount %])</code>. The discount rule is now defined once. Change it there, and every query using it follows. For a function with real branching logic, see <code>fnParseOrderDate</code> on the <a href="23-m-language-etl.html">next page</a>.</p>
+      <p style="font-size:.92rem">A <b>parameter</b> is a named value every query can use. The classic use is the data folder, so moving the files doesn't mean editing every Source step:</p>
+      <ol class="steps">
+        <li>Home → <b>Manage Parameters</b> → New → Name <code>DataFolder</code>, Type <b>Text</b>, Current Value <code>C:\Data\</code></li>
+        <li>In each query's Source step, replace the hard-coded path: <code>File.Contents(DataFolder &amp; "PQ_Practice_Orders.csv")</code></li>
+        <li>Files moved? Change <code>DataFolder</code> once, then refresh</li>
+      </ol>
+
+      <h2 style="margin-top:30px">Reading error messages</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Message (shortened)</th><th>What it really means</th><th>Fix</th></tr>
+          <tr><td><code>Expression.Error: The name 'Text.trim' wasn't recognized</code></td><td>A misspelled or wrong-case function name</td><td><code>Text.Trim</code>. Every word in a function name is capitalized</td></tr>
+          <tr><td><code>Expression.Error: The column 'Qty' of the table wasn't found</code></td><td>A step refers to a column that was renamed or removed earlier</td><td>Click the failing step's gear, or edit its formula to use the current name</td></tr>
+          <tr><td><code>DataFormat.Error: We couldn't convert to Number. Details: N/A</code></td><td>A type conversion hit a value it can't parse</td><td>Clean or replace the value before the type step, or use <code>try … otherwise</code> deliberately</td></tr>
+          <tr><td><code>Expression.SyntaxError: Token Comma expected</code> / <code>Token Eof expected</code></td><td>A missing comma between steps, or an extra one before <code>in</code></td><td>Check the line the editor highlights <i>and the line above it</i></td></tr>
+          <tr><td><code>Expression.Error: We cannot convert the value null to type Logical</code></td><td>An <code>if</code> or filter tested a null</td><td>Handle null first: <code>if [Qty] = null then … else …</code></td></tr>
+          <tr><td><code>Formula.Firewall: Query '…' references other queries or steps, so it may not directly access a data source</code></td><td>One query both reads a source <i>and</i> combines another query's data, and privacy levels forbid mixing them</td><td>Move the source access into its own query and reference it, or set both sources' privacy levels (File → Options and settings → Data source settings)</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:30px">Practice: read, write, fix</h2>
+      <p style="font-size:.9rem">All on <code>AllOrders</code> unless noted. Try each one before opening the solution.</p>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">1 · Custom column: the state from Ship City ("Bangalore, Karnataka" → "Karnataka")</summary>
+        <div class="codeblock">= <span class="c-fn">Text.Trim</span>(<span class="c-fn">Text.AfterDelimiter</span>([Ship City], <span class="c-str">","</span>))</div>
+        <p style="font-size:.88rem">7 distinct states. The <code>Text.Trim</code> removes the space after the comma. Splitting on <code>", "</code> (comma + space) instead also works, but breaks as soon as one row is typed without the space.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">2 · Custom column: the color code from Product Code ("SKU-1001-RED" → "RED")</summary>
+        <div class="codeblock">= <span class="c-fn">Text.End</span>([Product Code], 3)
+<span class="c-com">// sturdier if codes ever get longer colors: text after the 2nd hyphen (index 1 = second occurrence)</span>
+= <span class="c-fn">Text.AfterDelimiter</span>([Product Code], <span class="c-str">"-"</span>, 1)</div></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">3 · In ChannelRevenue's WithTotal step: keep only Online orders worth more than ₹2,000. How many?</summary>
+        <div class="codeblock">BigOnline = <span class="c-fn">Table.SelectRows</span>(WithTotal, <span class="c-fn">each</span> [Channel] = <span class="c-str">"Online"</span> <span class="c-fn">and</span> [Line Total] &gt; 2000)</div>
+        <p style="font-size:.88rem"><b>12 rows.</b> Largest: ORD2021 at ₹5,396.40 (4 × ₹1,499 less 10%). Remember to change <code>in</code> to <code>BigOnline</code>, or add the step before <code>ByChannel</code> and point ByChannel at it.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">4 · Add a "Pricing" column: "Promo" when Discount % is 10 or more, else "Full price". How many of the 44 completed orders are Promo?</summary>
+        <div class="codeblock">= <span class="c-fn">if</span> [Discount %] &gt;= 10 <span class="c-fn">then</span> <span class="c-str">"Promo"</span> <span class="c-fn">else</span> <span class="c-str">"Full price"</span></div>
+        <p style="font-size:.88rem"><b>17 Promo.</b> Add it after <code>Typed</code>, where Discount % is a number and blanks are already 0. Added earlier, the column may still hold text or a null, and the comparison errors.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">5 · This query won't run. Find all three bugs.</summary>
+        <div class="codeblock"><span class="c-fn">let</span>
+    Source = AllOrders,
+    Trimmed = <span class="c-fn">Table.TransformColumns</span>(Source, {{<span class="c-str">"First Name"</span>, <span class="c-fn">text.trim</span>}})
+    Online = <span class="c-fn">Table.SelectRows</span>(Trimmed, <span class="c-fn">each</span> [Channel] = <span class="c-str">"Online"</span>),
+<span class="c-fn">in</span>
+    Onlin</div>
+        <p style="font-size:.88rem">(1) <code>text.trim</code> → <code>Text.Trim</code> (case). (2) The <code>Trimmed</code> line is missing its trailing comma, and the <code>Online</code> line has one it mustn't have before <code>in</code>. (3) <code>in Onlin</code> names a step that doesn't exist → <code>in Online</code>. Bonus: even fixed, it returns 24 rows, yet 28 of the 49 orders were placed online. Where are the other 4? (2 × "online", 1 × "ONLINE", 1 × "Onlin": the filter is case-sensitive and exact, so clean Channel before filtering on it.)</p></details>
+
+      <h2 style="margin-top:30px">Where to go next</h2>
+      <ul style="font-size:.92rem">
+        <li><a href="23-m-language-etl.html">M Language &amp; End-to-End ETL</a>: all of this, applied to one 100-row messy file, including a branching date-parsing function</li>
+        <li><a href="https://learn.microsoft.com/en-us/powerquery-m/" target="_blank" rel="noopener">Power Query M reference (Microsoft Learn)</a>: every function, with examples. Search by <code>Family.Action</code> name</li>
+      </ul>
+
+      <footer class="pagefoot"><span>Module 4 · M Query</span><a href="23-m-language-etl.html">Next: M Language &amp; End-to-End ETL →</a></footer>
     </main>
   </div>
 </div>

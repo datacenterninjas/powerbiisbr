@@ -42,7 +42,7 @@ tools/
   build.mjs                 stitches header + fragment + footer → root-level output file
 datasets/                   real downloadable CSVs (Sales/HR/Retail/Banking/Hospital, clean+dirty pairs)
 images/                     hand-built inline-style SVG diagrams referenced by <figure><img> in pages
-<41 root-level .html files> GENERATED OUTPUT — index.html, 01-architecture.html, 05-visualizations.html, etc.
+<47 root-level .html files> GENERATED OUTPUT — index.html, 01-architecture.html, 05-visualizations.html, etc.
 search-index.json           GENERATED OUTPUT — build-time search index, see "Client-side search" below
 README.md                   human-facing contributor guide (how to add a page, editing workflow)
 PROJECT.md                  this file — LLM-facing project map + changelog
@@ -57,7 +57,7 @@ then rebuild:
 node tools/build.mjs
 ```
 
-This regenerates **all 41 pages** every run (it's cheap and idempotent — no
+This regenerates **all 47 pages** every run (it's cheap and idempotent — no
 incremental build). A `.gitattributes` (`* text=auto eol=lf`, added
 2026-08-15) forces LF checkouts repo-wide, so a rebuild of an untouched page
 now produces a byte-identical file — **the old "revert line-ending-only
@@ -174,9 +174,21 @@ Full authoritative list is `src/pages.json`. Summary by nav group:
   entry for the full design). Deliberately excluded at the agreed ceiling:
   `VAR`/`RETURN`, `RANKX`, calculation groups, `USERELATIONSHIP`, and
   performance tuning — each gets a one-line pointer, not a lesson.
-- **Module 4 — Power Query Editor**: Power Query Editor → **Dirty → Clean
+- **Module 4 — Power Query Editor**: **How Power Query Works**
+  (`41-power-query-fundamentals.html`, added 2026-09-29 — concepts page:
+  where PQ sits, editor anatomy, Applied Steps as a replayed recipe, the
+  DD-MM-YYYY locale trap, column profiling, Duplicate vs Reference, query
+  folding) → Power Query Editor → **Dirty → Clean
   Walkthrough** (`31-power-query-walkthrough.html` — one file,
-  `Banking_Dirty.csv`, cleaned completely end to end) → **M Language &
+  `Banking_Dirty.csv`, cleaned completely end to end) → **Joins & Data
+  Modelling** (`42-joins-data-modelling.html`, added 2026-09-29 — all six
+  join kinds with verified row counts, then star schema / relationships /
+  cardinality / filter direction on AdventureWorksDW; this is the
+  previously-deferred "Module 09" material, folded into Module 4 at the
+  maintainer's request) → **M Query** (`43-m-query.html`, added 2026-09-29 —
+  the language itself: let/in, values &amp; types, `each`/`_`, `try`/`??`,
+  function library, a whole query hand-written, custom functions,
+  parameters, error messages, 5 exercises) → **M Language &
   End-to-End ETL** (no longer a placeholder as of 2026-08-15 — a hand-written
   M custom function parsing 3 mixed date formats via `try...otherwise`, plus
   a worked Left Anti join, both new content) → **KPIs & Single-Page
@@ -295,6 +307,21 @@ your system context, not a guess.
 ---
 
 ## Changelog
+
+### 2026-09-29 — Module 4: three new pages (How Power Query Works, Joins & Data Modelling, M Query), three diagrams, site-wide code-block fix
+- **Why:** maintainer asked, after the DAX reference update, for "a topic about Power Query", then "joins and data modelling", then "M query." Audit of Module 4 found the existing pages were technique-first (25 cleaning lessons, one walkthrough, one ETL pipeline) with no page on Power Query's concepts, only a join-kinds table with no worked examples, no data-modelling content at all (NEXT-ITERATION.md's deferred "Module 09"), and M taught only in passing. Built three new pages rather than stretching existing ones.
+- **New pages, placed in teaching order** (`pages.json` nums renumbered 1–7, eyebrows updated, footer "Next" chain rewired: Module 3 Assignment → 41 → 04 → 31 → 42 → 43 → 23 → 24): `41-power-query-fundamentals.html` (concepts, placed first), `42-joins-data-modelling.html`, `43-m-query.html` (placed *before* 23 so 23 applies it, and so 23 → 24's shared `FoodDelivery` table continuity is unbroken). 23's lede and join section now point to 42/43 instead of duplicating them.
+- **Every number is verified against the CSVs with a Python re-implementation of the same logic**, not estimated: join row counts on PQ_Practice_Orders × Returns (Left Outer 35, Inner 8, Left Anti 27, Right Outer 10, Right Anti 2, Full Outer 37 — the 2 unmatched returns ORD2036/ORD2044 live in the Feb file, used as a "Right Anti as data-quality check" lesson); Append 50 → dedupe 49; the 49 → 59 row explosion from an uncleaned Products lookup (SKU-1004-BLK as "Electronics"/"electronics"); en-US misparse of the DD-MM-YYYY dates (12 silently flipped, 20 error, 3 odd formats); Channel profile 7 distinct / 4 unique; the hand-written M query's result (Online 26 orders ₹53,471.38, Store 18 ₹28,604.00) and all exercise answers.
+- **New diagrams** (`images/`, existing SVG conventions): `power-query-pipeline.svg`, `join-kinds.svg` (six Venn panels with the real row counts), `adventureworks-star-schema.svg` (fact, dimensions, 1/* labels, active vs inactive DimDate relationships, snowflake branches).
+- **Site-wide fix:** `.codeblock` in `header.html` had no `white-space:pre`, so every multi-line code sample on the site (e.g. 23's `fnParseOrderDate`, DAX Basics' `Total Margin`, the Pattern Library/Practice solutions) rendered collapsed onto one line. Added it; checked no codeblock has leading/trailing whitespace that would now render as blank lines.
+- Also: 3 glossary terms (`appliedsteps`, `queryfolding`, `mergequery`) with labels in `build.mjs`; 9 quiz questions (74 total, two new sections "Joins & Data Modelling" and "M Query"); `datasets.html` Module 4 section lists the new pages. Rebuilt (47 pages, link check green); headless-Chromium check of new and touched pages: no JS errors, no broken images, 0px page overflow at 1280/390. `quiz.html` overflows by 37px at 390, unchanged from before this change — not investigated here.
+
+### 2026-09-29 — DAX Formula Reference now carries every DAX formula taught on the site
+- **Why:** maintainer asked to "update all DAX formulas to the page." Audited every DAX formula across `src/pages/` (lesson codeblocks, the Pattern Library and DAX Practice JS data arrays, the KPIs dashboard, the Cheat Sheet, QA & Scenarios, Conditional Formatting) against what `dax-reference.html` already showed.
+- **Added function cards** for everything taught but missing: `AVERAGEX`, `COUNT`, `DIVIDE` (used by every ratio yet never given its own card), `SELECTEDVALUE`, an `IF`-against-a-measure status flag, `ALLSELECTED`, `COUNTROWS + FILTER`, a `DATESINPERIOD` table row, rolling 3-month total *and* average (the Time Intelligence page teaches the CALCULATE total; the Pattern Library/Practice teach the AVERAGEX average — both shown, labeled), and `DATEDIFF`.
+- **New section 10, "Every Measure in the Course":** one table of all 42 named measures on the site, grouped by model (AdventureWorksDW core / time intelligence / CALCULATE &amp; context, FoodDelivery dashboard, practice CSVs &amp; what-if), each with the exact formula as taught and links to the teaching pages. Where two pages use different thresholds for the same measure name (Premium Product Sales: 1,000 on the CALCULATE page vs 50,000 in DAX Practice), the lesson page's version is listed.
+- **Fixed a pre-existing layout bug:** the page overflowed horizontally at every width (168px at 1280, 316px at 390) because `white-space:pre` code blocks set the min-content width of `1fr` grid tracks. Grids now use `minmax(0,1fr)` and cards `min-width:0`; code scrolls inside its own block. Verified 0px page overflow in headless Chromium at 1280 (light) and 390 (dark).
+- Rebuilt via `node tools/build.mjs` (44 pages, link check green).
 
 ### 2026-08-15 — Added DAX Formula Reference (40-dax-reference.html), integrating a Claude.ai Artifact the maintainer shared
 - **Why:** maintainer said "Module 3 work in detail" and shared a link to a Claude.ai Artifact (a standalone "DAX Formula Reference" one-pager they liked) with "integrate it." Read the artifact's full saved HTML rather than just its head/preview, then decided how much to port faithfully vs. adapt.

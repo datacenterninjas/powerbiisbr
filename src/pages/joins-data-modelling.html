@@ -1,0 +1,181 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 4 · 4</span>
+        <h1>Joins combine tables. Relationships connect them.</h1>
+        <p class="lede">Real analysis almost never lives in one table. There are two ways to bring tables together in Power BI: <b>merge</b> them into one table in Power Query, or keep them separate and <b>relate</b> them in the data model. This page covers both, with row counts you can check yourself, and ends with the star schema that AdventureWorksDW has used under every lesson so far.</p>
+      </div>
+
+      <div class="callout"><b>Files for this page:</b> <a href="datasets/PQ_Practice_Orders.csv" download>PQ_Practice_Orders.csv</a> (35 rows), <a href="datasets/PQ_Practice_Orders_Feb.csv" download>PQ_Practice_Orders_Feb.csv</a> (15 rows), <a href="datasets/PQ_Practice_Returns.csv" download>PQ_Practice_Returns.csv</a> (10 rows). You met them in the <a href="04-power-query.html">Merge and Append lessons</a>. Load all three with <b>Transform Data</b> and name the queries <code>Orders</code>, <code>Orders_Feb</code> and <code>Returns</code>. Part 2 also uses AdventureWorksDW.</div>
+
+      <h2 style="margin-top:30px">Merge or relate? Decide first</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th></th><th>Merge (Power Query)</th><th>Relationship (Model view)</th></tr>
+          <tr><td><b>What happens</b></td><td>Columns from table B are physically copied into table A. One table comes out</td><td>Both tables stay as they are, and a line between them lets filters flow from one to the other</td></tr>
+          <tr><td><b>Best for</b></td><td>Lookups that <i>belong</i> on the row: return reason on an order, category name on a product (a dimension-to-dimension lookup)</td><td>A fact table to its dimensions: orders to products, sales to dates, sales to customers</td></tr>
+          <tr><td><b>Cost</b></td><td>Repeats B's values on every matching row of A, so a big table gets bigger</td><td>Nothing is copied. The dimension is stored once</td></tr>
+          <tr><td><b>Rule of thumb</b></td><td colspan="2">If it's <b>1:1</b> or it's a dimension borrowing from another dimension, <b>merge</b>. If a dimension describes many fact rows (<b>1:many</b>), <b>relate</b>.</td></tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:34px">Part 1 · Joins in Power Query</h2>
+
+      <h3 style="margin-top:20px">Append adds rows. Merge adds columns.</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <b>Append</b> <span class="pill">Home → Append Queries</span>
+          <p style="font-size:.88rem;margin-top:8px">Stacks tables with the <b>same columns</b> on top of each other. <code>Orders</code> (35) + <code>Orders_Feb</code> (15) = <b>50 rows</b>, same 14 columns. Columns are matched by <b>name</b>, not position: a column called <code>Qty</code> in one file and <code>Quantity</code> in the other becomes two half-empty columns. Rename first.</p>
+        </div>
+        <div class="card">
+          <b>Merge</b> <span class="pill">Home → Merge Queries</span>
+          <p style="font-size:.88rem;margin-top:8px">A <button class="term" data-term="mergequery">merge</button> matches rows on a <b>key column</b> (here <code>Order ID</code>) and brings in the other table's columns. The row count depends on the <b>join kind</b>, and choosing it is the whole skill.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:24px">The six join kinds, with real row counts</h3>
+      <figure>
+        <img src="images/join-kinds.svg" alt="The six join kinds shown as overlapping circles for Orders (35 rows) and Returns (10 rows) matched on Order ID. Left Outer keeps 35 rows, Right Outer 10, Full Outer 37, Inner 8, Left Anti 27, Right Anti 2.">
+        <figcaption>First table = <code>Orders</code> (35 rows), second table = <code>Returns</code> (10 rows), matched on <code>Order ID</code>. The shaded area is what the result keeps.</figcaption>
+      </figure>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Join kind</th><th>Rows</th><th>The business question it answers</th></tr>
+          <tr><td><b>Left Outer</b> (the default)</td><td class="num">35</td><td>"Show every order, with return details where there are any." 8 rows get a reason, 27 get <code>null</code></td></tr>
+          <tr><td><b>Inner</b></td><td class="num">8</td><td>"Only the orders that came back." Good for refund analysis</td></tr>
+          <tr><td><b>Left Anti</b></td><td class="num">27</td><td>"Orders that were never returned." Worked on the <a href="23-m-language-etl.html">M Language page</a></td></tr>
+          <tr><td><b>Right Outer</b></td><td class="num">10</td><td>"Every return, with order details where they exist"</td></tr>
+          <tr><td><b>Right Anti</b></td><td class="num">2</td><td>"Returns we <i>can't match</i> to any order." A data-quality alarm, worked below</td></tr>
+          <tr><td><b>Full Outer</b></td><td class="num">37</td><td>"Everything from both sides." 35 orders + the 2 unmatched returns</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-muted)">Why 35 and not 34? <code>Orders</code> still contains the duplicated ORD2012 row. A join keeps whatever rows you give it, duplicates included, so clean before you merge.</p>
+
+      <h3 style="margin-top:24px">Worked example: a Right Anti join as a data-quality check</h3>
+      <p style="font-size:.92rem">Question: <i>does every return have an order behind it?</i> Refunds with no order are an audit problem, so a model shouldn't hide them.</p>
+      <div class="clickpath">
+        <span class="seg">Select Returns</span><span class="arrow">→</span><span class="seg">Home → Merge Queries → Merge Queries as New</span><span class="arrow">→</span><span class="seg">Top: Orders · Order ID</span><span class="arrow">→</span><span class="seg">Bottom: Returns · Order ID</span><span class="arrow">→</span><span class="seg">Join Kind: Right Anti</span>
+      </div>
+      <p style="font-size:.9rem">Result: <b>2 rows</b>, <code>ORD2036</code> (Defective, ₹899) and <code>ORD2044</code> (Wrong item shipped, ₹299). The Merge dialog's match count at the bottom hints at it before you click OK: only 8 of the 10 returns find a match.</p>
+      <p style="font-size:.9rem">The two orders aren't missing. They're in <code>Orders_Feb</code>. The Returns export covers both months, but we only joined it to one. The fix is to combine the order files first:</p>
+      <ol class="steps">
+        <li>Select <code>Orders</code> → Home → <b>Append Queries as New</b> → Table 2: <code>Orders_Feb</code>. Rename the result <code>AllOrders</code>: <b>50 rows</b></li>
+        <li>With <code>AllOrders</code> selected, Ctrl+A on the headers → right-click → <b>Remove Duplicates</b>: <b>49 rows</b> (ORD2012 collapses to one)</li>
+        <li>Right-click <code>Orders</code> and <code>Orders_Feb</code> → uncheck <b>Enable load</b>. They're now staging queries feeding <code>AllOrders</code></li>
+        <li>Repeat the Right Anti merge with <code>AllOrders</code> on top: <b>0 rows</b>. Every return is accounted for</li>
+        <li>Now merge for real: <code>AllOrders</code> → Merge Queries → <code>Returns</code> on Order ID → <b>Left Outer</b>. The footer reads <i>"matches 10 of 49 rows from the first table"</i></li>
+      </ol>
+      <div class="callout"><b>A habit worth keeping:</b> before any Left Outer merge, run the Right Anti version once. If it returns anything, your "lookup" table has rows your main table doesn't know about, and a Left Outer join would drop them without a word.</div>
+
+      <h3 style="margin-top:24px">Expanding the merged column</h3>
+      <p style="font-size:.92rem">A merge doesn't bring columns in straight away. It adds one column, named after the other query, whose cells say <code>Table</code>: each one holds the matching rows from <code>Returns</code>. Click the <b>⇄ expand icon</b> in its header:</p>
+      <ul style="font-size:.92rem">
+        <li><b>Expand</b>: tick <code>Return Reason</code> and <code>Refund Amount</code>. Leave <code>Order ID</code> unticked, since you already have it</li>
+        <li>Untick <b>Use original column name as prefix</b>, or you get <code>Returns.Return Reason</code></li>
+        <li><b>Aggregate</b> (the other radio button) returns one summary per row instead of every match, e.g. <i>Sum of Refund Amount</i>. Use it when one order can have <i>several</i> returns and you want one row per order</li>
+      </ul>
+
+      <h3 style="margin-top:24px">Four ways a merge goes quietly wrong</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Problem</th><th>What you see</th><th>Fix</th></tr>
+          <tr><td><b>Duplicate keys on the lookup side</b></td><td>More rows <i>after</i> expanding than before. Example below: 49 orders become 59</td><td>Make the lookup key unique first (clean, then Remove Duplicates on the key). Check the row count before and after every merge</td></tr>
+          <tr><td><b>Keys that look equal but aren't</b></td><td>Fewer matches than expected. Matching is exact: <code>"ORD2003 "</code> ≠ <code>"ORD2003"</code>, and <code>"ord2003"</code> ≠ <code>"ORD2003"</code></td><td>Trim and fix case on <i>both</i> key columns before merging. Fuzzy matching (a Merge dialog option) exists for names, never for IDs</td></tr>
+          <tr><td><b>Different types</b></td><td>Zero matches: the text <code>"2001"</code> never equals the number <code>2001</code></td><td>Set both key columns to the same type</td></tr>
+          <tr><td><b>Composite keys</b></td><td>A single column isn't unique (e.g. an order number repeats per line)</td><td>Ctrl-click several key columns, <i>in the same order</i> on both sides. The dialog numbers them 1, 2…</td></tr>
+        </table>
+      </div>
+      <p style="font-size:.9rem"><b>The 49 → 59 example, for real:</b> build a Products lookup by removing duplicates across <code>Product Code</code> + <code>Category</code> <i>without</i> cleaning Category first, and <code>SKU-1004-BLK</code> appears twice (once as "Electronics", once as "electronics", from ORD2009). Merge it into <code>AllOrders</code> and each of that product's 10 orders matches twice: 49 rows become <b>59</b>, and revenue for that product doubles. Part 2 builds this table properly.</p>
+
+      <h2 style="margin-top:34px">Part 2 · Data modelling</h2>
+      <p style="font-size:.92rem">Once tables are loaded, the <b>Model view</b> (third icon on the left edge of Power BI Desktop) shows them as boxes, with relationships as lines. A model that's well shaped makes DAX short and correct. A badly shaped one makes every measure a workaround.</p>
+
+      <h3 style="margin-top:20px">Facts, dimensions, and the star schema</h3>
+      <div class="grid grid-2">
+        <div class="card">
+          <span class="pill table">Fact table</span>
+          <p style="font-size:.9rem;margin-top:8px">One row per <b>event</b>: a sale, an order line, a return. Mostly numbers you'll add up (<code>SalesAmount</code>, <code>OrderQuantity</code>) plus <b>keys</b> pointing at dimensions. Long, and it keeps growing. See <button class="term" data-term="fact">fact</button>.</p>
+        </div>
+        <div class="card">
+          <span class="pill table">Dimension table</span>
+          <p style="font-size:.9rem;margin-top:8px">One row per <b>thing</b>: a product, a customer, a date. Descriptive text you'll slice by (<code>Color</code>, <code>City</code>, <code>CalendarYear</code>) and a <b>unique key</b>. Short and wide. See <button class="term" data-term="dimension">dimension</button>.</p>
+        </div>
+      </div>
+      <figure>
+        <img src="images/adventureworks-star-schema.svg" alt="AdventureWorksDW as a star schema: FactInternetSales in the center, one row per order line, related one-to-many to DimProduct, DimCustomer, DimPromotion, DimSalesTerritory, and DimDate three times (OrderDateKey active, DueDateKey and ShipDateKey inactive and dashed). DimProduct snowflakes to DimProductSubcategory and DimProductCategory; DimCustomer snowflakes to DimGeography.">
+        <figcaption>AdventureWorksDW is a <button class="term" data-term="starschema">star schema</button>: one fact in the middle, dimensions around it, each joined <b>1 → *</b>. The dashed boxes are "snowflake" branches, dimensions of dimensions.</figcaption>
+      </figure>
+      <div class="callout"><b>Know your grain.</b> The <i>grain</i> of a fact table is what one row means. <code>FactInternetSales</code> is one row per order <b>line</b> (<code>SalesOrderNumber</code> + <code>SalesOrderLineNumber</code>), not per order. That's why <code>COUNTROWS</code> counts lines and <code>DISTINCTCOUNT(SalesOrderNumber)</code> counts orders, the "average that lies" from <a href="39-dax-practice.html">DAX Practice</a>. Write the grain down before you write a single measure.</div>
+
+      <h3 style="margin-top:24px">Build a star from the practice files</h3>
+      <p style="font-size:.92rem"><code>AllOrders</code> mixes two kinds of information: facts about each order, and facts about each product (<code>Category</code> repeats on every order of that product). Splitting the product information out into a proper dimension:</p>
+      <ol class="steps">
+        <li>Right-click <code>AllOrders</code> → <b>Reference</b>. Rename the new query <code>Products</code></li>
+        <li>Home → <b>Choose Columns</b> → keep only <code>Product Code</code> and <code>Category</code></li>
+        <li>Select <code>Category</code> → Transform → Format → <b>Capitalize Each Word</b>. <i>This must come before the next step</i>, or "electronics" survives as a separate row</li>
+        <li>Select <code>Product Code</code> → right-click → <b>Remove Duplicates</b>: <b>5 rows</b>, one per SKU. Column distribution should read <i>5 distinct, 5 unique</i></li>
+        <li>Back in <code>AllOrders</code>, remove the <code>Category</code> column. It now lives in <code>Products</code>, the one place it's defined</li>
+        <li>Close &amp; Apply → Model view → drag <code>Products[Product Code]</code> onto <code>AllOrders[Product Code]</code></li>
+      </ol>
+      <p style="font-size:.92rem">Power BI detects <b>Many to one (*:1)</b>, cross-filter <b>Single</b>: many order rows per product, and filters flowing from <code>Products</code> to <code>AllOrders</code>. A bar chart of order count by <code>Products[Category]</code> now shows exactly 4 bars, with no stray "electronics".</p>
+      <div class="callout warn"><b>If you skipped step 3:</b> <code>Products</code> has 6 rows and <code>SKU-1004-BLK</code> isn't unique. Power BI can't make it the "1" side, so it proposes <b>Many to many</b> with a warning. In a beginner model, a many-to-many relationship you didn't plan almost always means a dimension key isn't unique. Go back and fix the data, not the relationship.</div>
+
+      <h3 style="margin-top:24px">Relationship settings, decoded</h3>
+      <p style="font-size:.92rem">Double-click any relationship line in Model view:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Setting</th><th>Options</th><th>What to pick</th></tr>
+          <tr><td><b><button class="term" data-term="cardinality">Cardinality</button></b></td><td>Many to one (*:1) · One to one (1:1) · Many to many (*:*)</td><td><b>*:1</b>, from fact to dimension, nearly always. <b>1:1</b> usually means the two tables should be merged into one. <b>*:*</b> means stop and check your keys</td></tr>
+          <tr><td><b>Cross filter direction</b></td><td>Single · Both</td><td><b>Single</b> (dimension filters fact). <b>Both</b> can create ambiguous filter paths and slow reports. Use it only when you can say exactly why</td></tr>
+          <tr><td><b>Make this relationship active</b></td><td>On · Off (dashed line)</td><td>Only one active path may exist between two tables. The others stay inactive until a measure activates them</td></tr>
+        </table>
+      </div>
+
+      <h3 style="margin-top:24px">Which way do filters flow?</h3>
+      <p style="font-size:.92rem">Filters travel along the relationship arrow, <b>from the "1" side to the "*" side</b>. Pick <code>Color = Red</code> in a slicer on <code>DimProduct</code>, and <code>FactInternetSales</code> narrows to red products' lines, so every measure on it responds. The reverse is where students get stuck:</p>
+      <div class="card">
+        <p style="font-size:.9rem"><b>"I picked a customer, but my product slicer still lists every product."</b> <code>DimCustomer</code> filters <code>FactInternetSales</code> (1 → *). The filter <i>doesn't</i> continue backwards from the fact up into <code>DimProduct</code> with Single direction, so the product list isn't narrowed. The measures are still correct; only the slicer's list isn't filtered. The fix is not to switch to Both. Put a measure on the product slicer as a visual-level filter (<i>Total Sales is not blank</i>), so only products this customer actually bought are listed.</p>
+      </div>
+
+      <h3 style="margin-top:24px">Three dates, one active: role-playing dimensions</h3>
+      <p style="font-size:.92rem"><code>FactInternetSales</code> has three date keys: <code>OrderDateKey</code>, <code>DueDateKey</code> and <code>ShipDateKey</code>. Importing from AdventureWorksDW creates a relationship from each to <code>DimDate</code>, but only one can be <b>active</b> (solid line). The other two are dashed. Every time-intelligence measure in <a href="20-dax-time-intelligence.html">Module 3</a> assumes the active one is <b>OrderDateKey</b>, so check it:</p>
+      <ol class="steps">
+        <li>Model view → hover over each <code>DimDate</code>–<code>FactInternetSales</code> line to see which columns it joins</li>
+        <li>If the solid line isn't OrderDateKey: double-click the active one → untick <b>Make this relationship active</b> → OK. Then double-click the OrderDateKey line → tick it → OK</li>
+      </ol>
+      <p style="font-size:.85rem;color:var(--text-muted)">Analysing by ship date instead needs <code>CALCULATE([Total Sales], USERELATIONSHIP(FactInternetSales[ShipDateKey], DimDate[DateKey]))</code>. That's past this course's DAX ceiling. It's here so you recognise the dashed lines, not so you use them yet.</p>
+
+      <h3 style="margin-top:24px">Snowflakes: flatten them with a merge</h3>
+      <p style="font-size:.92rem">Product category is two hops from the fact: <code>DimProduct</code> → <code>DimProductSubcategory</code> → <code>DimProductCategory</code>. Relating all three works, but the Fields pane then shows three product tables. This is the dimension-to-dimension case where a <b>merge</b> is the right tool:</p>
+      <ol class="steps">
+        <li>In Power Query, select <code>DimProduct</code> → Merge Queries → <code>DimProductSubcategory</code> on <code>ProductSubcategoryKey</code> → <b>Left Outer</b></li>
+        <li>Expand → tick <code>EnglishProductSubcategoryName</code> and <code>ProductCategoryKey</code></li>
+        <li>Merge again → <code>DimProductCategory</code> on <code>ProductCategoryKey</code> → Left Outer → expand <code>EnglishProductCategoryName</code></li>
+        <li>Uncheck <b>Enable load</b> on <code>DimProductSubcategory</code> and <code>DimProductCategory</code>. They were only needed for the lookup</li>
+      </ol>
+      <div class="callout warn"><b>Why Left Outer, not Inner:</b> some AdventureWorksDW products (mostly components that are never sold online) have no subcategory. An Inner join would silently delete them from <code>DimProduct</code>. Any sale of such a product would then show up under a <b>(Blank)</b> product in every visual.</div>
+
+      <h3 style="margin-top:24px">The (Blank) row: when a key has nowhere to go</h3>
+      <p style="font-size:.92rem">If a fact row's key has no match in its dimension (a sale for product 999 that isn't in <code>DimProduct</code>), Power BI still counts the sale but groups it under a <b>(Blank)</b> item in every slicer and axis built from that dimension. It's the model's version of the Right Anti check from Part 1. Find the orphan keys with a <b>Left Anti</b> merge, fact on top and dimension below, then fix the dimension or the source data.</p>
+
+      <h3 style="margin-top:24px">Model checklist</h3>
+      <ol class="steps">
+        <li>Each fact table has a stated grain, and each dimension has a key that's genuinely unique (column distribution: distinct = unique = rows)</li>
+        <li>Relationships run <b>*:1, Single</b>, dimension → fact. Any 1:1, *:* or Both has a reason you can say out loud</li>
+        <li>A marked date table (<code>DimDate</code>) with the <b>order</b> date as the active relationship</li>
+        <li>Snowflakes flattened into their parent dimension where it simplifies the Fields pane</li>
+        <li>Key columns on the fact side hidden (right-click → <b>Hide in report view</b>). Slicers should use the dimension's column, never the fact's copy of the key</li>
+        <li>No unplanned (Blank) items in any slicer</li>
+      </ol>
+
+      <h2 style="margin-top:30px">Take-away exercise</h2>
+      <div class="card">
+        <p style="font-size:.92rem">Download <a href="datasets/Sales_Clean.csv" download>Sales_Clean.csv</a>. Build a <code>SubCategories</code> dimension from it with <b>Reference</b> → Choose Columns (<code>Sub Category</code>, <code>Category</code>) → Remove Duplicates on <code>Sub Category</code>. You should get <b>25 rows</b> across 5 categories. Remove <code>Category</code> from the Sales query, relate the two tables *:1 on <code>Sub Category</code>, and build a Matrix of Sales by <code>SubCategories[Category]</code> → <code>Sub Category</code>.</p>
+        <p style="font-size:.88rem;color:var(--text-muted)"><b>Reflect:</b> now try the same thing with <a href="datasets/Retail_Clean.csv" download>Retail_Clean.csv</a>, using <code>Store</code> + <code>City</code> as a Stores dimension. Remove Duplicates on <code>Store</code> leaves 12 rows, but open the column profile first: "UrbanMart Store 01" appears with 6 different cities. What does that tell you about whether <code>Store</code> is really a key in this file, and which city would your dimension keep?</p>
+      </div>
+
+      <h2 style="margin-top:30px">Check yourself</h2>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">A Left Outer merge of Orders (49 rows) with a lookup table returns 59 rows. What happened?</summary><p style="font-size:.9rem;margin-top:8px">The lookup table has duplicate keys, so some orders matched more than one row. Every duplicate multiplies that order's rows, and its sales along with them. Make the lookup key unique (clean, then remove duplicates on the key) and re-merge. A Left Outer merge onto a unique key never changes the row count.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">Returns has one row per order that was returned. Merge it into Orders, or relate it?</summary><p style="font-size:.9rem;margin-top:8px">Merge. It's 1:1: at most one return per order, so its columns belong on the order row. A 1:1 relationship between two tables is usually a sign they should be one table.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">Power BI suggests a Many-to-many relationship between Products and Orders. What do you check first?</summary><p style="font-size:.9rem;margin-top:8px">Whether the Products key is really unique. Open its column distribution: if distinct ≠ unique, some product appears twice, usually because of an uncleaned descriptive column (like "Electronics" vs "electronics") that made two rows survive Remove Duplicates.</p></details>
+      <details class="card" style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:700">Why does a slicer on DimProduct filter FactInternetSales, but a slicer on DimCustomer doesn't shorten a product list?</summary><p style="font-size:.9rem;margin-top:8px">Filters flow from the 1 side to the * side. Both dimensions filter the fact, but with Single direction nothing flows from the fact back up into another dimension. Measures are still correct. To shorten the list, filter the product visual by a measure (e.g. Total Sales is not blank) instead of switching the relationship to Both.</p></details>
+
+      <footer class="pagefoot"><span>Module 4 · Joins &amp; Data Modelling</span><a href="43-m-query.html">Next: M Query →</a></footer>

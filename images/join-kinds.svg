@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 440" role="img" aria-label="The six join kinds in Power Query's Merge dialog, shown as overlapping circles for Orders (left, PQ_Practice_Orders.csv, 35 rows) and Returns (right, PQ_Practice_Returns.csv, 10 rows) matched on Order ID. Shaded area is what the result keeps. Left Outer keeps 35 rows: every order plus return info where it exists. Right Outer keeps 10: every return plus order info where it exists. Full Outer keeps 37: everything from both sides. Inner keeps 8: only orders that were returned. Left Anti keeps 27: orders never returned. Right Anti keeps 2: returns with no matching order, ORD2036 and ORD2044, which belong to the other month's file.">
+  <rect width="860" height="440" fill="#FFFFFF"/>
+  <defs>
+    <clipPath id="jkL0"><circle cx="122" cy="98" r="50"/></clipPath>
+    <clipPath id="jkL1"><circle cx="407" cy="98" r="50"/></clipPath>
+    <clipPath id="jkL2"><circle cx="692" cy="98" r="50"/></clipPath>
+    <clipPath id="jkL3"><circle cx="122" cy="308" r="50"/></clipPath>
+    <clipPath id="jkL4"><circle cx="407" cy="308" r="50"/></clipPath>
+    <clipPath id="jkL5"><circle cx="692" cy="308" r="50"/></clipPath>
+  </defs>
+  <g font-family="ui-monospace,Consolas,monospace">
+    <rect x="10" y="10" width="280" height="200" rx="8" fill="#FFFFFF" stroke="#DEDACE"/>
+    <text x="150.0" y="34" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14171F">LEFT OUTER</text>
+    <circle cx="122" cy="98" r="50" fill="#2A6560" fill-opacity="0.45"/>
+    <circle cx="122" cy="98" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <circle cx="178" cy="98" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <text x="64" y="102" text-anchor="end" font-size="10" fill="#565B6B">Orders</text>
+    <text x="236" y="102" font-size="10" fill="#565B6B">Returns</text>
+    <text x="150.0" y="174" text-anchor="middle" font-size="13" font-weight="700" fill="#C97A1E">35 rows</text>
+    <text x="150.0" y="194" text-anchor="middle" font-size="10.5" fill="#565B6B">every order + return info if any</text>
+    <rect x="295" y="10" width="280" height="200" rx="8" fill="#FFFFFF" stroke="#DEDACE"/>
+    <text x="435.0" y="34" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14171F">RIGHT OUTER</text>
+    <circle cx="463" cy="98" r="50" fill="#2A6560" fill-opacity="0.45"/>
+    <circle cx="407" cy="98" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <circle cx="463" cy="98" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <text x="349" y="102" text-anchor="end" font-size="10" fill="#565B6B">Orders</text>
+    <text x="521" y="102" font-size="10" fill="#565B6B">Returns</text>
+    <text x="435.0" y="174" text-anchor="middle" font-size="13" font-weight="700" fill="#C97A1E">10 rows</text>
+    <text x="435.0" y="194" text-anchor="middle" font-size="10.5" fill="#565B6B">every return + order info if any</text>
+    <rect x="580" y="10" width="280" height="200" rx="8" fill="#FFFFFF" stroke="#DEDACE"/>
+    <text x="720.0" y="34" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14171F">FULL OUTER</text>
+    <circle cx="692" cy="98" r="50" fill="#2A6560" fill-opacity="0.45"/>
+    <circle cx="748" cy="98" r="50" fill="#2A6560" fill-opacity="0.45"/>
+    <circle cx="692" cy="98" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <circle cx="748" cy="98" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <text x="634" y="102" text-anchor="end" font-size="10" fill="#565B6B">Orders</text>
+    <text x="806" y="102" font-size="10" fill="#565B6B">Returns</text>
+    <text x="720.0" y="174" text-anchor="middle" font-size="13" font-weight="700" fill="#C97A1E">37 rows</text>
+    <text x="720.0" y="194" text-anchor="middle" font-size="10.5" fill="#565B6B">everything from both sides</text>
+    <rect x="10" y="220" width="280" height="200" rx="8" fill="#FFFFFF" stroke="#DEDACE"/>
+    <text x="150.0" y="244" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14171F">INNER</text>
+    <circle cx="178" cy="308" r="50" fill="#2A6560" fill-opacity="0.45" clip-path="url(#jkL3)"/>
+    <circle cx="122" cy="308" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <circle cx="178" cy="308" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <text x="64" y="312" text-anchor="end" font-size="10" fill="#565B6B">Orders</text>
+    <text x="236" y="312" font-size="10" fill="#565B6B">Returns</text>
+    <text x="150.0" y="384" text-anchor="middle" font-size="13" font-weight="700" fill="#C97A1E">8 rows</text>
+    <text x="150.0" y="404" text-anchor="middle" font-size="10.5" fill="#565B6B">only orders that were returned</text>
+    <rect x="295" y="220" width="280" height="200" rx="8" fill="#FFFFFF" stroke="#DEDACE"/>
+    <text x="435.0" y="244" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14171F">LEFT ANTI</text>
+    <circle cx="407" cy="308" r="50" fill="#2A6560" fill-opacity="0.45"/>
+    <circle cx="463" cy="308" r="50" fill="#FFFFFF"/>
+    <circle cx="407" cy="308" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <circle cx="463" cy="308" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <text x="349" y="312" text-anchor="end" font-size="10" fill="#565B6B">Orders</text>
+    <text x="521" y="312" font-size="10" fill="#565B6B">Returns</text>
+    <text x="435.0" y="384" text-anchor="middle" font-size="13" font-weight="700" fill="#C97A1E">27 rows</text>
+    <text x="435.0" y="404" text-anchor="middle" font-size="10.5" fill="#565B6B">orders never returned</text>
+    <rect x="580" y="220" width="280" height="200" rx="8" fill="#FFFFFF" stroke="#DEDACE"/>
+    <text x="720.0" y="244" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14171F">RIGHT ANTI</text>
+    <circle cx="748" cy="308" r="50" fill="#2A6560" fill-opacity="0.45"/>
+    <circle cx="692" cy="308" r="50" fill="#FFFFFF"/>
+    <circle cx="692" cy="308" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <circle cx="748" cy="308" r="50" fill="none" stroke="#2A6560" stroke-width="1.5"/>
+    <text x="634" y="312" text-anchor="end" font-size="10" fill="#565B6B">Orders</text>
+    <text x="806" y="312" font-size="10" fill="#565B6B">Returns</text>
+    <text x="720.0" y="384" text-anchor="middle" font-size="13" font-weight="700" fill="#C97A1E">2 rows</text>
+    <text x="720.0" y="404" text-anchor="middle" font-size="10.5" fill="#565B6B">returns with no matching order</text>
+    <text x="430" y="432" text-anchor="middle" font-size="10.5" fill="#565B6B">Orders = PQ_Practice_Orders.csv (35 rows) · Returns = PQ_Practice_Returns.csv (10 rows) · matched on Order ID · shaded = kept</text>
+  </g>
+</svg>
