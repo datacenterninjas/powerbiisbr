@@ -308,6 +308,15 @@ your system context, not a guess.
 
 ## Changelog
 
+### 2026-10-08 — Added Joins and Merge Queries Guide (46-joins-merge-queries.html)
+- **Why:** user requested a dedicated page about joins and merge queries in Power Query Editor.
+- **What was added:**
+  - `46-joins-merge-queries.html` (`src/pages/joins-merge-queries.html`, id `joinsmergequeries`, num 4): Deep-dive into Power Query merges covering Merge vs Merge as New, dialog anatomy and Match Indicator verification, all 6 Join Kinds (with exact row counts on `PQ_Practice_Orders.csv` × `PQ_Practice_Returns.csv` and real business use cases), Expand vs Aggregate columns, composite key matching (<kbd>Ctrl</kbd> multi-column selection), fuzzy matching (similarity threshold, ignore case, transformation tables), self-joins (parent/child hierarchy resolution), generated M code breakdown (`Table.NestedJoin`, `Table.ExpandTableColumn`), and 4 critical pitfalls (Cartesian row multiplication, type mismatches, trailing whitespace, broken query folding).
+  - Updated `src/pages.json` under Module 4, renumbering subsequent pages in the module (`42-joins-data-modelling.html` as num 5, `43-m-query.html` as num 6, `23-m-language-etl.html` as num 7, `24-kpis-dashboard-build.html` as num 8).
+  - Rewired footer navigation chain: `31-power-query-walkthrough.html` → `46-joins-merge-queries.html` → `42-joins-data-modelling.html`.
+  - Updated module eyebrow counters across affected Module 4 source fragments and added cross-reference link in `datasets.html`.
+  - Rebuilt all 50 pages via `node tools/build.mjs`, verified search index generation (50 entries) and link verification passes with zero errors.
+
 ### 2026-10-08 — Added Complex DAX (44-complex-dax.html) and All DAX Formulas & Combinations Encyclopedia (45-all-dax-formulas.html)
 - **Why:** user requested pages covering (1) "complex dax formulas with example datasets" and (2) "all dax formulas available in power bi with examples. Also combination dax like calculate and filter". Built two dedicated pages extending Module 3.
 - **What was added:**

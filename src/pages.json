@@ -310,11 +310,21 @@
     "title": "Dirty to Clean: A Full Power Query Walkthrough — Power BI for MBA Analytics"
   },
   {
+    "id": "joinsmergequeries",
+    "file": "46-joins-merge-queries.html",
+    "fragment": "joins-merge-queries.html",
+    "group": "Module 4: Power Query Editor",
+    "num": "4",
+    "label": "Joins &amp; Merge Queries",
+    "crumb": "Joins &amp; Merge Queries",
+    "title": "Joins &amp; Merge Queries — Power BI for MBA Analytics"
+  },
+  {
     "id": "joinsmodelling",
     "file": "42-joins-data-modelling.html",
     "fragment": "joins-data-modelling.html",
     "group": "Module 4: Power Query Editor",
-    "num": "4",
+    "num": "5",
     "label": "Joins &amp; Data Modelling",
     "crumb": "Joins &amp; Data Modelling",
     "title": "Joins &amp; Data Modelling — Power BI for MBA Analytics"
@@ -324,7 +334,7 @@
     "file": "43-m-query.html",
     "fragment": "m-query.html",
     "group": "Module 4: Power Query Editor",
-    "num": "5",
+    "num": "6",
     "label": "M Query",
     "crumb": "M Query",
     "title": "M Query — Power BI for MBA Analytics"
@@ -334,7 +344,7 @@
     "file": "23-m-language-etl.html",
     "fragment": "m-language-etl.html",
     "group": "Module 4: Power Query Editor",
-    "num": "6",
+    "num": "7",
     "label": "M Language &amp; End-to-End ETL",
     "crumb": "M Language &amp; End-to-End ETL",
     "title": "M Language &amp; End-to-End ETL — Power BI for MBA Analytics"
@@ -344,7 +354,7 @@
     "file": "24-kpis-dashboard-build.html",
     "fragment": "kpis-dashboard-build.html",
     "group": "Module 4: Power Query Editor",
-    "num": "7",
+    "num": "8",
     "label": "KPIs &amp; Single-Page Dashboard",
     "crumb": "KPIs &amp; Single-Page Dashboard",
     "title": "KPIs &amp; Single-Page Dashboard — Power BI for MBA Analytics"

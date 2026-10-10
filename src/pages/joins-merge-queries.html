@@ -1,0 +1,192 @@
+      <div class="section-head">
+        <span class="eyebrow">Module 4 · 4</span>
+        <h1>Joins and Merge Queries in Power Query</h1>
+        <p class="lede">In enterprise analytics, data rarely lives in a single pristine table. When you need to enrich transactions with customer profiles, attach return reasons to sales, or audit unmatched inventory, <b>Merge Queries</b> is your primary tool in Power Query. This guide covers all six join types, composite keys, fuzzy matching, self-joins, and performance best practices.</p>
+      </div>
+
+      <div class="callout">
+        <b>Files for this guide:</b> <a href="datasets/PQ_Practice_Orders.csv" download>PQ_Practice_Orders.csv</a> (35 rows) and <a href="datasets/PQ_Practice_Returns.csv" download>PQ_Practice_Returns.csv</a> (10 rows). Download both and open them via <b>Get Data → Text/CSV → Transform Data</b>.
+      </div>
+
+      <h2 style="margin-top:30px">Merge Queries vs. Merge Queries as New</h2>
+      <p style="font-size:.92rem">When you click the Merge button on the Home ribbon, Power Query gives you two choices:</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <span class="pill good">Merge Queries (In-Place)</span>
+          <h3 style="margin:8px 0;font-size:1rem">Alters the Active Query</h3>
+          <p style="font-size:.88rem">Adds the merged column directly into the query you currently have selected. Use this when enriching an established fact or dimension table (e.g., adding <code>Return Reason</code> straight into your existing <code>Orders</code> table).</p>
+        </div>
+        <div class="card">
+          <span class="pill table">Merge Queries as New</span>
+          <h3 style="margin:8px 0;font-size:1rem">Creates a New Query</h3>
+          <p style="font-size:.88rem">Leaves both original source tables completely untouched and outputs a brand-new third query. Best practice when merging raw staging queries where you want to keep raw sources intact, unchecking <b>Enable load</b> on the parents.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:34px">The Anatomy of the Merge Dialog</h2>
+      <p style="font-size:.92rem">The Merge interface in Power Query has four critical zones:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Zone</th><th>What it controls</th><th>Best practice</th></tr>
+          <tr><td><b>Top Table</b></td><td>The primary (driving) table.</td><td>Choose the table whose granularity you wish to preserve.</td></tr>
+          <tr><td><b>Bottom Table</b></td><td>The secondary (lookup) table.</td><td>Ensure the lookup table's key column is unique to avoid row duplication.</td></tr>
+          <tr><td><b>Key Column Selection</b></td><td>Click the matching column header in each table (turns green).</td><td>Hold <kbd>Ctrl</kbd> to select multiple columns for composite keys (numbered 1, 2...).</td></tr>
+          <tr><td><b>Join Kind Dropdown</b></td><td>Determines which rows survive the merge operation.</td><td>Defaults to <b>Left Outer</b>. Check the match indicator before clicking OK.</td></tr>
+        </table>
+      </div>
+      <div class="callout warn">
+        <b>The Match Indicator:</b> Always read the text at the bottom of the dialog before clicking OK (e.g. <i>"The selection matches 8 of 35 rows from the first table"</i>). If it reports 0 matches when you expect full overlap, stop: you likely have a data type mismatch (e.g., Number vs. Text) or uncleaned whitespace!
+      </div>
+
+      <h2 style="margin-top:34px">The Six Join Types Explained</h2>
+      <figure>
+        <img src="images/join-kinds.svg" alt="Six Venn diagrams illustrating Left Outer, Right Outer, Full Outer, Inner, Left Anti, and Right Anti joins.">
+        <figcaption>The 6 Join Kinds evaluated between <code>Orders</code> (35 rows) and <code>Returns</code> (10 rows) on <code>Order ID</code>.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Join Type</th><th>Surviving Rows</th><th>Row Count (Orders × Returns)</th><th>Real Business Use Case</th></tr>
+          <tr>
+            <td><b>Left Outer</b><br><span style="font-size:.78rem;color:var(--text-muted)">All from 1st, matching from 2nd</span></td>
+            <td>Keeps every row from the top table. Where a match exists, pulls data from the second table; otherwise leaves <code>null</code>.</td>
+            <td class="num"><b>35</b></td>
+            <td>Enriching an orders table with return reasons or customer demographics without dropping unreturned orders.</td>
+          </tr>
+          <tr>
+            <td><b>Inner</b><br><span style="font-size:.78rem;color:var(--text-muted)">Only matching rows</span></td>
+            <td>Keeps only rows that exist in <b>both</b> tables. Drops unmatched orders and unmatched returns.</td>
+            <td class="num"><b>8</b></td>
+            <td>Analyzing returned orders specifically: "Which items were returned, and what were the refund amounts?"</td>
+          </tr>
+          <tr>
+            <td><b>Left Anti</b><br><span style="font-size:.78rem;color:var(--text-muted)">Only rows in 1st not in 2nd</span></td>
+            <td>Keeps rows from the top table that have <b>zero match</b> in the bottom table.</td>
+            <td class="num"><b>27</b></td>
+            <td>Clean fulfillment: "Which orders were completed without ever being returned?"</td>
+          </tr>
+          <tr>
+            <td><b>Right Outer</b><br><span style="font-size:.78rem;color:var(--text-muted)">All from 2nd, matching from 1st</span></td>
+            <td>Keeps every row from the second table, pulling matching order info where found.</td>
+            <td class="num"><b>10</b></td>
+            <td>When the bottom table is your driving audit ledger (e.g., auditing all return receipts against shipments).</td>
+          </tr>
+          <tr>
+            <td><b>Right Anti</b><br><span style="font-size:.78rem;color:var(--text-muted)">Only rows in 2nd not in 1st</span></td>
+            <td>Keeps rows from the bottom table that have <b>no match</b> in the top table.</td>
+            <td class="num"><b>2</b></td>
+            <td><b>Audit alert:</b> Identifies orphan returns (refunds issued for orders that do not exist in the orders file).</td>
+          </tr>
+          <tr>
+            <td><b>Full Outer</b><br><span style="font-size:.78rem;color:var(--text-muted)">All rows from both</span></td>
+            <td>Keeps every row from both tables. Merges matches and pads missing records with <code>null</code> on either side.</td>
+            <td class="num"><b>37</b></td>
+            <td>Complete ledger reconciliation between two disparate billing systems during a corporate merger.</td>
+          </tr>
+        </table>
+      </div>
+
+      <h2 style="margin-top:34px">Expand vs. Aggregate: Unpacking the Merged Column</h2>
+      <p style="font-size:.92rem">Once the merge finishes, Power Query inserts a new column containing <code>Table</code> objects. Click the two-way arrow icon (<b>⇄</b>) in the column header to choose your extraction method:</p>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <span class="pill good">Expand Option</span>
+          <h3 style="margin:8px 0;font-size:1rem">Pulls in Specific Columns</h3>
+          <p style="font-size:.88rem">Brings individual column values into your table row by row (e.g., <code>Return Reason</code>, <code>Refund Amount</code>). Always uncheck <b>"Use original column name as prefix"</b> to avoid clumsy headers like <code>Returns.Return Reason</code>.</p>
+        </div>
+        <div class="card">
+          <span class="pill table">Aggregate Option</span>
+          <h3 style="margin:8px 0;font-size:1rem">Computes Summaries Directly</h3>
+          <p style="font-size:.88rem">Instead of adding detail rows, calculates an immediate aggregate (e.g., <code>Count of Returns</code>, <code>Sum of Refund Amount</code>). Ideal when joining a 1-to-many relationship where you want one summary number per order without multiplying rows.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:34px">Advanced Joins in Power Query</h2>
+
+      <h3 style="margin-top:20px">1. Composite Key Merging (Multi-Column Matching)</h3>
+      <p style="font-size:.92rem">Often a single column is not unique. For instance, in manufacturing or retail order lines, an order number repeats for every line item. To join on a composite key:</p>
+      <ol class="steps">
+        <li>Select the primary table in the top pane. Click <code>Order ID</code>, then hold <kbd>Ctrl</kbd> and click <code>Line Number</code>. Power Query numbers them <b>1</b> and <b>2</b>.</li>
+        <li>In the bottom pane, click <code>Order ID</code>, then hold <kbd>Ctrl</kbd> and click <code>Line Number</code> in the <b>exact same sequence</b>.</li>
+        <li>Power Query matches rows only where <i>both</i> column values match simultaneously.</li>
+      </ol>
+
+      <h3 style="margin-top:24px">2. Fuzzy Matching (Handling Real-World Typos)</h3>
+      <p style="font-size:.92rem">Exact matching fails on real dirty strings like <code>"Bengaluru"</code> vs. <code>"Bangalore"</code> or <code>"Microsoft Corp."</code> vs. <code>"Microsoft"</code>. In the Merge dialog, expand <b>Fuzzy matching options</b>:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Option</th><th>What it does</th><th>Recommended Setting</th></tr>
+          <tr><td><b>Similarity threshold</b></td><td>Score from 0.00 to 1.00 determining how closely text must match. (1.00 is exact match).</td><td><b>0.80</b> (default). Going below 0.70 produces false positives (e.g., matching "Robert" with "Albert").</td></tr>
+          <tr><td><b>Ignore case</b></td><td>Matches uppercase, lowercase, and mixed case automatically.</td><td>Always checked.</td></tr>
+          <tr><td><b>Match by combining text parts</b></td><td>Matches strings like "Micro Soft" with "Microsoft".</td><td>Check for company names and addresses.</td></tr>
+          <tr><td><b>Transformation table</b></td><td>A reference query mapping synonyms (e.g., <code>From: "MSFT"</code> → <code>To: "Microsoft"</code>).</td><td>Use for standard corporate abbreviation tables.</td></tr>
+        </table>
+      </div>
+
+      <h3 style="margin-top:24px">3. Self-Joins (Parent-Child Hierarchies)</h3>
+      <p style="font-size:.92rem">To look up an employee's manager name when both employee and manager records sit in the same <code>HR</code> table:</p>
+      <div class="clickpath">
+        <span class="seg">Select HR Table</span><span class="arrow">→</span><span class="seg">Merge Queries</span><span class="arrow">→</span><span class="seg">Top: HR (Manager ID)</span><span class="arrow">→</span><span class="seg">Bottom: HR (Employee ID)</span><span class="arrow">→</span><span class="seg">Left Outer</span><span class="arrow">→</span><span class="seg">Expand Manager Name</span>
+      </div>
+      <p style="font-size:.88rem">This places each employee's direct supervisor's name directly onto their row in a single step.</p>
+
+      <h2 style="margin-top:34px">Behind the Scenes: M Code Generated by Merges</h2>
+      <p style="font-size:.92rem">Every merge operation generates clear M code using the <code>Table.NestedJoin</code> function in the formula bar:</p>
+      <div class="codeblock"><span class="c-com">// Left Outer Merge M Code</span>
+= <span class="c-fn">Table.NestedJoin</span>(
+    AllOrders,                     <span class="c-com">// Table 1</span>
+    {<span class="c-str">"Order ID"</span>},                  <span class="c-com">// Key column(s) in Table 1</span>
+    Returns,                       <span class="c-com">// Table 2</span>
+    {<span class="c-str">"Order ID"</span>},                  <span class="c-com">// Key column(s) in Table 2</span>
+    <span class="c-str">"ReturnsData"</span>,                 <span class="c-com">// Name of the new [Table] column</span>
+    JoinKind.LeftOuter             <span class="c-com">// Join kind enumeration</span>
+)
+
+<span class="c-com">// Expanding the merged column</span>
+= <span class="c-fn">Table.ExpandTableColumn</span>(
+    #<span class="c-str">"Merged Queries"</span>,
+    <span class="c-str">"ReturnsData"</span>,
+    {<span class="c-str">"Return Reason"</span>, <span class="c-str">"Refund Amount"</span>},
+    {<span class="c-str">"Return Reason"</span>, <span class="c-str">"Refund Amount"</span>}
+)</div>
+
+      <h2 style="margin-top:34px">Four Dangerous Merge Traps to Avoid</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <span class="pill bad">Trap #1: Row Multiplication</span>
+          <h4 style="margin:6px 0;">Cartesian Explosion</h4>
+          <p style="font-size:.85rem">If the lookup key in Table 2 contains duplicates, a Left Outer join creates a row for <i>every match</i>. 49 orders can balloon into 98 rows, doubling your revenue. <b>Fix:</b> Deduplicate the lookup table before merging.</p>
+        </div>
+        <div class="card">
+          <span class="pill bad">Trap #2: Type Incompatibilities</span>
+          <h4 style="margin:6px 0;">Number vs. Text Mismatch</h4>
+          <p style="font-size:.85rem">If <code>Order ID</code> is Whole Number in Table 1 but Text in Table 2, the merge produces 0 matches with zero warning. <b>Fix:</b> Check type icons (<code>123</code> vs <code>ABC</code>) on both key columns.</p>
+        </div>
+        <div class="card">
+          <span class="pill bad">Trap #3: Trailing Whitespace</span>
+          <h4 style="margin:6px 0;">Invisible Spaces</h4>
+          <p style="font-size:.85rem">Power Query matches strings with exact byte equality: <code>"ORD101 "</code> will never match <code>"ORD101"</code>. <b>Fix:</b> Run <code>Transform → Format → Trim</code> on both key columns prior to merging.</p>
+        </div>
+        <div class="card">
+          <span class="pill bad">Trap #4: Broken Query Folding</span>
+          <h4 style="margin:6px 0;">Local Buffering Overload</h4>
+          <p style="font-size:.85rem">Merging a SQL database table with an Excel sheet breaks query folding, forcing Power BI to download the entire SQL table into memory. <b>Fix:</b> Filter SQL tables before merging across mixed sources.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:34px">Check Yourself</h2>
+      <details class="card" style="margin-bottom:12px">
+        <summary style="cursor:pointer;font-weight:700">What is the difference between Left Anti and Right Anti joins?</summary>
+        <p style="font-size:.9rem;margin-top:8px"><b>Left Anti</b> keeps only the rows from the first (top) table that have no match in the second. <b>Right Anti</b> keeps only rows from the second (bottom) table that have no match in the first. Right Anti is particularly valuable as a data-quality audit check for identifying orphan records in reference tables.</p>
+      </details>
+      <details class="card" style="margin-bottom:12px">
+        <summary style="cursor:pointer;font-weight:700">Why should you uncheck "Enable Load" on staging tables after merging them?</summary>
+        <p style="font-size:.9rem;margin-top:8px">When you merge Table A and Table B into Table C, keeping Table A and Table B loaded in Power BI wastes RAM in the VertiPaq memory engine and clutters the report canvas Fields pane. Unchecking "Enable Load" keeps them purely as background transformations feeding Table C.</p>
+      </details>
+      <details class="card" style="margin-bottom:12px">
+        <summary style="cursor:pointer;font-weight:700">How do you merge two tables based on both Year and Month?</summary>
+        <p style="font-size:.9rem;margin-top:8px">Use a composite key merge: in the Merge Queries dialog, click <code>Year</code>, then hold <kbd>Ctrl</kbd> and click <code>Month</code> in Table 1. Repeat the exact same sequence in Table 2. Power Query labels the selections 1 and 2 and matches on both fields simultaneously.</p>
+      </details>
+
+      <footer class="pagefoot"><span>Module 4 · Joins &amp; Merge Queries</span><a href="42-joins-data-modelling.html">Next: Joins &amp; Data Modelling →</a></footer>
